@@ -601,9 +601,9 @@
             
             ranking.forEach((item) => {
                 let medalha = '';
-                if (item.posicao === 1) medalha = '🥇';
-                else if (item.posicao === 2) medalha = '🥈';
-                else if (item.posicao === 3) medalha = '🥉';
+                if (item.posicao === 1) medalha = '1';
+                else if (item.posicao === 2) medalha = '2';
+                else if (item.posicao === 3) medalha = '3';
                 else medalha = `${item.posicao}º`;
                 
                 const classe = item.posicao === 1 ? 'rank-1' : (item.posicao === 2 ? 'rank-2' : (item.posicao === 3 ? 'rank-3' : ''));
