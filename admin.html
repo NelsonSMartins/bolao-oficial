@@ -41,13 +41,6 @@
             text-decoration: none;
         }
 
-        .nav-links a {
-            color: #64748b;
-            text-decoration: none;
-            padding: 6px 12px;
-            border-radius: 20px;
-        }
-
         .container {
             max-width: 800px;
             margin: 0 auto;
@@ -73,21 +66,83 @@
             padding: 20px;
         }
 
-        .stat-cards {
-            display: flex;
-            gap: 10px;
-            flex-wrap: wrap;
-            margin-bottom: 20px;
+        .btn-primary, .btn-success, .btn-danger {
+            padding: 12px 20px;
+            border-radius: 10px;
+            border: none;
+            font-weight: 600;
+            cursor: pointer;
         }
 
-        .stat-card {
-            background: white;
+        .btn-primary { background: #1a5f7a; color: white; }
+        .btn-success { background: #2e7d32; color: white; }
+        .btn-danger { background: #d32f2f; color: white; }
+        .btn-block { width: 100%; margin-top: 10px; }
+
+        input, select {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 12px;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+        }
+
+        .jogo-item {
+            background: #f8fafc;
             padding: 15px;
             border-radius: 12px;
-            flex: 1;
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .resultado-item {
+            background: #f8fafc;
+            padding: 15px;
+            border-radius: 12px;
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .bet-input {
+            width: 70px;
+            padding: 8px;
             text-align: center;
+            border: 2px solid #e2e8f0;
+            border-radius: 10px;
+        }
+
+        .ranking-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .ranking-table th, .ranking-table td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .ranking-table th {
+            background: #f8fafc;
+        }
+
+        .pontos {
             font-weight: bold;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            color: #1a5f7a;
+        }
+
+        .alert {
+            background: #e3f2fd;
+            padding: 15px;
+            border-radius: 12px;
+            margin-bottom: 20px;
         }
 
         .tabs {
@@ -117,151 +172,32 @@
         .tab-content.active {
             display: block;
         }
-
-        .jogo-item, .resultado-item, .palpite-form-item {
-            background: #f8fafc;
-            padding: 15px;
-            border-radius: 12px;
-            margin-bottom: 10px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 10px;
-        }
-
-        .palpite-form-item {
-            flex-direction: column;
-            align-items: stretch;
-        }
-
-        .palpite-form-jogo {
-            font-weight: bold;
-        }
-
-        .palpite-form-inputs {
-            display: flex;
-            gap: 10px;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .resultado-jogo {
-            font-weight: bold;
-            flex: 1;
-        }
-
-        .resultado-inputs {
-            display: flex;
-            gap: 10px;
-            align-items: center;
-        }
-
-        .select-full {
-            width: 100%;
-            padding: 12px;
-            border-radius: 10px;
-            border: 1px solid #ddd;
-            margin-bottom: 15px;
-        }
-
-        input, select {
-            padding: 10px;
-            border: 1px solid #ddd;
-            border-radius: 8px;
-        }
-
-        .btn-primary, .btn-success, .btn-warning, .btn-danger, .btn-outline {
-            padding: 10px 20px;
-            border-radius: 10px;
-            border: none;
-            font-weight: 600;
-            cursor: pointer;
-        }
-
-        .btn-primary { background: #1a5f7a; color: white; }
-        .btn-success { background: #2e7d32; color: white; }
-        .btn-warning { background: #ed6c02; color: white; }
-        .btn-danger { background: #d32f2f; color: white; }
-        .btn-outline { background: white; border: 1px solid #ccc; }
-        .btn-sm { padding: 6px 12px; font-size: 0.75rem; }
-        .btn-block { width: 100%; margin-top: 10px; }
-
-        .bet-input {
-            width: 70px;
-            padding: 10px;
-            text-align: center;
-            border: 2px solid #e2e8f0;
-            border-radius: 10px;
-        }
-
-        .ranking-table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-
-        .ranking-table th, .ranking-table td {
-            padding: 12px;
-            text-align: left;
-            border-bottom: 1px solid #e2e8f0;
-        }
-
-        .ranking-table th {
-            background: #f8fafc;
-        }
-
-        .pontos {
-            font-weight: bold;
-            color: #1a5f7a;
-        }
-
-        .small {
-            font-size: 0.75rem;
-            color: #64748b;
-            margin-top: 4px;
-        }
-
-        .backup-buttons {
-            display: flex;
-            gap: 10px;
-            margin-bottom: 20px;
-        }
     </style>
 </head>
 <body>
     <div class="navbar">
         <div class="navbar-container">
             <a href="admin.html" class="logo">👑 Admin Bolão</a>
-            <div class="nav-links">
-                <span id="userName"></span>
-                <a href="#" onclick="logout()">Sair</a>
-            </div>
+            <button class="btn-danger" onclick="logout()" style="padding: 8px 16px;">Sair</button>
         </div>
     </div>
 
     <main class="container">
-        <div class="backup-buttons">
-            <button class="btn-outline" onclick="exportarBackup()">📤 Exportar Backup</button>
-            <input type="file" id="importFile" accept=".json" style="display:none">
-            <button class="btn-outline" onclick="document.getElementById('importFile').click()">📥 Importar Backup</button>
-        </div>
-
-        <div class="stat-cards" id="stats"></div>
-
         <div class="tabs">
             <button class="tab active" data-tab="jogos">📋 Jogos</button>
-            <button class="tab" data-tab="palpites">📝 Palpites</button>
+            <button class="tab" data-tab="apostas">📝 Importar Apostas (Excel)</button>
             <button class="tab" data-tab="resultados">🎯 Resultados</button>
             <button class="tab" data-tab="ranking">🏆 Ranking</button>
         </div>
 
+        <!-- TAB JOGOS -->
         <div id="tab-jogos" class="tab-content active">
             <div class="card">
-                <div class="card-header">➕ Novo Jogo</div>
+                <div class="card-header">➕ Adicionar Jogo</div>
                 <div class="card-body">
-                    <input type="text" id="timeCasa" placeholder="Time da Casa" style="width:100%; margin-bottom:10px;">
-                    <input type="text" id="timeFora" placeholder="Time Visitante" style="width:100%; margin-bottom:10px;">
-                    <input type="date" id="dataJogo" style="width:100%; margin-bottom:10px;">
+                    <input type="text" id="timeCasa" placeholder="Time da Casa">
+                    <input type="text" id="timeFora" placeholder="Time Visitante">
+                    <input type="date" id="dataJogo">
                     <button class="btn-primary btn-block" onclick="adicionarJogo()">Adicionar Jogo</button>
                 </div>
             </div>
@@ -271,43 +207,56 @@
             </div>
         </div>
 
-        <div id="tab-palpites" class="tab-content">
+        <!-- TAB APOSTAS - UPLOAD EXCEL -->
+        <div id="tab-apostas" class="tab-content">
             <div class="card">
-                <div class="card-header">📝 Inserir Palpites</div>
-                <div class="card-body" id="formPalpites"></div>
+                <div class="card-header">📤 Importar Apostas (Excel)</div>
+                <div class="card-body">
+                    <div class="alert">
+                        📄 Formato do Excel:<br>
+                        <strong>Nome, Time Casa, Gols Casa, Time Fora, Gols Fora, Data</strong><br>
+                        Exemplo: Nelson, Brasil, 2, Marrocos, 0, 11/06/2026
+                    </div>
+                    <input type="file" id="excelFile" accept=".xlsx, .xls">
+                    <button class="btn-success btn-block" onclick="importarExcel()">📤 Importar Apostas</button>
+                    <div id="importResult" style="margin-top: 15px;"></div>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-header">📋 Apostas por Jogador</div>
+                <div class="card-body">
+                    <select id="selectJogador" class="select-full" onchange="carregarApostasJogador()">
+                        <option value="">Selecione um jogador...</option>
+                    </select>
+                    <div id="apostasJogador"></div>
+                </div>
             </div>
         </div>
 
+        <!-- TAB RESULTADOS -->
         <div id="tab-resultados" class="tab-content">
             <div class="card">
                 <div class="card-header">🎯 Resultados dos Jogos</div>
                 <div class="card-body" id="formResultados"></div>
+                <button class="btn-success btn-block" onclick="salvarResultados()" style="margin: 0 20px 20px 20px; width: calc(100% - 40px);">💾 Salvar Resultados</button>
             </div>
         </div>
 
+        <!-- TAB RANKING -->
         <div id="tab-ranking" class="tab-content">
             <div class="card">
                 <div class="card-header">🏆 Ranking Geral</div>
-                <div class="card-body" id="rankingAdmin"></div>
+                <div class="card-body" id="rankingContainer"></div>
             </div>
         </div>
     </main>
 
+    <script src="https://cdn.sheetjs.com/xlsx-0.20.2/package/dist/xlsx.full.min.js"></script>
     <script>
         // ============================================
         // CONFIGURAÇÃO
         // ============================================
         const STORAGE_KEY = 'bolao_copa_dados';
-
-        const JOGOS_PADRAO = [
-            { id: 1, timeCasa: 'México', timeFora: 'África do Sul', data: '2026-06-11' },
-            { id: 2, timeCasa: 'Coreia do Sul', timeFora: 'Tchéquia', data: '2026-06-11' },
-            { id: 3, timeCasa: 'Canadá', timeFora: 'Bósnia e Herzegovina', data: '2026-06-12' },
-            { id: 4, timeCasa: 'Estados Unidos', timeFora: 'Paraguai', data: '2026-06-12' },
-            { id: 5, timeCasa: 'Catar', timeFora: 'Suíça', data: '2026-06-13' },
-            { id: 6, timeCasa: 'Brasil', timeFora: 'Marrocos', data: '2026-06-13' },
-            { id: 7, timeCasa: 'Haiti', timeFora: 'Escócia', data: '2026-06-13' }
-        ];
 
         const USUARIOS = {
             'admin': { senha: 'admin123', nome: 'Administrador' },
@@ -332,7 +281,7 @@
         let dados = null;
 
         // ============================================
-        // FUNÇÕES DE BANCO
+        // BANCO DE DADOS
         // ============================================
         function lerDados() {
             const dadosStr = localStorage.getItem(STORAGE_KEY);
@@ -340,42 +289,16 @@
                 return JSON.parse(dadosStr);
             }
             return {
-                jogos: JOGOS_PADRAO,
+                jogos: [],
                 palpites: {},
                 resultados: {},
-                proximoJogoId: 8
+                proximoJogoId: 1
             };
         }
 
         function salvarDados(dadosNovos) {
             localStorage.setItem(STORAGE_KEY, JSON.stringify(dadosNovos));
-        }
-
-        function exportarBackup() {
-            const dadosAtuais = lerDados();
-            const blob = new Blob([JSON.stringify(dadosAtuais, null, 2)], {type: 'application/json'});
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = `bolao_backup_${new Date().toISOString().slice(0,19)}.json`;
-            a.click();
-            URL.revokeObjectURL(url);
-            alert('Backup exportado!');
-        }
-
-        function importarBackup(file) {
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                try {
-                    const dadosImportados = JSON.parse(e.target.result);
-                    salvarDados(dadosImportados);
-                    alert('Backup importado! Recarregue a página.');
-                    location.reload();
-                } catch (err) {
-                    alert('Erro ao importar arquivo');
-                }
-            };
-            reader.readAsText(file);
+            carregarRanking();
         }
 
         // ============================================
@@ -392,7 +315,6 @@
                 window.location.href = 'meus_palpites.html';
                 return null;
             }
-            document.getElementById('userName').innerHTML = `👑 ${user.nome}`;
             return user;
         }
 
@@ -402,33 +324,27 @@
         }
 
         // ============================================
-        // FUNÇÕES DO ADMIN
+        // JOGOS
         // ============================================
-        function carregarEstatisticas() {
-            const dadosAtuais = lerDados();
-            const container = document.getElementById('stats');
-            container.innerHTML = `
-                <div class="stat-card">📋 ${dadosAtuais.jogos.length} Jogos</div>
-                <div class="stat-card">📝 ${Object.keys(dadosAtuais.palpites).length} Palpites</div>
-                <div class="stat-card">🏁 ${Object.keys(dadosAtuais.resultados).length} Resultados</div>
-            `;
-        }
-
         function carregarListaJogos() {
-            const dadosAtuais = lerDados();
+            dados = lerDados();
             const container = document.getElementById('listaJogos');
             container.innerHTML = '';
             
-            dadosAtuais.jogos.forEach(jogo => {
+            if (dados.jogos.length === 0) {
+                container.innerHTML = '<div style="text-align:center; padding:20px;">Nenhum jogo cadastrado</div>';
+                return;
+            }
+            
+            dados.jogos.forEach(jogo => {
                 const div = document.createElement('div');
                 div.className = 'jogo-item';
                 div.innerHTML = `
                     <div>
                         <strong>${jogo.timeCasa} 🆚 ${jogo.timeFora}</strong>
-                        <div class="small">📅 ${jogo.data || 'Data não definida'}</div>
-                        ${dadosAtuais.resultados[jogo.id] ? `<div class="small" style="color:#2e7d32;">🏁 ${dadosAtuais.resultados[jogo.id].casa} x ${dadosAtuais.resultados[jogo.id].fora}</div>` : ''}
+                        <div style="font-size:0.75rem; color:#666;">📅 ${jogo.data || 'Data não definida'}</div>
                     </div>
-                    <button class="btn-danger btn-sm" onclick="removerJogo(${jogo.id})">Remover</button>
+                    <button class="btn-danger" style="padding: 6px 12px;" onclick="removerJogo(${jogo.id})">Remover</button>
                 `;
                 container.appendChild(div);
             });
@@ -444,196 +360,264 @@
                 return;
             }
             
-            const dadosAtuais = lerDados();
-            dadosAtuais.jogos.push({
-                id: dadosAtuais.proximoJogoId++,
+            dados = lerDados();
+            dados.jogos.push({
+                id: dados.proximoJogoId++,
                 timeCasa: timeCasa,
                 timeFora: timeFora,
                 data: dataJogo || new Date().toISOString().split('T')[0]
             });
             
-            salvarDados(dadosAtuais);
+            salvarDados(dados);
             document.getElementById('timeCasa').value = '';
             document.getElementById('timeFora').value = '';
             carregarListaJogos();
-            carregarFormularioPalpites();
             carregarResultados();
-            carregarEstatisticas();
             alert('Jogo adicionado!');
         }
 
         function removerJogo(id) {
             if (confirm('Remover este jogo?')) {
-                const dadosAtuais = lerDados();
-                dadosAtuais.jogos = dadosAtuais.jogos.filter(j => j.id !== id);
-                // Remover palpites deste jogo
-                Object.keys(dadosAtuais.palpites).forEach(key => {
-                    if (key.startsWith(id + '_')) delete dadosAtuais.palpites[key];
-                });
-                delete dadosAtuais.resultados[id];
-                salvarDados(dadosAtuais);
+                dados = lerDados();
+                dados.jogos = dados.jogos.filter(j => j.id !== id);
+                salvarDados(dados);
                 carregarListaJogos();
-                carregarFormularioPalpites();
                 carregarResultados();
-                carregarEstatisticas();
                 alert('Jogo removido!');
             }
         }
 
-        function carregarFormularioPalpites() {
-            const dadosAtuais = lerDados();
-            const container = document.getElementById('formPalpites');
-            container.innerHTML = '';
+        // ============================================
+        // IMPORTAR EXCEL
+        // ============================================
+        function importarExcel() {
+            const fileInput = document.getElementById('excelFile');
+            const file = fileInput.files[0];
             
-            if (dadosAtuais.jogos.length === 0) {
-                container.innerHTML = '<div class="alert">Cadastre jogos primeiro</div>';
+            if (!file) {
+                alert('Selecione um arquivo Excel');
                 return;
             }
             
-            const selectJogador = document.createElement('select');
-            selectJogador.id = 'selectJogador';
-            selectJogador.className = 'select-full';
-            selectJogador.innerHTML = '<option value="">Selecione o jogador...</option>';
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const data = new Uint8Array(e.target.result);
+                const workbook = XLSX.read(data, { type: 'array' });
+                const sheet = workbook.Sheets[workbook.SheetNames[0]];
+                const rows = XLSX.utils.sheet_to_json(sheet, { header: 1 });
+                
+                dados = lerDados();
+                let importados = 0;
+                let erros = [];
+                
+                // Pular cabeçalho se existir
+                const startRow = rows[0][0] === 'Nome' ? 1 : 0;
+                
+                for (let i = startRow; i < rows.length; i++) {
+                    const row = rows[i];
+                    if (!row || row.length < 6) continue;
+                    
+                    const nome = row[0]?.toString().trim();
+                    const timeCasa = row[1]?.toString().trim();
+                    const golsCasa = parseInt(row[2]);
+                    const timeFora = row[3]?.toString().trim();
+                    const golsFora = parseInt(row[4]);
+                    let dataStr = row[5]?.toString().trim();
+                    
+                    if (!nome || !timeCasa || !timeFora) {
+                        erros.push(`Linha ${i+1}: dados incompletos`);
+                        continue;
+                    }
+                    
+                    if (isNaN(golsCasa) || isNaN(golsFora)) {
+                        erros.push(`Linha ${i+1}: gols inválidos`);
+                        continue;
+                    }
+                    
+                    // Verificar se jogador existe
+                    if (!USUARIOS[nome]) {
+                        erros.push(`Linha ${i+1}: jogador "${nome}" não encontrado`);
+                        continue;
+                    }
+                    
+                    // Verificar se jogo existe, se não, criar
+                    let jogo = dados.jogos.find(j => j.timeCasa === timeCasa && j.timeFora === timeFora);
+                    if (!jogo) {
+                        // Converter data
+                        let dataFormatada = '';
+                        if (dataStr) {
+                            const partes = dataStr.split('/');
+                            if (partes.length === 3) {
+                                dataFormatada = `${partes[2]}-${partes[1]}-${partes[0]}`;
+                            } else {
+                                dataFormatada = dataStr;
+                            }
+                        }
+                        
+                        jogo = {
+                            id: dados.proximoJogoId++,
+                            timeCasa: timeCasa,
+                            timeFora: timeFora,
+                            data: dataFormatada
+                        };
+                        dados.jogos.push(jogo);
+                    }
+                    
+                    // Salvar palpite
+                    const palpiteKey = `${jogo.id}_${nome}`;
+                    dados.palpites[palpiteKey] = {
+                        casa: golsCasa,
+                        fora: golsFora
+                    };
+                    importados++;
+                }
+                
+                salvarDados(dados);
+                
+                const resultDiv = document.getElementById('importResult');
+                resultDiv.innerHTML = `
+                    <div style="background: #e8f5e9; padding: 15px; border-radius: 12px; margin-top: 10px;">
+                        ✅ Importados ${importados} palpites!<br>
+                        ${erros.length > 0 ? `⚠️ ${erros.length} erros: ${erros.join(', ')}` : ''}
+                    </div>
+                `;
+                
+                carregarListaJogos();
+                carregarSelectJogador();
+                carregarResultados();
+                carregarRanking();
+                
+                alert(`${importados} palpites importados com sucesso!`);
+                fileInput.value = '';
+            };
+            reader.readAsArrayBuffer(file);
+        }
+
+        function carregarSelectJogador() {
+            const select = document.getElementById('selectJogador');
+            select.innerHTML = '<option value="">Selecione um jogador...</option>';
             
             for (const [username, user] of Object.entries(USUARIOS)) {
                 if (username !== 'admin') {
-                    selectJogador.innerHTML += `<option value="${username}">${user.nome}</option>`;
+                    select.innerHTML += `<option value="${username}">${user.nome}</option>`;
                 }
             }
-            container.appendChild(selectJogador);
-            
-            const palpitesContainer = document.createElement('div');
-            palpitesContainer.id = 'palpitesContainer';
-            palpitesContainer.style.marginTop = '20px';
-            container.appendChild(palpitesContainer);
-            
-            selectJogador.onchange = () => {
-                const jogador = selectJogador.value;
-                if (!jogador) {
-                    palpitesContainer.innerHTML = '';
-                    return;
-                }
-                
-                palpitesContainer.innerHTML = '<h4>Palpites do jogador</h4>';
-                
-                dadosAtuais.jogos.forEach(jogo => {
-                    const palpiteKey = `${jogo.id}_${jogador}`;
-                    const palpite = dadosAtuais.palpites[palpiteKey] || {};
-                    const resultado = dadosAtuais.resultados[jogo.id];
-                    
-                    const div = document.createElement('div');
-                    div.className = 'palpite-form-item';
-                    div.innerHTML = `
-                        <div class="palpite-form-jogo">${jogo.timeCasa} x ${jogo.timeFora}</div>
-                        <div class="palpite-form-inputs">
-                            <input type="number" id="palpite_casa_${jogo.id}" class="bet-input" 
-                                   value="${palpite.casa || ''}" placeholder="0" min="0" max="30">
-                            <span>x</span>
-                            <input type="number" id="palpite_fora_${jogo.id}" class="bet-input" 
-                                   value="${palpite.fora || ''}" placeholder="0" min="0" max="30">
-                            ${resultado ? `<span style="font-size:0.7rem; background:#e3f2fd; padding:2px 8px; border-radius:20px;">🏁 ${resultado.casa}x${resultado.fora}</span>` : ''}
-                        </div>
-                    `;
-                    palpitesContainer.appendChild(div);
-                });
-                
-                const saveBtn = document.createElement('button');
-                saveBtn.className = 'btn-success btn-block';
-                saveBtn.style.marginTop = '20px';
-                saveBtn.innerHTML = '💾 Salvar Palpites deste Jogador';
-                saveBtn.onclick = () => salvarPalpitesJogador(jogador);
-                palpitesContainer.appendChild(saveBtn);
-            };
         }
 
-        function salvarPalpitesJogador(jogador) {
-            const dadosAtuais = lerDados();
-            let salvos = 0;
+        function carregarApostasJogador() {
+            const jogador = document.getElementById('selectJogador').value;
+            const container = document.getElementById('apostasJogador');
             
-            dadosAtuais.jogos.forEach(jogo => {
-                const casaInput = document.getElementById(`palpite_casa_${jogo.id}`);
-                const foraInput = document.getElementById(`palpite_fora_${jogo.id}`);
-                
-                if (casaInput && foraInput && casaInput.value && foraInput.value) {
-                    const casa = parseInt(casaInput.value);
-                    const fora = parseInt(foraInput.value);
-                    
-                    if (casa >= 0 && casa <= 30 && fora >= 0 && fora <= 30) {
-                        const palpiteKey = `${jogo.id}_${jogador}`;
-                        dadosAtuais.palpites[palpiteKey] = { casa, fora };
-                        salvos++;
-                    }
-                }
-            });
-            
-            salvarDados(dadosAtuais);
-            alert(`${salvos} palpites salvos para ${USUARIOS[jogador].nome}!`);
-            carregarRankingAdmin();
-        }
-
-        function carregarResultados() {
-            const dadosAtuais = lerDados();
-            const container = document.getElementById('formResultados');
-            container.innerHTML = '';
-            
-            if (dadosAtuais.jogos.length === 0) {
-                container.innerHTML = '<div class="alert">Cadastre jogos primeiro</div>';
+            if (!jogador) {
+                container.innerHTML = '';
                 return;
             }
             
-            dadosAtuais.jogos.forEach(jogo => {
-                const resultado = dadosAtuais.resultados[jogo.id] || {};
+            dados = lerDados();
+            container.innerHTML = '<h4 style="margin-bottom: 10px;">Apostas do jogador</h4>';
+            
+            dados.jogos.forEach(jogo => {
+                const palpiteKey = `${jogo.id}_${jogador}`;
+                const palpite = dados.palpites[palpiteKey] || {};
                 
                 const div = document.createElement('div');
                 div.className = 'resultado-item';
                 div.innerHTML = `
-                    <div class="resultado-jogo">${jogo.timeCasa} x ${jogo.timeFora}</div>
-                    <div class="resultado-inputs">
-                        <input type="number" id="res_casa_${jogo.id}" class="bet-input" 
-                               value="${resultado.casa || ''}" placeholder="0" min="0" max="30">
+                    <div><strong>${jogo.timeCasa} x ${jogo.timeFora}</strong></div>
+                    <div>
+                        <input type="number" id="edit_casa_${jogo.id}" class="bet-input" value="${palpite.casa || ''}" placeholder="0">
                         <span>x</span>
-                        <input type="number" id="res_fora_${jogo.id}" class="bet-input" 
-                               value="${resultado.fora || ''}" placeholder="0" min="0" max="30">
+                        <input type="number" id="edit_fora_${jogo.id}" class="bet-input" value="${palpite.fora || ''}" placeholder="0">
                     </div>
                 `;
                 container.appendChild(div);
             });
             
             const saveBtn = document.createElement('button');
-            saveBtn.className = 'btn-success btn-block';
-            saveBtn.style.marginTop = '20px';
-            saveBtn.innerHTML = '💾 Salvar Resultados';
-            saveBtn.onclick = salvarResultados;
+            saveBtn.className = 'btn-primary btn-block';
+            saveBtn.innerHTML = '💾 Salvar Apostas deste Jogador';
+            saveBtn.onclick = () => salvarApostasJogador(jogador);
             container.appendChild(saveBtn);
         }
 
+        function salvarApostasJogador(jogador) {
+            dados = lerDados();
+            let salvos = 0;
+            
+            dados.jogos.forEach(jogo => {
+                const casaInput = document.getElementById(`edit_casa_${jogo.id}`);
+                const foraInput = document.getElementById(`edit_fora_${jogo.id}`);
+                
+                if (casaInput && foraInput && casaInput.value && foraInput.value) {
+                    const palpiteKey = `${jogo.id}_${jogador}`;
+                    dados.palpites[palpiteKey] = {
+                        casa: parseInt(casaInput.value),
+                        fora: parseInt(foraInput.value)
+                    };
+                    salvos++;
+                }
+            });
+            
+            salvarDados(dados);
+            alert(`${salvos} apostas salvas!`);
+        }
+
+        // ============================================
+        // RESULTADOS
+        // ============================================
+        function carregarResultados() {
+            dados = lerDados();
+            const container = document.getElementById('formResultados');
+            container.innerHTML = '';
+            
+            if (dados.jogos.length === 0) {
+                container.innerHTML = '<div style="text-align:center; padding:20px;">Nenhum jogo cadastrado</div>';
+                return;
+            }
+            
+            dados.jogos.forEach(jogo => {
+                const resultado = dados.resultados[jogo.id] || {};
+                
+                const div = document.createElement('div');
+                div.className = 'resultado-item';
+                div.innerHTML = `
+                    <div><strong>${jogo.timeCasa} 🆚 ${jogo.timeFora}</strong></div>
+                    <div>
+                        <input type="number" id="res_casa_${jogo.id}" class="bet-input" value="${resultado.casa || ''}" placeholder="0">
+                        <span>x</span>
+                        <input type="number" id="res_fora_${jogo.id}" class="bet-input" value="${resultado.fora || ''}" placeholder="0">
+                    </div>
+                `;
+                container.appendChild(div);
+            });
+        }
+
         function salvarResultados() {
-            const dadosAtuais = lerDados();
+            dados = lerDados();
             const novosResultados = {};
             
-            dadosAtuais.jogos.forEach(jogo => {
+            dados.jogos.forEach(jogo => {
                 const casaInput = document.getElementById(`res_casa_${jogo.id}`);
                 const foraInput = document.getElementById(`res_fora_${jogo.id}`);
                 
                 if (casaInput && foraInput && casaInput.value && foraInput.value) {
-                    const casa = parseInt(casaInput.value);
-                    const fora = parseInt(foraInput.value);
-                    
-                    if (casa >= 0 && casa <= 30 && fora >= 0 && fora <= 30) {
-                        novosResultados[jogo.id] = { casa, fora };
-                    }
+                    novosResultados[jogo.id] = {
+                        casa: parseInt(casaInput.value),
+                        fora: parseInt(foraInput.value)
+                    };
                 }
             });
             
-            dadosAtuais.resultados = novosResultados;
-            salvarDados(dadosAtuais);
-            carregarRankingAdmin();
-            carregarListaJogos();
+            dados.resultados = novosResultados;
+            salvarDados(dados);
             alert('Resultados salvos! Ranking atualizado.');
         }
 
+        // ============================================
+        // RANKING
+        // ============================================
         function calcularRanking() {
-            const dadosAtuais = lerDados();
+            dados = lerDados();
             const ranking = [];
             
             for (const [username, user] of Object.entries(USUARIOS)) {
@@ -643,10 +627,10 @@
                 let placaresExatos = 0;
                 let resultadosCorretos = 0;
                 
-                for (const jogo of dadosAtuais.jogos) {
+                for (const jogo of dados.jogos) {
                     const palpiteKey = `${jogo.id}_${username}`;
-                    const palpite = dadosAtuais.palpites[palpiteKey];
-                    const resultado = dadosAtuais.resultados[jogo.id];
+                    const palpite = dados.palpites[palpiteKey];
+                    const resultado = dados.resultados[jogo.id];
                     
                     if (palpite && resultado) {
                         if (palpite.casa === resultado.casa && palpite.fora === resultado.fora) {
@@ -679,12 +663,12 @@
             return ranking;
         }
 
-        function carregarRankingAdmin() {
+        function carregarRanking() {
             const ranking = calcularRanking();
-            const container = document.getElementById('rankingAdmin');
+            const container = document.getElementById('rankingContainer');
             
             if (ranking.length === 0) {
-                container.innerHTML = '<div class="alert">Aguardando palpites e resultados...</div>';
+                container.innerHTML = '<div style="text-align:center; padding:20px;">Aguardando dados...</div>';
                 return;
             }
             
@@ -710,11 +694,10 @@
         // ============================================
         function init() {
             if (!verificarLogin()) return;
-            carregarEstatisticas();
             carregarListaJogos();
-            carregarFormularioPalpites();
+            carregarSelectJogador();
             carregarResultados();
-            carregarRankingAdmin();
+            carregarRanking();
             
             // Sistema de abas
             document.querySelectorAll('.tab').forEach(tab => {
@@ -724,17 +707,19 @@
                     document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
                     tab.classList.add('active');
                     document.getElementById(`tab-${tabId}`).classList.add('active');
+                    
+                    if (tabId === 'apostas') {
+                        carregarSelectJogador();
+                    }
                 });
-            });
-            
-            document.getElementById('importFile').addEventListener('change', function(e) {
-                if (e.target.files[0]) importarBackup(e.target.files[0]);
             });
         }
         
         window.adicionarJogo = adicionarJogo;
         window.removerJogo = removerJogo;
-        window.exportarBackup = exportarBackup;
+        window.importarExcel = importarExcel;
+        window.carregarApostasJogador = carregarApostasJogador;
+        window.salvarResultados = salvarResultados;
         
         document.addEventListener('DOMContentLoaded', init);
     </script>

@@ -59,11 +59,6 @@
             color: white;
         }
 
-        .user-name {
-            font-weight: 600;
-            color: #1a5f7a;
-        }
-
         .container {
             max-width: 600px;
             margin: 0 auto;
@@ -90,7 +85,7 @@
         }
 
         .palpite-item {
-            background: white;
+            background: #f8fafc;
             padding: 15px;
             border-radius: 12px;
             margin-bottom: 10px;
@@ -99,7 +94,6 @@
             align-items: center;
             flex-wrap: wrap;
             gap: 10px;
-            border: 1px solid #e2e8f0;
         }
 
         .palpite-jogo {
@@ -111,7 +105,6 @@
             font-size: 1.2rem;
             font-weight: bold;
             color: #1a5f7a;
-            text-align: right;
         }
 
         .resultado {
@@ -149,14 +142,6 @@
             display: inline-block;
             margin-left: 8px;
         }
-
-        .alert {
-            background: #f1f5f9;
-            padding: 15px;
-            border-radius: 12px;
-            text-align: center;
-            color: #64748b;
-        }
     </style>
 </head>
 <body>
@@ -164,7 +149,7 @@
         <div class="navbar-container">
             <a href="meus_palpites.html" class="logo">🏆 Bolão 2026</a>
             <div class="nav-links">
-                <span class="user-name" id="userName"></span>
+                <span id="userName" style="font-weight: 600; color:#1a5f7a;"></span>
                 <a href="meus_palpites.html" class="active">📝 Meus</a>
                 <a href="ranking.html">📊 Ranking</a>
                 <a href="#" onclick="logout()">🚪 Sair</a>
@@ -180,20 +165,7 @@
     </main>
 
     <script>
-        // ============================================
-        // CONFIGURAÇÃO
-        // ============================================
         const STORAGE_KEY = 'bolao_copa_dados';
-
-        const JOGOS_PADRAO = [
-            { id: 1, timeCasa: 'México', timeFora: 'África do Sul', data: '2026-06-11' },
-            { id: 2, timeCasa: 'Coreia do Sul', timeFora: 'Tchéquia', data: '2026-06-11' },
-            { id: 3, timeCasa: 'Canadá', timeFora: 'Bósnia e Herzegovina', data: '2026-06-12' },
-            { id: 4, timeCasa: 'Estados Unidos', timeFora: 'Paraguai', data: '2026-06-12' },
-            { id: 5, timeCasa: 'Catar', timeFora: 'Suíça', data: '2026-06-13' },
-            { id: 6, timeCasa: 'Brasil', timeFora: 'Marrocos', data: '2026-06-13' },
-            { id: 7, timeCasa: 'Haiti', timeFora: 'Escócia', data: '2026-06-13' }
-        ];
 
         const USUARIOS = {
             'admin': { senha: 'admin123', nome: 'Administrador' },
@@ -215,31 +187,12 @@
             'Elyseu': { senha: 'elyseu123', nome: 'Elyseu' }
         };
 
-        // ============================================
-        // FUNÇÕES DE BANCO DE DADOS
-        // ============================================
         function lerDados() {
             const dadosStr = localStorage.getItem(STORAGE_KEY);
-            if (dadosStr) {
-                return JSON.parse(dadosStr);
-            }
-            const dados = {
-                jogos: JOGOS_PADRAO,
-                palpites: {},
-                resultados: {},
-                proximoJogoId: 8
-            };
-            salvarDados(dados);
-            return dados;
+            if (dadosStr) return JSON.parse(dadosStr);
+            return { jogos: [], palpites: {}, resultados: {} };
         }
 
-        function salvarDados(dados) {
-            localStorage.setItem(STORAGE_KEY, JSON.stringify(dados));
-        }
-
-        // ============================================
-        // FUNÇÕES DE AUTENTICAÇÃO
-        // ============================================
         function verificarLogin() {
             const usuario = localStorage.getItem('usuarioLogado');
             if (!usuario) {
@@ -254,9 +207,6 @@
             window.location.href = 'index.html';
         }
 
-        // ============================================
-        // FUNÇÃO DE PONTUAÇÃO
-        // ============================================
         function calcularPontos(palpite, resultado) {
             if (!palpite || !resultado) return 0;
             if (palpite.casa === resultado.casa && palpite.fora === resultado.fora) return 3;
@@ -267,9 +217,6 @@
             return palpiteVencedor === resultadoVencedor ? 1 : 0;
         }
 
-        // ============================================
-        // FUNÇÃO PRINCIPAL
-        // ============================================
         function carregarPalpites() {
             const usuario = verificarLogin();
             if (!usuario) return;
@@ -281,11 +228,10 @@
             container.innerHTML = '';
             
             if (dados.jogos.length === 0) {
-                container.innerHTML = '<div class="alert">Nenhum jogo cadastrado ainda.</div>';
+                container.innerHTML = '<div style="text-align:center; padding:20px;">Nenhum jogo cadastrado ainda.</div>';
                 return;
             }
             
-            // Ordenar jogos por data
             const jogosOrdenados = [...dados.jogos].sort((a,b) => (a.data || '').localeCompare(b.data || ''));
             
             for (const jogo of jogosOrdenados) {
@@ -297,21 +243,13 @@
                 div.className = 'palpite-item';
                 
                 let statusHtml = '';
-                let pontosHtml = '';
-                
                 if (palpite && resultado) {
                     const pontos = calcularPontos(palpite, resultado);
-                    if (pontos === 3) {
-                        statusHtml = '<span class="badge-acertou">🎯 +3</span>';
-                    } else if (pontos === 1) {
-                        statusHtml = '<span class="badge-parcial">✅ +1</span>';
-                    } else {
-                        statusHtml = '<span class="badge-errou">❌ 0</span>';
-                    }
-                    pontosHtml = `<div class="resultado">🏁 Resultado oficial: ${resultado.casa} x ${resultado.fora}</div>`;
+                    if (pontos === 3) statusHtml = '<span class="badge-acertou">🎯 +3 pontos</span>';
+                    else if (pontos === 1) statusHtml = '<span class="badge-parcial">✅ +1 ponto</span>';
+                    else statusHtml = '<span class="badge-errou">❌ 0 pontos</span>';
                 } else if (resultado && !palpite) {
                     statusHtml = '<span class="badge-errou">⚠️ Não palpou</span>';
-                    pontosHtml = `<div class="resultado">🏁 Resultado oficial: ${resultado.casa} x ${resultado.fora}</div>`;
                 } else if (palpite && !resultado) {
                     statusHtml = '<span class="badge-parcial">⏳ Aguardando</span>';
                 } else {
@@ -324,19 +262,17 @@
                     <div class="palpite-jogo">
                         ${jogo.timeCasa} 🆚 ${jogo.timeFora}
                         <div class="resultado">📅 ${dataFormatada}</div>
-                        ${pontosHtml}
+                        ${resultado ? `<div class="resultado">🏁 Resultado: ${resultado.casa} x ${resultado.fora}</div>` : ''}
                     </div>
                     <div class="palpite-valor">
                         ${palpite ? `${palpite.casa} x ${palpite.fora}` : '? x ?'}
                         ${statusHtml}
                     </div>
                 `;
-                
                 container.appendChild(div);
             }
         }
 
-        // Inicializar
         document.addEventListener('DOMContentLoaded', carregarPalpites);
     </script>
 </body>

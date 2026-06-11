@@ -77,11 +77,6 @@
 
         .login-card button:hover {
             background: #0d3b4f;
-            transform: translateY(-2px);
-        }
-
-        .login-card button:active {
-            transform: translateY(0);
         }
 
         .error-msg {
@@ -106,9 +101,7 @@
     </div>
 
     <script>
-        // ============================================
-        // USUÁRIOS DO BOLÃO
-        // ============================================
+        // USUÁRIOS
         const USUARIOS = {
             'admin': { senha: 'admin123', nome: 'Administrador' },
             'Nelson': { senha: 'lider', nome: 'Nelson' },
@@ -129,21 +122,15 @@
             'Elyseu': { senha: 'elyseu123', nome: 'Elyseu' }
         };
 
-        // ============================================
-        // FUNÇÃO DE LOGIN
-        // ============================================
         function fazerLogin(usuario, senha) {
             const user = USUARIOS[usuario];
             
             if (user && user.senha === senha) {
-                // Salvar usuário logado
-                const usuarioLogado = {
+                localStorage.setItem('usuarioLogado', JSON.stringify({
                     username: usuario,
                     nome: user.nome
-                };
-                localStorage.setItem('usuarioLogado', JSON.stringify(usuarioLogado));
+                }));
                 
-                // Redirecionar
                 if (usuario === 'admin') {
                     window.location.href = 'admin.html';
                 } else {
@@ -151,27 +138,17 @@
                 }
                 return true;
             } else {
-                const errorMsg = document.getElementById('errorMsg');
-                errorMsg.textContent = 'Usuário ou senha inválidos!';
-                errorMsg.style.display = 'block';
+                document.getElementById('errorMsg').textContent = 'Usuário ou senha inválidos!';
+                document.getElementById('errorMsg').style.display = 'block';
                 return false;
             }
         }
 
-        // ============================================
-        // EVENTO DO FORMULÁRIO
-        // ============================================
-        document.addEventListener('DOMContentLoaded', function() {
-            const form = document.getElementById('loginForm');
-            
-            if (form) {
-                form.addEventListener('submit', function(e) {
-                    e.preventDefault();
-                    const usuario = document.getElementById('usuario').value;
-                    const senha = document.getElementById('senha').value;
-                    fazerLogin(usuario, senha);
-                });
-            }
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const usuario = document.getElementById('usuario').value;
+            const senha = document.getElementById('senha').value;
+            fazerLogin(usuario, senha);
         });
     </script>
 </body>
