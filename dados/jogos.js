@@ -108,7 +108,6 @@ const USUARIOS = {
     'Rogéria': { nome: 'Rogéria' },
     'Carol': { nome: 'Carol' },
     'Márcio': { nome: 'Márcio' },
-    'Raphael': { nome: 'Raphael' },
     'Julio': { nome: 'Julio' },
     'Elyseu': { nome: 'Elyseu' }
 };
