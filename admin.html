@@ -5,18 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <title>Admin - Bolão Copa 2026</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
+        * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
             background: #f5f7fa;
             color: #1e293b;
         }
-
         .navbar {
             background: white;
             border-bottom: 1px solid #e2e8f0;
@@ -25,7 +19,6 @@
             top: 0;
             z-index: 100;
         }
-
         .navbar-container {
             max-width: 800px;
             margin: 0 auto;
@@ -33,20 +26,8 @@
             justify-content: space-between;
             align-items: center;
         }
-
-        .logo {
-            font-size: 1.2rem;
-            font-weight: bold;
-            color: #1a5f7a;
-            text-decoration: none;
-        }
-
-        .container {
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 20px;
-        }
-
+        .logo { font-size: 1.2rem; font-weight: bold; color: #1a5f7a; text-decoration: none; }
+        .container { max-width: 800px; margin: 0 auto; padding: 20px; }
         .card {
             background: white;
             border-radius: 16px;
@@ -54,39 +35,18 @@
             margin-bottom: 20px;
             box-shadow: 0 2px 8px rgba(0,0,0,0.05);
         }
-
-        .card-header {
-            padding: 15px 20px;
-            font-weight: bold;
-            background: white;
-            border-bottom: 1px solid #e2e8f0;
-        }
-
-        .card-body {
-            padding: 20px;
-        }
-
-        .btn-primary, .btn-success, .btn-danger {
-            padding: 12px 20px;
-            border-radius: 10px;
-            border: none;
-            font-weight: 600;
-            cursor: pointer;
-        }
-
+        .card-header { padding: 15px 20px; font-weight: bold; border-bottom: 1px solid #e2e8f0; }
+        .card-body { padding: 20px; }
+        .btn-primary, .btn-success { padding: 12px 20px; border-radius: 10px; border: none; font-weight: 600; cursor: pointer; }
         .btn-primary { background: #1a5f7a; color: white; }
         .btn-success { background: #2e7d32; color: white; }
-        .btn-danger { background: #d32f2f; color: white; }
         .btn-block { width: 100%; margin-top: 10px; }
-
-        input, select {
-            width: 100%;
-            padding: 12px;
-            margin-bottom: 12px;
-            border: 1px solid #ddd;
-            border-radius: 10px;
+        .alert {
+            background: #e3f2fd;
+            padding: 15px;
+            border-radius: 12px;
+            margin-bottom: 20px;
         }
-
         .jogo-item {
             background: #f8fafc;
             padding: 15px;
@@ -95,633 +55,105 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            flex-wrap: wrap;
         }
-
-        .resultado-item {
-            background: #f8fafc;
-            padding: 15px;
-            border-radius: 12px;
-            margin-bottom: 10px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 10px;
-        }
-
-        .bet-input {
-            width: 70px;
-            padding: 8px;
-            text-align: center;
-            border: 2px solid #e2e8f0;
-            border-radius: 10px;
-        }
-
-        .ranking-table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-
-        .ranking-table th, .ranking-table td {
-            padding: 12px;
-            text-align: left;
-            border-bottom: 1px solid #e2e8f0;
-        }
-
-        .ranking-table th {
-            background: #f8fafc;
-        }
-
-        .pontos {
-            font-weight: bold;
-            color: #1a5f7a;
-        }
-
-        .alert {
-            background: #e3f2fd;
-            padding: 15px;
-            border-radius: 12px;
-            margin-bottom: 20px;
-        }
-
-        .tabs {
-            display: flex;
-            gap: 5px;
-            margin-bottom: 20px;
-            flex-wrap: wrap;
-        }
-
-        .tab {
-            padding: 10px 20px;
-            background: white;
-            border: none;
-            border-radius: 10px;
-            cursor: pointer;
-        }
-
-        .tab.active {
-            background: #1a5f7a;
-            color: white;
-        }
-
-        .tab-content {
-            display: none;
-        }
-
-        .tab-content.active {
-            display: block;
-        }
+        .loading { text-align: center; padding: 40px; color: #64748b; }
     </style>
 </head>
 <body>
     <div class="navbar">
         <div class="navbar-container">
             <a href="admin.html" class="logo">👑 Admin Bolão</a>
-            <button class="btn-danger" onclick="logout()" style="padding: 8px 16px;">Sair</button>
+            <button class="btn-primary" onclick="logout()" style="padding: 8px 16px;">Sair</button>
         </div>
     </div>
 
     <main class="container">
-        <div class="tabs">
-            <button class="tab active" data-tab="jogos">📋 Jogos</button>
-            <button class="tab" data-tab="apostas">📝 Importar Apostas (Excel)</button>
-            <button class="tab" data-tab="resultados">🎯 Resultados</button>
-            <button class="tab" data-tab="ranking">🏆 Ranking</button>
+        <div class="alert">
+            📌 <strong>Como atualizar os dados:</strong><br>
+            1. Coloque os arquivos <strong>apostas.xlsx</strong> e <strong>resultados.xlsx</strong> na pasta <strong>/dados/</strong><br>
+            2. Execute: <code>git add . && git commit -m "Atualiza dados" && git push</code><br>
+            3. A Vercel fará o deploy automático
         </div>
 
-        <!-- TAB JOGOS -->
-        <div id="tab-jogos" class="tab-content active">
-            <div class="card">
-                <div class="card-header">➕ Adicionar Jogo</div>
-                <div class="card-body">
-                    <input type="text" id="timeCasa" placeholder="Time da Casa">
-                    <input type="text" id="timeFora" placeholder="Time Visitante">
-                    <input type="date" id="dataJogo">
-                    <button class="btn-primary btn-block" onclick="adicionarJogo()">Adicionar Jogo</button>
-                </div>
-            </div>
-            <div class="card">
-                <div class="card-header">📋 Jogos Cadastrados</div>
-                <div class="card-body" id="listaJogos"></div>
+        <div class="card">
+            <div class="card-header">📋 Jogos Cadastrados</div>
+            <div class="card-body" id="jogosContainer">
+                <div class="loading">⏳ Carregando...</div>
             </div>
         </div>
 
-        <!-- TAB APOSTAS - UPLOAD EXCEL -->
-        <div id="tab-apostas" class="tab-content">
-            <div class="card">
-                <div class="card-header">📤 Importar Apostas (Excel)</div>
-                <div class="card-body">
-                    <div class="alert">
-                        📄 Formato do Excel:<br>
-                        <strong>Nome, Time Casa, Gols Casa, Time Fora, Gols Fora, Data</strong><br>
-                        Exemplo: Nelson, Brasil, 2, Marrocos, 0, 11/06/2026
-                    </div>
-                    <input type="file" id="excelFile" accept=".xlsx, .xls">
-                    <button class="btn-success btn-block" onclick="importarExcel()">📤 Importar Apostas</button>
-                    <div id="importResult" style="margin-top: 15px;"></div>
-                </div>
-            </div>
-            <div class="card">
-                <div class="card-header">📋 Apostas por Jogador</div>
-                <div class="card-body">
-                    <select id="selectJogador" class="select-full" onchange="carregarApostasJogador()">
-                        <option value="">Selecione um jogador...</option>
-                    </select>
-                    <div id="apostasJogador"></div>
-                </div>
-            </div>
-        </div>
-
-        <!-- TAB RESULTADOS -->
-        <div id="tab-resultados" class="tab-content">
-            <div class="card">
-                <div class="card-header">🎯 Resultados dos Jogos</div>
-                <div class="card-body" id="formResultados"></div>
-                <button class="btn-success btn-block" onclick="salvarResultados()" style="margin: 0 20px 20px 20px; width: calc(100% - 40px);">💾 Salvar Resultados</button>
-            </div>
-        </div>
-
-        <!-- TAB RANKING -->
-        <div id="tab-ranking" class="tab-content">
-            <div class="card">
-                <div class="card-header">🏆 Ranking Geral</div>
-                <div class="card-body" id="rankingContainer"></div>
+        <div class="card">
+            <div class="card-header">📝 Status das Apostas</div>
+            <div class="card-body" id="statusContainer">
+                <div class="loading">⏳ Carregando...</div>
             </div>
         </div>
     </main>
 
     <script src="https://cdn.sheetjs.com/xlsx-0.20.2/package/dist/xlsx.full.min.js"></script>
+    <script src="js/config.js"></script>
+    <script src="js/app.js"></script>
     <script>
-        // ============================================
-        // CONFIGURAÇÃO
-        // ============================================
-        const STORAGE_KEY = 'bolao_copa_dados';
-
-        const USUARIOS = {
-            'admin': { senha: 'admin123', nome: 'Administrador' },
-            'Nelson': { senha: 'lider', nome: 'Nelson' },
-            'Douglas': { senha: 'doug123', nome: 'Douglas' },
-            'Alexandre': { senha: 'alex123', nome: 'Alexandre' },
-            'Alcy': { senha: 'alcy123', nome: 'Alcy' },
-            'Carla': { senha: 'carla123', nome: 'Carla' },
-            'Thiago': { senha: 'thiago123', nome: 'Thiago' },
-            'Ronaldo': { senha: 'ronaldo123', nome: 'Ronaldo' },
-            'Kelly': { senha: 'kelly123', nome: 'Kelly' },
-            'Ana': { senha: 'ana123', nome: 'Ana' },
-            'Carmem': { senha: 'carmem123', nome: 'Carmem' },
-            'Rogéria': { senha: 'rogeria123', nome: 'Rogéria' },
-            'Carol': { senha: 'carol123', nome: 'Carol' },
-            'Márcio': { senha: 'marcio123', nome: 'Márcio' },
-            'Raphael': { senha: 'raphael123', nome: 'Raphael' },
-            'Julio': { senha: 'julio123', nome: 'Julio' },
-            'Elyseu': { senha: 'elyseu123', nome: 'Elyseu' }
-        };
-
-        let dados = null;
-
-        // ============================================
-        // BANCO DE DADOS
-        // ============================================
-        function lerDados() {
-            const dadosStr = localStorage.getItem(STORAGE_KEY);
-            if (dadosStr) {
-                return JSON.parse(dadosStr);
-            }
-            return {
-                jogos: [],
-                palpites: {},
-                resultados: {},
-                proximoJogoId: 1
-            };
-        }
-
-        function salvarDados(dadosNovos) {
-            localStorage.setItem(STORAGE_KEY, JSON.stringify(dadosNovos));
-            carregarRanking();
-        }
-
-        // ============================================
-        // AUTENTICAÇÃO
-        // ============================================
-        function verificarLogin() {
-            const usuario = localStorage.getItem('usuarioLogado');
-            if (!usuario) {
-                window.location.href = 'index.html';
-                return null;
-            }
-            const user = JSON.parse(usuario);
-            if (user.username !== 'admin') {
-                window.location.href = 'meus_palpites.html';
-                return null;
-            }
-            return user;
-        }
-
         function logout() {
             localStorage.removeItem('usuarioLogado');
             window.location.href = 'index.html';
         }
 
-        // ============================================
-        // JOGOS
-        // ============================================
-        function carregarListaJogos() {
-            dados = lerDados();
-            const container = document.getElementById('listaJogos');
-            container.innerHTML = '';
+        async function carregarPagina() {
+            const usuario = localStorage.getItem('usuarioLogado');
+            if (!usuario || JSON.parse(usuario).username !== 'admin') {
+                window.location.href = 'index.html';
+                return;
+            }
             
+            const dados = await lerDados();
+            
+            // Jogos
+            const jogosContainer = document.getElementById('jogosContainer');
             if (dados.jogos.length === 0) {
-                container.innerHTML = '<div style="text-align:center; padding:20px;">Nenhum jogo cadastrado</div>';
-                return;
-            }
-            
-            dados.jogos.forEach(jogo => {
-                const div = document.createElement('div');
-                div.className = 'jogo-item';
-                div.innerHTML = `
-                    <div>
-                        <strong>${jogo.timeCasa} 🆚 ${jogo.timeFora}</strong>
-                        <div style="font-size:0.75rem; color:#666;">📅 ${jogo.data || 'Data não definida'}</div>
-                    </div>
-                    <button class="btn-danger" style="padding: 6px 12px;" onclick="removerJogo(${jogo.id})">Remover</button>
-                `;
-                container.appendChild(div);
-            });
-        }
-
-        function adicionarJogo() {
-            const timeCasa = document.getElementById('timeCasa').value.trim();
-            const timeFora = document.getElementById('timeFora').value.trim();
-            const dataJogo = document.getElementById('dataJogo').value;
-            
-            if (!timeCasa || !timeFora) {
-                alert('Preencha os times');
-                return;
-            }
-            
-            dados = lerDados();
-            dados.jogos.push({
-                id: dados.proximoJogoId++,
-                timeCasa: timeCasa,
-                timeFora: timeFora,
-                data: dataJogo || new Date().toISOString().split('T')[0]
-            });
-            
-            salvarDados(dados);
-            document.getElementById('timeCasa').value = '';
-            document.getElementById('timeFora').value = '';
-            carregarListaJogos();
-            carregarResultados();
-            alert('Jogo adicionado!');
-        }
-
-        function removerJogo(id) {
-            if (confirm('Remover este jogo?')) {
-                dados = lerDados();
-                dados.jogos = dados.jogos.filter(j => j.id !== id);
-                salvarDados(dados);
-                carregarListaJogos();
-                carregarResultados();
-                alert('Jogo removido!');
-            }
-        }
-
-        // ============================================
-        // IMPORTAR EXCEL
-        // ============================================
-        function importarExcel() {
-            const fileInput = document.getElementById('excelFile');
-            const file = fileInput.files[0];
-            
-            if (!file) {
-                alert('Selecione um arquivo Excel');
-                return;
-            }
-            
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                const data = new Uint8Array(e.target.result);
-                const workbook = XLSX.read(data, { type: 'array' });
-                const sheet = workbook.Sheets[workbook.SheetNames[0]];
-                const rows = XLSX.utils.sheet_to_json(sheet, { header: 1 });
-                
-                dados = lerDados();
-                let importados = 0;
-                let erros = [];
-                
-                // Pular cabeçalho se existir
-                const startRow = rows[0][0] === 'Nome' ? 1 : 0;
-                
-                for (let i = startRow; i < rows.length; i++) {
-                    const row = rows[i];
-                    if (!row || row.length < 6) continue;
-                    
-                    const nome = row[0]?.toString().trim();
-                    const timeCasa = row[1]?.toString().trim();
-                    const golsCasa = parseInt(row[2]);
-                    const timeFora = row[3]?.toString().trim();
-                    const golsFora = parseInt(row[4]);
-                    let dataStr = row[5]?.toString().trim();
-                    
-                    if (!nome || !timeCasa || !timeFora) {
-                        erros.push(`Linha ${i+1}: dados incompletos`);
-                        continue;
-                    }
-                    
-                    if (isNaN(golsCasa) || isNaN(golsFora)) {
-                        erros.push(`Linha ${i+1}: gols inválidos`);
-                        continue;
-                    }
-                    
-                    // Verificar se jogador existe
-                    if (!USUARIOS[nome]) {
-                        erros.push(`Linha ${i+1}: jogador "${nome}" não encontrado`);
-                        continue;
-                    }
-                    
-                    // Verificar se jogo existe, se não, criar
-                    let jogo = dados.jogos.find(j => j.timeCasa === timeCasa && j.timeFora === timeFora);
-                    if (!jogo) {
-                        // Converter data
-                        let dataFormatada = '';
-                        if (dataStr) {
-                            const partes = dataStr.split('/');
-                            if (partes.length === 3) {
-                                dataFormatada = `${partes[2]}-${partes[1]}-${partes[0]}`;
-                            } else {
-                                dataFormatada = dataStr;
-                            }
-                        }
-                        
-                        jogo = {
-                            id: dados.proximoJogoId++,
-                            timeCasa: timeCasa,
-                            timeFora: timeFora,
-                            data: dataFormatada
-                        };
-                        dados.jogos.push(jogo);
-                    }
-                    
-                    // Salvar palpite
-                    const palpiteKey = `${jogo.id}_${nome}`;
-                    dados.palpites[palpiteKey] = {
-                        casa: golsCasa,
-                        fora: golsFora
-                    };
-                    importados++;
-                }
-                
-                salvarDados(dados);
-                
-                const resultDiv = document.getElementById('importResult');
-                resultDiv.innerHTML = `
-                    <div style="background: #e8f5e9; padding: 15px; border-radius: 12px; margin-top: 10px;">
-                        ✅ Importados ${importados} palpites!<br>
-                        ${erros.length > 0 ? `⚠️ ${erros.length} erros: ${erros.join(', ')}` : ''}
-                    </div>
-                `;
-                
-                carregarListaJogos();
-                carregarSelectJogador();
-                carregarResultados();
-                carregarRanking();
-                
-                alert(`${importados} palpites importados com sucesso!`);
-                fileInput.value = '';
-            };
-            reader.readAsArrayBuffer(file);
-        }
-
-        function carregarSelectJogador() {
-            const select = document.getElementById('selectJogador');
-            select.innerHTML = '<option value="">Selecione um jogador...</option>';
-            
-            for (const [username, user] of Object.entries(USUARIOS)) {
-                if (username !== 'admin') {
-                    select.innerHTML += `<option value="${username}">${user.nome}</option>`;
-                }
-            }
-        }
-
-        function carregarApostasJogador() {
-            const jogador = document.getElementById('selectJogador').value;
-            const container = document.getElementById('apostasJogador');
-            
-            if (!jogador) {
-                container.innerHTML = '';
-                return;
-            }
-            
-            dados = lerDados();
-            container.innerHTML = '<h4 style="margin-bottom: 10px;">Apostas do jogador</h4>';
-            
-            dados.jogos.forEach(jogo => {
-                const palpiteKey = `${jogo.id}_${jogador}`;
-                const palpite = dados.palpites[palpiteKey] || {};
-                
-                const div = document.createElement('div');
-                div.className = 'resultado-item';
-                div.innerHTML = `
-                    <div><strong>${jogo.timeCasa} x ${jogo.timeFora}</strong></div>
-                    <div>
-                        <input type="number" id="edit_casa_${jogo.id}" class="bet-input" value="${palpite.casa || ''}" placeholder="0">
-                        <span>x</span>
-                        <input type="number" id="edit_fora_${jogo.id}" class="bet-input" value="${palpite.fora || ''}" placeholder="0">
-                    </div>
-                `;
-                container.appendChild(div);
-            });
-            
-            const saveBtn = document.createElement('button');
-            saveBtn.className = 'btn-primary btn-block';
-            saveBtn.innerHTML = '💾 Salvar Apostas deste Jogador';
-            saveBtn.onclick = () => salvarApostasJogador(jogador);
-            container.appendChild(saveBtn);
-        }
-
-        function salvarApostasJogador(jogador) {
-            dados = lerDados();
-            let salvos = 0;
-            
-            dados.jogos.forEach(jogo => {
-                const casaInput = document.getElementById(`edit_casa_${jogo.id}`);
-                const foraInput = document.getElementById(`edit_fora_${jogo.id}`);
-                
-                if (casaInput && foraInput && casaInput.value && foraInput.value) {
-                    const palpiteKey = `${jogo.id}_${jogador}`;
-                    dados.palpites[palpiteKey] = {
-                        casa: parseInt(casaInput.value),
-                        fora: parseInt(foraInput.value)
-                    };
-                    salvos++;
-                }
-            });
-            
-            salvarDados(dados);
-            alert(`${salvos} apostas salvas!`);
-        }
-
-        // ============================================
-        // RESULTADOS
-        // ============================================
-        function carregarResultados() {
-            dados = lerDados();
-            const container = document.getElementById('formResultados');
-            container.innerHTML = '';
-            
-            if (dados.jogos.length === 0) {
-                container.innerHTML = '<div style="text-align:center; padding:20px;">Nenhum jogo cadastrado</div>';
-                return;
-            }
-            
-            dados.jogos.forEach(jogo => {
-                const resultado = dados.resultados[jogo.id] || {};
-                
-                const div = document.createElement('div');
-                div.className = 'resultado-item';
-                div.innerHTML = `
-                    <div><strong>${jogo.timeCasa} 🆚 ${jogo.timeFora}</strong></div>
-                    <div>
-                        <input type="number" id="res_casa_${jogo.id}" class="bet-input" value="${resultado.casa || ''}" placeholder="0">
-                        <span>x</span>
-                        <input type="number" id="res_fora_${jogo.id}" class="bet-input" value="${resultado.fora || ''}" placeholder="0">
-                    </div>
-                `;
-                container.appendChild(div);
-            });
-        }
-
-        function salvarResultados() {
-            dados = lerDados();
-            const novosResultados = {};
-            
-            dados.jogos.forEach(jogo => {
-                const casaInput = document.getElementById(`res_casa_${jogo.id}`);
-                const foraInput = document.getElementById(`res_fora_${jogo.id}`);
-                
-                if (casaInput && foraInput && casaInput.value && foraInput.value) {
-                    novosResultados[jogo.id] = {
-                        casa: parseInt(casaInput.value),
-                        fora: parseInt(foraInput.value)
-                    };
-                }
-            });
-            
-            dados.resultados = novosResultados;
-            salvarDados(dados);
-            alert('Resultados salvos! Ranking atualizado.');
-        }
-
-        // ============================================
-        // RANKING
-        // ============================================
-        function calcularRanking() {
-            dados = lerDados();
-            const ranking = [];
-            
-            for (const [username, user] of Object.entries(USUARIOS)) {
-                if (username === 'admin') continue;
-                
-                let pontos = 0;
-                let placaresExatos = 0;
-                let resultadosCorretos = 0;
-                
-                for (const jogo of dados.jogos) {
-                    const palpiteKey = `${jogo.id}_${username}`;
-                    const palpite = dados.palpites[palpiteKey];
-                    const resultado = dados.resultados[jogo.id];
-                    
-                    if (palpite && resultado) {
-                        if (palpite.casa === resultado.casa && palpite.fora === resultado.fora) {
-                            pontos += 3;
-                            placaresExatos++;
-                        } else {
-                            const palpiteVencedor = palpite.casa > palpite.fora ? 'casa' : (palpite.casa < palpite.fora ? 'fora' : 'empate');
-                            const resultadoVencedor = resultado.casa > resultado.fora ? 'casa' : (resultado.casa < resultado.fora ? 'fora' : 'empate');
-                            if (palpiteVencedor === resultadoVencedor) {
-                                pontos += 1;
-                                resultadosCorretos++;
-                            }
-                        }
-                    }
-                }
-                
-                ranking.push({
-                    nome: user.nome,
-                    pontos,
-                    placaresExatos,
-                    resultadosCorretos
+                jogosContainer.innerHTML = '<div style="text-align:center; padding:20px;">Nenhum jogo cadastrado</div>';
+            } else {
+                jogosContainer.innerHTML = '';
+                dados.jogos.forEach(jogo => {
+                    const div = document.createElement('div');
+                    div.className = 'jogo-item';
+                    div.innerHTML = `
+                        <div>
+                            <strong>${jogo.timeCasa} 🆚 ${jogo.timeFora}</strong>
+                            <div style="font-size:0.75rem; color:#666;">📅 ${jogo.data || 'Data não definida'}</div>
+                            ${dados.resultados[jogo.id] ? `<div style="font-size:0.75rem; color:#2e7d32;">🏁 Resultado: ${dados.resultados[jogo.id].casa} x ${dados.resultados[jogo.id].fora}</div>` : ''}
+                        </div>
+                    `;
+                    jogosContainer.appendChild(div);
                 });
             }
             
-            ranking.sort((a, b) => {
-                if (a.pontos !== b.pontos) return b.pontos - a.pontos;
-                return b.placaresExatos - a.placaresExatos;
-            });
-            
-            return ranking;
-        }
-
-        function carregarRanking() {
-            const ranking = calcularRanking();
-            const container = document.getElementById('rankingContainer');
-            
-            if (ranking.length === 0) {
-                container.innerHTML = '<div style="text-align:center; padding:20px;">Aguardando dados...</div>';
-                return;
-            }
-            
-            let html = '<table class="ranking-table"><thead><tr><th>Pos</th><th>Jogador</th><th>Pontos</th><th>Placar Exato</th><th>Resultado</th></tr></thead><tbody>';
-            
-            ranking.forEach((item, idx) => {
-                const medalha = idx === 0 ? '🥇' : (idx === 1 ? '🥈' : (idx === 2 ? '🥉' : `${idx+1}º`));
-                html += `<tr>
-                            <td>${medalha}</td>
-                            <td><strong>${item.nome}</strong></td>
-                            <td class="pontos">${item.pontos}</td>
-                            <td>${item.placaresExatos}</td>
-                            <td>${item.resultadosCorretos}</td>
-                         </tr>`;
-            });
-            
-            html += '</tbody></table>';
-            container.innerHTML = html;
-        }
-
-        // ============================================
-        // INICIALIZAÇÃO
-        // ============================================
-        function init() {
-            if (!verificarLogin()) return;
-            carregarListaJogos();
-            carregarSelectJogador();
-            carregarResultados();
-            carregarRanking();
-            
-            // Sistema de abas
-            document.querySelectorAll('.tab').forEach(tab => {
-                tab.addEventListener('click', () => {
-                    const tabId = tab.dataset.tab;
-                    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-                    document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
-                    tab.classList.add('active');
-                    document.getElementById(`tab-${tabId}`).classList.add('active');
-                    
-                    if (tabId === 'apostas') {
-                        carregarSelectJogador();
-                    }
-                });
-            });
+            // Status
+            const statusContainer = document.getElementById('statusContainer');
+            const totalApostas = Object.keys(dados.palpites).length;
+            const totalJogadores = Object.keys(USUARIOS).filter(u => u !== 'admin').length;
+            statusContainer.innerHTML = `
+                <div style="display: flex; gap: 20px; flex-wrap: wrap;">
+                    <div style="background: #f8fafc; padding: 15px; border-radius: 12px; flex: 1; text-align: center;">
+                        <div style="font-size: 2rem;">📋</div>
+                        <div style="font-weight: bold;">${dados.jogos.length}</div>
+                        <div style="font-size: 0.75rem;">Jogos</div>
+                    </div>
+                    <div style="background: #f8fafc; padding: 15px; border-radius: 12px; flex: 1; text-align: center;">
+                        <div style="font-size: 2rem;">📝</div>
+                        <div style="font-weight: bold;">${totalApostas}</div>
+                        <div style="font-size: 0.75rem;">Apostas</div>
+                    </div>
+                    <div style="background: #f8fafc; padding: 15px; border-radius: 12px; flex: 1; text-align: center;">
+                        <div style="font-size: 2rem;">👥</div>
+                        <div style="font-weight: bold;">${totalJogadores}</div>
+                        <div style="font-size: 0.75rem;">Jogadores</div>
+                    </div>
+                </div>
+            `;
         }
         
-        window.adicionarJogo = adicionarJogo;
-        window.removerJogo = removerJogo;
-        window.importarExcel = importarExcel;
-        window.carregarApostasJogador = carregarApostasJogador;
-        window.salvarResultados = salvarResultados;
-        
-        document.addEventListener('DOMContentLoaded', init);
+        setTimeout(carregarPagina, 500);
     </script>
 </body>
 </html>

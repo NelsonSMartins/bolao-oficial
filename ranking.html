@@ -5,18 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <title>Ranking - Bolão Copa 2026</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
+        * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
             background: #f5f7fa;
             color: #1e293b;
         }
-
         .navbar {
             background: white;
             border-bottom: 1px solid #e2e8f0;
@@ -25,7 +19,6 @@
             top: 0;
             z-index: 100;
         }
-
         .navbar-container {
             max-width: 600px;
             margin: 0 auto;
@@ -33,38 +26,16 @@
             justify-content: space-between;
             align-items: center;
         }
-
-        .logo {
-            font-size: 1.2rem;
-            font-weight: bold;
-            color: #1a5f7a;
-            text-decoration: none;
-        }
-
-        .nav-links {
-            display: flex;
-            gap: 15px;
-            align-items: center;
-        }
-
+        .logo { font-size: 1.2rem; font-weight: bold; color: #1a5f7a; text-decoration: none; }
+        .nav-links { display: flex; gap: 15px; align-items: center; }
         .nav-links a {
             color: #64748b;
             text-decoration: none;
             padding: 6px 12px;
             border-radius: 20px;
         }
-
-        .nav-links a.active {
-            background: #1a5f7a;
-            color: white;
-        }
-
-        .container {
-            max-width: 600px;
-            margin: 0 auto;
-            padding: 20px;
-        }
-
+        .nav-links a.active { background: #1a5f7a; color: white; }
+        .container { max-width: 600px; margin: 0 auto; padding: 20px; }
         .card {
             background: white;
             border-radius: 16px;
@@ -72,38 +43,13 @@
             margin-bottom: 20px;
             box-shadow: 0 2px 8px rgba(0,0,0,0.05);
         }
-
-        .card-header {
-            padding: 15px 20px;
-            font-weight: bold;
-            background: white;
-            border-bottom: 1px solid #e2e8f0;
-        }
-
-        .card-body {
-            padding: 20px;
-        }
-
-        .ranking-table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-
-        .ranking-table th, .ranking-table td {
-            padding: 12px;
-            text-align: left;
-            border-bottom: 1px solid #e2e8f0;
-        }
-
-        .ranking-table th {
-            background: #f8fafc;
-        }
-
-        .pontos {
-            font-weight: bold;
-            color: #1a5f7a;
-            font-size: 1.1rem;
-        }
+        .card-header { padding: 15px 20px; font-weight: bold; background: white; border-bottom: 1px solid #e2e8f0; }
+        .card-body { padding: 20px; }
+        .ranking-table { width: 100%; border-collapse: collapse; }
+        .ranking-table th, .ranking-table td { padding: 12px; text-align: left; border-bottom: 1px solid #e2e8f0; }
+        .ranking-table th { background: #f8fafc; }
+        .pontos { font-weight: bold; color: #1a5f7a; font-size: 1.1rem; }
+        .loading { text-align: center; padding: 40px; color: #64748b; }
     </style>
 </head>
 <body>
@@ -122,69 +68,32 @@
     <main class="container">
         <div class="card">
             <div class="card-header">🏆 Ranking do Bolão</div>
-            <div class="card-body" id="rankingContainer"></div>
+            <div class="card-body" id="rankingContainer">
+                <div class="loading">⏳ Carregando dados...</div>
+            </div>
         </div>
     </main>
 
+    <script src="https://cdn.sheetjs.com/xlsx-0.20.2/package/dist/xlsx.full.min.js"></script>
+    <script src="js/config.js"></script>
+    <script src="js/app.js"></script>
     <script>
-        const STORAGE_KEY = 'bolao_copa_dados';
-
-        const USUARIOS = {
-            'admin': { senha: 'admin123', nome: 'Administrador' },
-            'Nelson': { senha: 'lider', nome: 'Nelson' },
-            'Douglas': { senha: 'doug123', nome: 'Douglas' },
-            'Alexandre': { senha: 'alex123', nome: 'Alexandre' },
-            'Alcy': { senha: 'alcy123', nome: 'Alcy' },
-            'Carla': { senha: 'carla123', nome: 'Carla' },
-            'Thiago': { senha: 'thiago123', nome: 'Thiago' },
-            'Ronaldo': { senha: 'ronaldo123', nome: 'Ronaldo' },
-            'Kelly': { senha: 'kelly123', nome: 'Kelly' },
-            'Ana': { senha: 'ana123', nome: 'Ana' },
-            'Carmem': { senha: 'carmem123', nome: 'Carmem' },
-            'Rogéria': { senha: 'rogeria123', nome: 'Rogéria' },
-            'Carol': { senha: 'carol123', nome: 'Carol' },
-            'Márcio': { senha: 'marcio123', nome: 'Márcio' },
-            'Raphael': { senha: 'raphael123', nome: 'Raphael' },
-            'Julio': { senha: 'julio123', nome: 'Julio' },
-            'Elyseu': { senha: 'elyseu123', nome: 'Elyseu' }
-        };
-
-        function lerDados() {
-            const dadosStr = localStorage.getItem(STORAGE_KEY);
-            if (dadosStr) return JSON.parse(dadosStr);
-            return { jogos: [], palpites: {}, resultados: {} };
-        }
-
-        function verificarLogin() {
-            const usuario = localStorage.getItem('usuarioLogado');
-            if (!usuario) {
-                window.location.href = 'index.html';
-                return null;
-            }
-            return JSON.parse(usuario);
-        }
-
         function logout() {
             localStorage.removeItem('usuarioLogado');
             window.location.href = 'index.html';
         }
 
-        function calcularRanking() {
-            const dados = lerDados();
+        function calcularRanking(dados) {
             const ranking = [];
-            
             for (const [username, user] of Object.entries(USUARIOS)) {
                 if (username === 'admin') continue;
-                
                 let pontos = 0;
                 let placaresExatos = 0;
                 let resultadosCorretos = 0;
-                
                 for (const jogo of dados.jogos) {
                     const palpiteKey = `${jogo.id}_${username}`;
                     const palpite = dados.palpites[palpiteKey];
                     const resultado = dados.resultados[jogo.id];
-                    
                     if (palpite && resultado) {
                         if (palpite.casa === resultado.casa && palpite.fora === resultado.fora) {
                             pontos += 3;
@@ -199,30 +108,26 @@
                         }
                     }
                 }
-                
-                ranking.push({
-                    nome: user.nome,
-                    pontos,
-                    placaresExatos,
-                    resultadosCorretos
-                });
+                ranking.push({ nome: user.nome, pontos, placaresExatos, resultadosCorretos });
             }
-            
             ranking.sort((a, b) => {
                 if (a.pontos !== b.pontos) return b.pontos - a.pontos;
                 return b.placaresExatos - a.placaresExatos;
             });
-            
             return ranking;
         }
 
-        function carregarRanking() {
-            const usuario = verificarLogin();
-            if (!usuario) return;
+        async function carregarPagina() {
+            const usuario = localStorage.getItem('usuarioLogado');
+            if (!usuario) {
+                window.location.href = 'index.html';
+                return;
+            }
+            const user = JSON.parse(usuario);
+            document.getElementById('userName').innerHTML = user.nome;
             
-            document.getElementById('userName').innerHTML = usuario.nome;
-            
-            const ranking = calcularRanking();
+            const dados = await lerDados();
+            const ranking = calcularRanking(dados);
             const container = document.getElementById('rankingContainer');
             
             if (ranking.length === 0) {
@@ -231,7 +136,6 @@
             }
             
             let html = '<table class="ranking-table"><thead><tr><th>Pos</th><th>Jogador</th><th>Pontos</th><th>Placar Exato</th><th>Resultado</th></tr></thead><tbody>';
-            
             ranking.forEach((item, idx) => {
                 const medalha = idx === 0 ? '🥇' : (idx === 1 ? '🥈' : (idx === 2 ? '🥉' : `${idx+1}º`));
                 html += `<tr>
@@ -240,14 +144,13 @@
                             <td class="pontos">${item.pontos}</td>
                             <td>${item.placaresExatos}</td>
                             <td>${item.resultadosCorretos}</td>
-                         </tr>`;
+                          </tr>`;
             });
-            
             html += '</tbody></table>';
             container.innerHTML = html;
         }
-
-        document.addEventListener('DOMContentLoaded', carregarRanking);
+        
+        setTimeout(carregarPagina, 500);
     </script>
 </body>
 </html>

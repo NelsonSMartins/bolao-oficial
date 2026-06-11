@@ -5,18 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <title>Meus Palpites - Bolão Copa 2026</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
+        * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
             background: #f5f7fa;
             color: #1e293b;
         }
-
         .navbar {
             background: white;
             border-bottom: 1px solid #e2e8f0;
@@ -25,7 +19,6 @@
             top: 0;
             z-index: 100;
         }
-
         .navbar-container {
             max-width: 600px;
             margin: 0 auto;
@@ -33,38 +26,16 @@
             justify-content: space-between;
             align-items: center;
         }
-
-        .logo {
-            font-size: 1.2rem;
-            font-weight: bold;
-            color: #1a5f7a;
-            text-decoration: none;
-        }
-
-        .nav-links {
-            display: flex;
-            gap: 15px;
-            align-items: center;
-        }
-
+        .logo { font-size: 1.2rem; font-weight: bold; color: #1a5f7a; text-decoration: none; }
+        .nav-links { display: flex; gap: 15px; align-items: center; }
         .nav-links a {
             color: #64748b;
             text-decoration: none;
             padding: 6px 12px;
             border-radius: 20px;
         }
-
-        .nav-links a.active {
-            background: #1a5f7a;
-            color: white;
-        }
-
-        .container {
-            max-width: 600px;
-            margin: 0 auto;
-            padding: 20px;
-        }
-
+        .nav-links a.active { background: #1a5f7a; color: white; }
+        .container { max-width: 600px; margin: 0 auto; padding: 20px; }
         .card {
             background: white;
             border-radius: 16px;
@@ -72,18 +43,8 @@
             margin-bottom: 20px;
             box-shadow: 0 2px 8px rgba(0,0,0,0.05);
         }
-
-        .card-header {
-            padding: 15px 20px;
-            font-weight: bold;
-            background: white;
-            border-bottom: 1px solid #e2e8f0;
-        }
-
-        .card-body {
-            padding: 20px;
-        }
-
+        .card-header { padding: 15px 20px; font-weight: bold; background: white; border-bottom: 1px solid #e2e8f0; }
+        .card-body { padding: 20px; }
         .palpite-item {
             background: #f8fafc;
             padding: 15px;
@@ -95,53 +56,13 @@
             flex-wrap: wrap;
             gap: 10px;
         }
-
-        .palpite-jogo {
-            font-weight: bold;
-            flex: 1;
-        }
-
-        .palpite-valor {
-            font-size: 1.2rem;
-            font-weight: bold;
-            color: #1a5f7a;
-        }
-
-        .resultado {
-            font-size: 0.75rem;
-            color: #64748b;
-            margin-top: 5px;
-        }
-
-        .badge-acertou {
-            background: #2e7d32;
-            color: white;
-            padding: 2px 8px;
-            border-radius: 20px;
-            font-size: 0.7rem;
-            display: inline-block;
-            margin-left: 8px;
-        }
-
-        .badge-parcial {
-            background: #ed6c02;
-            color: white;
-            padding: 2px 8px;
-            border-radius: 20px;
-            font-size: 0.7rem;
-            display: inline-block;
-            margin-left: 8px;
-        }
-
-        .badge-errou {
-            background: #d32f2f;
-            color: white;
-            padding: 2px 8px;
-            border-radius: 20px;
-            font-size: 0.7rem;
-            display: inline-block;
-            margin-left: 8px;
-        }
+        .palpite-jogo { font-weight: bold; flex: 1; }
+        .palpite-valor { font-size: 1.2rem; font-weight: bold; color: #1a5f7a; }
+        .resultado { font-size: 0.75rem; color: #64748b; margin-top: 5px; }
+        .badge-acertou { background: #2e7d32; color: white; padding: 2px 8px; border-radius: 20px; font-size: 0.7rem; display: inline-block; margin-left: 8px; }
+        .badge-parcial { background: #ed6c02; color: white; padding: 2px 8px; border-radius: 20px; font-size: 0.7rem; display: inline-block; margin-left: 8px; }
+        .badge-errou { background: #d32f2f; color: white; padding: 2px 8px; border-radius: 20px; font-size: 0.7rem; display: inline-block; margin-left: 8px; }
+        .loading { text-align: center; padding: 40px; color: #64748b; }
     </style>
 </head>
 <body>
@@ -160,48 +81,16 @@
     <main class="container">
         <div class="card">
             <div class="card-header">📝 Meus Palpites</div>
-            <div class="card-body" id="palpitesContainer"></div>
+            <div class="card-body" id="palpitesContainer">
+                <div class="loading">⏳ Carregando dados...</div>
+            </div>
         </div>
     </main>
 
+    <script src="https://cdn.sheetjs.com/xlsx-0.20.2/package/dist/xlsx.full.min.js"></script>
+    <script src="js/config.js"></script>
+    <script src="js/app.js"></script>
     <script>
-        const STORAGE_KEY = 'bolao_copa_dados';
-
-        const USUARIOS = {
-            'admin': { senha: 'admin123', nome: 'Administrador' },
-            'Nelson': { senha: 'lider', nome: 'Nelson' },
-            'Douglas': { senha: 'doug123', nome: 'Douglas' },
-            'Alexandre': { senha: 'alex123', nome: 'Alexandre' },
-            'Alcy': { senha: 'alcy123', nome: 'Alcy' },
-            'Carla': { senha: 'carla123', nome: 'Carla' },
-            'Thiago': { senha: 'thiago123', nome: 'Thiago' },
-            'Ronaldo': { senha: 'ronaldo123', nome: 'Ronaldo' },
-            'Kelly': { senha: 'kelly123', nome: 'Kelly' },
-            'Ana': { senha: 'ana123', nome: 'Ana' },
-            'Carmem': { senha: 'carmem123', nome: 'Carmem' },
-            'Rogéria': { senha: 'rogeria123', nome: 'Rogéria' },
-            'Carol': { senha: 'carol123', nome: 'Carol' },
-            'Márcio': { senha: 'marcio123', nome: 'Márcio' },
-            'Raphael': { senha: 'raphael123', nome: 'Raphael' },
-            'Julio': { senha: 'julio123', nome: 'Julio' },
-            'Elyseu': { senha: 'elyseu123', nome: 'Elyseu' }
-        };
-
-        function lerDados() {
-            const dadosStr = localStorage.getItem(STORAGE_KEY);
-            if (dadosStr) return JSON.parse(dadosStr);
-            return { jogos: [], palpites: {}, resultados: {} };
-        }
-
-        function verificarLogin() {
-            const usuario = localStorage.getItem('usuarioLogado');
-            if (!usuario) {
-                window.location.href = 'index.html';
-                return null;
-            }
-            return JSON.parse(usuario);
-        }
-
         function logout() {
             localStorage.removeItem('usuarioLogado');
             window.location.href = 'index.html';
@@ -210,24 +99,25 @@
         function calcularPontos(palpite, resultado) {
             if (!palpite || !resultado) return 0;
             if (palpite.casa === resultado.casa && palpite.fora === resultado.fora) return 3;
-            
             const palpiteVencedor = palpite.casa > palpite.fora ? 'casa' : (palpite.casa < palpite.fora ? 'fora' : 'empate');
             const resultadoVencedor = resultado.casa > resultado.fora ? 'casa' : (resultado.casa < resultado.fora ? 'fora' : 'empate');
-            
             return palpiteVencedor === resultadoVencedor ? 1 : 0;
         }
 
-        function carregarPalpites() {
-            const usuario = verificarLogin();
-            if (!usuario) return;
+        async function carregarPagina() {
+            const usuario = localStorage.getItem('usuarioLogado');
+            if (!usuario) {
+                window.location.href = 'index.html';
+                return;
+            }
+            const user = JSON.parse(usuario);
+            document.getElementById('userName').innerHTML = user.nome;
             
-            document.getElementById('userName').innerHTML = usuario.nome;
-            
-            const dados = lerDados();
+            const dados = await lerDados();
             const container = document.getElementById('palpitesContainer');
             container.innerHTML = '';
             
-            if (dados.jogos.length === 0) {
+            if (!dados.jogos || dados.jogos.length === 0) {
                 container.innerHTML = '<div style="text-align:center; padding:20px;">Nenhum jogo cadastrado ainda.</div>';
                 return;
             }
@@ -235,7 +125,7 @@
             const jogosOrdenados = [...dados.jogos].sort((a,b) => (a.data || '').localeCompare(b.data || ''));
             
             for (const jogo of jogosOrdenados) {
-                const palpiteKey = `${jogo.id}_${usuario.username}`;
+                const palpiteKey = `${jogo.id}_${user.username}`;
                 const palpite = dados.palpites[palpiteKey];
                 const resultado = dados.resultados[jogo.id];
                 
@@ -272,8 +162,9 @@
                 container.appendChild(div);
             }
         }
-
-        document.addEventListener('DOMContentLoaded', carregarPalpites);
+        
+        // Aguardar app.js carregar os dados
+        setTimeout(carregarPagina, 500);
     </script>
 </body>
 </html>

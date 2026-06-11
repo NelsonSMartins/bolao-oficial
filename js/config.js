@@ -1,7 +1,7 @@
 // Configuração
 const STORAGE_KEY = 'bolao_copa_dados';
 
-// Usuários (só quem pode acessar)
+// Usuários
 const USUARIOS = {
     'admin': { senha: 'admin123', nome: 'Administrador' },
     'Nelson': { senha: 'lider', nome: 'Nelson' },
@@ -22,12 +22,4 @@ const USUARIOS = {
     'Elyseu': { senha: 'elyseu123', nome: 'Elyseu' }
 };
 
-// Estrutura inicial dos dados
-const DADOS_PADRAO = {
-    jogos: [],
-    palpites: {},     // { "jogoId_usuario": { casa, fora } }
-    resultados: {},   // { "jogoId": { casa, fora } }
-    proximoJogoId: 1
-};
-
-let usuarioLogado = null;
+let dadosCache = null;
