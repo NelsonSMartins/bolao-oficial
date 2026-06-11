@@ -11,11 +11,11 @@ async function carregarAdmin() {
     dados = await lerDadosGitHub();
     if (!dados) {
         dados = {
-            jogos: [],
+            jogos: JOGOS_PADRAO,
             palpites: [],
             resultados: {},
             editoresLiberados: [],
-            proximoJogoId: 1
+            proximoJogoId: 49
         };
     }
     
@@ -40,16 +40,37 @@ function carregarListaJogos() {
         jogoDiv.className = 'jogo-card';
         jogoDiv.innerHTML = `
             <div class="row align-items-center">
-                <div class="col-8">
+                <div class="col-7">
                     <strong>${jogo.timeCasa} x ${jogo.timeFora}</strong>
+                    <br><small class="text-muted">${formatarDataAdmin(jogo.data)}</small>
                 </div>
-                <div class="col-4 text-end">
+                <div class="col-5 text-end">
                     <button class="btn btn-danger btn-sm" onclick="removerJogo(${jogo.id})">Remover</button>
                 </div>
             </div>
         `;
         container.appendChild(jogoDiv);
     });
+}
+
+function formatarDataAdmin(dataStr) {
+    if (!dataStr) return '';
+    const datas = {
+        '2026-06-11': '11/06',
+        '2026-06-12': '12/06',
+        '2026-06-13': '13/06',
+        '2026-06-14': '14/06',
+        '2026-06-15': '15/06',
+        '2026-06-16': '16/06',
+        '2026-06-17': '17/06',
+        '2026-06-18': '18/06',
+        '2026-06-19': '19/06',
+        '2026-06-20': '20/06',
+        '2026-06-21': '21/06',
+        '2026-06-22': '22/06',
+        '2026-06-23': '23/06'
+    };
+    return datas[dataStr] || dataStr;
 }
 
 function adicionarJogo() {
@@ -73,6 +94,7 @@ function adicionarJogo() {
         id: dados.proximoJogoId++,
         timeCasa: timeCasaValue,
         timeFora: timeForaValue,
+        data: new Date().toISOString().split('T')[0],
         ativo: true
     });
     
@@ -85,8 +107,10 @@ function adicionarJogo() {
 }
 
 function removerJogo(id) {
-    if (confirm('Remover este jogo?')) {
+    if (confirm('Remover este jogo? Isso também removerá todos os palpites relacionados.')) {
         dados.jogos = dados.jogos.filter(j => j.id !== id);
+        dados.palpites = dados.palpites.filter(p => p.jogoId !== id);
+        delete dados.resultados[id];
         salvarDadosGitHub(dados);
         carregarListaJogos();
         carregarResultados();
@@ -105,51 +129,117 @@ function carregarResultados() {
         return;
     }
     
+    // Agrupar por data
+    const jogosPorData = {};
     dados.jogos.forEach(jogo => {
-        const resultado = dados.resultados[jogo.id] || {};
-        
-        const div = document.createElement('div');
-        div.className = 'jogo-card';
-        div.innerHTML = `
-            <strong>${jogo.timeCasa} x ${jogo.timeFora}</strong>
-            <div class="row mt-2">
-                <div class="col-5">
-                    <input type="number" id="res_casa_${jogo.id}" class="form-control" 
-                           value="${resultado.casa !== undefined ? resultado.casa : ''}" 
-                           placeholder="Gols Casa" min="0" step="1">
-                </div>
-                <div class="col-2 text-center pt-2">x</div>
-                <div class="col-5">
-                    <input type="number" id="res_fora_${jogo.id}" class="form-control" 
-                           value="${resultado.fora !== undefined ? resultado.fora : ''}" 
-                           placeholder="Gols Fora" min="0" step="1">
-                </div>
-            </div>
-        `;
-        container.appendChild(div);
+        const data = jogo.data || '2026-06';
+        if (!jogosPorData[data]) {
+            jogosPorData[data] = [];
+        }
+        jogosPorData[data].push(jogo);
     });
+    
+    const datasOrdenadas = Object.keys(jogosPorData).sort();
+    
+    datasOrdenadas.forEach(data => {
+        const dataGroup = document.createElement('div');
+        dataGroup.className = 'card mb-3';
+        dataGroup.innerHTML = `<div class="card-header bg-secondary text-white">📅 ${formatarDataAdmin(data)}</div>`;
+        
+        const dataBody = document.createElement('div');
+        dataBody.className = 'card-body';
+        
+        jogosPorData[data].forEach(jogo => {
+            const resultado = dados.resultados[jogo.id] || {};
+            
+            const div = document.createElement('div');
+            div.className = 'jogo-card';
+            div.innerHTML = `
+                <strong>${jogo.timeCasa} x ${jogo.timeFora}</strong>
+                <div class="row mt-2">
+                    <div class="col-4">
+                        <input type="number" id="res_casa_${jogo.id}" class="form-control" 
+                               value="${resultado.casa !== undefined ? resultado.casa : ''}" 
+                               placeholder="Gols Casa" min="0" step="1" 
+                               onchange="validarPlacar(${jogo.id})">
+                    </div>
+                    <div class="col-1 text-center pt-2">x</div>
+                    <div class="col-4">
+                        <input type="number" id="res_fora_${jogo.id}" class="form-control" 
+                               value="${resultado.fora !== undefined ? resultado.fora : ''}" 
+                               placeholder="Gols Fora" min="0" step="1"
+                               onchange="validarPlacar(${jogo.id})">
+                    </div>
+                    <div class="col-3">
+                        <span id="valid_${jogo.id}" class="badge bg-success" style="display:none">✓ Válido</span>
+                        <span id="invalid_${jogo.id}" class="badge bg-danger" style="display:none">⚠️ Inválido</span>
+                    </div>
+                </div>
+            `;
+            dataBody.appendChild(div);
+        });
+        
+        dataGroup.appendChild(dataBody);
+        container.appendChild(dataGroup);
+    });
+}
+
+function validarPlacar(jogoId) {
+    const casaInput = document.getElementById(`res_casa_${jogoId}`);
+    const foraInput = document.getElementById(`res_fora_${jogoId}`);
+    const validSpan = document.getElementById(`valid_${jogoId}`);
+    const invalidSpan = document.getElementById(`invalid_${jogoId}`);
+    
+    if (casaInput && foraInput && casaInput.value !== '' && foraInput.value !== '') {
+        const casa = parseInt(casaInput.value);
+        const fora = parseInt(foraInput.value);
+        
+        if (casa >= 0 && fora >= 0 && casa <= 30 && fora <= 30) {
+            validSpan.style.display = 'inline-block';
+            invalidSpan.style.display = 'none';
+        } else {
+            validSpan.style.display = 'none';
+            invalidSpan.style.display = 'inline-block';
+            showError('Placar inválido! Os gols devem estar entre 0 e 30.');
+        }
+    } else {
+        validSpan.style.display = 'none';
+        invalidSpan.style.display = 'none';
+    }
 }
 
 async function salvarResultados() {
     const novosResultados = {};
+    let invalido = false;
     
     for (const jogo of dados.jogos) {
         const casaInput = document.getElementById(`res_casa_${jogo.id}`);
         const foraInput = document.getElementById(`res_fora_${jogo.id}`);
         
         if (casaInput && foraInput && casaInput.value !== '' && foraInput.value !== '') {
-            novosResultados[jogo.id] = {
-                casa: parseInt(casaInput.value),
-                fora: parseInt(foraInput.value)
-            };
+            const casa = parseInt(casaInput.value);
+            const fora = parseInt(foraInput.value);
+            
+            if (casa >= 0 && casa <= 30 && fora >= 0 && fora <= 30) {
+                novosResultados[jogo.id] = {
+                    casa: casa,
+                    fora: fora
+                };
+            } else {
+                invalido = true;
+                showError(`Placar inválido para ${jogo.timeCasa} x ${jogo.timeFora}`);
+            }
         }
     }
+    
+    if (invalido) return;
     
     dados.resultados = novosResultados;
     const sucesso = await salvarDadosGitHub(dados);
     
     if (sucesso) {
         showSuccess('Resultados salvos! Ranking atualizado.');
+        carregarResultados();
     }
 }
 
@@ -159,6 +249,17 @@ function carregarListaParticipantes() {
     
     container.innerHTML = '';
     
+    // Botão para limpar todos os palpites
+    const clearAllBtn = document.createElement('div');
+    clearAllBtn.className = 'alert alert-warning mb-3';
+    clearAllBtn.innerHTML = `
+        <strong>⚠️ Atenção Administrador:</strong>
+        <button class="btn btn-danger btn-sm float-end" onclick="limparTodosPalpites()">🗑️ Limpar Todos os Palpites</button>
+        <div class="clearfix"></div>
+        <small class="text-muted">Isso remove TODOS os palpites de TODOS os participantes. Use com cuidado!</small>
+    `;
+    container.appendChild(clearAllBtn);
+    
     let participantesEncontrados = false;
     
     for (const [username, userInfo] of Object.entries(USUARIOS)) {
@@ -166,24 +267,32 @@ function carregarListaParticipantes() {
         
         participantesEncontrados = true;
         const estaLiberado = dados.editoresLiberados && dados.editoresLiberados.includes(username);
+        const qtdPalpites = dados.palpites.filter(p => p.usuario === username).length;
         
         const div = document.createElement('div');
         div.className = 'jogo-card';
         div.innerHTML = `
             <div class="row align-items-center">
-                <div class="col-5">
+                <div class="col-4">
                     <strong>${userInfo.nome}</strong><br>
                     <small class="text-muted">${username}</small>
+                </div>
+                <div class="col-2">
+                    <span class="badge bg-info">${qtdPalpites} palpites</span>
                 </div>
                 <div class="col-3">
                     <span class="${estaLiberado ? 'text-success' : 'text-danger'}">
                         ${estaLiberado ? '✅ Liberado' : '🔒 Bloqueado'}
                     </span>
                 </div>
-                <div class="col-4">
-                    <button class="btn btn-sm ${estaLiberado ? 'btn-warning' : 'btn-success'} w-100" 
+                <div class="col-3">
+                    <button class="btn btn-sm ${estaLiberado ? 'btn-warning' : 'btn-success'} w-100 mb-1" 
                             onclick="liberarParticipante('${username}')">
                         ${estaLiberado ? 'Bloquear' : 'Liberar'}
+                    </button>
+                    <button class="btn btn-sm btn-outline-danger w-100" 
+                            onclick="limparPalpitesParticipante('${username}')">
+                        Limpar Palpites
                     </button>
                 </div>
             </div>
@@ -213,10 +322,35 @@ function liberarParticipante(username) {
 }
 
 function liberarTodos() {
-    dados.editoresLiberados = Object.keys(USUARIOS).filter(u => u !== 'admin');
-    salvarDadosGitHub(dados);
-    carregarListaParticipantes();
-    showSuccess('Todos os participantes foram liberados!');
+    if (confirm('Liberar TODOS os participantes para editar?')) {
+        dados.editoresLiberados = Object.keys(USUARIOS).filter(u => u !== 'admin');
+        salvarDadosGitHub(dados);
+        carregarListaParticipantes();
+        showSuccess('Todos os participantes foram liberados!');
+    }
+}
+
+function limparPalpitesParticipante(username) {
+    if (confirm(`Remover TODOS os palpites de ${username}? Esta ação não pode ser desfeita.`)) {
+        dados.palpites = dados.palpites.filter(p => p.usuario !== username);
+        salvarDadosGitHub(dados);
+        carregarListaParticipantes();
+        showSuccess(`Palpites de ${username} removidos!`);
+    }
+}
+
+function limparTodosPalpites() {
+    if (confirm('⚠️ ATENÇÃO! Isso removerá TODOS os palpites de TODOS os participantes. Esta ação NÃO pode ser desfeita. Digite "CONFIRMAR" para prosseguir.')) {
+        const confirmacao = prompt('Digite "CONFIRMAR" para confirmar:');
+        if (confirmacao === 'CONFIRMAR') {
+            dados.palpites = [];
+            salvarDadosGitHub(dados);
+            carregarListaParticipantes();
+            showSuccess('Todos os palpites foram removidos!');
+        } else {
+            showError('Operação cancelada.');
+        }
+    }
 }
 
 function importarExcel() {
@@ -228,9 +362,8 @@ function importarExcel() {
         return;
     }
     
-    // Verificar se a biblioteca XLSX está disponível
     if (typeof XLSX === 'undefined') {
-        showError('Biblioteca Excel não carregada. Aguarde um momento e tente novamente.');
+        showError('Biblioteca Excel não carregada.');
         return;
     }
     
@@ -254,10 +387,8 @@ function importarExcel() {
                 const jogoObj = dados.jogos.find(j => `${j.timeCasa} x ${j.timeFora}` === jogo);
                 
                 if (jogoObj && USUARIOS[participante]) {
-                    // Remover palpite antigo
                     dados.palpites = dados.palpites.filter(p => !(p.usuario === participante && p.jogoId === jogoObj.id));
                     
-                    // Adicionar novo palpite
                     dados.palpites.push({
                         usuario: participante,
                         jogoId: jogoObj.id,
@@ -276,41 +407,21 @@ function importarExcel() {
             if (resultDiv) {
                 resultDiv.innerHTML = `
                     <div class="alert alert-success mt-2">✅ Importados ${importados} palpites!</div>
-                    ${erros.length > 0 ? `<div class="alert alert-warning mt-2">⚠️ Não importados: ${erros.join(', ')}</div>` : ''}
+                    ${erros.length > 0 ? `<div class="alert alert-warning mt-2">⚠️ Erros: ${erros.join(', ')}</div>` : ''}
                 `;
             }
-            showSuccess(`${importados} palpites importados com sucesso!`);
+            showSuccess(`${importados} palpites importados!`);
         } catch (error) {
-            console.error('Erro ao importar Excel:', error);
-            showError('Erro ao processar o arquivo Excel. Verifique o formato.');
+            showError('Erro ao processar Excel.');
         }
     };
-    
-    reader.onerror = function() {
-        showError('Erro ao ler o arquivo.');
-    };
-    
     reader.readAsArrayBuffer(file);
 }
 
-// Função para abrir tabs (já existe no HTML, mas garantimos que funciona)
-window.openTab = function(evt, tabName) {
-    var i, tabcontent, tabbuttons;
-    tabcontent = document.getElementsByClassName("tab-content");
-    for (i = 0; i < tabcontent.length; i++) {
-        tabcontent[i].className = tabcontent[i].className.replace(" active", "");
-    }
-    tabbuttons = document.getElementsByClassName("tab-button");
-    for (i = 0; i < tabbuttons.length; i++) {
-        tabbuttons[i].className = tabbuttons[i].className.replace(" active", "");
-    }
-    document.getElementById(tabName).className += " active";
-    if (evt && evt.currentTarget) {
-        evt.currentTarget.className += " active";
-    }
-};
+window.validarPlacar = validarPlacar;
+window.limparPalpitesParticipante = limparPalpitesParticipante;
+window.limparTodosPalpites = limparTodosPalpites;
 
-// Carregar admin quando a página iniciar
 if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', carregarAdmin);
 } else {
