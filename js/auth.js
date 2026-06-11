@@ -9,22 +9,44 @@ async function fazerLogin(usuario, senha) {
         };
         localStorage.setItem('usuarioLogado', JSON.stringify(usuarioLogado));
         
-        // Animação de sucesso
-        showSuccess(`Bem-vindo, ${user.nome}!`);
-        
-        setTimeout(() => {
-            if (user.role === 'admin') {
-                window.location.href = 'admin.html';
-            } else {
-                window.location.href = 'palpites.html';
-            }
-        }, 500);
+        if (user.role === 'admin') {
+            window.location.href = 'admin.html';
+        } else {
+            window.location.href = 'palpites.html';
+        }
         return true;
     } else {
-        showError('Usuário ou senha inválidos!');
+        alert('Usuário ou senha inválidos!');
         return false;
     }
 }
+
+function logout() {
+    localStorage.removeItem('usuarioLogado');
+    window.location.href = 'index.html';
+}
+
+function verificarLogin() {
+    const usuario = localStorage.getItem('usuarioLogado');
+    if (!usuario && !window.location.pathname.includes('index.html')) {
+        window.location.href = 'index.html';
+        return null;
+    }
+    return usuario ? JSON.parse(usuario) : null;
+}
+
+// Inicialização da página de login
+document.addEventListener('DOMContentLoaded', () => {
+    const loginForm = document.getElementById('loginForm');
+    if (loginForm) {
+        loginForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const usuario = document.getElementById('usuario').value;
+            const senha = document.getElementById('senha').value;
+            await fazerLogin(usuario, senha);
+        });
+    }
+});
 
 function logout() {
     localStorage.removeItem('usuarioLogado');

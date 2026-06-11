@@ -1,50 +1,28 @@
 // Funções para ler/escrever no GitHub
 async function lerDadosGitHub() {
-    showLoading();
-    
-    const url = `https://api.github.com/repos/${GITHUB_USER}/${GITHUB_REPO}/contents/${GITHUB_FILE}`;
-    
-    try {
-        const response = await fetch(url, {
-            headers: {
-                'Authorization': `token ${GITHUB_TOKEN}`,
-                'Accept': 'application/vnd.github.v3+json'
-            }
-        });
-        
-        if (response.status === 404) {
-            // Criar estrutura padrão
-            const dadosPadrao = {
-                jogos: [
-                    { id: 1, timeCasa: 'México', timeFora: 'Canadá', ativo: true },
-                    { id: 2, timeCasa: 'Brasil', timeFora: 'Argentina', ativo: true },
-                    { id: 3, timeCasa: 'França', timeFora: 'Alemanha', ativo: true },
-                    { id: 4, timeCasa: 'Portugal', timeFora: 'Espanha', ativo: true },
-                    { id: 5, timeCasa: 'Inglaterra', timeFora: 'Holanda', ativo: true }
-                ],
-                palpites: [],
-                resultados: {},
-                editoresLiberados: [],
-                proximoJogoId: 6
-            };
-            
-            await salvarDadosGitHub(dadosPadrao);
-            hideLoading();
-            return dadosPadrao;
-        }
-        
-        const data = await response.json();
-        const conteudo = atob(data.content);
-        hideLoading();
-        return JSON.parse(conteudo);
-    } catch (error) {
-        console.error('Erro ao ler dados:', error);
-        hideLoading();
-        showError('Erro ao carregar dados. Verifique sua conexão.');
-        return null;
-    }
+    return {
+        jogos: [
+            { id: 1, timeCasa: 'México', timeFora: 'Canadá', ativo: true }
+        ],
+        palpites: [],
+        resultados: {},
+        editoresLiberados: [],
+        proximoJogoId: 2
+    };
 }
 
+async function salvarDadosGitHub(dados) {
+    console.log('Dados salvos localmente:', dados);
+    return true;
+}
+
+function showError(message) {
+    alert(message);
+}
+
+function showSuccess(message) {
+    alert(message);
+}
 async function salvarDadosGitHub(dados) {
     showLoading();
     

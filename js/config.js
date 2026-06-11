@@ -6,6 +6,13 @@ const GITHUB_USER = 'NelsonSMartins';
 const GITHUB_REPO = 'bolao-copa';
 
 // Usuários do bolão
+// Configuração do GitHub
+const GITHUB_TOKEN = '';
+const GITHUB_USER = 'NelsonSMartins';
+const GITHUB_REPO = 'bolao-oficial';
+const GITHUB_FILE = 'dados/dados.json';
+
+// Usuários do bolão
 const USUARIOS = {
     'admin': { senha: 'admin123', role: 'admin', nome: 'Administrador' },
     'Alcy': { senha: 'veiomole', role: 'user', nome: 'Alcy' },
@@ -18,6 +25,8 @@ const USUARIOS = {
     'Raphael': { senha: 'gigante', role: 'user', nome: 'Raphael' },
     'André': { senha: 'bailarina', role: 'user', nome: 'André' }
 };
+
+let usuarioLogado = null;
 
 let usuarioLogado = null;
 
