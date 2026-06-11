@@ -1,120 +1,83 @@
-let dados = null;
 
-function calcularPontuacaoRanking(palpite, resultado) {
-    if (!resultado) return 0;
-    
-    const acertouPlacar = (palpite.casa === resultado.casa && palpite.fora === resultado.fora);
-    if (acertouPlacar) return 3;
-    
-    const palpiteVencedor = palpite.casa > palpite.fora ? 'casa' : (palpite.casa < palpite.fora ? 'fora' : 'empate');
-    const resultadoVencedor = resultado.casa > resultado.fora ? 'casa' : (resultado.casa < resultado.fora ? 'fora' : 'empate');
-    
-    if (palpiteVencedor === resultadoVencedor) return 1;
-    
-    return 0;
-}
-
-async function carregarRanking() {
+function carregarRanking() {
     const usuario = verificarLogin();
     if (!usuario) return;
     
-    const userNameSpan = document.getElementById('userName');
-    if (userNameSpan) {
-        userNameSpan.textContent = usuario.nome;
-    }
+    document.getElementById('userName').innerHTML = usuario.nome;
+    dados = lerDados();
     
-    dados = await lerDadosGitHub();
-    if (!dados) {
-        alert('Erro ao carregar dados');
+    const ranking = calcularRanking();
+    const container = document.getElementById('rankingContainer');
+    
+    if (ranking.length === 0) {
+        container.innerHTML = '<div class="alert">Aguardando palpites e resultados...</div>';
         return;
     }
     
-    const pontosPorUsuario = [];
+    let html = '<table class="ranking-table"><tr><th>Pos</th><th>Jogador</th><th>Pontos</th><th>Placar Exato</th><th>Resultado</th></tr>';
     
-    for (const [username, userInfo] of Object.entries(USUARIOS)) {
+    ranking.forEach((item, idx) => {
+        const medalha = idx === 0 ? '🥇' : (idx === 1 ? '🥈' : (idx === 2 ? '🥉' : `${idx+1}º`));
+        html += `
+            <tr class="${idx === 0 ? 'ranking-pos-1' : (idx === 1 ? 'ranking-pos-2' : (idx === 2 ? 'ranking-pos-3' : ''))}">
+                <td>${medalha}</td>
+                <td><strong>${item.nome}</strong></td>
+                <td class="pontos">${item.pontos}</td>
+                <td>${item.placaresExatos}</td>
+                <td>${item.resultadosCorretos}</td>
+            </tr>
+        `;
+    });
+    
+    html += '</table>';
+    container.innerHTML = html;
+}
+
+function calcularRanking() {
+    const ranking = [];
+    
+    for (const [username, user] of Object.entries(USUARIOS)) {
         if (username === 'admin') continue;
         
-        let totalPontos = 0;
+        let pontos = 0;
         let placaresExatos = 0;
-        let acertosResultado = 0;
+        let resultadosCorretos = 0;
         
-        const palpitesUsuario = dados.palpites.filter(p => p.usuario === username);
-        
-        for (const palpite of palpitesUsuario) {
-            const resultado = dados.resultados[palpite.jogoId];
-            if (resultado) {
-                const pontos = calcularPontuacaoRanking(palpite, resultado);
-                totalPontos += pontos;
-                if (pontos === 3) placaresExatos++;
-                if (pontos === 1) acertosResultado++;
+        for (const jogo of dados.jogos) {
+            const palpiteKey = `${jogo.id}_${username}`;
+            const palpite = dados.palpites[palpiteKey];
+            const resultado = dados.resultados[jogo.id];
+            
+            if (palpite && resultado) {
+                if (palpite.casa === resultado.casa && palpite.fora === resultado.fora) {
+                    pontos += 3;
+                    placaresExatos++;
+                } else {
+                    const palpiteVencedor = palpite.casa > palpite.fora ? 'casa' : (palpite.casa < palpite.fora ? 'fora' : 'empate');
+                    const resultadoVencedor = resultado.casa > resultado.fora ? 'casa' : (resultado.casa < resultado.fora ? 'fora' : 'empate');
+                    if (palpiteVencedor === resultadoVencedor) {
+                        pontos += 1;
+                        resultadosCorretos++;
+                    }
+                }
             }
         }
         
-        pontosPorUsuario.push({
-            username: username,
-            nome: userInfo.nome,
-            pontos: totalPontos,
-            placaresExatos: placaresExatos,
-            acertosResultado: acertosResultado
+        ranking.push({
+            username,
+            nome: user.nome,
+            pontos,
+            placaresExatos,
+            resultadosCorretos
         });
     }
     
-    // Ordenar: primeiro por pontos, depois por placares exatos
-    pontosPorUsuario.sort((a, b) => {
+    ranking.sort((a, b) => {
         if (a.pontos !== b.pontos) return b.pontos - a.pontos;
         return b.placaresExatos - a.placaresExatos;
     });
     
-    renderizarRanking(pontosPorUsuario);
-}
-
-function renderizarRanking(ranking) {
-    const container = document.getElementById('rankingContainer');
-    if (!container) return;
-    
-    container.innerHTML = '';
-    
-    if (ranking.length === 0) {
-        container.innerHTML = '<div class="alert alert-info">Aguardando palpites e resultados...</div>';
-        return;
-    }
-    
-    // Criar tabela de ranking
-    const table = document.createElement('table');
-    table.className = 'table table-hover';
-    table.innerHTML = `
-        <thead>
-            <tr>
-                <th>Posição</th>
-                <th>Participante</th>
-                <th>Pontos</th>
-                <th>Placar Exato (3pts)</th>
-                <th>Resultado (1pt)</th>
-            </tr>
-        </thead>
-        <tbody id="rankingBody"></tbody>
-    `;
-    
-    container.appendChild(table);
-    
-    const tbody = document.getElementById('rankingBody');
-    
-    ranking.forEach((item, index) => {
-        const posicao = index + 1;
-        let medalha = '';
-        if (posicao === 1) medalha = '🥇 ';
-        else if (posicao === 2) medalha = '🥈 ';
-        else if (posicao === 3) medalha = '🥉 ';
-        
-        const row = tbody.insertRow();
-        row.innerHTML = `
-            <td><strong>${medalha}${posicao}º</strong></td>
-            <td><strong>${item.nome}</strong></td>
-            <td class="text-success fw-bold">${item.pontos} pts</td>
-            <td>${item.placaresExatos}</td>
-            <td>${item.acertosResultado}</td>
-        `;
-    });
+    return ranking;
 }
 
 document.addEventListener('DOMContentLoaded', carregarRanking);

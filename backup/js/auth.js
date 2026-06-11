@@ -1,21 +1,22 @@
-function fazerLogin(usuario, senha) {
+async function fazerLogin(usuario, senha) {
     const user = USUARIOS[usuario];
     
     if (user && user.senha === senha) {
         usuarioLogado = {
             username: usuario,
-            nome: user.nome
+            nome: user.nome,
+            role: user.role
         };
         localStorage.setItem('usuarioLogado', JSON.stringify(usuarioLogado));
         
-        if (usuario === 'admin') {
+        if (user.role === 'admin') {
             window.location.href = 'admin.html';
         } else {
-            window.location.href = 'meus_palpites.html';
+            window.location.href = 'palpites.html';
         }
         return true;
     } else {
-        showToast('Usuário ou senha inválidos!', 'error');
+        alert('Usuário ou senha inválidos!');
         return false;
     }
 }
@@ -34,15 +35,23 @@ function verificarLogin() {
     return usuario ? JSON.parse(usuario) : null;
 }
 
-// Login
 document.addEventListener('DOMContentLoaded', () => {
     const loginForm = document.getElementById('loginForm');
     if (loginForm) {
-        loginForm.addEventListener('submit', (e) => {
+        loginForm.addEventListener('submit', async (e) => {
             e.preventDefault();
             const usuario = document.getElementById('usuario').value;
             const senha = document.getElementById('senha').value;
-            fazerLogin(usuario, senha);
+            await fazerLogin(usuario, senha);
         });
+    }
+    
+    const usuarioAtual = verificarLogin();
+    if (usuarioAtual && window.location.pathname.includes('index.html')) {
+        if (usuarioAtual.role === 'admin') {
+            window.location.href = 'admin.html';
+        } else {
+            window.location.href = 'palpites.html';
+        }
     }
 });

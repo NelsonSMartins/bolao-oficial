@@ -1,225 +1,122 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes, viewport-fit=cover">
-  <title>Admin - Bolão Copa 2026</title>
-  <link rel="stylesheet" href="css/style.css">
-  <style>
-    .form-group {
-      margin-bottom: var(--space-md);
-    }
-    .form-group label {
-      display: block;
-      font-size: 0.75rem;
-      color: var(--text-secondary);
-      margin-bottom: var(--space-xs);
-    }
-    .form-group input, .form-group select {
-      width: 100%;
-      padding: 12px;
-      border: 1px solid var(--border);
-      border-radius: var(--radius-md);
-      font-size: 0.9rem;
-    }
-    .alert {
-      padding: var(--space-md);
-      border-radius: var(--radius-md);
-      margin-bottom: var(--space-md);
-      font-size: 0.8rem;
-    }
-    .alert-info {
-      background: #e3f2fd;
-      color: #0288d1;
-    }
-    .alert-success {
-      background: #e8f5e9;
-      color: #2e7d32;
-    }
-    .alert-warning {
-      background: #fff3e0;
-      color: #ed6c02;
-    }
-    .mb-3 {
-      margin-bottom: 16px;
-    }
-    .admin-tabs {
-      display: flex;
-      gap: var(--space-xs);
-      overflow-x: auto;
-      margin-bottom: var(--space-lg);
-      padding-bottom: var(--space-sm);
-      -webkit-overflow-scrolling: touch;
-    }
-    .admin-tab {
-      padding: 10px 16px;
-      background: none;
-      border: none;
-      cursor: pointer;
-      font-weight: 500;
-      color: var(--text-secondary);
-      font-size: 0.8rem;
-      white-space: nowrap;
-      border-radius: var(--radius-md);
-      transition: all 0.2s;
-    }
-    .admin-tab.active {
-      background: var(--primary);
-      color: white;
-    }
-    .tab-pane {
-      display: none;
-    }
-    .tab-pane.active {
-      display: block;
-    }
-    .jogo-item, .participante-item, .resultado-item {
-      padding: var(--space-md);
-      border-bottom: 1px solid var(--border);
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      flex-wrap: wrap;
-      gap: var(--space-sm);
-    }
-    .jogo-info, .participante-info {
-      flex: 1;
-    }
-    .jogo-data, .participante-username {
-      font-size: 0.7rem;
-      color: var(--text-secondary);
-      margin-top: 2px;
-    }
-    .participante-actions {
-      display: flex;
-      gap: var(--space-sm);
-    }
-    .resultado-inputs {
-      display: flex;
-      align-items: center;
-      gap: var(--space-sm);
-    }
-    .resultado-inputs input {
-      width: 70px;
-      padding: 8px;
-      text-align: center;
-      border: 1px solid var(--border);
-      border-radius: var(--radius-sm);
-    }
-    .btn-sm {
-      padding: 6px 12px;
-      font-size: 0.7rem;
-      min-width: auto;
-      min-height: 32px;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Admin - Bolão Copa 2026</title>
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        .admin-container { max-width: 800px; margin: 0 auto; }
+        .stat-cards { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 20px; }
+        .stat-card { background: white; padding: 15px; border-radius: 12px; flex: 1; text-align: center; font-weight: bold; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+        .jogo-item, .resultado-item, .palpite-form-item { background: white; padding: 15px; border-radius: 12px; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; }
+        .palpite-form-item { flex-direction: column; align-items: stretch; }
+        .palpite-form-jogo { font-weight: bold; }
+        .palpite-form-inputs { display: flex; gap: 10px; align-items: center; justify-content: center; }
+        .resultado-jogo { font-weight: bold; flex: 1; }
+        .resultado-inputs { display: flex; gap: 10px; align-items: center; }
+        .select-full { width: 100%; padding: 12px; border-radius: 10px; border: 1px solid #ddd; margin-bottom: 15px; }
+        .tabs { display: flex; gap: 5px; margin-bottom: 20px; flex-wrap: wrap; }
+        .tab { padding: 10px 20px; background: white; border: none; border-radius: 10px; cursor: pointer; }
+        .tab.active { background: #1a5f7a; color: white; }
+        .tab-content { display: none; }
+        .tab-content.active { display: block; }
+        .btn-block { width: 100%; margin-top: 10px; }
+        .small { font-size: 0.75rem; color: #666; margin-top: 4px; }
+        .success { color: #2e7d32; }
+        .ranking-table { width: 100%; border-collapse: collapse; background: white; border-radius: 12px; overflow: hidden; }
+        .ranking-table th, .ranking-table td { padding: 12px; text-align: left; border-bottom: 1px solid #eee; }
+        .ranking-table th { background: #f5f5f5; }
+        .pontos { font-weight: bold; color: #1a5f7a; font-size: 1.2rem; }
+        .backup-buttons { display: flex; gap: 10px; margin-bottom: 20px; }
+    </style>
 </head>
 <body>
-  <div class="app">
-    <nav class="navbar">
-      <div class="navbar-container">
-        <a href="admin.html" class="logo">👑 <span>Admin Bolão</span></a>
-        <div class="nav-links">
-          <a href="#" onclick="logout()">🚪 Sair</a>
-        </div>
-      </div>
-    </nav>
-
-    <main class="container">
-      <div class="card">
-        <div class="card-header">
-          <h2>Painel Administrativo</h2>
-        </div>
-        <div class="card-body">
-          <div class="admin-tabs">
-            <button class="admin-tab active" data-tab="jogos">📋 Jogos</button>
-            <button class="admin-tab" data-tab="resultados">🎯 Resultados</button>
-            <button class="admin-tab" data-tab="participantes">👥 Participantes</button>
-            <button class="admin-tab" data-tab="importar">📎 Importar</button>
-          </div>
-
-          <!-- Tab Jogos -->
-          <div id="tab-jogos" class="tab-pane active">
-            <div class="add-game-form">
-              <div class="form-group">
-                <label>Time da Casa</label>
-                <input type="text" id="timeCasa" placeholder="Ex: Brasil">
-              </div>
-              <div class="form-group">
-                <label>Time Visitante</label>
-                <input type="text" id="timeFora" placeholder="Ex: Argentina">
-              </div>
-              <div class="form-group">
-                <label>Data do Jogo</label>
-                <input type="date" id="dataJogo" value="2026-06-11">
-              </div>
-              <button class="btn-primary btn-block" onclick="adicionarJogo()" style="width: 100%;">➕ Adicionar Jogo</button>
+    <div class="app">
+        <nav class="navbar">
+            <div class="navbar-container">
+                <a href="admin.html" class="logo">👑 <span>Admin Bolão</span></a>
+                <div class="nav-links">
+                    <span id="userName"></span>
+                    <a href="#" onclick="logout()">Sair</a>
+                </div>
             </div>
-            <h3 style="margin: 20px 0 12px 0; font-size: 0.9rem;">Jogos Cadastrados</h3>
-            <div id="listaJogos"></div>
-          </div>
+        </nav>
 
-          <!-- Tab Resultados -->
-          <div id="tab-resultados" class="tab-pane">
-            <div id="resultadosJogos"></div>
-            <button class="btn-success btn-block" onclick="salvarResultados()" style="margin-top: 20px; width: 100%;">💾 Salvar Resultados</button>
-          </div>
-
-          <!-- Tab Participantes -->
-          <div id="tab-participantes" class="tab-pane">
-            <div id="listaParticipantes"></div>
-          </div>
-
-          <!-- Tab Importar -->
-          <div id="tab-importar" class="tab-pane">
-            <div class="alert alert-info">
-              📄 Formato esperado do Excel: Colunas "Participante", "Jogo", "Gols Casa", "Gols Fora"
+        <main class="container admin-container">
+            <div class="backup-buttons">
+                <button class="btn-outline" onclick="exportarBackup()">📤 Exportar Backup</button>
+                <input type="file" id="importFile" accept=".json" style="display:none">
+                <button class="btn-outline" onclick="document.getElementById('importFile').click()">📥 Importar Backup</button>
             </div>
-            <input type="file" id="excelFile" accept=".xlsx, .xls" style="margin-bottom: 16px; width: 100%; padding: 10px;">
-            <button class="btn-primary btn-block" onclick="importarExcel()" style="width: 100%;">📂 Importar</button>
-            <div id="importResult"></div>
-          </div>
-        </div>
-      </div>
-    </main>
-  </div>
 
-  <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
-  <script src="js/config.js"></script>
-  <script src="js/github.js"></script>
-  <script src="js/auth.js"></script>
-  <script src="js/admin.js"></script>
-  
-  <script>
-    // Sistema de abas - Garantindo que funciona
-    document.addEventListener('DOMContentLoaded', function() {
-      // Selecionar todos os botões de aba
-      const tabs = document.querySelectorAll('.admin-tab');
-      
-      // Para cada botão, adicionar evento de clique
-      tabs.forEach(tab => {
-        tab.addEventListener('click', function() {
-          const tabId = this.getAttribute('data-tab');
-          
-          // Remover active de todas as abas
-          tabs.forEach(t => t.classList.remove('active'));
-          
-          // Adicionar active na aba clicada
-          this.classList.add('active');
-          
-          // Esconder todos os painéis
-          document.querySelectorAll('.tab-pane').forEach(pane => {
-            pane.classList.remove('active');
-          });
-          
-          // Mostrar o painel selecionado
-          const targetPane = document.getElementById(`tab-${tabId}`);
-          if (targetPane) {
-            targetPane.classList.add('active');
-          }
+            <div class="stat-cards" id="stats"></div>
+
+            <div class="tabs">
+                <button class="tab active" data-tab="jogos">📋 Jogos</button>
+                <button class="tab" data-tab="palpites">📝 Palpites</button>
+                <button class="tab" data-tab="resultados">🎯 Resultados</button>
+                <button class="tab" data-tab="ranking">🏆 Ranking</button>
+            </div>
+
+            <div id="tab-jogos" class="tab-content active">
+                <div class="card">
+                    <div class="card-header">➕ Novo Jogo</div>
+                    <div class="card-body">
+                        <input type="text" id="timeCasa" placeholder="Time da Casa" style="width:100%; padding:12px; margin-bottom:10px; border-radius:10px; border:1px solid #ddd;">
+                        <input type="text" id="timeFora" placeholder="Time Visitante" style="width:100%; padding:12px; margin-bottom:10px; border-radius:10px; border:1px solid #ddd;">
+                        <input type="date" id="dataJogo" style="width:100%; padding:12px; margin-bottom:10px; border-radius:10px; border:1px solid #ddd;">
+                        <button class="btn-primary btn-block" onclick="adicionarJogo()">Adicionar Jogo</button>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-header">📋 Jogos Cadastrados</div>
+                    <div class="card-body" id="listaJogos"></div>
+                </div>
+            </div>
+
+            <div id="tab-palpites" class="tab-content">
+                <div class="card">
+                    <div class="card-header">📝 Inserir Palpites</div>
+                    <div class="card-body" id="formPalpites"></div>
+                </div>
+            </div>
+
+            <div id="tab-resultados" class="tab-content">
+                <div class="card">
+                    <div class="card-header">🎯 Resultados dos Jogos</div>
+                    <div class="card-body" id="formResultados"></div>
+                </div>
+            </div>
+
+            <div id="tab-ranking" class="tab-content">
+                <div class="card">
+                    <div class="card-header">🏆 Ranking Geral</div>
+                    <div class="card-body" id="rankingAdmin"></div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="js/config.js"></script>
+    <script src="js/database.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/admin.js"></script>
+    <script>
+        // Sistema de abas
+        document.querySelectorAll('.tab').forEach(tab => {
+            tab.addEventListener('click', () => {
+                const tabId = tab.dataset.tab;
+                document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+                document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+                tab.classList.add('active');
+                document.getElementById(`tab-${tabId}`).classList.add('active');
+            });
         });
-      });
-    });
-  </script>
+        
+        document.getElementById('importFile').addEventListener('change', function(e) {
+            if (e.target.files[0]) importarArquivo(e.target.files[0]);
+        });
+    </script>
 </body>
 </html>
