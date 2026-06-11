@@ -18,7 +18,7 @@
             color: #1e293b;
         }
 
-        /* Header Centralizado */
+        /* Header */
         .app-header {
             background: linear-gradient(135deg, #1a5f7a, #0d3b4f);
             padding: 24px 20px 16px;
@@ -41,7 +41,7 @@
             margin-top: 6px;
         }
 
-        /* Navegação por Abas */
+        /* Abas */
         .nav-tabs {
             display: flex;
             background: white;
@@ -128,9 +128,10 @@
             color: #64748b;
             margin-bottom: 5px;
             text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
 
-        .filter-select, .filter-input {
+        .filter-select {
             width: 100%;
             padding: 10px 12px;
             border: 1px solid #e2e8f0;
@@ -150,17 +151,25 @@
             color: #64748b;
             cursor: pointer;
             margin-top: 22px;
+            transition: all 0.2s;
         }
 
-        /* Ranking */
+        .btn-reset:hover {
+            background: #e2e8f0;
+        }
+
+        /* ============================================
+           RANKING - CORRIGIDO
+        ============================================ */
         .ranking-wrapper {
             overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
         }
 
         .ranking-table {
             width: 100%;
             border-collapse: collapse;
-            min-width: 350px;
+            min-width: 320px;
         }
 
         .ranking-table th {
@@ -189,7 +198,9 @@
             font-size: 1rem;
         }
 
-        /* Jogos */
+        /* ============================================
+           JOGOS
+        ============================================ */
         .games-list {
             display: flex;
             flex-direction: column;
@@ -229,11 +240,13 @@
             background: white;
             padding: 6px 14px;
             border-radius: 30px;
-            min-width: 90px;
+            min-width: 80px;
             text-align: center;
         }
 
-        /* Apostas */
+        /* ============================================
+           APOSTAS - SÓ MOSTRA O QUE O JOGADOR APOSTOU
+        ============================================ */
         .bets-list {
             display: flex;
             flex-direction: column;
@@ -297,6 +310,7 @@
             font-weight: 500;
             margin-bottom: 20px;
             background: white;
+            cursor: pointer;
         }
 
         .empty-state {
@@ -323,6 +337,7 @@
             .bet-card { flex-direction: column; align-items: stretch; }
             .bet-value { text-align: left; margin-top: 6px; }
             .nav-tab { padding: 10px 8px; font-size: 0.75rem; }
+            .ranking-table th, .ranking-table td { padding: 8px 6px; font-size: 0.75rem; }
         }
     </style>
 </head>
@@ -418,17 +433,14 @@
         // SISTEMA DE ABAS
         // ============================================
         function mostrarAba(aba) {
-            // Esconder todas as seções
             document.getElementById('secao-ranking').style.display = 'none';
             document.getElementById('secao-jogos').style.display = 'none';
             document.getElementById('secao-apostas').style.display = 'none';
             
-            // Remover classe active de todos os botões
             document.querySelectorAll('.nav-tab').forEach(tab => {
                 tab.classList.remove('active');
             });
             
-            // Mostrar a seção selecionada
             if (aba === 'ranking') {
                 document.getElementById('secao-ranking').style.display = 'block';
                 document.querySelector('.nav-tab[data-tab="ranking"]').classList.add('active');
@@ -468,7 +480,7 @@
         }
 
         // ============================================
-        // RANKING
+        // RANKING - CORRIGIDO
         // ============================================
         function calcularRankingCompleto() {
             const ranking = [];
@@ -533,21 +545,26 @@
             
             let html = `<table class="ranking-table">
                             <thead>
-                                <tr><th>#</th><th>Jogador</th><th>Pts</th><th>Placar</th><th>Resultado</th></tr>
+                                <tr><th>#</th><th>Jogador</th><th style="text-align:center">Pts</th><th style="text-align:center">Placar</th><th style="text-align:center">Resultado</th></tr>
                             </thead>
                             <tbody>`;
             
             ranking.forEach((item, idx) => {
                 const posicao = idx + 1;
-                const medalha = posicao === 1 ? '🥇' : (posicao === 2 ? '🥈' : (posicao === 3 ? '🥉' : `${posicao}º`));
+                let medalha = '';
+                if (posicao === 1) medalha = '🥇';
+                else if (posicao === 2) medalha = '🥈';
+                else if (posicao === 3) medalha = '🥉';
+                else medalha = `${posicao}º`;
+                
                 const classe = posicao === 1 ? 'rank-1' : (posicao === 2 ? 'rank-2' : (posicao === 3 ? 'rank-3' : ''));
                 html += `<tr class="${classe}">
-                            <td>${medalha}</td>
+                            <td><strong>${medalha}</strong></td>
                             <td><strong>${item.nome}</strong></td>
-                            <td class="pontos-value">${item.pontos}</td>
-                            <td>${item.placaresExatos}</td>
-                            <td>${item.resultadosCorretos}</td>
-                        </table>`;
+                            <td style="text-align:center"><span class="pontos-value">${item.pontos}</span></td>
+                            <td style="text-align:center">${item.placaresExatos}</td>
+                            <td style="text-align:center">${item.resultadosCorretos}</td>
+                        </tr>`;
             });
             html += '</tbody></table>';
             container.innerHTML = html;
@@ -560,7 +577,7 @@
         }
 
         // ============================================
-        // JOGOS
+        // JOGOS - DATAS MAIS RECENTES PRIMEIRO
         // ============================================
         function carregarFiltrosJogos() {
             // Times únicos
@@ -578,9 +595,9 @@
                 });
             }
             
-            // Datas únicas
+            // Datas únicas - MAIS RECENTES PRIMEIRO
             const datas = [...new Set(JOGOS.map(j => j.data).filter(d => d))];
-            datas.sort().reverse();
+            datas.sort().reverse(); // Mais recentes primeiro
             const selectData = document.getElementById('filtroDataJogo');
             if (selectData) {
                 selectData.innerHTML = '<option value="">Todas as datas</option>';
@@ -605,6 +622,7 @@
                 jogosFiltrados = jogosFiltrados.filter(jogo => jogo.data === dataFiltro);
             }
             
+            // Ordenar por data - mais recentes primeiro
             jogosFiltrados.sort((a,b) => (b.data || '').localeCompare(a.data || ''));
             
             const container = document.getElementById('jogosContainer');
@@ -642,7 +660,7 @@
         }
 
         // ============================================
-        // APOSTAS
+        // APOSTAS - SÓ MOSTRA O QUE O JOGADOR APOSTOU
         // ============================================
         function carregarSelectJogador() {
             const select = document.getElementById('selectJogador');
@@ -663,28 +681,43 @@
                 return;
             }
             
-            const jogosOrdenados = [...JOGOS].sort((a,b) => (b.data || '').localeCompare(a.data || ''));
-            if (jogosOrdenados.length === 0) {
-                container.innerHTML = '<div class="empty-state">Nenhum jogo cadastrado</div>';
+            // Filtrar APENAS as apostas que o jogador fez
+            const apostasDoJogador = [];
+            for (const [key, aposta] of Object.entries(APOSTAS)) {
+                if (key.endsWith(`_${jogador}`)) {
+                    const jogoId = parseInt(key.split('_')[0]);
+                    const jogo = JOGOS.find(j => j.id === jogoId);
+                    if (jogo) {
+                        apostasDoJogador.push({
+                            jogo: jogo,
+                            palpite: aposta
+                        });
+                    }
+                }
+            }
+            
+            // Ordenar por data - mais recentes primeiro
+            apostasDoJogador.sort((a, b) => (b.jogo.data || '').localeCompare(a.jogo.data || ''));
+            
+            if (apostasDoJogador.length === 0) {
+                container.innerHTML = `<div class="empty-state">📝 ${jogador} ainda não fez nenhum palpite</div>`;
                 return;
             }
             
             container.innerHTML = '';
-            for (const jogo of jogosOrdenados) {
-                const apostaKey = `${jogo.id}_${jogador}`;
-                const palpite = APOSTAS[apostaKey];
+            for (const item of apostasDoJogador) {
+                const jogo = item.jogo;
+                const palpite = item.palpite;
                 const resultado = RESULTADOS[jogo.id];
                 
                 let statusHtml = '';
-                if (palpite && resultado) {
+                if (resultado) {
                     const pontos = calcularPontos(palpite, resultado);
                     if (pontos === 3) statusHtml = '<span class="badge badge-exact">🎯 +3</span>';
                     else if (pontos === 1) statusHtml = '<span class="badge badge-result">✅ +1</span>';
                     else statusHtml = '<span class="badge badge-wrong">❌ 0</span>';
-                } else if (palpite && !resultado) {
+                } else {
                     statusHtml = '<span class="badge badge-waiting">⏳ Aguardando</span>';
-                } else if (!palpite) {
-                    statusHtml = '<span class="badge badge-wrong">❌ Não apostou</span>';
                 }
                 
                 const div = document.createElement('div');
@@ -698,7 +731,7 @@
                         </div>
                     </div>
                     <div class="bet-value">
-                        ${palpite ? `${palpite.casa} x ${palpite.fora}` : '? x ?'}
+                        ${palpite.casa} x ${palpite.fora}
                         ${statusHtml}
                     </div>
                 `;
@@ -726,7 +759,6 @@
                 });
             }
             
-            // Abas
             document.querySelectorAll('.nav-tab').forEach(tab => {
                 tab.addEventListener('click', function() {
                     const aba = this.getAttribute('data-tab');
