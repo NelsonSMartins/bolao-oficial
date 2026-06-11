@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Admin - Bolão Copa</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <nav class="navbar" style="background: linear-gradient(135deg, #e74c3c, #c0392b);">
+        <div class="navbar-container">
+            <a href="admin.html" class="navbar-brand">👑 Admin Bolão</a>
+            <div class="navbar-menu">
+                <a href="#" onclick="logout()">🚪 Sair</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="card">
+            <div class="card-header">
+                Painel Administrativo
+            </div>
+            <div class="card-body">
+                <div class="tabs">
+                    <button class="tab-button active" onclick="openTab(event, 'jogos')">📋 Jogos</button>
+                    <button class="tab-button" onclick="openTab(event, 'resultados')">🎯 Resultados</button>
+                    <button class="tab-button" onclick="openTab(event, 'liberar')">🔓 Liberar</button>
+                    <button class="tab-button" onclick="openTab(event, 'importar')">📎 Importar</button>
+                </div>
+
+                <!-- Aba Jogos -->
+                <div id="jogos" class="tab-content active">
+                    <h3>Cadastrar Novo Jogo</h3>
+                    <div class="row">
+                        <div class="col">
+                            <input type="text" id="timeCasa" class="form-control" placeholder="Time da Casa">
+                        </div>
+                        <div class="col-auto">vs</div>
+                        <div class="col">
+                            <input type="text" id="timeFora" class="form-control" placeholder="Time Visitante">
+                        </div>
+                        <div class="col-12 mt-2">
+                            <button class="btn btn-block" onclick="adicionarJogo()">➕ Adicionar Jogo</button>
+                        </div>
+                    </div>
+                    <hr>
+                    <h3>Jogos Cadastrados</h3>
+                    <div id="listaJogos"></div>
+                </div>
+
+                <!-- Aba Resultados -->
+                <div id="resultados" class="tab-content">
+                    <h3>Inserir Resultados dos Jogos</h3>
+                    <div id="resultadosJogos"></div>
+                    <button class="btn btn-success btn-block mt-3" onclick="salvarResultados()">💾 Salvar Resultados</button>
+                </div>
+
+                <!-- Aba Liberar -->
+                <div id="liberar" class="tab-content">
+                    <h3>Liberar Participantes para Editar</h3>
+                    <div id="listaParticipantes"></div>
+                    <button class="btn btn-warning btn-block mt-3" onclick="liberarTodos()">🔓 Liberar Todos</button>
+                </div>
+
+                <!-- Aba Importar -->
+                <div id="importar" class="tab-content">
+                    <h3>Importar Palpites via Excel</h3>
+                    <p>Formato: Participante, Jogo, Gols Casa, Gols Fora</p>
+                    <input type="file" id="excelFile" class="form-control" accept=".xlsx, .xls">
+                    <button class="btn btn-primary btn-block mt-2" onclick="importarExcel()">📂 Importar</button>
+                    <div id="importResult"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+    <script src="js/config.js"></script>
+    <script src="js/github.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/admin.js"></script>
+    <script>
+        function openTab(evt, tabName) {
+            var i, tabcontent, tabbuttons;
+            tabcontent = document.getElementsByClassName("tab-content");
+            for (i = 0; i < tabcontent.length; i++) {
+                tabcontent[i].className = tabcontent[i].className.replace(" active", "");
+            }
+            tabbuttons = document.getElementsByClassName("tab-button");
+            for (i = 0; i < tabbuttons.length; i++) {
+                tabbuttons[i].className = tabbuttons[i].className.replace(" active", "");
+            }
+            document.getElementById(tabName).className += " active";
+            evt.currentTarget.className += " active";
+        }
+    </script>
+</body>
+</html>
