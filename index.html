@@ -4,60 +4,175 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <title>Bolão Copa 2026 - Login</title>
-    <link rel="stylesheet" href="css/style.css">
     <style>
-        .login-container {
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background: linear-gradient(135deg, #1a5f7a, #0d3b4f);
             min-height: 100vh;
             display: flex;
             align-items: center;
             justify-content: center;
             padding: 20px;
-            background: linear-gradient(135deg, #1a5f7a, #0d3b4f);
         }
+
         .login-card {
             background: white;
-            border-radius: 20px;
-            padding: 30px;
+            border-radius: 24px;
+            padding: 40px 30px;
             width: 100%;
-            max-width: 320px;
+            max-width: 340px;
             text-align: center;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.2);
         }
-        .login-icon { font-size: 3rem; margin-bottom: 20px; }
+
+        .login-icon {
+            font-size: 4rem;
+            margin-bottom: 20px;
+        }
+
+        .login-card h2 {
+            color: #1a5f7a;
+            margin-bottom: 8px;
+        }
+
+        .login-card p {
+            color: #64748b;
+            margin-bottom: 30px;
+            font-size: 0.9rem;
+        }
+
         .login-card input {
             width: 100%;
-            padding: 12px;
-            margin-bottom: 15px;
-            border: 1px solid #ddd;
-            border-radius: 10px;
+            padding: 14px;
+            margin-bottom: 16px;
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
             font-size: 1rem;
+            transition: all 0.2s;
         }
+
+        .login-card input:focus {
+            outline: none;
+            border-color: #1a5f7a;
+        }
+
         .login-card button {
             width: 100%;
-            padding: 12px;
+            padding: 14px;
             background: #1a5f7a;
             color: white;
             border: none;
-            border-radius: 10px;
+            border-radius: 12px;
             font-size: 1rem;
             font-weight: bold;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .login-card button:hover {
+            background: #0d3b4f;
+            transform: translateY(-2px);
+        }
+
+        .login-card button:active {
+            transform: translateY(0);
+        }
+
+        .error-msg {
+            color: #d32f2f;
+            margin-top: 15px;
+            font-size: 0.85rem;
+            display: none;
         }
     </style>
 </head>
 <body>
-    <div class="login-container">
-        <div class="login-card">
-            <div class="login-icon">🏆</div>
-            <h2>Bolão Copa 2026</h2>
-            <p>Faça login para continuar</p>
-            <form id="loginForm">
-                <input type="text" id="usuario" placeholder="Usuário" required>
-                <input type="password" id="senha" placeholder="Senha" required>
-                <button type="submit">Entrar</button>
-            </form>
-        </div>
+    <div class="login-card">
+        <div class="login-icon">🏆</div>
+        <h2>Bolão Copa 2026</h2>
+        <p>Faça login para continuar</p>
+        <form id="loginForm">
+            <input type="text" id="usuario" placeholder="Usuário" autocomplete="off" required>
+            <input type="password" id="senha" placeholder="Senha" required>
+            <button type="submit">Entrar</button>
+        </form>
+        <div id="errorMsg" class="error-msg"></div>
     </div>
-    <script src="js/config.js"></script>
-    <script src="js/auth.js"></script>
-    <script src="js/database.js"></script>
+
+    <script>
+        // ============================================
+        // USUÁRIOS DO BOLÃO
+        // ============================================
+        const USUARIOS = {
+            'admin': { senha: 'admin123', nome: 'Administrador' },
+            'Nelson': { senha: 'lider', nome: 'Nelson' },
+            'Douglas': { senha: 'doug123', nome: 'Douglas' },
+            'Alexandre': { senha: 'alex123', nome: 'Alexandre' },
+            'Alcy': { senha: 'alcy123', nome: 'Alcy' },
+            'Carla': { senha: 'carla123', nome: 'Carla' },
+            'Thiago': { senha: 'thiago123', nome: 'Thiago' },
+            'Ronaldo': { senha: 'ronaldo123', nome: 'Ronaldo' },
+            'Kelly': { senha: 'kelly123', nome: 'Kelly' },
+            'Ana': { senha: 'ana123', nome: 'Ana' },
+            'Carmem': { senha: 'carmem123', nome: 'Carmem' },
+            'Rogéria': { senha: 'rogeria123', nome: 'Rogéria' },
+            'Carol': { senha: 'carol123', nome: 'Carol' },
+            'Márcio': { senha: 'marcio123', nome: 'Márcio' },
+            'Raphael': { senha: 'raphael123', nome: 'Raphael' },
+            'Julio': { senha: 'julio123', nome: 'Julio' },
+            'Elyseu': { senha: 'elyseu123', nome: 'Elyseu' }
+        };
+
+        // ============================================
+        // FUNÇÃO DE LOGIN
+        // ============================================
+        function fazerLogin(usuario, senha) {
+            const user = USUARIOS[usuario];
+            
+            if (user && user.senha === senha) {
+                // Salvar usuário logado
+                const usuarioLogado = {
+                    username: usuario,
+                    nome: user.nome
+                };
+                localStorage.setItem('usuarioLogado', JSON.stringify(usuarioLogado));
+                
+                // Redirecionar
+                if (usuario === 'admin') {
+                    window.location.href = 'admin.html';
+                } else {
+                    window.location.href = 'meus_palpites.html';
+                }
+                return true;
+            } else {
+                const errorMsg = document.getElementById('errorMsg');
+                errorMsg.textContent = 'Usuário ou senha inválidos!';
+                errorMsg.style.display = 'block';
+                return false;
+            }
+        }
+
+        // ============================================
+        // EVENTO DO FORMULÁRIO
+        // ============================================
+        document.addEventListener('DOMContentLoaded', function() {
+            const form = document.getElementById('loginForm');
+            
+            if (form) {
+                form.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    const usuario = document.getElementById('usuario').value;
+                    const senha = document.getElementById('senha').value;
+                    fazerLogin(usuario, senha);
+                });
+            }
+        });
+    </script>
 </body>
 </html>

@@ -4,42 +4,284 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <title>Ranking - Bolão Copa 2026</title>
-    <link rel="stylesheet" href="css/style.css">
     <style>
-        .ranking-table { width: 100%; border-collapse: collapse; background: white; border-radius: 12px; overflow: hidden; }
-        .ranking-table th, .ranking-table td { padding: 12px; text-align: left; border-bottom: 1px solid #eee; }
-        .ranking-table th { background: #f5f5f5; }
-        .pontos { font-weight: bold; color: #1a5f7a; font-size: 1.2rem; }
-        .ranking-pos-1 { background: linear-gradient(135deg, #ffd70020, #ffed4e10); }
-        .ranking-pos-2 { background: linear-gradient(135deg, #c0c0c020, #e0e0e010); }
-        .ranking-pos-3 { background: linear-gradient(135deg, #cd7f3220, #e0a06010); }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background: #f5f7fa;
+            color: #1e293b;
+        }
+
+        .navbar {
+            background: white;
+            border-bottom: 1px solid #e2e8f0;
+            padding: 12px 20px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .navbar-container {
+            max-width: 600px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #1a5f7a;
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: #64748b;
+            text-decoration: none;
+            padding: 6px 12px;
+            border-radius: 20px;
+        }
+
+        .nav-links a.active {
+            background: #1a5f7a;
+            color: white;
+        }
+
+        .user-name {
+            font-weight: 600;
+            color: #1a5f7a;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .card {
+            background: white;
+            border-radius: 16px;
+            overflow: hidden;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+
+        .card-header {
+            padding: 15px 20px;
+            font-weight: bold;
+            background: white;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .card-body {
+            padding: 20px;
+        }
+
+        .ranking-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .ranking-table th, .ranking-table td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .ranking-table th {
+            background: #f8fafc;
+            font-weight: 600;
+            color: #64748b;
+        }
+
+        .pontos {
+            font-weight: bold;
+            color: #1a5f7a;
+            font-size: 1.1rem;
+        }
+
+        .ranking-pos-1 {
+            background: linear-gradient(135deg, #ffd70015, #ffed4e08);
+        }
+
+        .ranking-pos-2 {
+            background: linear-gradient(135deg, #c0c0c015, #e0e0e008);
+        }
+
+        .ranking-pos-3 {
+            background: linear-gradient(135deg, #cd7f3215, #e0a06008);
+        }
+
+        .alert {
+            background: #f1f5f9;
+            padding: 15px;
+            border-radius: 12px;
+            text-align: center;
+            color: #64748b;
+        }
     </style>
 </head>
 <body>
-    <div class="app">
-        <nav class="navbar">
-            <div class="navbar-container">
-                <a href="meus_palpites.html" class="logo">🏆 <span>Bolão 2026</span></a>
-                <div class="nav-links">
-                    <span id="userName"></span>
-                    <a href="meus_palpites.html">📝 Meus Palpites</a>
-                    <a href="ranking.html" class="active">📊 Ranking</a>
-                    <a href="#" onclick="logout()">Sair</a>
-                </div>
+    <div class="navbar">
+        <div class="navbar-container">
+            <a href="meus_palpites.html" class="logo">🏆 Bolão 2026</a>
+            <div class="nav-links">
+                <span class="user-name" id="userName"></span>
+                <a href="meus_palpites.html">📝 Meus</a>
+                <a href="ranking.html" class="active">📊 Ranking</a>
+                <a href="#" onclick="logout()">🚪 Sair</a>
             </div>
-        </nav>
-
-        <main class="container">
-            <div class="card">
-                <div class="card-header">🏆 Ranking do Bolão</div>
-                <div class="card-body" id="rankingContainer"></div>
-            </div>
-        </main>
+        </div>
     </div>
 
-    <script src="js/config.js"></script>
-    <script src="js/database.js"></script>
-    <script src="js/auth.js"></script>
-    <script src="js/ranking.js"></script>
+    <main class="container">
+        <div class="card">
+            <div class="card-header">🏆 Ranking do Bolão</div>
+            <div class="card-body" id="rankingContainer"></div>
+        </div>
+    </main>
+
+    <script>
+        const STORAGE_KEY = 'bolao_copa_dados';
+
+        const USUARIOS = {
+            'admin': { senha: 'admin123', nome: 'Administrador' },
+            'Nelson': { senha: 'lider', nome: 'Nelson' },
+            'Douglas': { senha: 'doug123', nome: 'Douglas' },
+            'Alexandre': { senha: 'alex123', nome: 'Alexandre' },
+            'Alcy': { senha: 'alcy123', nome: 'Alcy' },
+            'Carla': { senha: 'carla123', nome: 'Carla' },
+            'Thiago': { senha: 'thiago123', nome: 'Thiago' },
+            'Ronaldo': { senha: 'ronaldo123', nome: 'Ronaldo' },
+            'Kelly': { senha: 'kelly123', nome: 'Kelly' },
+            'Ana': { senha: 'ana123', nome: 'Ana' },
+            'Carmem': { senha: 'carmem123', nome: 'Carmem' },
+            'Rogéria': { senha: 'rogeria123', nome: 'Rogéria' },
+            'Carol': { senha: 'carol123', nome: 'Carol' },
+            'Márcio': { senha: 'marcio123', nome: 'Márcio' },
+            'Raphael': { senha: 'raphael123', nome: 'Raphael' },
+            'Julio': { senha: 'julio123', nome: 'Julio' },
+            'Elyseu': { senha: 'elyseu123', nome: 'Elyseu' }
+        };
+
+        function verificarLogin() {
+            const usuario = localStorage.getItem('usuarioLogado');
+            if (!usuario) {
+                window.location.href = 'index.html';
+                return null;
+            }
+            return JSON.parse(usuario);
+        }
+
+        function logout() {
+            localStorage.removeItem('usuarioLogado');
+            window.location.href = 'index.html';
+        }
+
+        function lerDados() {
+            const dadosStr = localStorage.getItem(STORAGE_KEY);
+            if (dadosStr) {
+                return JSON.parse(dadosStr);
+            }
+            return { jogos: [], palpites: {}, resultados: {} };
+        }
+
+        function calcularRanking() {
+            const dados = lerDados();
+            const ranking = [];
+            
+            for (const [username, user] of Object.entries(USUARIOS)) {
+                if (username === 'admin') continue;
+                
+                let pontos = 0;
+                let placaresExatos = 0;
+                let resultadosCorretos = 0;
+                
+                for (const jogo of dados.jogos) {
+                    const palpiteKey = `${jogo.id}_${username}`;
+                    const palpite = dados.palpites[palpiteKey];
+                    const resultado = dados.resultados[jogo.id];
+                    
+                    if (palpite && resultado) {
+                        if (palpite.casa === resultado.casa && palpite.fora === resultado.fora) {
+                            pontos += 3;
+                            placaresExatos++;
+                        } else {
+                            const palpiteVencedor = palpite.casa > palpite.fora ? 'casa' : (palpite.casa < palpite.fora ? 'fora' : 'empate');
+                            const resultadoVencedor = resultado.casa > resultado.fora ? 'casa' : (resultado.casa < resultado.fora ? 'fora' : 'empate');
+                            if (palpiteVencedor === resultadoVencedor) {
+                                pontos += 1;
+                                resultadosCorretos++;
+                            }
+                        }
+                    }
+                }
+                
+                ranking.push({
+                    nome: user.nome,
+                    pontos,
+                    placaresExatos,
+                    resultadosCorretos
+                });
+            }
+            
+            ranking.sort((a, b) => {
+                if (a.pontos !== b.pontos) return b.pontos - a.pontos;
+                return b.placaresExatos - a.placaresExatos;
+            });
+            
+            return ranking;
+        }
+
+        function carregarRanking() {
+            const usuario = verificarLogin();
+            if (!usuario) return;
+            
+            document.getElementById('userName').innerHTML = usuario.nome;
+            
+            const ranking = calcularRanking();
+            const container = document.getElementById('rankingContainer');
+            
+            if (ranking.length === 0) {
+                container.innerHTML = '<div class="alert">Aguardando palpites e resultados...</div>';
+                return;
+            }
+            
+            let html = `<table class="ranking-table">
+                        <thead>
+                            <tr><th>Pos</th><th>Jogador</th><th>Pontos</th><th>Placar Exato</th><th>Resultado</th></tr>
+                        </thead>
+                        <tbody>`;
+            
+            ranking.forEach((item, idx) => {
+                const medalha = idx === 0 ? '🥇' : (idx === 1 ? '🥈' : (idx === 2 ? '🥉' : `${idx+1}º`));
+                const classe = idx === 0 ? 'ranking-pos-1' : (idx === 1 ? 'ranking-pos-2' : (idx === 2 ? 'ranking-pos-3' : ''));
+                html += `<tr class="${classe}">
+                            <td>${medalha}</td>
+                            <td><strong>${item.nome}</strong></td>
+                            <td class="pontos">${item.pontos}</td>
+                            <td>${item.placaresExatos}</td>
+                            <td>${item.resultadosCorretos}</td>
+                         </tr>`;
+            });
+            
+            html += '</tbody></table>';
+            container.innerHTML = html;
+        }
+
+        document.addEventListener('DOMContentLoaded', carregarRanking);
+    </script>
 </body>
 </html>
