@@ -35,7 +35,13 @@ function carregarListaJogos() {
     return;
   }
   
-  dados.jogos.forEach(jogo => {
+  // Ordenar por data
+  const jogosOrdenados = [...dados.jogos].sort((a, b) => {
+    if (a.data && b.data) return a.data.localeCompare(b.data);
+    return 0;
+  });
+  
+  jogosOrdenados.forEach(jogo => {
     const div = document.createElement('div');
     div.className = 'jogo-item';
     div.innerHTML = `
@@ -97,7 +103,7 @@ function adicionarJogo() {
   salvarDadosGitHub(dados);
   timeCasa.value = '';
   timeFora.value = '';
-  if (dataJogo) dataJogo.value = '';
+  if (dataJogo) dataJogo.value = '2026-06-11';
   carregarListaJogos();
   carregarResultados();
   showSuccess('Jogo adicionado com sucesso!');
@@ -139,18 +145,18 @@ function carregarResultados() {
     const div = document.createElement('div');
     div.className = 'resultado-item';
     div.innerHTML = `
-      <div class="resultado-times">
+      <div class="jogo-info" style="flex: 2;">
         <strong>${jogo.timeCasa} 🆚 ${jogo.timeFora}</strong>
         <div class="jogo-data">📅 ${dataFormatada}</div>
       </div>
       <div class="resultado-inputs">
         <input type="number" id="res_casa_${jogo.id}" class="resultado-casa" 
                value="${resultado.casa !== undefined ? resultado.casa : ''}" 
-               placeholder="0" min="0" max="30" step="1" style="width: 70px; padding: 8px; text-align: center;">
+               placeholder="0" min="0" max="30" step="1" style="width: 60px; padding: 8px; text-align: center;">
         <span style="font-weight: bold;">x</span>
         <input type="number" id="res_fora_${jogo.id}" class="resultado-fora" 
                value="${resultado.fora !== undefined ? resultado.fora : ''}" 
-               placeholder="0" min="0" max="30" step="1" style="width: 70px; padding: 8px; text-align: center;">
+               placeholder="0" min="0" max="30" step="1" style="width: 60px; padding: 8px; text-align: center;">
       </div>
     `;
     container.appendChild(div);
@@ -198,20 +204,22 @@ function carregarListaParticipantes() {
   
   // Botões de ação em massa
   const acoesDiv = document.createElement('div');
-  acoesDiv.className = 'mb-3';
   acoesDiv.style.marginBottom = '20px';
   acoesDiv.style.display = 'flex';
   acoesDiv.style.gap = '10px';
   acoesDiv.style.flexWrap = 'wrap';
   acoesDiv.innerHTML = `
-    <button class="btn-warning" onclick="liberarTodos()">🔓 Liberar Todos</button>
-    <button class="btn-danger" onclick="limparTodosPalpites()">🗑️ Limpar Todos os Palpites</button>
+    <button class="btn-warning" style="flex: 1;" onclick="liberarTodos()">🔓 Liberar Todos</button>
+    <button class="btn-danger" style="flex: 1;" onclick="limparTodosPalpites()">🗑️ Limpar Todos</button>
   `;
   container.appendChild(acoesDiv);
   
-  for (const [username, userInfo] of Object.entries(USUARIOS)) {
-    if (username === 'admin') continue;
-    
+  // Ordenar participantes por nome
+  const participantesOrdenados = Object.entries(USUARIOS)
+    .filter(([username]) => username !== 'admin')
+    .sort((a, b) => a[1].nome.localeCompare(b[1].nome));
+  
+  for (const [username, userInfo] of participantesOrdenados) {
     const estaLiberado = dados.editoresLiberados && dados.editoresLiberados.includes(username);
     const qtdPalpites = dados.palpites.filter(p => p.usuario === username).length;
     
@@ -219,11 +227,11 @@ function carregarListaParticipantes() {
     div.className = 'participante-item';
     div.innerHTML = `
       <div class="participante-info">
-        <div class="participante-nome">${userInfo.nome}</div>
+        <div class="participante-nome"><strong>${userInfo.nome}</strong></div>
         <div class="participante-username">@${username} • ${qtdPalpites} palpites</div>
       </div>
       <div class="participante-actions">
-        <span style="margin-right: 10px;">${estaLiberado ? '✅ Liberado' : '🔒 Bloqueado'}</span>
+        <span style="font-size: 0.7rem; margin-right: 8px;">${estaLiberado ? '✅' : '🔒'}</span>
         <button class="btn-sm ${estaLiberado ? 'btn-warning' : 'btn-success'}" onclick="liberarParticipante('${username}')">
           ${estaLiberado ? 'Bloquear' : 'Liberar'}
         </button>
@@ -346,26 +354,6 @@ function importarExcel() {
   reader.readAsArrayBuffer(file);
 }
 
-function showTab(tabId) {
-  // Esconder todas as tabs
-  document.querySelectorAll('.tab-pane').forEach(pane => {
-    pane.classList.remove('active');
-  });
-  document.querySelectorAll('.admin-tab').forEach(tab => {
-    tab.classList.remove('active');
-  });
-  
-  // Mostrar a tab selecionada
-  document.getElementById(`tab-${tabId}`).classList.add('active');
-  
-  // Ativar o botão correspondente
-  const buttons = document.querySelectorAll('.admin-tab');
-  const tabMap = { jogos: 0, resultados: 1, participantes: 2, importar: 3 };
-  if (buttons[tabMap[tabId]]) {
-    buttons[tabMap[tabId]].classList.add('active');
-  }
-}
-
 // Expor funções globalmente
 window.adicionarJogo = adicionarJogo;
 window.removerJogo = removerJogo;
@@ -375,6 +363,5 @@ window.liberarTodos = liberarTodos;
 window.limparPalpitesParticipante = limparPalpitesParticipante;
 window.limparTodosPalpites = limparTodosPalpites;
 window.importarExcel = importarExcel;
-window.showTab = showTab;
 
 document.addEventListener('DOMContentLoaded', carregarAdmin);
