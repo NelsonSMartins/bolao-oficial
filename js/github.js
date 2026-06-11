@@ -1,86 +1,30 @@
-// Funções para ler/escrever no GitHub
 async function lerDadosGitHub() {
+    // Tentar ler do localStorage primeiro (fallback)
+    const localData = localStorage.getItem('bolao_dados');
+    if (localData) {
+        try {
+            return JSON.parse(localData);
+        } catch(e) {}
+    }
+    
+    // Retornar dados padrão com todos os jogos
     return {
-        jogos: [
-            { id: 1, timeCasa: 'México', timeFora: 'Canadá', ativo: true }
-        ],
+        jogos: JOGOS_PADRAO,
         palpites: [],
         resultados: {},
         editoresLiberados: [],
-        proximoJogoId: 2
+        proximoJogoId: 49
     };
 }
 
 async function salvarDadosGitHub(dados) {
+    // Salvar no localStorage como fallback
+    localStorage.setItem('bolao_dados', JSON.stringify(dados));
     console.log('Dados salvos localmente:', dados);
+    showSuccess('Dados salvos com sucesso!');
     return true;
 }
 
-function showError(message) {
-    alert(message);
-}
-
-function showSuccess(message) {
-    alert(message);
-}
-async function salvarDadosGitHub(dados) {
-    showLoading();
-    
-    const url = `https://api.github.com/repos/${GITHUB_USER}/${GITHUB_REPO}/contents/${GITHUB_FILE}`;
-    
-    let sha = null;
-    try {
-        const response = await fetch(url, {
-            headers: {
-                'Authorization': `token ${GITHUB_TOKEN}`,
-                'Accept': 'application/vnd.github.v3+json'
-            }
-        });
-        
-        if (response.status === 200) {
-            const data = await response.json();
-            sha = data.sha;
-        }
-    } catch (error) {
-        console.log('Arquivo será criado');
-    }
-    
-    const conteudo = btoa(unescape(encodeURIComponent(JSON.stringify(dados, null, 2))));
-    
-    const body = {
-        message: `Atualizar dados do bolão - ${new Date().toLocaleString()}`,
-        content: conteudo,
-        branch: 'main'
-    };
-    
-    if (sha) {
-        body.sha = sha;
-    }
-    
-    const response = await fetch(url, {
-        method: 'PUT',
-        headers: {
-            'Authorization': `token ${GITHUB_TOKEN}`,
-            'Accept': 'application/vnd.github.v3+json',
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(body)
-    });
-    
-    hideLoading();
-    
-    if (response.ok) {
-        showSuccess('Dados salvos com sucesso!');
-        return true;
-    } else {
-        const error = await response.text();
-        console.error('Erro ao salvar:', error);
-        showError('Erro ao salvar dados. Tente novamente.');
-        return false;
-    }
-}
-
-// Funções auxiliares de UI
 function showLoading() {
     let loader = document.getElementById('globalLoader');
     if (!loader) {

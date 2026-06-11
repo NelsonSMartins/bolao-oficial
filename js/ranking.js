@@ -1,6 +1,6 @@
 let dados = null;
 
-function calcularPontuacao(palpite, resultado) {
+function calcularPontuacaoRanking(palpite, resultado) {
     if (!resultado) return 0;
     
     const acertouPlacar = (palpite.casa === resultado.casa && palpite.fora === resultado.fora);
@@ -18,7 +18,10 @@ async function carregarRanking() {
     const usuario = verificarLogin();
     if (!usuario) return;
     
-    document.getElementById('userName').textContent = usuario.nome;
+    const userNameSpan = document.getElementById('userName');
+    if (userNameSpan) {
+        userNameSpan.textContent = usuario.nome;
+    }
     
     dados = await lerDadosGitHub();
     if (!dados) {
@@ -26,60 +29,92 @@ async function carregarRanking() {
         return;
     }
     
-    const pontosPorUsuario = {};
+    const pontosPorUsuario = [];
     
     for (const [username, userInfo] of Object.entries(USUARIOS)) {
         if (username === 'admin') continue;
         
         let totalPontos = 0;
+        let placaresExatos = 0;
+        let acertosResultado = 0;
+        
         const palpitesUsuario = dados.palpites.filter(p => p.usuario === username);
         
         for (const palpite of palpitesUsuario) {
             const resultado = dados.resultados[palpite.jogoId];
-            totalPontos += calcularPontuacao(palpite, resultado);
+            if (resultado) {
+                const pontos = calcularPontuacaoRanking(palpite, resultado);
+                totalPontos += pontos;
+                if (pontos === 3) placaresExatos++;
+                if (pontos === 1) acertosResultado++;
+            }
         }
         
-        pontosPorUsuario[username] = {
+        pontosPorUsuario.push({
+            username: username,
             nome: userInfo.nome,
-            pontos: totalPontos
-        };
+            pontos: totalPontos,
+            placaresExatos: placaresExatos,
+            acertosResultado: acertosResultado
+        });
     }
     
-    const ranking = Object.entries(pontosPorUsuario)
-        .sort((a, b) => b[1].pontos - a[1].pontos)
-        .map(([username, data], index) => ({
-            posicao: index + 1,
-            nome: data.nome,
-            pontos: data.pontos
-        }));
+    // Ordenar: primeiro por pontos, depois por placares exatos
+    pontosPorUsuario.sort((a, b) => {
+        if (a.pontos !== b.pontos) return b.pontos - a.pontos;
+        return b.placaresExatos - a.placaresExatos;
+    });
     
-    renderizarRanking(ranking);
+    renderizarRanking(pontosPorUsuario);
 }
 
 function renderizarRanking(ranking) {
     const container = document.getElementById('rankingContainer');
-    container.innerHTML = '';
+    if (!container) return;
     
-    ranking.forEach(item => {
-        let medalha = '';
-        if (item.posicao === 1) medalha = '🥇';
-        else if (item.posicao === 2) medalha = '🥈';
-        else if (item.posicao === 3) medalha = '🥉';
-        else medalha = `${item.posicao}º`;
-        
-        const rankingDiv = document.createElement('div');
-        rankingDiv.className = 'ranking-item';
-        rankingDiv.innerHTML = `
-            <div class="ranking-posicao">${medalha}</div>
-            <div class="ranking-nome">${item.nome}</div>
-            <div class="ranking-pontos">${item.pontos} pts</div>
-        `;
-        container.appendChild(rankingDiv);
-    });
+    container.innerHTML = '';
     
     if (ranking.length === 0) {
         container.innerHTML = '<div class="alert alert-info">Aguardando palpites e resultados...</div>';
+        return;
     }
+    
+    // Criar tabela de ranking
+    const table = document.createElement('table');
+    table.className = 'table table-hover';
+    table.innerHTML = `
+        <thead>
+            <tr>
+                <th>Posição</th>
+                <th>Participante</th>
+                <th>Pontos</th>
+                <th>Placar Exato (3pts)</th>
+                <th>Resultado (1pt)</th>
+            </tr>
+        </thead>
+        <tbody id="rankingBody"></tbody>
+    `;
+    
+    container.appendChild(table);
+    
+    const tbody = document.getElementById('rankingBody');
+    
+    ranking.forEach((item, index) => {
+        const posicao = index + 1;
+        let medalha = '';
+        if (posicao === 1) medalha = '🥇 ';
+        else if (posicao === 2) medalha = '🥈 ';
+        else if (posicao === 3) medalha = '🥉 ';
+        
+        const row = tbody.insertRow();
+        row.innerHTML = `
+            <td><strong>${medalha}${posicao}º</strong></td>
+            <td><strong>${item.nome}</strong></td>
+            <td class="text-success fw-bold">${item.pontos} pts</td>
+            <td>${item.placaresExatos}</td>
+            <td>${item.acertosResultado}</td>
+        `;
+    });
 }
 
 document.addEventListener('DOMContentLoaded', carregarRanking);

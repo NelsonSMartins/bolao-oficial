@@ -35,39 +35,6 @@ function verificarLogin() {
     return usuario ? JSON.parse(usuario) : null;
 }
 
-// Inicialização da página de login
-document.addEventListener('DOMContentLoaded', () => {
-    const loginForm = document.getElementById('loginForm');
-    if (loginForm) {
-        loginForm.addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const usuario = document.getElementById('usuario').value;
-            const senha = document.getElementById('senha').value;
-            await fazerLogin(usuario, senha);
-        });
-    }
-});
-
-function logout() {
-    localStorage.removeItem('usuarioLogado');
-    showSuccess('Logout realizado com sucesso!');
-    setTimeout(() => {
-        window.location.href = 'index.html';
-    }, 500);
-}
-
-function verificarLogin() {
-    const usuario = localStorage.getItem('usuarioLogado');
-    if (!usuario) {
-        if (!window.location.pathname.includes('index.html')) {
-            window.location.href = 'index.html';
-        }
-        return null;
-    }
-    return JSON.parse(usuario);
-}
-
-// Inicialização
 document.addEventListener('DOMContentLoaded', () => {
     const loginForm = document.getElementById('loginForm');
     if (loginForm) {
