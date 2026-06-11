@@ -208,6 +208,13 @@
             font-size: 1rem;
         }
 
+        /* Medalhas maiores */
+        .medalha {
+            font-size: 1.4rem;
+            display: inline-block;
+            min-width: 45px;
+        }
+
         /* Jogos */
         .games-list {
             display: flex;
@@ -344,6 +351,7 @@
             .bet-value { text-align: left; margin-top: 6px; }
             .nav-tab { padding: 10px 8px; font-size: 0.75rem; }
             .ranking-table th, .ranking-table td { padding: 8px 6px; font-size: 0.75rem; }
+            .medalha { font-size: 1.1rem; min-width: 35px; }
         }
     </style>
 </head>
@@ -473,12 +481,10 @@
         function calcularPontosComDesempate(palpite, resultado) {
             if (!palpite || !resultado) return { pontos: 0, diferencaGols: 999 };
             
-            // Acertou o placar exato
             if (palpite.casa === resultado.casa && palpite.fora === resultado.fora) {
                 return { pontos: 3, diferencaGols: 0 };
             }
             
-            // Verificar acerto de resultado (vitória/empate)
             const palpiteVencedor = palpite.casa > palpite.fora ? 'casa' : (palpite.casa < palpite.fora ? 'fora' : 'empate');
             const resultadoVencedor = resultado.casa > resultado.fora ? 'casa' : (resultado.casa < resultado.fora ? 'fora' : 'empate');
             
@@ -549,7 +555,8 @@
                 return a.nome.localeCompare(b.nome);
             });
             
-            // Atribuir posições com empate (mesma posição para pontuação igual)
+            // Atribuir posições com distribuição correta
+            // Ex: 1º, 1º, 3º, 4º (pula a posição 2)
             let posicao = 1;
             for (let i = 0; i < ranking.length; i++) {
                 if (i > 0 && 
@@ -557,11 +564,12 @@
                     ranking[i].placaresExatos === ranking[i-1].placaresExatos &&
                     ranking[i].resultadosCorretos === ranking[i-1].resultadosCorretos &&
                     ranking[i].diferencaGols === ranking[i-1].diferencaGols) {
+                    // Mesma posição do anterior
                     ranking[i].posicao = ranking[i-1].posicao;
                 } else {
-                    ranking[i].posicao = posicao;
+                    // Nova posição = índice + 1
+                    ranking[i].posicao = i + 1;
                 }
-                posicao++;
             }
             
             return ranking;
@@ -600,22 +608,22 @@
                             <tbody>`;
             
             ranking.forEach((item) => {
-                let medalha = '';
-                if (item.posicao === 1) medalha = '1';
-                else if (item.posicao === 2) medalha = '2';
-                else if (item.posicao === 3) medalha = '3';
-                else medalha = `${item.posicao}º`;
+                let medalhaHtml = '';
+                if (item.posicao === 1) medalhaHtml = '<span class="medalha">🥇</span>';
+                else if (item.posicao === 2) medalhaHtml = '<span class="medalha">🥈</span>';
+                else if (item.posicao === 3) medalhaHtml = '<span class="medalha">🥉</span>';
+                else medalhaHtml = `<span class="medalha">${item.posicao}º</span>`;
                 
                 const classe = item.posicao === 1 ? 'rank-1' : (item.posicao === 2 ? 'rank-2' : (item.posicao === 3 ? 'rank-3' : ''));
                 html += `<tr class="${classe}">
-                            <td><strong>${medalha}</strong></td>
-                            <td><strong>${item.nome}</strong></strong></td>
-                            <td style="text-align:center"><span class="pontos-value">${item.pontos}</span></strong></td>
-                            <td style="text-align:center">${item.placaresExatos}</strong></td>
-                            <td style="text-align:center">${item.resultadosCorretos}</strong></td>
+                            <td>${medalhaHtml}</td>
+                            <td><strong>${item.nome}</strong></td>
+                            <td style="text-align:center"><span class="pontos-value">${item.pontos}</span></td>
+                            <td style="text-align:center">${item.placaresExatos}</td>
+                            <td style="text-align:center">${item.resultadosCorretos}</td>
                         </tr>`;
             });
-            html += '</tbody></table>';
+            html += '</tbody><table>';
             container.innerHTML = html;
         }
 
@@ -626,10 +634,9 @@
         }
 
         // ============================================
-        // JOGOS - ORDENAÇÃO POR ID
+        // JOGOS
         // ============================================
         function carregarFiltrosJogos() {
-            // Times únicos
             const times = new Set();
             JOGOS.forEach(jogo => {
                 times.add(jogo.timeCasa);
@@ -660,7 +667,6 @@
                 jogosFiltrados = jogosFiltrados.filter(jogo => jogo.data === dataFiltro);
             }
             
-            // Ordenar por ID (ordem crescente)
             jogosFiltrados.sort((a, b) => a.id - b.id);
             
             const container = document.getElementById('jogosContainer');
@@ -698,7 +704,7 @@
         }
 
         // ============================================
-        // APOSTAS - ORDENAÇÃO POR ID
+        // APOSTAS
         // ============================================
         function carregarSelectJogador() {
             const select = document.getElementById('selectJogador');
@@ -719,7 +725,6 @@
                 return;
             }
             
-            // Filtrar APENAS as apostas que o jogador fez
             const apostasDoJogador = [];
             for (const [key, aposta] of Object.entries(APOSTAS)) {
                 if (key.endsWith(`_${jogador}`)) {
@@ -734,7 +739,6 @@
                 }
             }
             
-            // Ordenar por ID do jogo (ordem crescente)
             apostasDoJogador.sort((a, b) => a.jogo.id - b.jogo.id);
             
             if (apostasDoJogador.length === 0) {
