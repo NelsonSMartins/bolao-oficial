@@ -141,6 +141,18 @@
             cursor: pointer;
         }
 
+        /* Calendário nativo */
+        .filter-date {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            font-size: 0.85rem;
+            background: white;
+            cursor: pointer;
+            font-family: inherit;
+        }
+
         .btn-reset {
             background: #f1f5f9;
             border: none;
@@ -158,9 +170,7 @@
             background: #e2e8f0;
         }
 
-        /* ============================================
-           RANKING - CORRIGIDO
-        ============================================ */
+        /* Ranking */
         .ranking-wrapper {
             overflow-x: auto;
             -webkit-overflow-scrolling: touch;
@@ -198,9 +208,7 @@
             font-size: 1rem;
         }
 
-        /* ============================================
-           JOGOS
-        ============================================ */
+        /* Jogos */
         .games-list {
             display: flex;
             flex-direction: column;
@@ -244,9 +252,7 @@
             text-align: center;
         }
 
-        /* ============================================
-           APOSTAS - SÓ MOSTRA O QUE O JOGADOR APOSTOU
-        ============================================ */
+        /* Apostas */
         .bets-list {
             display: flex;
             flex-direction: column;
@@ -344,7 +350,7 @@
 <body>
     <div class="app-header">
         <h1>🏆 Bolão Copa 2026</h1>
-        <p>Ranking • Palpites atualizados</p>
+        <p>Ranking em tempo real • Palpites atualizados</p>
     </div>
 
     <div class="nav-tabs">
@@ -393,9 +399,7 @@
                         </div>
                         <div class="filter-group">
                             <div class="filter-label">📅 Filtrar por data</div>
-                            <select id="filtroDataJogo" class="filter-select">
-                                <option value="">Todas as datas</option>
-                            </select>
+                            <input type="date" id="filtroDataJogo" class="filter-date">
                         </div>
                         <button class="btn-reset" onclick="resetFiltrosJogos()">Limpar</button>
                     </div>
@@ -459,14 +463,31 @@
         // ============================================
         // FUNÇÕES AUXILIARES
         // ============================================
-        function calcularPontos(palpite, resultado) {
+        function calcularDiferencaGols(palpite, resultado) {
             if (!palpite || !resultado) return 0;
-            if (palpite.casa === resultado.casa && palpite.fora === resultado.fora) return 3;
+            const diferencaPalpite = Math.abs(palpite.casa - palpite.fora);
+            const diferencaResultado = Math.abs(resultado.casa - resultado.fora);
+            return Math.abs(diferencaPalpite - diferencaResultado);
+        }
+
+        function calcularPontosComDesempate(palpite, resultado) {
+            if (!palpite || !resultado) return { pontos: 0, diferencaGols: 999 };
             
+            // Acertou o placar exato
+            if (palpite.casa === resultado.casa && palpite.fora === resultado.fora) {
+                return { pontos: 3, diferencaGols: 0 };
+            }
+            
+            // Verificar acerto de resultado (vitória/empate)
             const palpiteVencedor = palpite.casa > palpite.fora ? 'casa' : (palpite.casa < palpite.fora ? 'fora' : 'empate');
             const resultadoVencedor = resultado.casa > resultado.fora ? 'casa' : (resultado.casa < resultado.fora ? 'fora' : 'empate');
             
-            return palpiteVencedor === resultadoVencedor ? 1 : 0;
+            if (palpiteVencedor === resultadoVencedor) {
+                const diferenca = calcularDiferencaGols(palpite, resultado);
+                return { pontos: 1, diferencaGols: diferenca };
+            }
+            
+            return { pontos: 0, diferencaGols: 999 };
         }
 
         function formatarData(dataStr) {
@@ -480,14 +501,16 @@
         }
 
         // ============================================
-        // RANKING - CORRIGIDO
+        // RANKING COM CRITÉRIOS DE DESEMPATE
         // ============================================
         function calcularRankingCompleto() {
             const ranking = [];
+            
             for (const [nome, usuario] of Object.entries(USUARIOS)) {
-                let pontos = 0;
+                let pontosTotais = 0;
                 let placaresExatos = 0;
                 let resultadosCorretos = 0;
+                let somaDiferencaGols = 0;
                 
                 for (const jogo of JOGOS) {
                     const apostaKey = `${jogo.id}_${nome}`;
@@ -495,25 +518,52 @@
                     const resultado = RESULTADOS[jogo.id];
                     
                     if (palpite && resultado) {
-                        if (palpite.casa === resultado.casa && palpite.fora === resultado.fora) {
-                            pontos += 3;
-                            placaresExatos++;
-                        } else {
-                            const palpiteVencedor = palpite.casa > palpite.fora ? 'casa' : (palpite.casa < palpite.fora ? 'fora' : 'empate');
-                            const resultadoVencedor = resultado.casa > resultado.fora ? 'casa' : (resultado.casa < resultado.fora ? 'fora' : 'empate');
-                            if (palpiteVencedor === resultadoVencedor) {
-                                pontos += 1;
-                                resultadosCorretos++;
-                            }
-                        }
+                        const { pontos, diferencaGols } = calcularPontosComDesempate(palpite, resultado);
+                        pontosTotais += pontos;
+                        if (pontos === 3) placaresExatos++;
+                        if (pontos === 1) resultadosCorretos++;
+                        somaDiferencaGols += diferencaGols;
                     }
                 }
-                ranking.push({ nome, pontos, placaresExatos, resultadosCorretos });
+                
+                ranking.push({
+                    nome: nome,
+                    pontos: pontosTotais,
+                    placaresExatos: placaresExatos,
+                    resultadosCorretos: resultadosCorretos,
+                    diferencaGols: somaDiferencaGols
+                });
             }
+            
+            // Critérios de desempate:
+            // 1. Maior número de pontos
+            // 2. Maior número de acertos de placar exato
+            // 3. Maior número de acertos de resultado
+            // 4. Menor diferença de gols acumulada
+            // 5. Ordem alfabética
             ranking.sort((a, b) => {
                 if (a.pontos !== b.pontos) return b.pontos - a.pontos;
-                return b.placaresExatos - a.placaresExatos;
+                if (a.placaresExatos !== b.placaresExatos) return b.placaresExatos - a.placaresExatos;
+                if (a.resultadosCorretos !== b.resultadosCorretos) return b.resultadosCorretos - a.resultadosCorretos;
+                if (a.diferencaGols !== b.diferencaGols) return a.diferencaGols - b.diferencaGols;
+                return a.nome.localeCompare(b.nome);
             });
+            
+            // Atribuir posições com empate (mesma posição para pontuação igual)
+            let posicao = 1;
+            for (let i = 0; i < ranking.length; i++) {
+                if (i > 0 && 
+                    ranking[i].pontos === ranking[i-1].pontos && 
+                    ranking[i].placaresExatos === ranking[i-1].placaresExatos &&
+                    ranking[i].resultadosCorretos === ranking[i-1].resultadosCorretos &&
+                    ranking[i].diferencaGols === ranking[i-1].diferencaGols) {
+                    ranking[i].posicao = ranking[i-1].posicao;
+                } else {
+                    ranking[i].posicao = posicao;
+                }
+                posicao++;
+            }
+            
             return ranking;
         }
 
@@ -549,21 +599,20 @@
                             </thead>
                             <tbody>`;
             
-            ranking.forEach((item, idx) => {
-                const posicao = idx + 1;
+            ranking.forEach((item) => {
                 let medalha = '';
-                if (posicao === 1) medalha = '🥇';
-                else if (posicao === 2) medalha = '🥈';
-                else if (posicao === 3) medalha = '🥉';
-                else medalha = `${posicao}º`;
+                if (item.posicao === 1) medalha = '🥇';
+                else if (item.posicao === 2) medalha = '🥈';
+                else if (item.posicao === 3) medalha = '🥉';
+                else medalha = `${item.posicao}º`;
                 
-                const classe = posicao === 1 ? 'rank-1' : (posicao === 2 ? 'rank-2' : (posicao === 3 ? 'rank-3' : ''));
+                const classe = item.posicao === 1 ? 'rank-1' : (item.posicao === 2 ? 'rank-2' : (item.posicao === 3 ? 'rank-3' : ''));
                 html += `<tr class="${classe}">
                             <td><strong>${medalha}</strong></td>
-                            <td><strong>${item.nome}</strong></td>
-                            <td style="text-align:center"><span class="pontos-value">${item.pontos}</span></td>
-                            <td style="text-align:center">${item.placaresExatos}</td>
-                            <td style="text-align:center">${item.resultadosCorretos}</td>
+                            <td><strong>${item.nome}</strong></strong></td>
+                            <td style="text-align:center"><span class="pontos-value">${item.pontos}</span></strong></td>
+                            <td style="text-align:center">${item.placaresExatos}</strong></td>
+                            <td style="text-align:center">${item.resultadosCorretos}</strong></td>
                         </tr>`;
             });
             html += '</tbody></table>';
@@ -577,7 +626,7 @@
         }
 
         // ============================================
-        // JOGOS - DATAS MAIS RECENTES PRIMEIRO
+        // JOGOS - ORDENAÇÃO POR ID
         // ============================================
         function carregarFiltrosJogos() {
             // Times únicos
@@ -592,17 +641,6 @@
                 selectTime.innerHTML = '<option value="">Todos os times</option>';
                 timesOrdenados.forEach(time => {
                     selectTime.innerHTML += `<option value="${time}">${time}</option>`;
-                });
-            }
-            
-            // Datas únicas - MAIS RECENTES PRIMEIRO
-            const datas = [...new Set(JOGOS.map(j => j.data).filter(d => d))];
-            datas.sort().reverse(); // Mais recentes primeiro
-            const selectData = document.getElementById('filtroDataJogo');
-            if (selectData) {
-                selectData.innerHTML = '<option value="">Todas as datas</option>';
-                datas.forEach(data => {
-                    selectData.innerHTML += `<option value="${data}">📅 ${formatarData(data)}</option>`;
                 });
             }
         }
@@ -622,8 +660,8 @@
                 jogosFiltrados = jogosFiltrados.filter(jogo => jogo.data === dataFiltro);
             }
             
-            // Ordenar por data - mais recentes primeiro
-            jogosFiltrados.sort((a,b) => (b.data || '').localeCompare(a.data || ''));
+            // Ordenar por ID (ordem crescente)
+            jogosFiltrados.sort((a, b) => a.id - b.id);
             
             const container = document.getElementById('jogosContainer');
             if (!container) return;
@@ -653,14 +691,14 @@
 
         function resetFiltrosJogos() {
             const selectTime = document.getElementById('filtroTimeJogo');
-            const selectData = document.getElementById('filtroDataJogo');
+            const inputData = document.getElementById('filtroDataJogo');
             if (selectTime) selectTime.value = '';
-            if (selectData) selectData.value = '';
+            if (inputData) inputData.value = '';
             renderizarJogos();
         }
 
         // ============================================
-        // APOSTAS - SÓ MOSTRA O QUE O JOGADOR APOSTOU
+        // APOSTAS - ORDENAÇÃO POR ID
         // ============================================
         function carregarSelectJogador() {
             const select = document.getElementById('selectJogador');
@@ -696,8 +734,8 @@
                 }
             }
             
-            // Ordenar por data - mais recentes primeiro
-            apostasDoJogador.sort((a, b) => (b.jogo.data || '').localeCompare(a.jogo.data || ''));
+            // Ordenar por ID do jogo (ordem crescente)
+            apostasDoJogador.sort((a, b) => a.jogo.id - b.jogo.id);
             
             if (apostasDoJogador.length === 0) {
                 container.innerHTML = `<div class="empty-state">📝 ${jogador} ainda não fez nenhum palpite</div>`;
@@ -712,7 +750,7 @@
                 
                 let statusHtml = '';
                 if (resultado) {
-                    const pontos = calcularPontos(palpite, resultado);
+                    const { pontos } = calcularPontosComDesempate(palpite, resultado);
                     if (pontos === 3) statusHtml = '<span class="badge badge-exact">🎯 +3</span>';
                     else if (pontos === 1) statusHtml = '<span class="badge badge-result">✅ +1</span>';
                     else statusHtml = '<span class="badge badge-wrong">❌ 0</span>';
