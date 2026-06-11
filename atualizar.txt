@@ -1,4 +1,3 @@
-cd C:\LOGICTEL\NELSON\Jogos
-git add index.html
-git commit -m "Abas funcionando corretamente - Removida aba Regras"
+git add -A
+git commit --allow-empty -m "Forçando atualização das apostas"
 git push -f origin main
