@@ -2,158 +2,168 @@
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <title>Admin - Bolão Copa 2026</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin - Gerar Dados</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-            background: #f5f7fa;
-            color: #1e293b;
+            font-family: monospace;
+            background: #1a1a2e;
+            color: #eee;
+            padding: 20px;
         }
-        .navbar {
-            background: white;
-            border-bottom: 1px solid #e2e8f0;
-            padding: 12px 20px;
-            position: sticky;
-            top: 0;
-            z-index: 100;
+        .container { max-width: 900px; margin: 0 auto; }
+        textarea {
+            width: 100%;
+            padding: 15px;
+            font-family: monospace;
+            font-size: 0.8rem;
+            background: #16213e;
+            color: #eee;
+            border: 1px solid #0f3460;
+            border-radius: 10px;
+            margin-bottom: 15px;
         }
-        .navbar-container {
-            max-width: 800px;
-            margin: 0 auto;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+        button {
+            padding: 10px 20px;
+            background: #e94560;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
         }
-        .logo { font-size: 1.2rem; font-weight: bold; color: #1a5f7a; text-decoration: none; }
-        .container { max-width: 800px; margin: 0 auto; padding: 20px; }
         .card {
-            background: white;
-            border-radius: 16px;
-            overflow: hidden;
-            margin-bottom: 20px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-        }
-        .card-header { padding: 15px 20px; font-weight: bold; border-bottom: 1px solid #e2e8f0; }
-        .card-body { padding: 20px; }
-        .btn-primary, .btn-success { padding: 12px 20px; border-radius: 10px; border: none; font-weight: 600; cursor: pointer; }
-        .btn-primary { background: #1a5f7a; color: white; }
-        .btn-success { background: #2e7d32; color: white; }
-        .btn-block { width: 100%; margin-top: 10px; }
-        .alert {
-            background: #e3f2fd;
-            padding: 15px;
+            background: #0f3460;
+            padding: 20px;
             border-radius: 12px;
             margin-bottom: 20px;
         }
-        .jogo-item {
-            background: #f8fafc;
-            padding: 15px;
-            border-radius: 12px;
-            margin-bottom: 10px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+        h2 { margin-bottom: 15px; color: #e94560; }
+        hr { margin: 15px 0; border-color: #0f3460; }
+        .exemplo {
+            background: #16213e;
+            padding: 10px;
+            border-radius: 8px;
+            font-size: 0.7rem;
+            margin-bottom: 15px;
         }
-        .loading { text-align: center; padding: 40px; color: #64748b; }
     </style>
 </head>
 <body>
-    <div class="navbar">
-        <div class="navbar-container">
-            <a href="admin.html" class="logo">👑 Admin Bolão</a>
-            <button class="btn-primary" onclick="logout()" style="padding: 8px 16px;">Sair</button>
+    <div class="container">
+        <h1>👑 Admin - Gerador de Dados</h1>
+        <p style="margin-bottom: 20px;">Preencha os campos abaixo e clique em "Gerar" para criar o código para copiar para os arquivos</p>
+
+        <div class="card">
+            <h2>📝 1. Jogos</h2>
+            <div class="exemplo">Exemplo: Brasil, Marrocos, 2026-06-11</div>
+            <textarea id="jogosInput" rows="8" placeholder="Digite os jogos no formato: Time Casa, Time Fora, Data
+Brasil, Marrocos, 2026-06-11
+México, Canadá, 2026-06-11
+Argentina, França, 2026-06-12"></textarea>
+            <button onclick="gerarJogos()">Gerar Código dos Jogos</button>
+            <div id="jogosOutput" style="margin-top: 15px;"></div>
+        </div>
+
+        <div class="card">
+            <h2>📝 2. Resultados</h2>
+            <div class="exemplo">Exemplo: Brasil, 2, Marrocos, 0</div>
+            <textarea id="resultadosInput" rows="5" placeholder="Digite os resultados no formato: Time Casa, Gols Casa, Time Fora, Gols Fora
+Brasil, 2, Marrocos, 0
+México, 1, Canadá, 1"></textarea>
+            <button onclick="gerarResultados()">Gerar Código dos Resultados</button>
+            <div id="resultadosOutput" style="margin-top: 15px;"></div>
+        </div>
+
+        <div class="card">
+            <h2>📝 3. Apostas</h2>
+            <div class="exemplo">Exemplo: Nelson, Brasil, 2, Marrocos, 0</div>
+            <textarea id="apostasInput" rows="10" placeholder="Digite as apostas no formato: Jogador, Time Casa, Gols Casa, Time Fora, Gols Fora
+Nelson, Brasil, 2, Marrocos, 0
+Douglas, Brasil, 1, Marrocos, 0
+Alcy, Brasil, 2, Marrocos, 1"></textarea>
+            <button onclick="gerarApostas()">Gerar Código das Apostas</button>
+            <div id="apostasOutput" style="margin-top: 15px;"></div>
         </div>
     </div>
 
-    <main class="container">
-        <div class="alert">
-            📌 <strong>Como atualizar os dados:</strong><br>
-            1. Coloque os arquivos <strong>apostas.xlsx</strong> e <strong>resultados.xlsx</strong> na pasta <strong>/dados/</strong><br>
-            2. Execute: <code>git add . && git commit -m "Atualiza dados" && git push</code><br>
-            3. A Vercel fará o deploy automático
-        </div>
-
-        <div class="card">
-            <div class="card-header">📋 Jogos Cadastrados</div>
-            <div class="card-body" id="jogosContainer">
-                <div class="loading">⏳ Carregando...</div>
-            </div>
-        </div>
-
-        <div class="card">
-            <div class="card-header">📝 Status das Apostas</div>
-            <div class="card-body" id="statusContainer">
-                <div class="loading">⏳ Carregando...</div>
-            </div>
-        </div>
-    </main>
-
-    <script src="https://cdn.sheetjs.com/xlsx-0.20.2/package/dist/xlsx.full.min.js"></script>
-    <script src="js/config.js"></script>
-    <script src="js/app.js"></script>
     <script>
-        function logout() {
-            localStorage.removeItem('usuarioLogado');
-            window.location.href = 'index.html';
+        // Mapeamento de times para IDs
+        let jogosMap = {};
+
+        function gerarJogos() {
+            const texto = document.getElementById('jogosInput').value;
+            const linhas = texto.split('\n').filter(l => l.trim());
+            let jogos = [];
+            let id = 1;
+            
+            linhas.forEach(linha => {
+                const partes = linha.split(',').map(p => p.trim());
+                if (partes.length >= 3) {
+                    jogos.push({
+                        id: id++,
+                        timeCasa: partes[0],
+                        timeFora: partes[1],
+                        data: partes[2]
+                    });
+                }
+            });
+            
+            const codigo = `const JOGOS = ${JSON.stringify(jogos, null, 4)};`;
+            document.getElementById('jogosOutput').innerHTML = `<textarea rows="10" style="width:100%;">${codigo}</textarea>`;
         }
 
-        async function carregarPagina() {
-            const usuario = localStorage.getItem('usuarioLogado');
-            if (!usuario || JSON.parse(usuario).username !== 'admin') {
-                window.location.href = 'index.html';
-                return;
-            }
+        function gerarResultados() {
+            const texto = document.getElementById('resultadosInput').value;
+            const linhas = texto.split('\n').filter(l => l.trim());
+            let resultados = {};
             
-            const dados = await lerDados();
+            linhas.forEach(linha => {
+                const partes = linha.split(',').map(p => p.trim());
+                if (partes.length >= 4) {
+                    const timeCasa = partes[0];
+                    const golsCasa = parseInt(partes[1]);
+                    const timeFora = partes[2];
+                    const golsFora = parseInt(partes[3]);
+                    
+                    // Encontrar o jogo
+                    const jogo = JOGOS.find(j => j.timeCasa === timeCasa && j.timeFora === timeFora);
+                    if (jogo) {
+                        resultados[jogo.id] = { casa: golsCasa, fora: golsFora };
+                    }
+                }
+            });
             
-            // Jogos
-            const jogosContainer = document.getElementById('jogosContainer');
-            if (dados.jogos.length === 0) {
-                jogosContainer.innerHTML = '<div style="text-align:center; padding:20px;">Nenhum jogo cadastrado</div>';
-            } else {
-                jogosContainer.innerHTML = '';
-                dados.jogos.forEach(jogo => {
-                    const div = document.createElement('div');
-                    div.className = 'jogo-item';
-                    div.innerHTML = `
-                        <div>
-                            <strong>${jogo.timeCasa} 🆚 ${jogo.timeFora}</strong>
-                            <div style="font-size:0.75rem; color:#666;">📅 ${jogo.data || 'Data não definida'}</div>
-                            ${dados.resultados[jogo.id] ? `<div style="font-size:0.75rem; color:#2e7d32;">🏁 Resultado: ${dados.resultados[jogo.id].casa} x ${dados.resultados[jogo.id].fora}</div>` : ''}
-                        </div>
-                    `;
-                    jogosContainer.appendChild(div);
-                });
-            }
-            
-            // Status
-            const statusContainer = document.getElementById('statusContainer');
-            const totalApostas = Object.keys(dados.palpites).length;
-            const totalJogadores = Object.keys(USUARIOS).filter(u => u !== 'admin').length;
-            statusContainer.innerHTML = `
-                <div style="display: flex; gap: 20px; flex-wrap: wrap;">
-                    <div style="background: #f8fafc; padding: 15px; border-radius: 12px; flex: 1; text-align: center;">
-                        <div style="font-size: 2rem;">📋</div>
-                        <div style="font-weight: bold;">${dados.jogos.length}</div>
-                        <div style="font-size: 0.75rem;">Jogos</div>
-                    </div>
-                    <div style="background: #f8fafc; padding: 15px; border-radius: 12px; flex: 1; text-align: center;">
-                        <div style="font-size: 2rem;">📝</div>
-                        <div style="font-weight: bold;">${totalApostas}</div>
-                        <div style="font-size: 0.75rem;">Apostas</div>
-                    </div>
-                    <div style="background: #f8fafc; padding: 15px; border-radius: 12px; flex: 1; text-align: center;">
-                        <div style="font-size: 2rem;">👥</div>
-                        <div style="font-weight: bold;">${totalJogadores}</div>
-                        <div style="font-size: 0.75rem;">Jogadores</div>
-                    </div>
-                </div>
-            `;
+            const codigo = `const RESULTADOS = ${JSON.stringify(resultados, null, 4)};`;
+            document.getElementById('resultadosOutput').innerHTML = `<textarea rows="10" style="width:100%;">${codigo}</textarea>`;
         }
-        
-        setTimeout(carregarPagina, 500);
+
+        function gerarApostas() {
+            const texto = document.getElementById('apostasInput').value;
+            const linhas = texto.split('\n').filter(l => l.trim());
+            let apostas = {};
+            
+            linhas.forEach(linha => {
+                const partes = linha.split(',').map(p => p.trim());
+                if (partes.length >= 5) {
+                    const jogador = partes[0];
+                    const timeCasa = partes[1];
+                    const golsCasa = parseInt(partes[2]);
+                    const timeFora = partes[3];
+                    const golsFora = parseInt(partes[4]);
+                    
+                    // Encontrar o jogo
+                    const jogo = JOGOS.find(j => j.timeCasa === timeCasa && j.timeFora === timeFora);
+                    if (jogo) {
+                        const key = `${jogo.id}_${jogador}`;
+                        apostas[key] = { casa: golsCasa, fora: golsFora };
+                    }
+                }
+            });
+            
+            const codigo = `const APOSTAS = ${JSON.stringify(apostas, null, 4)};`;
+            document.getElementById('apostasOutput').innerHTML = `<textarea rows="10" style="width:100%;">${codigo}</textarea>`;
+        }
     </script>
 </body>
 </html>
