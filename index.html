@@ -2,41 +2,95 @@
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes, viewport-fit=cover">
     <title>Bolão Copa 2026</title>
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
         }
 
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-            background: #f0f2f5;
+            background: #f5f7fb;
             color: #1a1a2e;
-            padding: 20px;
         }
 
+        /* ============================================
+           HEADER FIXO COM ABAS
+        ============================================ */
+        .app-header {
+            background: white;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+
+        .header-top {
+            padding: 16px 20px;
+            background: linear-gradient(135deg, #1a5f7a, #0d3b4f);
+            color: white;
+        }
+
+        .header-top h1 {
+            font-size: 1.4rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .header-top p {
+            font-size: 0.75rem;
+            opacity: 0.8;
+            margin-top: 4px;
+        }
+
+        /* Abas */
+        .tabs {
+            display: flex;
+            background: white;
+            border-bottom: 1px solid #e2e8f0;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+            scrollbar-width: none;
+        }
+
+        .tabs::-webkit-scrollbar {
+            display: none;
+        }
+
+        .tab-btn {
+            flex: 1;
+            padding: 14px 16px;
+            background: none;
+            border: none;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: #64748b;
+            cursor: pointer;
+            white-space: nowrap;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+        }
+
+        .tab-btn.active {
+            color: #1a5f7a;
+            border-bottom: 3px solid #1a5f7a;
+        }
+
+        /* ============================================
+           CONTAINER PRINCIPAL
+        ============================================ */
         .container {
             max-width: 800px;
             margin: 0 auto;
-        }
-
-        /* Header */
-        .header {
-            text-align: center;
-            margin-bottom: 30px;
-        }
-
-        .header h1 {
-            font-size: 2rem;
-            color: #1a5f7a;
-        }
-
-        .header p {
-            color: #666;
-            margin-top: 5px;
+            padding: 16px;
         }
 
         /* Cards */
@@ -44,80 +98,127 @@
             background: white;
             border-radius: 20px;
             padding: 20px;
-            margin-bottom: 20px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            margin-bottom: 16px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+            padding-bottom: 12px;
+            border-bottom: 2px solid #e2e8f0;
         }
 
         .card-title {
-            font-size: 1.2rem;
-            font-weight: bold;
-            margin-bottom: 15px;
-            padding-bottom: 10px;
-            border-bottom: 2px solid #1a5f7a;
-            display: inline-block;
-        }
-
-        /* Filtro */
-        .filtro {
-            margin-bottom: 20px;
-        }
-
-        .filtro-input {
-            width: 100%;
-            padding: 12px;
-            border: 2px solid #e0e0e0;
-            border-radius: 12px;
             font-size: 1rem;
+            font-weight: 600;
+            color: #1e293b;
+            display: flex;
+            align-items: center;
+            gap: 8px;
         }
 
-        .filtro-input:focus {
+        /* Filtros */
+        .filtros {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .filtro-group {
+            flex: 1;
+            min-width: 140px;
+        }
+
+        .filtro-group label {
+            display: block;
+            font-size: 0.7rem;
+            color: #64748b;
+            margin-bottom: 4px;
+        }
+
+        .filtro-input, .filtro-select {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            font-size: 0.85rem;
+            background: white;
+        }
+
+        .filtro-input:focus, .filtro-select:focus {
             outline: none;
             border-color: #1a5f7a;
         }
 
-        /* Ranking */
+        .btn-limpar {
+            background: #f1f5f9;
+            border: none;
+            padding: 0 16px;
+            border-radius: 12px;
+            cursor: pointer;
+            font-size: 0.8rem;
+            color: #64748b;
+            margin-top: 22px;
+        }
+
+        /* ============================================
+           RANKING
+        ============================================ */
+        .ranking-container {
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+
         .ranking-table {
             width: 100%;
             border-collapse: collapse;
+            min-width: 300px;
         }
 
-        .ranking-table th,
-        .ranking-table td {
-            padding: 12px;
+        .ranking-table th, .ranking-table td {
+            padding: 12px 8px;
             text-align: left;
-            border-bottom: 1px solid #eee;
+            border-bottom: 1px solid #e2e8f0;
         }
 
         .ranking-table th {
-            background: #f8f9fa;
+            background: #f8fafc;
             font-weight: 600;
-            color: #555;
+            color: #64748b;
+            font-size: 0.75rem;
         }
 
-        .ranking-pos-1 {
-            background: linear-gradient(135deg, #ffd70015, #fff8e0);
+        .ranking-table td {
+            font-size: 0.85rem;
         }
 
-        .ranking-pos-2 {
-            background: linear-gradient(135deg, #c0c0c015, #f0f0f0);
-        }
-
-        .ranking-pos-3 {
-            background: linear-gradient(135deg, #cd7f3215, #fff0e0);
-        }
+        .ranking-pos-1 { background: linear-gradient(135deg, #ffd70015, #fff8e0); }
+        .ranking-pos-2 { background: linear-gradient(135deg, #c0c0c015, #f0f0f0); }
+        .ranking-pos-3 { background: linear-gradient(135deg, #cd7f3215, #fff0e0); }
 
         .pontos {
             font-weight: bold;
             color: #1a5f7a;
-            font-size: 1.2rem;
+            font-size: 1rem;
         }
 
-        /* Jogos */
-        .jogo-item {
-            background: #f8f9fa;
-            padding: 15px;
-            border-radius: 12px;
-            margin-bottom: 10px;
+        /* ============================================
+           LISTA DE JOGOS
+        ============================================ */
+        .jogos-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .jogo-card {
+            background: #f8fafc;
+            border-radius: 16px;
+            padding: 14px;
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -125,123 +226,242 @@
             gap: 10px;
         }
 
+        .jogo-info {
+            flex: 2;
+        }
+
         .jogo-times {
-            font-weight: bold;
+            font-weight: 600;
+            font-size: 0.9rem;
         }
 
         .jogo-data {
-            font-size: 0.7rem;
-            color: #888;
+            font-size: 0.65rem;
+            color: #64748b;
             margin-top: 4px;
         }
 
-        .jogo-resultado {
-            font-size: 1.1rem;
+        .jogo-placar {
             font-weight: bold;
+            font-size: 1.1rem;
             color: #1a5f7a;
+            min-width: 80px;
+            text-align: right;
         }
 
-        .apostas-jogador {
-            margin-top: 20px;
+        /* ============================================
+           APOSTAS DO JOGADOR
+        ============================================ */
+        .apostas-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
         }
 
-        .aposta-item {
-            background: #f8f9fa;
-            padding: 12px;
-            border-radius: 10px;
-            margin-bottom: 8px;
+        .aposta-card {
+            background: #f8fafc;
+            border-radius: 16px;
+            padding: 14px;
             display: flex;
             justify-content: space-between;
             align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
         }
 
-        .badge-acertou {
-            background: #2e7d32;
-            color: white;
-            padding: 2px 10px;
-            border-radius: 20px;
-            font-size: 0.7rem;
+        .aposta-info {
+            flex: 2;
         }
 
-        .badge-parcial {
-            background: #ed6c02;
-            color: white;
-            padding: 2px 10px;
-            border-radius: 20px;
-            font-size: 0.7rem;
-        }
-
-        .badge-errou {
-            background: #d32f2f;
-            color: white;
-            padding: 2px 10px;
-            border-radius: 20px;
-            font-size: 0.7rem;
-        }
-
-        .badge-aguardando {
-            background: #64748b;
-            color: white;
-            padding: 2px 10px;
-            border-radius: 20px;
-            font-size: 0.7rem;
-        }
-
-        .select-jogador {
-            width: 100%;
-            padding: 12px;
-            border: 2px solid #e0e0e0;
-            border-radius: 12px;
-            font-size: 1rem;
-            margin-bottom: 15px;
-        }
-
-        .info-box {
-            background: #e3f2fd;
-            padding: 15px;
-            border-radius: 12px;
-            margin-bottom: 20px;
-            text-align: center;
+        .aposta-jogo {
+            font-weight: 600;
             font-size: 0.85rem;
         }
 
+        .aposta-resultado {
+            font-size: 0.7rem;
+            color: #64748b;
+            margin-top: 4px;
+        }
+
+        .aposta-valor {
+            font-weight: bold;
+            font-size: 1rem;
+            color: #1a5f7a;
+            text-align: right;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 2px 10px;
+            border-radius: 20px;
+            font-size: 0.65rem;
+            font-weight: 600;
+            margin-left: 8px;
+        }
+
+        .badge-acertou { background: #2e7d32; color: white; }
+        .badge-parcial { background: #ed6c02; color: white; }
+        .badge-errou { background: #d32f2f; color: white; }
+        .badge-aguardando { background: #64748b; color: white; }
+
+        /* Select jogador */
+        .select-jogador {
+            width: 100%;
+            padding: 14px;
+            border: 2px solid #e2e8f0;
+            border-radius: 16px;
+            font-size: 0.9rem;
+            margin-bottom: 16px;
+        }
+
+        /* Empty state */
+        .empty-state {
+            text-align: center;
+            padding: 40px 20px;
+            color: #64748b;
+        }
+
+        /* ============================================
+           RESPONSIVO
+        ============================================ */
         @media (max-width: 600px) {
-            body { padding: 10px; }
-            .jogo-item { flex-direction: column; align-items: flex-start; }
+            .container { padding: 12px; }
+            .card { padding: 16px; }
+            .filtros { flex-direction: column; }
+            .btn-limpar { margin-top: 0; padding: 10px; }
+            .jogo-card { flex-direction: column; align-items: stretch; }
+            .jogo-placar { text-align: left; }
+            .aposta-card { flex-direction: column; align-items: stretch; }
+            .aposta-valor { text-align: left; margin-top: 8px; }
+            .tab-btn { padding: 12px 12px; font-size: 0.75rem; }
+        }
+
+        /* Loading */
+        .loading {
+            text-align: center;
+            padding: 40px;
+            color: #64748b;
+        }
+
+        /* Info box */
+        .info-box {
+            background: #e3f2fd;
+            border-radius: 12px;
+            padding: 10px 16px;
+            margin-bottom: 16px;
+            font-size: 0.75rem;
+            color: #0288d1;
+            display: flex;
+            align-items: center;
+            gap: 8px;
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <div class="header">
+    <div class="app-header">
+        <div class="header-top">
             <h1>🏆 Bolão Copa 2026</h1>
-            <p>Ranking atualizado • Palpites em tempo real</p>
+            <p>Ranking em tempo real • Palpites atualizados</p>
+        </div>
+        <div class="tabs">
+            <button class="tab-btn active" data-tab="ranking">
+                📊 Ranking
+            </button>
+            <button class="tab-btn" data-tab="jogos">
+                🏁 Jogos
+            </button>
+            <button class="tab-btn" data-tab="apostas">
+                👤 Apostas
+            </button>
+            <button class="tab-btn" data-tab="regras">
+                📖 Regras
+            </button>
+        </div>
+    </div>
+
+    <div class="container">
+        <!-- TAB RANKING -->
+        <div id="tab-ranking" class="tab-content active">
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title">🏆 Classificação Geral</div>
+                    <div class="info-box" style="margin:0; padding:4px 12px;">
+                        🎯 3 pts placar | ✅ 1 pt resultado
+                    </div>
+                </div>
+                <div class="filtros">
+                    <div class="filtro-group">
+                        <label>🔍 Filtrar por jogador</label>
+                        <input type="text" id="filtroRanking" class="filtro-input" placeholder="Digite o nome...">
+                    </div>
+                    <button class="btn-limpar" onclick="limparFiltroRanking()">Limpar</button>
+                </div>
+                <div id="rankingContainer" class="ranking-container">
+                    <div class="loading">⏳ Carregando ranking...</div>
+                </div>
+            </div>
         </div>
 
-        <!-- Info Box -->
-        <div class="info-box">
-            📌 <strong>Como funciona:</strong> Acertou o placar exato = 3 pontos | Acertou apenas o resultado = 1 ponto
+        <!-- TAB JOGOS -->
+        <div id="tab-jogos" class="tab-content">
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title">🏁 Jogos e Resultados</div>
+                </div>
+                <div class="filtros">
+                    <div class="filtro-group">
+                        <label>🔍 Filtrar por time</label>
+                        <input type="text" id="filtroTime" class="filtro-input" placeholder="Ex: Brasil, Argentina...">
+                    </div>
+                    <div class="filtro-group">
+                        <label>📅 Filtrar por data</label>
+                        <select id="filtroDataJogo" class="filtro-select">
+                            <option value="">Todas as datas</option>
+                        </select>
+                    </div>
+                    <button class="btn-limpar" onclick="limparFiltrosJogos()">Limpar</button>
+                </div>
+                <div id="jogosContainer" class="jogos-grid">
+                    <div class="loading">⏳ Carregando jogos...</div>
+                </div>
+            </div>
         </div>
 
-        <!-- Ranking -->
-        <div class="card">
-            <div class="card-title">📊 Ranking Geral</div>
-            <div id="rankingContainer"></div>
+        <!-- TAB APOSTAS -->
+        <div id="tab-apostas" class="tab-content">
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title">👤 Palpites por Jogador</div>
+                </div>
+                <select id="selectJogador" class="select-jogador">
+                    <option value="">Selecione um jogador...</option>
+                </select>
+                <div id="apostasContainer" class="apostas-grid">
+                    <div class="empty-state">👈 Selecione um jogador para ver os palpites</div>
+                </div>
+            </div>
         </div>
 
-        <!-- Filtro por Jogador -->
-        <div class="card">
-            <div class="card-title">👤 Ver Palpites de um Jogador</div>
-            <select id="selectJogador" class="select-jogador">
-                <option value="">Selecione um jogador...</option>
-            </select>
-            <div id="apostasContainer"></div>
-        </div>
-
-        <!-- Jogos e Resultados -->
-        <div class="card">
-            <div class="card-title">📋 Jogos e Resultados</div>
-            <div id="jogosContainer"></div>
+        <!-- TAB REGRAS -->
+        <div id="tab-regras" class="tab-content">
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title">📖 Regras do Bolão</div>
+                </div>
+                <div style="line-height: 1.6;">
+                    <p><strong>🎯 Pontuação:</strong></p>
+                    <ul style="margin: 10px 0 20px 20px;">
+                        <li><span class="badge-acertou" style="margin-left:0;">3 pontos</span> - Acertar o placar exato do jogo</li>
+                        <li><span class="badge-parcial" style="margin-left:0;">1 ponto</span> - Acertar apenas o resultado (vitória/empate)</li>
+                        <li><span class="badge-errou" style="margin-left:0;">0 pontos</span> - Errar o resultado</li>
+                    </ul>
+                    <p><strong>📅 Atualização:</strong></p>
+                    <p>Os resultados são atualizados após cada jogo. O ranking é calculado automaticamente.</p>
+                    <p style="margin-top: 10px;"><strong>🏆 Desempate:</strong></p>
+                    <p>Maior número de acertos de placar exato.</p>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -251,9 +471,13 @@
     
     <script>
         // ============================================
-        // FUNÇÕES PRINCIPAIS
+        // VARIÁVEIS GLOBAIS
         // ============================================
-        
+        let rankingFiltro = '';
+
+        // ============================================
+        // FUNÇÕES AUXILIARES
+        // ============================================
         function calcularPontos(palpite, resultado) {
             if (!palpite || !resultado) return 0;
             if (palpite.casa === resultado.casa && palpite.fora === resultado.fora) return 3;
@@ -277,7 +501,6 @@
         // ============================================
         // RANKING
         // ============================================
-        
         function calcularRanking() {
             const ranking = [];
             
@@ -323,74 +546,123 @@
         }
 
         function renderizarRanking() {
-            const ranking = calcularRanking();
+            let ranking = calcularRanking();
+            
+            if (rankingFiltro) {
+                ranking = ranking.filter(item => 
+                    item.nome.toLowerCase().includes(rankingFiltro.toLowerCase())
+                );
+            }
+            
             const container = document.getElementById('rankingContainer');
             
             if (ranking.length === 0) {
-                container.innerHTML = '<div style="text-align:center; padding:20px;">Nenhum dado disponível</div>';
+                container.innerHTML = '<div class="empty-state">🔍 Nenhum jogador encontrado</div>';
                 return;
             }
             
-            let html = '<table class="ranking-table"><thead><tr><th>#</th><th>Jogador</th><th>Pontos</th><th>Placar Exato</th><th>Resultado</th></tr></thead><tbody>';
+            let html = `<table class="ranking-table">
+                            <thead>
+                                <tr><th>#</th><th>Jogador</th><th>Pts</th><th>Placar</th><th>Resultado</th></tr>
+                            </thead>
+                            <tbody>`;
             
             ranking.forEach((item, idx) => {
-                const medalha = idx === 0 ? '🥇' : (idx === 1 ? '🥈' : (idx === 2 ? '🥉' : `${idx+1}º`));
-                const classe = idx === 0 ? 'ranking-pos-1' : (idx === 1 ? 'ranking-pos-2' : (idx === 2 ? 'ranking-pos-3' : ''));
+                const posicaoOriginal = calcularRanking().findIndex(r => r.nome === item.nome) + 1;
+                const medalha = posicaoOriginal === 1 ? '🥇' : (posicaoOriginal === 2 ? '🥈' : (posicaoOriginal === 3 ? '🥉' : `${posicaoOriginal}º`));
+                const classe = posicaoOriginal === 1 ? 'ranking-pos-1' : (posicaoOriginal === 2 ? 'ranking-pos-2' : (posicaoOriginal === 3 ? 'ranking-pos-3' : ''));
                 html += `<tr class="${classe}">
                             <td>${medalha}</td>
                             <td><strong>${item.nome}</strong></td>
                             <td class="pontos">${item.pontos}</td>
                             <td>${item.placaresExatos}</td>
                             <td>${item.resultadosCorretos}</td>
-                         </tr>`;
+                          </tr>`;
             });
             
             html += '</tbody></table>';
             container.innerHTML = html;
         }
 
+        function limparFiltroRanking() {
+            document.getElementById('filtroRanking').value = '';
+            rankingFiltro = '';
+            renderizarRanking();
+        }
+
         // ============================================
         // JOGOS E RESULTADOS
         // ============================================
-        
+        function carregarFiltroDatas() {
+            const datasUnicas = [...new Set(JOGOS.map(j => j.data).filter(d => d))];
+            datasUnicas.sort().reverse();
+            const select = document.getElementById('filtroDataJogo');
+            select.innerHTML = '<option value="">Todas as datas</option>';
+            datasUnicas.forEach(data => {
+                select.innerHTML += `<option value="${data}">📅 ${formatarData(data)}</option>`;
+            });
+        }
+
         function renderizarJogos() {
-            const container = document.getElementById('jogosContainer');
-            container.innerHTML = '';
+            const filtroTime = document.getElementById('filtroTime').value.toLowerCase();
+            const filtroData = document.getElementById('filtroDataJogo').value;
             
-            if (!JOGOS || JOGOS.length === 0) {
-                container.innerHTML = '<div style="text-align:center; padding:20px;">Nenhum jogo cadastrado</div>';
+            let jogosFiltrados = [...JOGOS];
+            
+            if (filtroTime) {
+                jogosFiltrados = jogosFiltrados.filter(jogo => 
+                    jogo.timeCasa.toLowerCase().includes(filtroTime) || 
+                    jogo.timeFora.toLowerCase().includes(filtroTime)
+                );
+            }
+            
+            if (filtroData) {
+                jogosFiltrados = jogosFiltrados.filter(jogo => jogo.data === filtroData);
+            }
+            
+            jogosFiltrados.sort((a,b) => (b.data || '').localeCompare(a.data || ''));
+            
+            const container = document.getElementById('jogosContainer');
+            
+            if (jogosFiltrados.length === 0) {
+                container.innerHTML = '<div class="empty-state">🔍 Nenhum jogo encontrado</div>';
                 return;
             }
             
-            const jogosOrdenados = [...JOGOS].sort((a,b) => (a.data || '').localeCompare(b.data || ''));
+            container.innerHTML = '';
             
-            jogosOrdenados.forEach(jogo => {
+            jogosFiltrados.forEach(jogo => {
                 const resultado = RESULTADOS[jogo.id];
-                
                 const div = document.createElement('div');
-                div.className = 'jogo-item';
+                div.className = 'jogo-card';
                 div.innerHTML = `
-                    <div>
+                    <div class="jogo-info">
                         <div class="jogo-times">${jogo.timeCasa} 🆚 ${jogo.timeFora}</div>
                         <div class="jogo-data">📅 ${formatarData(jogo.data)}</div>
                     </div>
-                    <div class="jogo-resultado">
-                        ${resultado ? `${resultado.casa} x ${resultado.fora}` : '⏳ Aguardando resultado'}
+                    <div class="jogo-placar">
+                        ${resultado ? `${resultado.casa} x ${resultado.fora}` : '⏳ -- x --'}
                     </div>
                 `;
                 container.appendChild(div);
             });
         }
 
+        function limparFiltrosJogos() {
+            document.getElementById('filtroTime').value = '';
+            document.getElementById('filtroDataJogo').value = '';
+            renderizarJogos();
+        }
+
         // ============================================
         // APOSTAS POR JOGADOR
         // ============================================
-        
         function carregarSelectJogador() {
             const select = document.getElementById('selectJogador');
             select.innerHTML = '<option value="">Selecione um jogador...</option>';
             
-            for (const [nome, usuario] of Object.entries(USUARIOS)) {
+            const jogadoresOrdenados = Object.keys(USUARIOS).sort();
+            for (const nome of jogadoresOrdenados) {
                 select.innerHTML += `<option value="${nome}">${nome}</option>`;
             }
         }
@@ -399,13 +671,18 @@
             const container = document.getElementById('apostasContainer');
             
             if (!jogador) {
-                container.innerHTML = '';
+                container.innerHTML = '<div class="empty-state">👈 Selecione um jogador para ver os palpites</div>';
                 return;
             }
             
-            const jogosOrdenados = [...JOGOS].sort((a,b) => (a.data || '').localeCompare(b.data || ''));
+            const jogosOrdenados = [...JOGOS].sort((a,b) => (b.data || '').localeCompare(a.data || ''));
             
-            let html = `<h4 style="margin-bottom: 15px;">📝 Palpites de ${jogador}</h4>`;
+            if (jogosOrdenados.length === 0) {
+                container.innerHTML = '<div class="empty-state">Nenhum jogo cadastrado</div>';
+                return;
+            }
+            
+            container.innerHTML = '';
             
             for (const jogo of jogosOrdenados) {
                 const apostaKey = `${jogo.id}_${jogador}`;
@@ -413,35 +690,31 @@
                 const resultado = RESULTADOS[jogo.id];
                 
                 let statusHtml = '';
-                let pontosHtml = '';
+                let pontos = 0;
                 
                 if (palpite && resultado) {
-                    const pontos = calcularPontos(palpite, resultado);
-                    if (pontos === 3) {
-                        statusHtml = '<span class="badge-acertou">🎯 Acertou o placar! +3</span>';
-                    } else if (pontos === 1) {
-                        statusHtml = '<span class="badge-parcial">✅ Acertou o resultado! +1</span>';
-                    } else {
-                        statusHtml = '<span class="badge-errou">❌ Errou</span>';
-                    }
+                    pontos = calcularPontos(palpite, resultado);
+                    if (pontos === 3) statusHtml = '<span class="badge-acertou">🎯 +3</span>';
+                    else if (pontos === 1) statusHtml = '<span class="badge-parcial">✅ +1</span>';
+                    else statusHtml = '<span class="badge-errou">❌ 0</span>';
                 } else if (palpite && !resultado) {
-                    statusHtml = '<span class="badge-aguardando">⏳ Aguardando resultado</span>';
+                    statusHtml = '<span class="badge-aguardando">⏳ Aguardando</span>';
                 } else if (!palpite) {
                     statusHtml = '<span class="badge-errou">❌ Não apostou</span>';
                 }
                 
-                div = document.createElement('div');
-                div.className = 'aposta-item';
+                const div = document.createElement('div');
+                div.className = 'aposta-card';
                 div.innerHTML = `
-                    <div>
-                        <strong>${jogo.timeCasa} x ${jogo.timeFora}</strong>
-                        <div style="font-size:0.7rem; color:#888;">${formatarData(jogo.data)}</div>
-                        ${resultado ? `<div style="font-size:0.7rem;">🏁 Resultado: ${resultado.casa} x ${resultado.fora}</div>` : ''}
-                    </div>
-                    <div style="text-align: right;">
-                        <div style="font-size:1.1rem; font-weight:bold;">
-                            ${palpite ? `${palpite.casa} x ${palpite.fora}` : '? x ?'}
+                    <div class="aposta-info">
+                        <div class="aposta-jogo">${jogo.timeCasa} 🆚 ${jogo.timeFora}</div>
+                        <div class="aposta-resultado">
+                            📅 ${formatarData(jogo.data)}
+                            ${resultado ? ` • 🏁 ${resultado.casa} x ${resultado.fora}` : ''}
                         </div>
+                    </div>
+                    <div class="aposta-valor">
+                        ${palpite ? `${palpite.casa} x ${palpite.fora}` : '? x ?'}
                         ${statusHtml}
                     </div>
                 `;
@@ -450,18 +723,51 @@
         }
 
         // ============================================
-        // INICIALIZAÇÃO
+        // TABS
         // ============================================
-        
-        function init() {
-            renderizarRanking();
-            renderizarJogos();
-            carregarSelectJogador();
+        function initTabs() {
+            const tabs = document.querySelectorAll('.tab-btn');
+            const contents = document.querySelectorAll('.tab-content');
+            
+            tabs.forEach(tab => {
+                tab.addEventListener('click', () => {
+                    const tabId = tab.dataset.tab;
+                    tabs.forEach(t => t.classList.remove('active'));
+                    contents.forEach(c => c.classList.remove('active'));
+                    tab.classList.add('active');
+                    document.getElementById(`tab-${tabId}`).classList.add('active');
+                    
+                    if (tabId === 'apostas') {
+                        carregarSelectJogador();
+                    }
+                });
+            });
         }
+
+        // ============================================
+        // EVENT LISTENERS
+        // ============================================
+        document.getElementById('filtroRanking').addEventListener('input', (e) => {
+            rankingFiltro = e.target.value;
+            renderizarRanking();
+        });
         
+        document.getElementById('filtroTime').addEventListener('input', renderizarJogos);
+        document.getElementById('filtroDataJogo').addEventListener('change', renderizarJogos);
         document.getElementById('selectJogador').addEventListener('change', (e) => {
             renderizarApostasJogador(e.target.value);
         });
+
+        // ============================================
+        // INICIALIZAÇÃO
+        // ============================================
+        function init() {
+            carregarFiltroDatas();
+            renderizarRanking();
+            renderizarJogos();
+            carregarSelectJogador();
+            initTabs();
+        }
         
         init();
     </script>
