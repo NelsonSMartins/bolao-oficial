@@ -5,7 +5,7 @@
 
 const APOSTAS = {
     // Exemplos:
-    "1_Nelson": { casa: 2, fora: 0 },
-    "1_Douglas": { casa: 2, fora: 0 },
-    "1_Márcio": { casa: 1, fora: 0 },
+   // "1_Nelson": { casa: 2, fora: 0 },
+  //  "1_Douglas": { casa: 2, fora: 0 },
+  //  "1_Márcio": { casa: 1, fora: 0 },
 };

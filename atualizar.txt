@@ -1,3 +1,4 @@
-git add .
-git commit -m "Atualiza dados do bolão"
+cd C:\LOGICTEL\NELSON\Jogos
+git add index.html
+git commit -m "Abas funcionando corretamente - Removida aba Regras"
 git push -f origin main
