@@ -2,7 +2,7 @@
 <html lang="pt-br">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes, viewport-fit=cover">
   <title>Meus Palpites - Bolão Copa 2026</title>
   <link rel="stylesheet" href="css/style.css">
 </head>
@@ -10,37 +10,29 @@
   <div class="app">
     <nav class="navbar">
       <div class="navbar-container">
-        <a href="palpites.html" class="logo">
-          🏆 <span>Bolão Copa 2026</span>
-        </a>
+        <a href="palpites.html" class="logo">🏆 <span>Bolão 2026</span></a>
         <div class="nav-links">
           <span class="user-name" id="userName"></span>
-          <a href="palpites.html" class="active">📝 Meus Palpites</a>
-          <a href="palpites_geral.html">👥 Todos</a>
-          <a href="ranking.html">📊 Ranking</a>
-          <a href="#" onclick="logout()">🚪 Sair</a>
+          <a href="palpites.html" class="active">📝</a>
+          <a href="palpites_geral.html">👥</a>
+          <a href="ranking.html">📊</a>
+          <a href="#" onclick="logout()">🚪</a>
         </div>
       </div>
     </nav>
 
     <main class="container">
-      <!-- Status Bar - Ações principais no topo -->
       <div class="status-bar" id="statusBar">
         <div class="status-message" id="statusMsg">
           <span>📌</span>
           <span>Carregando...</span>
         </div>
-        <div class="status-actions">
-          <button class="btn btn-success" id="saveAllBtn" style="display: none;" onclick="salvarTodosPalpites()">
-            💾 Confirmar Palpites
-          </button>
-        </div>
+        <button class="btn-success" id="saveAllBtn" style="display: none;" onclick="salvarTodosPalpites()">
+          💾 Confirmar
+        </button>
       </div>
 
-      <!-- Filtros -->
       <div class="filter-bar" id="filterBar"></div>
-
-      <!-- Lista de Jogos -->
       <div id="gamesContainer"></div>
     </main>
   </div>

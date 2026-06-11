@@ -6,36 +6,41 @@
   <title>Admin - Bolão Copa 2026</title>
   <link rel="stylesheet" href="css/style.css">
   <style>
-    .admin-tabs {
-      display: flex;
-      gap: var(--space-sm);
-      border-bottom: 1px solid var(--border);
-      margin-bottom: var(--space-lg);
-      flex-wrap: wrap;
+    .form-group {
+      margin-bottom: var(--space-md);
     }
-    .admin-tab {
-      padding: var(--space-sm) var(--space-lg);
-      background: none;
-      border: none;
-      cursor: pointer;
-      font-weight: 500;
-      color: var(--text-secondary);
-    }
-    .admin-tab.active {
-      color: var(--primary);
-      border-bottom: 2px solid var(--primary);
-    }
-    .tab-pane {
-      display: none;
-    }
-    .tab-pane.active {
+    .form-group label {
       display: block;
+      font-size: 0.75rem;
+      color: var(--text-secondary);
+      margin-bottom: var(--space-xs);
     }
-    .result-row {
-      display: flex;
-      gap: var(--space-sm);
-      align-items: center;
-      margin-bottom: var(--space-sm);
+    .form-group input, .form-group select {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      font-size: 0.875rem;
+    }
+    .alert {
+      padding: var(--space-md);
+      border-radius: var(--radius-md);
+      margin-bottom: var(--space-md);
+    }
+    .alert-info {
+      background: #e3f2fd;
+      color: #0288d1;
+    }
+    .alert-success {
+      background: #e8f5e9;
+      color: #2e7d32;
+    }
+    .alert-warning {
+      background: #fff3e0;
+      color: #ed6c02;
+    }
+    .mb-3 {
+      margin-bottom: 16px;
     }
   </style>
 </head>
@@ -57,7 +62,7 @@
         </div>
         <div class="card-body">
           <div class="admin-tabs">
-            <button class="admin-tab active" onclick="showTab('jogos')">📋 Gerenciar Jogos</button>
+            <button class="admin-tab active" onclick="showTab('jogos')">📋 Jogos</button>
             <button class="admin-tab" onclick="showTab('resultados')">🎯 Resultados</button>
             <button class="admin-tab" onclick="showTab('participantes')">👥 Participantes</button>
             <button class="admin-tab" onclick="showTab('importar')">📎 Importar</button>
@@ -65,35 +70,45 @@
 
           <!-- Tab Jogos -->
           <div id="tab-jogos" class="tab-pane active">
-            <div style="display: flex; gap: var(--space-sm); margin-bottom: var(--space-lg); flex-wrap: wrap;">
-              <input type="text" id="timeCasa" placeholder="Time Casa" style="flex:1; padding: var(--space-sm); border: 1px solid var(--border); border-radius: var(--radius-sm);">
-              <span>vs</span>
-              <input type="text" id="timeFora" placeholder="Time Visitante" style="flex:1; padding: var(--space-sm); border: 1px solid var(--border); border-radius: var(--radius-sm);">
-              <button class="btn btn-primary" onclick="adicionarJogo()">+ Adicionar</button>
+            <div class="add-game-form">
+              <div class="form-group" style="flex: 2;">
+                <label>Time da Casa</label>
+                <input type="text" id="timeCasa" placeholder="Ex: Brasil">
+              </div>
+              <div class="form-group" style="flex: 2;">
+                <label>Time Visitante</label>
+                <input type="text" id="timeFora" placeholder="Ex: Argentina">
+              </div>
+              <div class="form-group" style="flex: 1;">
+                <label>Data do Jogo</label>
+                <input type="date" id="dataJogo" value="2026-06-11">
+              </div>
+              <div class="form-group" style="flex: 0;">
+                <button class="btn-primary" onclick="adicionarJogo()" style="margin-top: 22px;">➕ Adicionar</button>
+              </div>
             </div>
+            <h3 style="margin: 20px 0 12px 0; font-size: 1rem;">Jogos Cadastrados</h3>
             <div id="listaJogos"></div>
           </div>
 
           <!-- Tab Resultados -->
           <div id="tab-resultados" class="tab-pane">
             <div id="resultadosJogos"></div>
-            <button class="btn btn-success" onclick="salvarResultados()" style="margin-top: var(--space-lg);">💾 Salvar Resultados</button>
+            <button class="btn-success" onclick="salvarResultados()" style="margin-top: 20px;">💾 Salvar Resultados</button>
           </div>
 
           <!-- Tab Participantes -->
           <div id="tab-participantes" class="tab-pane">
-            <div style="margin-bottom: var(--space-md); display: flex; gap: var(--space-sm);">
-              <button class="btn btn-warning" onclick="liberarTodos()">🔓 Liberar Todos</button>
-              <button class="btn btn-danger" onclick="limparTodosPalpites()">🗑️ Limpar Todos Palpites</button>
-            </div>
             <div id="listaParticipantes"></div>
           </div>
 
           <!-- Tab Importar -->
           <div id="tab-importar" class="tab-pane">
-            <p>Formato: Participante, Jogo, Gols Casa, Gols Fora</p>
-            <input type="file" id="excelFile" accept=".xlsx, .xls" style="margin-bottom: var(--space-md);">
-            <button class="btn btn-primary" onclick="importarExcel()">📂 Importar</button>
+            <div class="alert alert-info">
+              📄 Formato esperado do Excel: Colunas "Participante", "Jogo", "Gols Casa", "Gols Fora"
+            </div>
+            <input type="file" id="excelFile" accept=".xlsx, .xls" style="margin-bottom: 16px; display: block;">
+            <button class="btn-primary" onclick="importarExcel()">📂 Importar</button>
             <div id="importResult"></div>
           </div>
         </div>

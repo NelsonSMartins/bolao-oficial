@@ -8,7 +8,8 @@ async function carregarPalpites() {
   usuarioAtual = verificarLogin();
   if (!usuarioAtual) return;
   
-  document.getElementById('userName').textContent = usuarioAtual.nome;
+  const userNameSpan = document.getElementById('userName');
+  if (userNameSpan) userNameSpan.textContent = usuarioAtual.nome;
   
   dados = await lerDadosGitHub();
   if (!dados) {
@@ -26,16 +27,16 @@ async function carregarPalpites() {
   if (podeEditar) {
     statusMsg.innerHTML = '<span>✏️</span><span>Modo edição ativo - Você pode alterar seus palpites</span>';
     statusMsg.className = 'status-message success';
-    saveBtn.style.display = 'inline-flex';
+    if (saveBtn) saveBtn.style.display = 'inline-flex';
   } else {
     const temPalpite = dados.palpites.some(p => p.usuario === usuarioAtual.username);
     if (temPalpite) {
-      statusMsg.innerHTML = '<span>🔒</span><span>Palpites confirmados. Para alterar, solicite liberação ao administrador.</span>';
+      statusMsg.innerHTML = '<span>🔒</span><span>Palpites confirmados. Para alterar, solicite liberação ao admin.</span>';
     } else {
-      statusMsg.innerHTML = '<span>⚠️</span><span>Você ainda não fez seus palpites. Aguarde o administrador liberar a edição.</span>';
+      statusMsg.innerHTML = '<span>⚠️</span><span>Você ainda não fez seus palpites.</span>';
     }
     statusMsg.className = 'status-message warning';
-    saveBtn.style.display = 'none';
+    if (saveBtn) saveBtn.style.display = 'none';
   }
   
   carregarFiltros();
@@ -46,30 +47,21 @@ function carregarFiltros() {
   const container = document.getElementById('filterBar');
   if (!container) return;
   
-  // Obter datas únicas
   const datasUnicas = [...new Set(jogos.map(j => j.data).filter(d => d))];
   datasUnicas.sort();
   
   const datasFormatadas = {
-    '2026-06-11': '11/06',
-    '2026-06-12': '12/06',
-    '2026-06-13': '13/06',
-    '2026-06-14': '14/06',
-    '2026-06-15': '15/06',
-    '2026-06-16': '16/06',
-    '2026-06-17': '17/06',
-    '2026-06-18': '18/06',
-    '2026-06-19': '19/06',
-    '2026-06-20': '20/06',
-    '2026-06-21': '21/06',
-    '2026-06-22': '22/06',
+    '2026-06-11': '11/06', '2026-06-12': '12/06', '2026-06-13': '13/06',
+    '2026-06-14': '14/06', '2026-06-15': '15/06', '2026-06-16': '16/06',
+    '2026-06-17': '17/06', '2026-06-18': '18/06', '2026-06-19': '19/06',
+    '2026-06-20': '20/06', '2026-06-21': '21/06', '2026-06-22': '22/06',
     '2026-06-23': '23/06'
   };
   
   container.innerHTML = `
-    <button class="filter-btn ${filtroAtual === 'todos' ? 'active' : ''}" onclick="setFiltro('todos')">📋 Todos</button>
+    <button class="filter-btn ${filtroAtual === 'todos' ? 'active' : ''}" onclick="window.setFiltro('todos')">📋 Todos</button>
     ${datasUnicas.map(data => `
-      <button class="filter-btn ${filtroAtual === data ? 'active' : ''}" onclick="setFiltro('${data}')">📅 ${datasFormatadas[data] || data.slice(5)}</button>
+      <button class="filter-btn ${filtroAtual === data ? 'active' : ''}" onclick="window.setFiltro('${data}')">📅 ${datasFormatadas[data] || data.slice(5)}</button>
     `).join('')}
   `;
 }
@@ -87,18 +79,16 @@ function renderizarJogos() {
   container.innerHTML = '<div class="games-grid"></div>';
   const gamesGrid = container.querySelector('.games-grid');
   
-  // Filtrar jogos
   let jogosFiltrados = jogos;
   if (filtroAtual !== 'todos') {
     jogosFiltrados = jogos.filter(j => j.data === filtroAtual);
   }
   
   if (jogosFiltrados.length === 0) {
-    gamesGrid.innerHTML = '<div class="card"><div class="card-body" style="text-align: center;">📭 Nenhum jogo nesta data</div></div>';
+    gamesGrid.innerHTML = '<div class="card"><div class="card-body" style="text-align: center; padding: 40px;">📭 Nenhum jogo nesta data</div></div>';
     return;
   }
   
-  // Agrupar por data
   const jogosPorData = {};
   jogosFiltrados.forEach(jogo => {
     const data = jogo.data;
@@ -121,7 +111,6 @@ function renderizarJogos() {
       const gameCard = document.createElement('div');
       gameCard.className = 'game-card';
       
-      // Calcular status
       let statusBadge = '';
       if (resultado && palpite) {
         const pontos = calcularPontos(palpite, resultado);
@@ -132,51 +121,40 @@ function renderizarJogos() {
         statusBadge = '<span class="badge badge-error">⚠️ Não palpou</span>';
       } else if (!podeEditar && palpite) {
         statusBadge = '<span class="badge badge-success">✓ Confirmado</span>';
-      } else if (!podeEditar && !palpite) {
-        statusBadge = '<span class="badge badge-warning">⏳ Aguardando</span>';
       }
       
       gameCard.innerHTML = `
         <div class="game-info">
           <div class="game-teams">${jogo.timeCasa} 🆚 ${jogo.timeFora}</div>
-          ${resultado ? `<div class="game-result">🏁 Resultado oficial: ${resultado.casa} x ${resultado.fora}</div>` : ''}
+          ${resultado ? `<div class="game-result">🏁 ${resultado.casa} x ${resultado.fora}</div>` : ''}
           ${statusBadge}
         </div>
         <div class="game-bet">
-          <input type="number" id="casa_${jogo.id}" class="bet-input ${palpite && (palpite.casa < 0 || palpite.casa > 30) ? 'is-invalid' : ''}" 
+          <input type="number" id="casa_${jogo.id}" class="bet-input" 
                  value="${palpite ? palpite.casa : ''}" 
                  ${!podeEditar || jogoBloqueado ? 'disabled' : ''}
-                 placeholder="0" min="0" max="30" step="1">
-          <span style="font-weight: 600;">x</span>
-          <input type="number" id="fora_${jogo.id}" class="bet-input ${palpite && (palpite.fora < 0 || palpite.fora > 30) ? 'is-invalid' : ''}" 
+                 placeholder="0" min="0" max="30" inputmode="numeric">
+          <span style="font-weight: 700;">x</span>
+          <input type="number" id="fora_${jogo.id}" class="bet-input" 
                  value="${palpite ? palpite.fora : ''}" 
                  ${!podeEditar || jogoBloqueado ? 'disabled' : ''}
-                 placeholder="0" min="0" max="30" step="1">
+                 placeholder="0" min="0" max="30" inputmode="numeric">
         </div>
       `;
       
       dataGroup.appendChild(gameCard);
     }
-    
     gamesGrid.appendChild(dataGroup);
   }
 }
 
 function formatarDataCompleta(dataStr) {
   const datas = {
-    '2026-06-11': 'Quinta-feira, 11 de Junho',
-    '2026-06-12': 'Sexta-feira, 12 de Junho',
-    '2026-06-13': 'Sábado, 13 de Junho',
-    '2026-06-14': 'Domingo, 14 de Junho',
-    '2026-06-15': 'Segunda-feira, 15 de Junho',
-    '2026-06-16': 'Terça-feira, 16 de Junho',
-    '2026-06-17': 'Quarta-feira, 17 de Junho',
-    '2026-06-18': 'Quinta-feira, 18 de Junho',
-    '2026-06-19': 'Sexta-feira, 19 de Junho',
-    '2026-06-20': 'Sábado, 20 de Junho',
-    '2026-06-21': 'Domingo, 21 de Junho',
-    '2026-06-22': 'Segunda-feira, 22 de Junho',
-    '2026-06-23': 'Terça-feira, 23 de Junho'
+    '2026-06-11': 'Quinta, 11/06', '2026-06-12': 'Sexta, 12/06', '2026-06-13': 'Sábado, 13/06',
+    '2026-06-14': 'Domingo, 14/06', '2026-06-15': 'Segunda, 15/06', '2026-06-16': 'Terça, 16/06',
+    '2026-06-17': 'Quarta, 17/06', '2026-06-18': 'Quinta, 18/06', '2026-06-19': 'Sexta, 19/06',
+    '2026-06-20': 'Sábado, 20/06', '2026-06-21': 'Domingo, 21/06', '2026-06-22': 'Segunda, 22/06',
+    '2026-06-23': 'Terça, 23/06'
   };
   return datas[dataStr] || dataStr;
 }
@@ -211,7 +189,7 @@ async function salvarTodosPalpites() {
           dataPalpite: new Date().toISOString()
         });
       } else {
-        showError(`Placar inválido para ${jogo.timeCasa} x ${jogo.timeFora}. Use 0-30.`);
+        showError(`Placar inválido para ${jogo.timeCasa} x ${jogo.timeFora}`);
         return;
       }
     }
@@ -222,23 +200,25 @@ async function salvarTodosPalpites() {
     return;
   }
   
+  // Remover palpites antigos e adicionar novos
   dados.palpites = dados.palpites.filter(p => p.usuario !== usuarioAtual.username);
   dados.palpites.push(...novosPalpites);
   
   // Bloquear edição automaticamente após salvar
-  if (!dados.editoresLiberados) dados.editoresLiberados = [];
-  if (dados.editoresLiberados.includes(usuarioAtual.username)) {
+  if (dados.editoresLiberados && dados.editoresLiberados.includes(usuarioAtual.username)) {
     const index = dados.editoresLiberados.indexOf(usuarioAtual.username);
     dados.editoresLiberados.splice(index, 1);
   }
   
   const sucesso = await salvarDadosGitHub(dados);
   if (sucesso) {
-    showSuccess('Palpites confirmados! Para alterar, solicite liberação ao admin.');
+    showSuccess('Palpites confirmados!');
     setTimeout(() => location.reload(), 1500);
   }
 }
 
+// Expor funções globalmente
 window.setFiltro = setFiltro;
+window.salvarTodosPalpites = salvarTodosPalpites;
 
 document.addEventListener('DOMContentLoaded', carregarPalpites);
