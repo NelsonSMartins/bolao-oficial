@@ -590,7 +590,34 @@
                             </div>
                         </div>
 
-                        <div style="background: #e3f2fd; border-radius: 12px; padding: 16px; margin-top: 8px;">
+                        <h3 style="color: #1a5f7a; margin-bottom: 16px;">💰 Distribuição do Prêmio</h3>
+                        <div style="background: #e8f5e9; border-radius: 12px; padding: 16px; margin-bottom: 16px;">
+                            <div style="display: flex; flex-direction: column; gap: 12px;">
+                                <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap;">
+                                    <span><strong>🥇 1º Lugar:</strong></span>
+                                    <span id="premioPrimeiro" class="premio-valor" style="font-size: 1.2rem;">R$ --,--</span>
+                                    <span style="color: #2e7d32;">(53.33% do total)</span>
+                                </div>
+                                <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap;">
+                                    <span><strong>🥈 2º Lugar:</strong></span>
+                                    <span id="premioSegundo" class="premio-valor" style="font-size: 1.2rem;">R$ --,--</span>
+                                    <span style="color: #2e7d32;">(33.33% do total)</span>
+                                </div>
+                                <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap;">
+                                    <span><strong>🥉 3º Lugar:</strong></span>
+                                    <span id="premioTerceiro" class="premio-valor" style="font-size: 1.2rem;">R$ --,--</span>
+                                    <span style="color: #2e7d32;">(13.34% do total)</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div style="background: #fff3e0; border-radius: 12px; padding: 12px; margin-bottom: 16px;">
+                            <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
+                                <span>⚠️</span>
+                                <span style="font-size: 0.8rem;"><strong>Em caso de empate:</strong> O valor da posição será dividido igualmente entre os jogadores empatados.</span>
+                            </div>
+                        </div>
+
+                        <div style="background: #e3f2fd; border-radius: 12px; padding: 16px; margin-bottom: 16px;">
                             <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 8px;">
                                 <span>💡</span>
                                 <span style="font-weight: 600;">Exemplo prático:</span>
@@ -603,7 +630,19 @@
                             </p>
                         </div>
 
-                        <div style="margin-top: 20px; text-align: center; font-size: 0.7rem; color: #64748b;">
+                        <!-- BOTÃO WHATSAPP -->
+                        <a href="https://wa.me/5521981073349?text=Gostaria%20de%20mais%20informa%C3%A7%C3%B5es%20sobre%20o%20bol%C3%A3o%20da%20copa."
+                           target="_blank"
+                           style="text-decoration: none; display: block;">
+                            <div style="background: #25D366; border-radius: 50px; padding: 14px 24px; display: flex; align-items: center; justify-content: center; gap: 12px; transition: all 0.3s; cursor: pointer; margin-top: 20px;">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="white">
+                                    <path d="M12.032 2.016c-5.52 0-10 4.48-10 10 0 1.776.48 3.456 1.296 4.944L2 22.016l5.088-1.296c1.44.768 3.072 1.248 4.944 1.248 5.52 0 10-4.48 10-10s-4.48-10-10-10zm0 18.016c-1.632 0-3.168-.432-4.512-1.248l-.336-.192-3.024.768.768-3-.192-.336c-.864-1.344-1.344-2.88-1.344-4.512 0-4.416 3.6-8 8-8s8 3.584 8 8-3.6 8-8 8zm4.272-6.048c-.24-.12-1.392-.672-1.632-.768-.24-.096-.432-.144-.624.144-.192.288-.72.768-.864.96-.144.192-.288.216-.528.096-.816-.384-1.68-.864-2.352-1.44-.288-.24-.624-.624-.96-1.056-.192-.24-.144-.384.096-.624.216-.192.336-.384.48-.576.144-.192.192-.336.288-.576.096-.24.048-.432-.048-.624-.096-.192-.624-1.488-.864-2.064-.24-.576-.48-.48-.624-.48-.144 0-.336-.048-.528-.048-.192 0-.48.096-.72.48-.24.384-.912.912-.912 2.208 0 1.296.96 2.544 1.104 2.736.144.192 1.92 2.88 4.608 3.936.672.24 1.2.384 1.632.48.672.144 1.296.096 1.776-.048.528-.144 1.392-.576 1.584-1.152.192-.576.192-1.056.144-1.152-.048-.096-.192-.144-.432-.264z"/>
+                                </svg>
+                                <span style="color: white; font-weight: 600; font-size: 0.9rem;">📱 Dúvidas? Fale comigo no WhatsApp</span>
+                            </div>
+                        </a>
+
+                        <div style="margin-top: 16px; text-align: center; font-size: 0.7rem; color: #64748b;">
                             Em caso de empate em todos os critérios, os jogadores dividem a mesma posição.
                         </div>
                     </div>
@@ -624,6 +663,15 @@
             const numeroJogadores = Object.keys(USUARIOS).length;
             const totalPremio = numeroJogadores * 10;
             document.getElementById('premioValor').innerHTML = `R$ ${totalPremio.toFixed(2).replace('.', ',')}`;
+            
+            // Atualizar valores dos prêmios por posição
+            const premioPrimeiro = totalPremio * 0.5333;
+            const premioSegundo = totalPremio * 0.3333;
+            const premioTerceiro = totalPremio * 0.1334;
+            
+            document.getElementById('premioPrimeiro').innerHTML = `R$ ${premioPrimeiro.toFixed(2).replace('.', ',')}`;
+            document.getElementById('premioSegundo').innerHTML = `R$ ${premioSegundo.toFixed(2).replace('.', ',')}`;
+            document.getElementById('premioTerceiro').innerHTML = `R$ ${premioTerceiro.toFixed(2).replace('.', ',')}`;
         }
 
         // ============================================
@@ -805,7 +853,7 @@
                             <td style="text-align:center"><span class="pontos-value">${item.pontos}</span></td>
                             <td style="text-align:center">${item.placaresExatos}</td>
                             <td style="text-align:center">${item.resultadosCorretos}</td>
-                        </tr>`;
+                        <tr>`;
             });
             html += '</tbody></table>';
             container.innerHTML = html;
