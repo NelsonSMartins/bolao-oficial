@@ -38,6 +38,7 @@
 
         .header-title {
             flex: 1;
+            text-align: center;
         }
 
         .app-header h1 {
@@ -45,6 +46,7 @@
             font-weight: 700;
             display: flex;
             align-items: center;
+            justify-content: center;
             gap: 8px;
         }
 
@@ -82,7 +84,7 @@
             margin-top: 4px;
         }
 
-        /* Abas */
+        /* Abas - Centralizado */
         .nav-tabs {
             display: flex;
             background: white;
@@ -90,11 +92,14 @@
             position: sticky;
             top: 0;
             z-index: 100;
+            justify-content: center;
+            gap: 4px;
+            flex-wrap: wrap;
+            padding: 0 16px;
         }
 
         .nav-tab {
-            flex: 1;
-            padding: 14px 12px;
+            padding: 14px 24px;
             background: none;
             border: none;
             font-size: 0.9rem;
@@ -105,7 +110,9 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 6px;
+            gap: 8px;
+            white-space: nowrap;
+            border-radius: 12px 12px 0 0;
         }
 
         .nav-tab.active {
@@ -255,13 +262,13 @@
         }
 
         /* Jogos */
-        .games-list {
+        .games-list, .tendencias-list {
             display: flex;
             flex-direction: column;
             gap: 10px;
         }
 
-        .game-card {
+        .game-card, .tendencia-card {
             background: #f8fafc;
             border-radius: 16px;
             padding: 14px 16px;
@@ -272,30 +279,56 @@
             gap: 10px;
         }
 
-        .game-info {
+        .game-info, .tendencia-info {
             flex: 2;
         }
 
-        .game-teams {
+        .game-teams, .tendencia-teams {
             font-weight: 600;
             font-size: 0.9rem;
         }
 
-        .game-date {
+        .game-date, .tendencia-date {
             font-size: 0.65rem;
             color: #64748b;
             margin-top: 4px;
         }
 
-        .game-score {
+        .game-score, .tendencia-score {
             font-weight: 700;
             font-size: 1rem;
-            color: #1a5f7a;
             background: white;
             padding: 6px 14px;
             border-radius: 30px;
             min-width: 80px;
             text-align: center;
+        }
+
+        .game-score {
+            color: #1a5f7a;
+        }
+
+        .tendencia-score-mais {
+            color: #2e7d32;
+        }
+
+        .tendencia-score-menos {
+            color: #d32f2f;
+        }
+
+        .tendencia-percentual {
+            font-size: 0.7rem;
+            color: #2e7d32;
+            background: #e8f5e9;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-weight: 600;
+            display: inline-block;
+        }
+
+        .tendencia-percentual-menos {
+            background: #ffebee;
+            color: #d32f2f;
         }
 
         /* Apostas */
@@ -381,17 +414,19 @@
         @media (max-width: 600px) {
             .app-header h1 { font-size: 1.4rem; }
             .header-content { flex-direction: column; text-align: center; }
+            .header-title { text-align: center; }
             .premio-box { text-align: center; width: 100%; }
             .premio-valor { font-size: 1.2rem; }
             .container { padding: 12px; }
             .card-body { padding: 16px; }
             .filters-grid { flex-direction: column; }
             .btn-reset { margin-top: 0; padding: 10px; }
-            .game-card { flex-direction: column; align-items: stretch; }
-            .game-score { text-align: center; }
+            .game-card, .tendencia-card { flex-direction: column; align-items: stretch; }
+            .game-score, .tendencia-score { text-align: center; }
             .bet-card { flex-direction: column; align-items: stretch; }
             .bet-value { text-align: left; margin-top: 6px; }
-            .nav-tab { padding: 10px 8px; font-size: 0.75rem; }
+            .nav-tabs { padding: 0 8px; gap: 2px; }
+            .nav-tab { padding: 12px 12px; font-size: 0.7rem; gap: 4px; }
             .ranking-table th, .ranking-table td { padding: 8px 6px; font-size: 0.75rem; }
             .medalha { font-size: 1.1rem; min-width: 35px; }
         }
@@ -405,7 +440,7 @@
                 <p>Ranking em tempo real • Palpites atualizados</p>
             </div>
             <div class="premio-box" id="premioBox">
-                <div class="premio-label">PRÊMIO TOTAL</div>
+                <div class="premio-label">🏅 PRÊMIO TOTAL</div>
                 <div class="premio-valor" id="premioValor">R$ --,--</div>
                 <div class="premio-desc">(R$ 10,00 por jogador)</div>
             </div>
@@ -416,6 +451,7 @@
         <button class="nav-tab active" data-tab="ranking">📊 Ranking</button>
         <button class="nav-tab" data-tab="jogos">🏁 Jogos</button>
         <button class="nav-tab" data-tab="apostas">👤 Apostas</button>
+        <button class="nav-tab" data-tab="tendencias">📊 Tendências</button>
     </div>
 
     <div class="container">
@@ -485,6 +521,33 @@
                 </div>
             </div>
         </div>
+
+        <!-- TENDÊNCIAS -->
+        <div id="secao-tendencias" style="display: none;">
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title">📊 Tendências - Palpite Mais e Menos Votado por Jogo</div>
+                </div>
+                <div class="card-body">
+                    <div class="filters-grid">
+                        <div class="filter-group">
+                            <div class="filter-label">⚽ Filtrar por time</div>
+                            <select id="filtroTimeTendencia" class="filter-select">
+                                <option value="">Todos os times</option>
+                            </select>
+                        </div>
+                        <div class="filter-group">
+                            <div class="filter-label">📅 Filtrar por data</div>
+                            <input type="date" id="filtroDataTendencia" class="filter-date">
+                        </div>
+                        <button class="btn-reset" onclick="resetFiltrosTendencias()">Limpar</button>
+                    </div>
+                    <div id="tendenciasContainer" class="tendencias-list">
+                        <div class="loading">⏳ Calculando tendências...</div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 
     <script src="dados/jogos.js"></script>
@@ -508,6 +571,7 @@
             document.getElementById('secao-ranking').style.display = 'none';
             document.getElementById('secao-jogos').style.display = 'none';
             document.getElementById('secao-apostas').style.display = 'none';
+            document.getElementById('secao-tendencias').style.display = 'none';
             
             document.querySelectorAll('.nav-tab').forEach(tab => {
                 tab.classList.remove('active');
@@ -525,6 +589,10 @@
                 document.getElementById('secao-apostas').style.display = 'block';
                 document.querySelector('.nav-tab[data-tab="apostas"]').classList.add('active');
                 carregarSelectJogador();
+            } else if (aba === 'tendencias') {
+                document.getElementById('secao-tendencias').style.display = 'block';
+                document.querySelector('.nav-tab[data-tab="tendencias"]').classList.add('active');
+                renderizarTendencias();
             }
         }
 
@@ -832,6 +900,156 @@
         }
 
         // ============================================
+        // TENDÊNCIAS - MAIS E MENOS VOTADO
+        // ============================================
+        function carregarFiltrosTendencias() {
+            const times = new Set();
+            JOGOS.forEach(jogo => {
+                times.add(jogo.timeCasa);
+                times.add(jogo.timeFora);
+            });
+            const timesOrdenados = Array.from(times).sort();
+            const selectTime = document.getElementById('filtroTimeTendencia');
+            if (selectTime) {
+                selectTime.innerHTML = '<option value="">Todos os times</option>';
+                timesOrdenados.forEach(time => {
+                    selectTime.innerHTML += `<option value="${time}">${time}</option>`;
+                });
+            }
+        }
+
+        function calcularPlacarMaisMenosVotado() {
+            const resultados = [];
+            
+            for (const jogo of JOGOS) {
+                const votos = {};
+                let totalApostas = 0;
+                
+                for (const [key, aposta] of Object.entries(APOSTAS)) {
+                    if (key.startsWith(`${jogo.id}_`)) {
+                        totalApostas++;
+                        const placarKey = `${aposta.casa}_${aposta.fora}`;
+                        if (!votos[placarKey]) {
+                            votos[placarKey] = { casa: aposta.casa, fora: aposta.fora, count: 0 };
+                        }
+                        votos[placarKey].count++;
+                    }
+                }
+                
+                if (totalApostas === 0) {
+                    resultados.push({
+                        jogo: jogo,
+                        temApostas: false,
+                        totalApostas: 0
+                    });
+                    continue;
+                }
+                
+                // Encontrar mais votado e menos votado
+                let maisVotado = null;
+                let menosVotado = null;
+                let maiorVoto = 0;
+                let menorVoto = totalApostas + 1;
+                
+                for (const [key, voto] of Object.entries(votos)) {
+                    if (voto.count > maiorVoto) {
+                        maiorVoto = voto.count;
+                        maisVotado = voto;
+                    }
+                    if (voto.count < menorVoto) {
+                        menorVoto = voto.count;
+                        menosVotado = voto;
+                    }
+                }
+                
+                const percentualMais = (maiorVoto / totalApostas * 100).toFixed(1);
+                const percentualMenos = (menorVoto / totalApostas * 100).toFixed(1);
+                
+                resultados.push({
+                    jogo: jogo,
+                    temApostas: true,
+                    totalApostas: totalApostas,
+                    maisVotado: { placar: maisVotado, votos: maiorVoto, percentual: percentualMais },
+                    menosVotado: { placar: menosVotado, votos: menorVoto, percentual: percentualMenos }
+                });
+            }
+            
+            return resultados;
+        }
+
+        function renderizarTendencias() {
+            const timeFiltro = document.getElementById('filtroTimeTendencia')?.value || '';
+            const dataFiltro = document.getElementById('filtroDataTendencia')?.value || '';
+            
+            let tendencias = calcularPlacarMaisMenosVotado();
+            
+            if (timeFiltro) {
+                tendencias = tendencias.filter(t => 
+                    t.jogo.timeCasa === timeFiltro || t.jogo.timeFora === timeFiltro
+                );
+            }
+            if (dataFiltro) {
+                tendencias = tendencias.filter(t => t.jogo.data === dataFiltro);
+            }
+            
+            tendencias.sort((a, b) => a.jogo.id - b.jogo.id);
+            
+            const container = document.getElementById('tendenciasContainer');
+            if (!container) return;
+            
+            if (tendencias.length === 0) {
+                container.innerHTML = '<div class="empty-state">Nenhum jogo encontrado</div>';
+                return;
+            }
+            
+            container.innerHTML = '';
+            for (const item of tendencias) {
+                const div = document.createElement('div');
+                div.className = 'tendencia-card';
+                
+                if (!item.temApostas) {
+                    div.innerHTML = `
+                        <div class="tendencia-info">
+                            <div class="tendencia-teams">${item.jogo.timeCasa} 🆚 ${item.jogo.timeFora}</div>
+                            <div class="tendencia-date">📅 ${formatarData(item.jogo.data)}</div>
+                        </div>
+                        <div class="tendencia-score">
+                            ⏳ Sem apostas
+                        </div>
+                    `;
+                } else {
+                    div.innerHTML = `
+                        <div class="tendencia-info">
+                            <div class="tendencia-teams">${item.jogo.timeCasa} 🆚 ${item.jogo.timeFora}</div>
+                            <div class="tendencia-date">📅 ${formatarData(item.jogo.data)}</div>
+                            <div style="margin-top: 8px;">
+                                <div style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap;">
+                                    <span style="font-size: 0.7rem; color: #2e7d32;">🏆 MAIS VOTADO:</span>
+                                    <span class="tendencia-score-mais" style="font-weight: 700;">${item.maisVotado.placar.casa} x ${item.maisVotado.placar.fora}</span>
+                                    <span class="tendencia-percentual">📊 ${item.maisVotado.percentual}% (${item.maisVotado.votos} de ${item.totalApostas})</span>
+                                </div>
+                                <div style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin-top: 6px;">
+                                    <span style="font-size: 0.7rem; color: #d32f2f;">📉 MENOS VOTADO:</span>
+                                    <span class="tendencia-score-menos" style="font-weight: 700;">${item.menosVotado.placar.casa} x ${item.menosVotado.placar.fora}</span>
+                                    <span class="tendencia-percentual tendencia-percentual-menos">📊 ${item.menosVotado.percentual}% (${item.menosVotado.votos} de ${item.totalApostas})</span>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                }
+                container.appendChild(div);
+            }
+        }
+
+        function resetFiltrosTendencias() {
+            const selectTime = document.getElementById('filtroTimeTendencia');
+            const inputData = document.getElementById('filtroDataTendencia');
+            if (selectTime) selectTime.value = '';
+            if (inputData) inputData.value = '';
+            renderizarTendencias();
+        }
+
+        // ============================================
         // EVENT LISTENERS
         // ============================================
         function initEventListeners() {
@@ -843,6 +1061,12 @@
             
             const filtroData = document.getElementById('filtroDataJogo');
             if (filtroData) filtroData.addEventListener('change', renderizarJogos);
+            
+            const filtroTimeTendencia = document.getElementById('filtroTimeTendencia');
+            if (filtroTimeTendencia) filtroTimeTendencia.addEventListener('change', renderizarTendencias);
+            
+            const filtroDataTendencia = document.getElementById('filtroDataTendencia');
+            if (filtroDataTendencia) filtroDataTendencia.addEventListener('change', renderizarTendencias);
             
             const selectJogador = document.getElementById('selectJogador');
             if (selectJogador) {
@@ -866,9 +1090,11 @@
             atualizarPremio();
             carregarFiltroRankingJogadores();
             carregarFiltrosJogos();
+            carregarFiltrosTendencias();
             carregarSelectJogador();
             renderizarRanking();
             renderizarJogos();
+            renderizarTendencias();
             initEventListeners();
             mostrarAba('ranking');
         }
