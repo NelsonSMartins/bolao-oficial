@@ -99,10 +99,10 @@
         }
 
         .nav-tab {
-            padding: 14px 24px;
+            padding: 14px 20px;
             background: none;
             border: none;
-            font-size: 0.9rem;
+            font-size: 0.85rem;
             font-weight: 600;
             color: #64748b;
             cursor: pointer;
@@ -110,7 +110,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 8px;
+            gap: 6px;
             white-space: nowrap;
             border-radius: 12px 12px 0 0;
         }
@@ -426,7 +426,7 @@
             .bet-card { flex-direction: column; align-items: stretch; }
             .bet-value { text-align: left; margin-top: 6px; }
             .nav-tabs { padding: 0 8px; gap: 2px; }
-            .nav-tab { padding: 12px 12px; font-size: 0.7rem; gap: 4px; }
+            .nav-tab { padding: 12px 10px; font-size: 0.65rem; gap: 4px; }
             .ranking-table th, .ranking-table td { padding: 8px 6px; font-size: 0.75rem; }
             .medalha { font-size: 1.1rem; min-width: 35px; }
         }
@@ -452,6 +452,7 @@
         <button class="nav-tab" data-tab="jogos">🏁 Jogos</button>
         <button class="nav-tab" data-tab="apostas">👤 Apostas</button>
         <button class="nav-tab" data-tab="tendencias">📊 Tendências</button>
+        <button class="nav-tab" data-tab="regras">📖 Regras</button>
     </div>
 
     <div class="container">
@@ -548,6 +549,67 @@
                 </div>
             </div>
         </div>
+
+        <!-- REGRAS -->
+        <div id="secao-regras" style="display: none;">
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title">📖 Regras do Bolão</div>
+                </div>
+                <div class="card-body">
+                    <div style="background: #f8fafc; border-radius: 16px; padding: 20px;">
+                        <h3 style="color: #1a5f7a; margin-bottom: 16px;">🏆 Pontuação</h3>
+                        <div style="display: flex; flex-direction: column; gap: 12px; margin-bottom: 24px;">
+                            <div style="display: flex; align-items: center; gap: 12px; flex-wrap: wrap;">
+                                <span class="badge badge-exact" style="font-size: 0.8rem; padding: 4px 12px;">🎯 3 pontos</span>
+                                <span>Acertar o <strong>placar exato</strong> do jogo</span>
+                            </div>
+                            <div style="display: flex; align-items: center; gap: 12px; flex-wrap: wrap;">
+                                <span class="badge badge-result" style="font-size: 0.8rem; padding: 4px 12px;">✅ 1 ponto</span>
+                                <span>Acertar apenas o <strong>resultado</strong> (vitória/empate/derrota)</span>
+                            </div>
+                            <div style="display: flex; align-items: center; gap: 12px; flex-wrap: wrap;">
+                                <span class="badge badge-wrong" style="font-size: 0.8rem; padding: 4px 12px;">❌ 0 pontos</span>
+                                <span>Errar o resultado do jogo</span>
+                            </div>
+                        </div>
+
+                        <h3 style="color: #1a5f7a; margin-bottom: 16px;">⚖️ Critérios de Desempate</h3>
+                        <div style="display: flex; flex-direction: column; gap: 12px; margin-bottom: 24px;">
+                            <div style="display: flex; align-items: baseline; gap: 8px; flex-wrap: wrap;">
+                                <span style="font-weight: 700; min-width: 40px;">1º</span>
+                                <span>Maior número de <strong>acertos de placar exato</strong> (3 pontos)</span>
+                            </div>
+                            <div style="display: flex; align-items: baseline; gap: 8px; flex-wrap: wrap;">
+                                <span style="font-weight: 700; min-width: 40px;">2º</span>
+                                <span>Maior número de <strong>acertos de resultado</strong> (1 ponto)</span>
+                            </div>
+                            <div style="display: flex; align-items: baseline; gap: 8px; flex-wrap: wrap;">
+                                <span style="font-weight: 700; min-width: 40px;">3º</span>
+                                <span>Menor <strong>diferença de gols acumulada</strong> (soma das diferenças entre palpite e resultado)</span>
+                            </div>
+                        </div>
+
+                        <div style="background: #e3f2fd; border-radius: 12px; padding: 16px; margin-top: 8px;">
+                            <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 8px;">
+                                <span>💡</span>
+                                <span style="font-weight: 600;">Exemplo prático:</span>
+                            </div>
+                            <p style="font-size: 0.85rem; line-height: 1.5; color: #1e293b;">
+                                Resultado real: <strong>Brasil 2 x 0 Marrocos</strong><br><br>
+                                • Palpite <strong>2 x 0</strong> → <span class="badge badge-exact">3 pontos</span> (placar exato)<br>
+                                • Palpite <strong>3 x 1</strong> → <span class="badge badge-result">1 ponto</span> (acertou vitória do Brasil, mas errou o placar)<br>
+                                • Palpite <strong>1 x 1</strong> → <span class="badge badge-wrong">0 pontos</span> (errou o resultado)
+                            </p>
+                        </div>
+
+                        <div style="margin-top: 20px; text-align: center; font-size: 0.7rem; color: #64748b;">
+                            Em caso de empate em todos os critérios, os jogadores dividem a mesma posição.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 
     <script src="dados/jogos.js"></script>
@@ -572,6 +634,7 @@
             document.getElementById('secao-jogos').style.display = 'none';
             document.getElementById('secao-apostas').style.display = 'none';
             document.getElementById('secao-tendencias').style.display = 'none';
+            document.getElementById('secao-regras').style.display = 'none';
             
             document.querySelectorAll('.nav-tab').forEach(tab => {
                 tab.classList.remove('active');
@@ -593,6 +656,9 @@
                 document.getElementById('secao-tendencias').style.display = 'block';
                 document.querySelector('.nav-tab[data-tab="tendencias"]').classList.add('active');
                 renderizarTendencias();
+            } else if (aba === 'regras') {
+                document.getElementById('secao-regras').style.display = 'block';
+                document.querySelector('.nav-tab[data-tab="regras"]').classList.add('active');
             }
         }
 
@@ -900,7 +966,7 @@
         }
 
         // ============================================
-        // TENDÊNCIAS - MAIS E MENOS VOTADO
+        // TENDÊNCIAS
         // ============================================
         function carregarFiltrosTendencias() {
             const times = new Set();
@@ -945,7 +1011,6 @@
                     continue;
                 }
                 
-                // Encontrar mais votado e menos votado
                 let maisVotado = null;
                 let menosVotado = null;
                 let maiorVoto = 0;
