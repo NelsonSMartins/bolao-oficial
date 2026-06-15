@@ -26,7 +26,7 @@ const RESULTADOS = {
     12: { casa: 5, fora: 1 }, // Suécia 5 x 1 Tunísia
     
     // 15/06/2026 - Fase de Grupos
-    13: { casa: 0, fora: 0 }, // Espanha x Cabo Verde
+    13: { casa: 1, fora: 0 }, // Espanha x Cabo Verde
     // 14: { casa: 0, fora: 0 }, // Arábia Saudita x Uruguai
     // 15: { casa: 0, fora: 0 }, // Bélgica x Egito
     // 16: { casa: 0, fora: 0 }, // Irã x Nova Zelândia
