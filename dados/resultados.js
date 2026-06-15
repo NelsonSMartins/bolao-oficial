@@ -28,7 +28,7 @@ const RESULTADOS = {
     // 15/06/2026 - Fase de Grupos
     13: { casa: 0, fora: 0 }, // Espanha x Cabo Verde
     // 14: { casa: 0, fora: 0 }, // Arábia Saudita x Uruguai
-    // 15: { casa: 0, fora: 0 }, // Bélgica x Egito
+    15: { casa: 0, fora: 1 }, // Bélgica x Egito
     // 16: { casa: 0, fora: 0 }, // Irã x Nova Zelândia
     
     // 16/06/2026 - Fase de Grupos
