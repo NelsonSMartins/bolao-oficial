@@ -27,12 +27,12 @@ const RESULTADOS = {
     
     // 15/06/2026 - Fase de Grupos
     13: { casa: 0, fora: 0 }, // Espanha x Cabo Verde
-    // 14: { casa: 0, fora: 0 }, // Arábia Saudita x Uruguai
+    14: { casa: 1, fora: 1 }, // Arábia Saudita x Uruguai
     15: { casa: 0, fora: 1 }, // Bélgica x Egito
-    // 16: { casa: 0, fora: 0 }, // Irã x Nova Zelândia
+    16: { casa: 2, fora: 2 }, // Irã x Nova Zelândia
     
     // 16/06/2026 - Fase de Grupos
-    // 17: { casa: 0, fora: 0 }, // França x Senegal
+    17: { casa: 0, fora: 0 }, // França x Senegal
     // 18: { casa: 0, fora: 0 }, // Argentina x Argélia
     // 19: { casa: 0, fora: 0 }, // Iraque x Noruega
     
