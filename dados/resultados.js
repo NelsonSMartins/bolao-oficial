@@ -44,7 +44,7 @@ const RESULTADOS = {
     24: { casa: 1, fora: 3 }, // Uzbequistão x Colômbia
     
     // 18/06/2026 - Fase de Grupos
-    // 25: { casa: 0, fora: 0 }, // África do Sul x República Tcheca
+    25: { casa: 0, fora: 1 }, // África do Sul x República Tcheca
     // 26: { casa: 0, fora: 0 }, // México x Coreia do Sul
     // 27: { casa: 0, fora: 0 }, // Canadá x Catar
     // 28: { casa: 0, fora: 0 }, // Bósnia e Herzegovina x Suíça
