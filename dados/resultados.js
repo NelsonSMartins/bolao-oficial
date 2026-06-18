@@ -39,9 +39,9 @@ const RESULTADOS = {
     // 17/06/2026 - Fase de Grupos
     20: { casa: 3, fora: 1 }, // Áustria x Jordânia
     21: { casa: 1, fora: 1 }, // Portugal x República Democrática do Congo
-    // 22: { casa: 0, fora: 0 }, // Gana x Panamá
-    // 23: { casa: 0, fora: 0 }, // Inglaterra x Croácia
-    // 24: { casa: 0, fora: 0 }, // Uzbequistão x Colômbia
+    22: { casa: 1, fora: 0 }, // Gana x Panamá
+    23: { casa: 4, fora: 2 }, // Inglaterra x Croácia
+    24: { casa: 1, fora: 3 }, // Uzbequistão x Colômbia
     
     // 18/06/2026 - Fase de Grupos
     // 25: { casa: 0, fora: 0 }, // África do Sul x República Tcheca
