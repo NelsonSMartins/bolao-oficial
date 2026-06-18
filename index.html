@@ -1232,7 +1232,7 @@
             <!-- Botão de fechar -->
             <button onclick="fecharModalJogos()" style="position: absolute; top: -15px; right: -15px; background: #e74c3c; color: white; border: none; border-radius: 50%; width: 40px; height: 40px; font-size: 1.2rem; cursor: pointer; z-index: 10; box-shadow: 0 4px 12px rgba(0,0,0,0.3); display: flex; align-items: center; justify-content: center;">✕</button>
             <!-- Imagem -->
-            <img id="imagemJogos" src="img/jogos-do-dia.jpg" alt="Jogos do Dia" style="width: 100%; height: auto; max-height: 85vh; object-fit: contain; border-radius: 12px; box-shadow: 0 20px 60px rgba(0,0,0,0.5);">
+            <img id="imagemJogos" src="" alt="Jogos do Dia" style="width: 100%; height: auto; max-height: 85vh; object-fit: contain; border-radius: 12px; box-shadow: 0 20px 60px rgba(0,0,0,0.5);">
         </div>
     </div>
 
@@ -1240,16 +1240,81 @@
         // ============================================
         // MODAL DOS JOGOS DO DIA
         // ============================================
+        function obterImagemDoDia() {
+            const hoje = new Date();
+            const ano = hoje.getFullYear();
+            const mes = String(hoje.getMonth() + 1).padStart(2, '0');
+            const dia = String(hoje.getDate()).padStart(2, '0');
+            const dataStr = `${ano}${mes}${dia}`;
+            
+            // Tentar PNG primeiro, depois JPEG
+            const caminhoBase = 'img/';
+            const extensoes = ['png', 'jpg', 'jpeg', 'PNG', 'JPG', 'JPEG'];
+            
+            // Retornar o caminho com a data (o navegador vai tentar carregar)
+            return `${caminhoBase}${dataStr}.png`; // Vamos testar PNG primeiro
+        }
+
         function abrirModalJogos() {
             const modal = document.getElementById('modalJogos');
+            const img = document.getElementById('imagemJogos');
+            
+            // Obter a data atual
+            const hoje = new Date();
+            const ano = hoje.getFullYear();
+            const mes = String(hoje.getMonth() + 1).padStart(2, '0');
+            const dia = String(hoje.getDate()).padStart(2, '0');
+            const dataStr = `${ano}${mes}${dia}`;
+            
+            // Tentar PNG primeiro, se falhar tenta JPEG
+            const tentarCarregarImagem = function(extensao) {
+                img.src = `img/${dataStr}.${extensao}`;
+            };
+            
+            // Tentar PNG primeiro
+            tentarCarregarImagem('png');
+            
+            // Se a imagem falhar ao carregar, tentar JPG
+            img.onerror = function() {
+                // Tentar jpg
+                this.src = `img/${dataStr}.jpg`;
+                // Se falhar novamente, tentar jpeg
+                this.onerror = function() {
+                    this.src = `img/${dataStr}.jpeg`;
+                    // Se tudo falhar, mostrar mensagem
+                    this.onerror = function() {
+                        this.alt = `📅 Imagem do dia ${dataStr} não encontrada`;
+                        this.style.display = 'none';
+                        // Mostrar mensagem na tela
+                        const msg = document.createElement('div');
+                        msg.style.cssText = 'color: white; text-align: center; font-size: 1.5rem; padding: 40px;';
+                        msg.innerHTML = `📅 Nenhuma imagem encontrada para hoje (${dataStr})<br><small style="font-size: 0.8rem;">Coloque o arquivo img/${dataStr}.png ou img/${dataStr}.jpg</small>`;
+                        const container = this.parentElement;
+                        if (!container.querySelector('.msg-erro')) {
+                            msg.className = 'msg-erro';
+                            container.appendChild(msg);
+                        }
+                    };
+                };
+            };
+            
             modal.style.display = 'flex';
-            document.body.style.overflow = 'hidden'; // Impede rolagem da página
+            document.body.style.overflow = 'hidden';
         }
 
         function fecharModalJogos() {
             const modal = document.getElementById('modalJogos');
             modal.style.display = 'none';
-            document.body.style.overflow = 'auto'; // Restaura rolagem
+            document.body.style.overflow = 'auto';
+            
+            // Remover mensagem de erro se existir
+            const msgErro = document.querySelector('.msg-erro');
+            if (msgErro) msgErro.remove();
+            
+            // Resetar o estilo da imagem
+            const img = document.getElementById('imagemJogos');
+            img.style.display = 'block';
+            img.onerror = null;
         }
 
         // Fechar ao clicar fora da imagem
@@ -1264,7 +1329,6 @@
 
         // Abrir o modal automaticamente ao carregar a página
         window.addEventListener('load', function() {
-            // Pequeno delay para garantir que a página carregou completamente
             setTimeout(abrirModalJogos, 500);
         });
 
