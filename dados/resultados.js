@@ -50,7 +50,7 @@ const RESULTADOS = {
     28: { casa: 1, fora: 4 }, // Bósnia e Herzegovina x Suíça
     
     // 19/06/2026 - Fase de Grupos
-    29: { casa: 0, fora: 1 }, // Estados Unidos x Austrália
+    29: { casa: 1, fora: 0 }, // Estados Unidos x Austrália
     // 30: { casa: 0, fora: 0 }, // Brasil x Haiti
     // 31: { casa: 0, fora: 0 }, // Marrocos x Escócia
     
