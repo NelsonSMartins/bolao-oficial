@@ -5,13 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes, viewport-fit=cover">
     <title>Bolão Copa 2026</title>
 
-        <!-- Google tag (gtag.js) -->
+    <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-39ET6TEKQZ"></script>
     <script>
     window.dataLayer = window.dataLayer || [];
     function gtag(){dataLayer.push(arguments);}
     gtag('js', new Date());
-
     gtag('config', 'G-39ET6TEKQZ');
     </script>
 
@@ -29,7 +28,6 @@
             color: #1e293b;
         }
 
-        /* Header */
         .app-header {
             background: linear-gradient(135deg, #1a5f7a, #0d3b4f);
             padding: 24px 20px 16px;
@@ -67,7 +65,6 @@
             margin-top: 6px;
         }
 
-        /* Valor do prêmio */
         .premio-box {
             text-align: right;
             background: rgba(255,255,255,0.15);
@@ -95,7 +92,6 @@
             margin-top: 4px;
         }
 
-        /* Abas - Centralizado */
         .nav-tabs {
             display: flex;
             background: white;
@@ -132,14 +128,12 @@
             background: #f8fafc;
         }
 
-        /* Container */
         .container {
             max-width: 800px;
             margin: 0 auto;
             padding: 20px;
         }
 
-        /* Cards */
         .card {
             background: white;
             border-radius: 20px;
@@ -167,7 +161,6 @@
             padding: 20px;
         }
 
-        /* Filtros */
         .filters-grid {
             display: flex;
             flex-wrap: wrap;
@@ -220,15 +213,17 @@
             font-weight: 500;
             color: #64748b;
             cursor: pointer;
-            margin-top: 22px;
             transition: all 0.2s;
+            height: 44px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
         .btn-reset:hover {
             background: #e2e8f0;
         }
 
-        /* Ranking */
         .ranking-wrapper {
             overflow-x: auto;
             -webkit-overflow-scrolling: touch;
@@ -272,7 +267,6 @@
             min-width: 45px;
         }
 
-        /* Jogos */
         .games-list, .tendencias-list {
             display: flex;
             flex-direction: column;
@@ -342,7 +336,6 @@
             color: #d32f2f;
         }
 
-        /* Apostas */
         .bets-list {
             display: flex;
             flex-direction: column;
@@ -382,7 +375,6 @@
             text-align: right;
         }
 
-        /* Badges */
         .badge {
             display: inline-block;
             padding: 3px 10px;
@@ -396,7 +388,6 @@
         .badge-wrong { background: #d32f2f; color: white; }
         .badge-waiting { background: #64748b; color: white; }
 
-        /* Select Jogador */
         .player-select {
             width: 100%;
             padding: 14px;
@@ -421,7 +412,6 @@
             color: #64748b;
         }
 
-        /* Responsivo */
         @media (max-width: 600px) {
             .app-header h1 { font-size: 1.4rem; }
             .header-content { flex-direction: column; text-align: center; }
@@ -431,7 +421,7 @@
             .container { padding: 12px; }
             .card-body { padding: 16px; }
             .filters-grid { flex-direction: column; }
-            .btn-reset { margin-top: 0; padding: 10px; }
+            .btn-reset { margin-top: 0; padding: 10px; height: 44px; }
             .game-card, .tendencia-card { flex-direction: column; align-items: stretch; }
             .game-score, .tendencia-score { text-align: center; }
             .bet-card { flex-direction: column; align-items: stretch; }
@@ -524,9 +514,27 @@
                     <div class="card-title">👤 Palpites por Jogador</div>
                 </div>
                 <div class="card-body">
-                    <select id="selectJogador" class="player-select">
-                        <option value="">Selecione um jogador...</option>
-                    </select>
+                    <div class="filters-grid">
+                        <div class="filter-group">
+                            <div class="filter-label">👤 Filtrar por jogador</div>
+                            <select id="selectJogador" class="filter-select" onchange="renderizarApostasJogador(this.value)">
+                                <option value="">Selecione um jogador...</option>
+                            </select>
+                        </div>
+                        <div class="filter-group">
+                            <div class="filter-label">⚽ Filtrar por time</div>
+                            <select id="filtroTimeApostas" class="filter-select" onchange="renderizarApostasJogador(document.getElementById('selectJogador').value)">
+                                <option value="">Todos os times</option>
+                            </select>
+                        </div>
+                        <div class="filter-group">
+                            <div class="filter-label">📅 Filtrar por data</div>
+                            <input type="date" id="filtroDataApostas" class="filter-date" onchange="renderizarApostasJogador(document.getElementById('selectJogador').value)">
+                        </div>
+                        <div class="filter-group" style="flex: 0.5; min-width: 100px; display: flex; align-items: flex-end;">
+                            <button class="btn-reset" onclick="resetFiltrosApostas()" style="margin-top: 0; width: 100%;">Limpar</button>
+                        </div>
+                    </div>
                     <div id="apostasContainer" class="bets-list">
                         <div class="empty-state">👈 Selecione um jogador para ver os palpites</div>
                     </div>
@@ -641,7 +649,6 @@
                             </p>
                         </div>
 
-                        <!-- BOTÃO WHATSAPP -->
                         <a href="https://wa.me/5521981073349?text=Gostaria%20de%20mais%20informa%C3%A7%C3%B5es%20sobre%20o%20bol%C3%A3o%20da%20copa."
                            target="_blank"
                            style="text-decoration: none; display: block;">
@@ -675,7 +682,6 @@
             const totalPremio = numeroJogadores * 10;
             document.getElementById('premioValor').innerHTML = `R$ ${totalPremio.toFixed(2).replace('.', ',')}`;
             
-            // Atualizar valores dos prêmios por posição
             const premioPrimeiro = totalPremio * 0.5333;
             const premioSegundo = totalPremio * 0.3333;
             const premioTerceiro = totalPremio * 0.1334;
@@ -711,6 +717,7 @@
                 document.getElementById('secao-apostas').style.display = 'block';
                 document.querySelector('.nav-tab[data-tab="apostas"]').classList.add('active');
                 carregarSelectJogador();
+                carregarFiltrosApostas();
             } else if (aba === 'tendencias') {
                 document.getElementById('secao-tendencias').style.display = 'block';
                 document.querySelector('.nav-tab[data-tab="tendencias"]').classList.add('active');
@@ -864,7 +871,7 @@
                             <td style="text-align:center"><span class="pontos-value">${item.pontos}</span></td>
                             <td style="text-align:center">${item.placaresExatos}</td>
                             <td style="text-align:center">${item.resultadosCorretos}</td>
-                        <tr>`;
+                        </tr>`;
             });
             html += '</tbody></table>';
             container.innerHTML = html;
@@ -959,6 +966,32 @@
             });
         }
 
+        function carregarFiltrosApostas() {
+            const times = new Set();
+            JOGOS.forEach(jogo => {
+                times.add(jogo.timeCasa);
+                times.add(jogo.timeFora);
+            });
+            const timesOrdenados = Array.from(times).sort();
+            const selectTime = document.getElementById('filtroTimeApostas');
+            if (selectTime) {
+                selectTime.innerHTML = '<option value="">Todos os times</option>';
+                timesOrdenados.forEach(time => {
+                    selectTime.innerHTML += `<option value="${time}">${time}</option>`;
+                });
+            }
+        }
+
+        function resetFiltrosApostas() {
+            const selectJogador = document.getElementById('selectJogador');
+            const selectTime = document.getElementById('filtroTimeApostas');
+            const inputData = document.getElementById('filtroDataApostas');
+            if (selectJogador) selectJogador.value = '';
+            if (selectTime) selectTime.value = '';
+            if (inputData) inputData.value = '';
+            renderizarApostasJogador('');
+        }
+
         function renderizarApostasJogador(jogador) {
             const container = document.getElementById('apostasContainer');
             if (!container) return;
@@ -967,6 +1000,9 @@
                 container.innerHTML = '<div class="empty-state">👈 Selecione um jogador para ver os palpites</div>';
                 return;
             }
+            
+            const timeFiltro = document.getElementById('filtroTimeApostas')?.value || '';
+            const dataFiltro = document.getElementById('filtroDataApostas')?.value || '';
             
             const apostasDoJogador = [];
             for (const [key, aposta] of Object.entries(APOSTAS)) {
@@ -982,15 +1018,26 @@
                 }
             }
             
-            apostasDoJogador.sort((a, b) => a.jogo.id - b.jogo.id);
+            let apostasFiltradas = apostasDoJogador;
             
-            if (apostasDoJogador.length === 0) {
-                container.innerHTML = `<div class="empty-state">📝 ${jogador} ainda não fez nenhum palpite</div>`;
+            if (timeFiltro) {
+                apostasFiltradas = apostasFiltradas.filter(item => 
+                    item.jogo.timeCasa === timeFiltro || item.jogo.timeFora === timeFiltro
+                );
+            }
+            if (dataFiltro) {
+                apostasFiltradas = apostasFiltradas.filter(item => item.jogo.data === dataFiltro);
+            }
+            
+            apostasFiltradas.sort((a, b) => a.jogo.id - b.jogo.id);
+            
+            if (apostasFiltradas.length === 0) {
+                container.innerHTML = `<div class="empty-state">📝 Nenhum palpite encontrado para ${jogador} com os filtros selecionados</div>`;
                 return;
             }
             
             container.innerHTML = '';
-            for (const item of apostasDoJogador) {
+            for (const item of apostasFiltradas) {
                 const jogo = item.jogo;
                 const palpite = item.palpite;
                 const resultado = RESULTADOS[jogo.id];
@@ -1199,6 +1246,20 @@
                 });
             }
             
+            const filtroTimeApostas = document.getElementById('filtroTimeApostas');
+            if (filtroTimeApostas) {
+                filtroTimeApostas.addEventListener('change', () => {
+                    renderizarApostasJogador(document.getElementById('selectJogador')?.value || '');
+                });
+            }
+            
+            const filtroDataApostas = document.getElementById('filtroDataApostas');
+            if (filtroDataApostas) {
+                filtroDataApostas.addEventListener('change', () => {
+                    renderizarApostasJogador(document.getElementById('selectJogador')?.value || '');
+                });
+            }
+            
             document.querySelectorAll('.nav-tab').forEach(tab => {
                 tab.addEventListener('click', function() {
                     const aba = this.getAttribute('data-tab');
@@ -1216,6 +1277,7 @@
             carregarFiltrosJogos();
             carregarFiltrosTendencias();
             carregarSelectJogador();
+            carregarFiltrosApostas();
             renderizarRanking();
             renderizarJogos();
             renderizarTendencias();
@@ -1226,80 +1288,184 @@
         init();
     </script>
 
-        <!-- MODAL DE IMAGEM DOS JOGOS DO DIA -->
-    <div id="modalJogos" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); z-index: 9999; display: none; align-items: center; justify-content: center; padding: 20px;">
-        <div style="position: relative; max-width: 90%; max-height: 90%;">
-            <!-- Botão de fechar -->
-            <button onclick="fecharModalJogos()" style="position: absolute; top: -15px; right: -15px; background: #e74c3c; color: white; border: none; border-radius: 50%; width: 40px; height: 40px; font-size: 1.2rem; cursor: pointer; z-index: 10; box-shadow: 0 4px 12px rgba(0,0,0,0.3); display: flex; align-items: center; justify-content: center;">✕</button>
-            <!-- Imagem -->
-            <img id="imagemJogos" src="" alt="Jogos do Dia" style="width: 100%; height: auto; max-height: 85vh; object-fit: contain; border-radius: 12px; box-shadow: 0 20px 60px rgba(0,0,0,0.5);">
+    <!-- MODAL DE IMAGEM DOS JOGOS DO DIA - CARROSSEL -->
+    <div id="modalJogos" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.92); z-index: 9999; display: none; align-items: center; justify-content: center; padding: 20px;">
+        <div style="position: relative; max-width: 95%; max-height: 95%; width: 100%;">
+            <button onclick="fecharModalJogos()" style="position: absolute; top: -15px; right: -15px; background: #e74c3c; color: white; border: none; border-radius: 50%; width: 44px; height: 44px; font-size: 1.3rem; cursor: pointer; z-index: 20; box-shadow: 0 4px 12px rgba(0,0,0,0.3); display: flex; align-items: center; justify-content: center;">✕</button>
+            
+            <button id="btnPrev" onclick="carrosselAnterior()" style="position: absolute; left: 10px; top: 50%; transform: translateY(-50%); background: rgba(255,255,255,0.2); backdrop-filter: blur(5px); color: white; border: none; border-radius: 50%; width: 50px; height: 50px; font-size: 1.8rem; cursor: pointer; z-index: 15; display: none; align-items: center; justify-content: center; transition: all 0.3s;">‹</button>
+            
+            <button id="btnNext" onclick="carrosselProximo()" style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); background: rgba(255,255,255,0.2); backdrop-filter: blur(5px); color: white; border: none; border-radius: 50%; width: 50px; height: 50px; font-size: 1.8rem; cursor: pointer; z-index: 15; display: none; align-items: center; justify-content: center; transition: all 0.3s;">›</button>
+            
+            <div id="indicadores" style="position: absolute; bottom: -40px; left: 0; right: 0; text-align: center; z-index: 15; display: none; gap: 8px; flex-wrap: wrap; justify-content: center;"></div>
+            
+            <div style="position: relative; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center;">
+                <img id="imagemJogos" src="" alt="Jogos do Dia" style="width: 100%; height: auto; max-height: 80vh; object-fit: contain; border-radius: 12px; box-shadow: 0 20px 60px rgba(0,0,0,0.5);">
+            </div>
+            
+            <div id="legendaImagem" style="position: absolute; bottom: -70px; left: 0; right: 0; text-align: center; color: rgba(255,255,255,0.7); font-size: 0.8rem; z-index: 10; display: none; padding: 8px;">
+                <span id="textoLegenda"></span>
+            </div>
         </div>
     </div>
 
     <script>
         // ============================================
-        // MODAL DOS JOGOS DO DIA
+        // CARROSSEL DE IMAGENS DO DIA
         // ============================================
-        function obterImagemDoDia() {
+        let imagensDoDia = [];
+        let indiceAtual = 0;
+
+        function obterImagensDoDia() {
             const hoje = new Date();
             const ano = hoje.getFullYear();
             const mes = String(hoje.getMonth() + 1).padStart(2, '0');
             const dia = String(hoje.getDate()).padStart(2, '0');
             const dataStr = `${ano}${mes}${dia}`;
             
-            // Tentar PNG primeiro, depois JPEG
-            const caminhoBase = 'img/';
-            const extensoes = ['png', 'jpg', 'jpeg', 'PNG', 'JPG', 'JPEG'];
+            const extensoes = ['png', 'jpg', 'jpeg'];
+            const imagens = [];
             
-            // Retornar o caminho com a data (o navegador vai tentar carregar)
-            return `${caminhoBase}${dataStr}.png`; // Vamos testar PNG primeiro
+            for (const ext of extensoes) {
+                imagens.push({ src: `img/${dataStr}.${ext}`, index: 0 });
+            }
+            
+            for (let i = 1; i <= 20; i++) {
+                for (const ext of extensoes) {
+                    imagens.push({ src: `img/${dataStr}_${i}.${ext}`, index: i });
+                }
+            }
+            
+            return imagens;
+        }
+
+        function carregarImagemCarrossel(index) {
+            const img = document.getElementById('imagemJogos');
+            const prevBtn = document.getElementById('btnPrev');
+            const nextBtn = document.getElementById('btnNext');
+            const indicadores = document.getElementById('indicadores');
+            const legenda = document.getElementById('legendaImagem');
+            const textoLegenda = document.getElementById('textoLegenda');
+            
+            if (index < 0 || index >= imagensDoDia.length) return;
+            
+            const item = imagensDoDia[index];
+            img.src = item.src;
+            indiceAtual = index;
+            
+            const temMultiplas = imagensDoDia.length > 1;
+            
+            prevBtn.style.display = (temMultiplas && index > 0) ? 'flex' : 'none';
+            nextBtn.style.display = (temMultiplas && index < imagensDoDia.length - 1) ? 'flex' : 'none';
+            
+            if (temMultiplas) {
+                indicadores.style.display = 'flex';
+                indicadores.innerHTML = '';
+                for (let i = 0; i < imagensDoDia.length; i++) {
+                    const dot = document.createElement('span');
+                    dot.style.cssText = `
+                        display: inline-block;
+                        width: 10px;
+                        height: 10px;
+                        border-radius: 50%;
+                        background: ${i === index ? 'white' : 'rgba(255,255,255,0.3)'};
+                        margin: 0 4px;
+                        cursor: pointer;
+                        transition: all 0.3s;
+                    `;
+                    dot.onclick = () => carregarImagemCarrossel(i);
+                    indicadores.appendChild(dot);
+                }
+                legenda.style.display = 'block';
+                textoLegenda.textContent = `Imagem ${index + 1} de ${imagensDoDia.length}`;
+            } else {
+                indicadores.style.display = 'none';
+                legenda.style.display = 'none';
+            }
+        }
+
+        function carrosselAnterior() {
+            if (indiceAtual > 0 && imagensDoDia.length > 1) {
+                carregarImagemCarrossel(indiceAtual - 1);
+            }
+        }
+
+        function carrosselProximo() {
+            if (indiceAtual < imagensDoDia.length - 1 && imagensDoDia.length > 1) {
+                carregarImagemCarrossel(indiceAtual + 1);
+            }
         }
 
         function abrirModalJogos() {
             const modal = document.getElementById('modalJogos');
-            const img = document.getElementById('imagemJogos');
             
-            // Obter a data atual
-            const hoje = new Date();
-            const ano = hoje.getFullYear();
-            const mes = String(hoje.getMonth() + 1).padStart(2, '0');
-            const dia = String(hoje.getDate()).padStart(2, '0');
-            const dataStr = `${ano}${mes}${dia}`;
+            const listaImagens = obterImagensDoDia();
+            imagensDoDia = [];
             
-            // Tentar PNG primeiro, se falhar tenta JPEG
-            const tentarCarregarImagem = function(extensao) {
-                img.src = `img/${dataStr}.${extensao}`;
-            };
-            
-            // Tentar PNG primeiro
-            tentarCarregarImagem('png');
-            
-            // Se a imagem falhar ao carregar, tentar JPG
-            img.onerror = function() {
-                // Tentar jpg
-                this.src = `img/${dataStr}.jpg`;
-                // Se falhar novamente, tentar jpeg
-                this.onerror = function() {
-                    this.src = `img/${dataStr}.jpeg`;
-                    // Se tudo falhar, mostrar mensagem
-                    this.onerror = function() {
-                        this.alt = `📅 Imagem do dia ${dataStr} não encontrada`;
-                        this.style.display = 'none';
-                        // Mostrar mensagem na tela
-                        const msg = document.createElement('div');
-                        msg.style.cssText = 'color: white; text-align: center; font-size: 1.5rem; padding: 40px;';
-                        msg.innerHTML = `📅 Nenhuma imagem encontrada para hoje (${dataStr})<br><small style="font-size: 0.8rem;">Coloque o arquivo img/${dataStr}.png ou img/${dataStr}.jpg</small>`;
-                        const container = this.parentElement;
-                        if (!container.querySelector('.msg-erro')) {
-                            msg.className = 'msg-erro';
-                            container.appendChild(msg);
-                        }
-                    };
+            let carregadas = 0;
+            let totalTestadas = listaImagens.length;
+
+            function testarImagem(url, index) {
+                const testImg = new Image();
+                testImg.onload = function() {
+                    imagensDoDia.push({ src: url, index: index });
+                    carregadas++;
+                    if (carregadas >= totalTestadas || carregadas >= 20) {
+                        finalizarCarregamento();
+                    }
                 };
-            };
-            
-            modal.style.display = 'flex';
-            document.body.style.overflow = 'hidden';
+                testImg.onerror = function() {
+                    carregadas++;
+                    if (carregadas >= totalTestadas || carregadas >= 20) {
+                        finalizarCarregamento();
+                    }
+                };
+                testImg.src = url;
+            }
+
+            function finalizarCarregamento() {
+                if (imagensDoDia.length === 0) {
+                    const img = document.getElementById('imagemJogos');
+                    img.style.display = 'none';
+                    const container = img.parentElement;
+                    const msg = document.createElement('div');
+                    msg.style.cssText = 'color: white; text-align: center; font-size: 1.5rem; padding: 40px;';
+                    const hoje = new Date();
+                    const dataStr = `${hoje.getFullYear()}${String(hoje.getMonth()+1).padStart(2,'0')}${String(hoje.getDate()).padStart(2,'0')}`;
+                    msg.innerHTML = `📅 Nenhuma imagem encontrada para hoje (${dataStr})<br><small style="font-size: 0.8rem;">Coloque o arquivo img/${dataStr}.png ou img/${dataStr}_1.png</small>`;
+                    msg.className = 'msg-erro';
+                    if (!container.querySelector('.msg-erro')) {
+                        container.appendChild(msg);
+                    }
+                    document.getElementById('btnPrev').style.display = 'none';
+                    document.getElementById('btnNext').style.display = 'none';
+                    document.getElementById('indicadores').style.display = 'none';
+                    document.getElementById('legendaImagem').style.display = 'none';
+                } else {
+                    imagensDoDia.sort((a, b) => a.index - b.index);
+                    document.getElementById('imagemJogos').style.display = 'block';
+                    
+                    if (imagensDoDia.length === 1) {
+                        document.getElementById('imagemJogos').src = imagensDoDia[0].src;
+                        document.getElementById('btnPrev').style.display = 'none';
+                        document.getElementById('btnNext').style.display = 'none';
+                        document.getElementById('indicadores').style.display = 'none';
+                        document.getElementById('legendaImagem').style.display = 'none';
+                    } else {
+                        carregarImagemCarrossel(0);
+                    }
+                    
+                    const msgErro = document.querySelector('.msg-erro');
+                    if (msgErro) msgErro.remove();
+                }
+                
+                modal.style.display = 'flex';
+                document.body.style.overflow = 'hidden';
+            }
+
+            for (let i = 0; i < listaImagens.length; i++) {
+                testarImagem(listaImagens[i].src, listaImagens[i].index);
+            }
         }
 
         function fecharModalJogos() {
@@ -1307,17 +1473,16 @@
             modal.style.display = 'none';
             document.body.style.overflow = 'auto';
             
-            // Remover mensagem de erro se existir
             const msgErro = document.querySelector('.msg-erro');
             if (msgErro) msgErro.remove();
             
-            // Resetar o estilo da imagem
             const img = document.getElementById('imagemJogos');
             img.style.display = 'block';
             img.onerror = null;
+            imagensDoDia = [];
+            indiceAtual = 0;
         }
 
-        // Fechar ao clicar fora da imagem
         document.addEventListener('DOMContentLoaded', function() {
             const modal = document.getElementById('modalJogos');
             modal.addEventListener('click', function(e) {
@@ -1325,18 +1490,18 @@
                     fecharModalJogos();
                 }
             });
+            
+            document.addEventListener('keydown', function(e) {
+                if (document.getElementById('modalJogos').style.display === 'flex') {
+                    if (e.key === 'Escape') fecharModalJogos();
+                    if (e.key === 'ArrowLeft') carrosselAnterior();
+                    if (e.key === 'ArrowRight') carrosselProximo();
+                }
+            });
         });
 
-        // Abrir o modal automaticamente ao carregar a página
         window.addEventListener('load', function() {
             setTimeout(abrirModalJogos, 500);
-        });
-
-        // Fechar com a tecla ESC
-        document.addEventListener('keydown', function(e) {
-            if (e.key === 'Escape') {
-                fecharModalJogos();
-            }
         });
     </script>
 </body>
