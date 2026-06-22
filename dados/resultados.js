@@ -70,7 +70,7 @@ const RESULTADOS = {
     // 22/06/2026 - Fase de Grupos
     41: { casa: 2, fora: 0 }, // Argentina x Áustria
     // 42: { casa: 0, fora: 0 }, // Senegal x Noruega
-    // 43: { casa: 0, fora: 0 }, // França x Iraque
+    43: { casa: 1, fora: 0 }, // França x Iraque
     
     // 23/06/2026 - Fase de Grupos
     // 44: { casa: 0, fora: 0 }, // Argélia x Jordânia
