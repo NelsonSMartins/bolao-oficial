@@ -51,24 +51,24 @@ const RESULTADOS = {
     
     // 19/06/2026 - Fase de Grupos
     29: { casa: 2, fora: 0 }, // Estados Unidos x Austrália
-    // 30: { casa: 0, fora: 0 }, // Brasil x Haiti
-    // 31: { casa: 0, fora: 0 }, // Marrocos x Escócia
+    30: { casa: 3, fora: 0 }, // Brasil x Haiti
+    31: { casa: 1, fora: 0 }, // Marrocos x Escócia
     
     // 20/06/2026 - Fase de Grupos
-    // 32: { casa: 0, fora: 0 }, // Paraguai x Turquia
-    // 33: { casa: 0, fora: 0 }, // Alemanha x Costa do Marfim
-    // 34: { casa: 0, fora: 0 }, // Curaçao x Equador
-    // 35: { casa: 0, fora: 0 }, // Holanda x Suécia
+    32: { casa: 1, fora: 0 }, // Paraguai x Turquia
+    33: { casa: 2, fora: 1 }, // Alemanha x Costa do Marfim
+    34: { casa: 0, fora: 0 }, // Curaçao x Equador
+    35: { casa: 5, fora: 1 }, // Holanda x Suécia
     
     // 21/06/2026 - Fase de Grupos
-    // 36: { casa: 0, fora: 0 }, // Japão x Tunísia
-    // 37: { casa: 0, fora: 0 }, // Bélgica x Irã
-    // 38: { casa: 0, fora: 0 }, // Egito x Nova Zelândia
-    // 39: { casa: 0, fora: 0 }, // Espanha x Arábia Saudita
-    // 40: { casa: 0, fora: 0 }, // Cabo Verde x Uruguai
+    36: { casa: 4, fora: 0 }, // Japão x Tunísia
+    37: { casa: 0, fora: 0 }, // Bélgica x Irã
+    38: { casa: 3, fora: 1 }, // Egito x Nova Zelândia
+    39: { casa: 4, fora: 0 }, // Espanha x Arábia Saudita
+    40: { casa: 2, fora: 2 }, // Cabo Verde x Uruguai
     
     // 22/06/2026 - Fase de Grupos
-    // 41: { casa: 0, fora: 0 }, // Argentina x Áustria
+    41: { casa: 1, fora: 0 }, // Argentina x Áustria
     // 42: { casa: 0, fora: 0 }, // Senegal x Noruega
     // 43: { casa: 0, fora: 0 }, // França x Iraque
     
