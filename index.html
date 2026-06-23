@@ -1359,47 +1359,129 @@
         }
         
         // ============================================
-        // ALCY POPUP - APENAS IMAGEM
+        // ALCY POPUP - IMAGENS ALEATÓRIAS DA PASTA extra
         // ============================================
         function iniciarAlcyPopup() {
             // Criar o elemento se não existir
             if (!document.getElementById('alcyPopup')) {
                 const popup = document.createElement('div');
                 popup.id = 'alcyPopup';
-                popup.innerHTML = `
-                    <img src="extra/alcy.png" alt="Alcy" class="alcy-imagem">
-                `;
+                popup.innerHTML = `<img src="" alt="Alcy" class="alcy-imagem" id="alcyImagem">`;
                 document.body.appendChild(popup);
             }
             
             const popup = document.getElementById('alcyPopup');
-            let timeoutId = null;
+            const imgElement = document.getElementById('alcyImagem');
             
-            function mostrarAlcy() {
-                // Limpar timeout anterior se existir
-                if (timeoutId) {
-                    clearTimeout(timeoutId);
-                    timeoutId = null;
+            // ============================================
+            // LISTA DE TODAS AS IMAGENS DA PASTA extra
+            // ADICIONE AQUI TODAS AS IMAGENS QUE VOCÊ TEM
+            // ============================================
+            const imagens = [
+                'extra/alcy.png',
+                'extra/eliseu.png',
+                'extra/marcio.png',
+                'extra/caio.png',
+                // Adicione todas as imagens que você tem na pasta extra
+                // Se tiver imagens com outros nomes, adicione aqui também
+                // 'extra/outra_imagem.png',
+                // 'extra/figurinha.jpg',
+            ];
+            
+            // Filtrar apenas imagens que realmente existem
+            let imagensExistentes = [];
+            let imagensCarregadas = 0;
+            
+            function verificarImagens() {
+                if (imagens.length === 0) {
+                    console.log('Nenhuma imagem listada na pasta extra');
+                    return;
                 }
                 
-                // Mostrar com animação
-                popup.classList.remove('hide');
-                popup.classList.add('show');
-                
-                // Após 6 segundos, esconder
-                timeoutId = setTimeout(function() {
-                    popup.classList.remove('show');
-                    popup.classList.add('hide');
-                    
-                    // Após a animação de saída, programar a próxima aparição (25 segundos)
-                    timeoutId = setTimeout(function() {
-                        mostrarAlcy();
-                    }, 25000);
-                }, 6000);
+                for (let i = 0; i < imagens.length; i++) {
+                    const testImg = new Image();
+                    testImg.onload = function() {
+                        imagensExistentes.push(imagens[i]);
+                        imagensCarregadas++;
+                        if (imagensCarregadas === imagens.length) {
+                            iniciarCarrossel();
+                        }
+                    };
+                    testImg.onerror = function() {
+                        console.log('Imagem não encontrada:', imagens[i]);
+                        imagensCarregadas++;
+                        if (imagensCarregadas === imagens.length) {
+                            iniciarCarrossel();
+                        }
+                    };
+                    testImg.src = imagens[i];
+                }
             }
             
-            // Primeira aparição após 25 segundos
-            setTimeout(mostrarAlcy, 25000);
+            function iniciarCarrossel() {
+                if (imagensExistentes.length === 0) {
+                    console.log('Nenhuma imagem encontrada na pasta extra');
+                    return;
+                }
+                
+                console.log('Imagens encontradas:', imagensExistentes.length);
+                
+                let timeoutId = null;
+                let indexAtual = 0;
+                
+                // Embaralhar as imagens
+                function shuffleArray(array) {
+                    for (let i = array.length - 1; i > 0; i--) {
+                        const j = Math.floor(Math.random() * (i + 1));
+                        [array[i], array[j]] = [array[j], array[i]];
+                    }
+                    return array;
+                }
+                
+                let imagensEmbaralhadas = shuffleArray([...imagensExistentes]);
+                
+                function mostrarProximaImagem() {
+                    // Limpar timeout anterior se existir
+                    if (timeoutId) {
+                        clearTimeout(timeoutId);
+                        timeoutId = null;
+                    }
+                    
+                    // Se já passou por todas as imagens, reembaralhar
+                    if (indexAtual >= imagensEmbaralhadas.length) {
+                        imagensEmbaralhadas = shuffleArray([...imagensExistentes]);
+                        indexAtual = 0;
+                    }
+                    
+                    const imgSrc = imagensEmbaralhadas[indexAtual];
+                    console.log('Mostrando imagem:', imgSrc);
+                    mostrarImagem(imgSrc);
+                    indexAtual++;
+                }
+                
+                function mostrarImagem(imgSrc) {
+                    imgElement.src = imgSrc;
+                    popup.classList.remove('hide');
+                    popup.classList.add('show');
+                    
+                    // Após 5 segundos, esconder
+                    timeoutId = setTimeout(function() {
+                        popup.classList.remove('show');
+                        popup.classList.add('hide');
+                        
+                        // Após a animação de saída, programar a próxima aparição (20 segundos)
+                        timeoutId = setTimeout(function() {
+                            mostrarProximaImagem();
+                        }, 20000);
+                    }, 5000);
+                }
+                
+                // Primeira aparição após 20 segundos
+                setTimeout(mostrarProximaImagem, 20000);
+            }
+            
+            // Iniciar verificação das imagens
+            verificarImagens();
         }
         
         init();
