@@ -1,0 +1,978 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes, viewport-fit=cover">
+    <title>Forca Copa 2026</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background: #f0f4f8;
+            color: #1e293b;
+            overflow: hidden;
+            height: 100vh;
+        }
+
+        .app-header {
+            background: linear-gradient(135deg, #1a5f7a, #0d3b4f);
+            padding: 12px 16px 10px;
+            color: white;
+            position: relative;
+        }
+
+        .header-content {
+            max-width: 800px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .header-title {
+            flex: 1;
+            text-align: center;
+        }
+
+        .app-header h1 {
+            font-size: 1.4rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .app-header p {
+            font-size: 0.65rem;
+            opacity: 0.85;
+            margin-top: 2px;
+        }
+
+        .premio-box {
+            text-align: right;
+            background: rgba(255,255,255,0.15);
+            padding: 6px 14px;
+            border-radius: 14px;
+            backdrop-filter: blur(10px);
+            min-width: 100px;
+        }
+
+        .premio-label {
+            font-size: 0.55rem;
+            opacity: 0.8;
+            letter-spacing: 0.5px;
+        }
+
+        .premio-valor {
+            font-size: 1.1rem;
+            font-weight: 700;
+            line-height: 1.2;
+        }
+
+        .premio-desc {
+            font-size: 0.55rem;
+            opacity: 0.7;
+            margin-top: 2px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 8px 12px;
+            height: calc(100vh - 120px);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .card {
+            background: white;
+            border-radius: 18px;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+            overflow: hidden;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .card-header {
+            padding: 10px 16px;
+            border-bottom: 1px solid #e2e8f0;
+            background: white;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 6px;
+            flex-shrink: 0;
+        }
+
+        .card-title {
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: #1e293b;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .card-body {
+            padding: 12px;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            overflow-y: auto;
+        }
+
+        /* ===== FORCA GAME ===== */
+        .game-area {
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 16px;
+            flex: 1;
+            align-items: flex-start;
+        }
+
+        .hangman-container {
+            background: transparent;
+            border-radius: 14px;
+            padding: 0;
+            flex: 0 0 auto;
+            position: relative;
+        }
+
+        .hangman-container canvas {
+            display: block;
+            width: 240px;
+            height: 280px;
+            background: transparent;
+            border-radius: 10px;
+        }
+
+        .game-panel {
+            flex: 1;
+            min-width: 200px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .word-container {
+            background: #f1f5f9;
+            padding: 10px 12px;
+            border-radius: 12px;
+            border: 1px solid #e2e8f0;
+            text-align: center;
+        }
+
+        .word-letters {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 4px 6px;
+        }
+
+        .letter-slot {
+            display: inline-block;
+            width: 32px;
+            height: 40px;
+            background: #e2e8f0;
+            border-radius: 8px;
+            border-bottom: 4px solid #1a5f7a;
+            color: #1e293b;
+            font-size: 1.5rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            line-height: 40px;
+            text-align: center;
+            transition: 0.1s;
+        }
+
+        .letter-slot.filled {
+            background: #dbeafe;
+            border-bottom-color: #1a5f7a;
+            color: #0d3b4f;
+        }
+
+        .letter-slot.space {
+            background: transparent;
+            border-bottom: none;
+            width: 12px;
+        }
+
+        .keyboard {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 4px;
+        }
+
+        .key {
+            background: #e2e8f0;
+            border: none;
+            border-bottom: 3px solid #94a3b8;
+            color: #1e293b;
+            font-weight: 700;
+            font-size: 1rem;
+            width: 36px;
+            height: 40px;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.07s;
+            text-transform: uppercase;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .key:active {
+            transform: translateY(3px);
+            border-bottom-width: 1px;
+        }
+        .key:disabled {
+            opacity: 0.3;
+            transform: translateY(3px);
+            border-bottom-width: 1px;
+            cursor: not-allowed;
+            background: #cbd5e1;
+        }
+        .key.used {
+            opacity: 0.25;
+            transform: translateY(3px);
+            border-bottom-width: 1px;
+            background: #cbd5e1;
+        }
+
+        .controls {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            background: #e2e8f0;
+            border: none;
+            border-bottom: 4px solid #94a3b8;
+            padding: 8px 18px;
+            border-radius: 30px;
+            font-weight: 600;
+            font-size: 0.8rem;
+            color: #1e293b;
+            cursor: pointer;
+            transition: 0.1s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .btn:active {
+            transform: translateY(3px);
+            border-bottom-width: 2px;
+        }
+
+        .btn-primary {
+            background: #1a5f7a;
+            border-bottom-color: #0d3b4f;
+            color: white;
+        }
+
+        .btn-hint {
+            background: #f5c542;
+            border-bottom-color: #b38f2a;
+            color: #0b1a2e;
+        }
+
+        .message {
+            background: #f1f5f9;
+            padding: 8px 12px;
+            border-radius: 12px;
+            text-align: center;
+            font-size: 0.85rem;
+            font-weight: 500;
+            color: #1e293b;
+            border-left: 4px solid #1a5f7a;
+            min-height: 44px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            line-height: 1.3;
+        }
+
+        .stats {
+            display: flex;
+            justify-content: space-between;
+            gap: 6px;
+            flex-wrap: wrap;
+            background: #f8fafc;
+            padding: 6px 10px;
+            border-radius: 10px;
+            border: 1px solid #e2e8f0;
+            flex-shrink: 0;
+        }
+
+        .stat-item {
+            font-size: 0.7rem;
+            color: #64748b;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .stat-item strong {
+            color: #1e293b;
+            font-size: 0.85rem;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: 16px;
+            font-size: 0.6rem;
+            font-weight: 600;
+            margin-left: 4px;
+        }
+        .badge-success { background: #2e7d32; color: white; }
+        .badge-danger { background: #d32f2f; color: white; }
+        .badge-warning { background: #f5c542; color: #0b1a2e; }
+
+        /* ===== POPUP ===== */
+        #popupOverlay {
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.75);
+            backdrop-filter: blur(8px);
+            z-index: 9999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            animation: fadeIn 0.4s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: scale(0.95); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        #popupContent {
+            background: white;
+            border-radius: 28px;
+            max-width: 420px;
+            width: 100%;
+            padding: 28px 24px 24px;
+            position: relative;
+            box-shadow: 0 30px 60px rgba(0,0,0,0.5);
+            animation: slideUp 0.4s ease;
+        }
+
+        @keyframes slideUp {
+            from { transform: translateY(30px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        #popupClose {
+            position: absolute;
+            top: 10px;
+            right: 14px;
+            background: none;
+            border: none;
+            font-size: 1.6rem;
+            cursor: pointer;
+            color: #94a3b8;
+            transition: 0.2s;
+            line-height: 1;
+            padding: 2px 6px;
+            border-radius: 50%;
+        }
+
+        #popupClose:hover {
+            color: #1e293b;
+            background: #f1f5f9;
+        }
+
+        #popupContent h2 {
+            font-size: 1.4rem;
+            color: #1a5f7a;
+            margin-bottom: 6px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        #popupContent .subtitle {
+            color: #64748b;
+            font-size: 0.8rem;
+            margin-bottom: 14px;
+        }
+
+        #popupContent .rules {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            margin: 14px 0 16px;
+        }
+
+        #popupContent .rule-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            font-size: 0.8rem;
+            color: #334155;
+            line-height: 1.4;
+        }
+
+        #popupContent .rule-item .icon {
+            font-size: 1.1rem;
+            min-width: 24px;
+            text-align: center;
+        }
+
+        #popupContent .rule-item strong {
+            color: #1a5f7a;
+        }
+
+        .popup-footer {
+            display: flex;
+            justify-content: center;
+            margin-top: 12px;
+        }
+
+        .btn-start {
+            background: #1a5f7a;
+            border: none;
+            border-bottom: 4px solid #0d3b4f;
+            color: white;
+            padding: 12px 32px;
+            border-radius: 40px;
+            font-size: 1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: 0.1s;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            width: 100%;
+            justify-content: center;
+        }
+
+        .btn-start:active {
+            transform: translateY(3px);
+            border-bottom-width: 2px;
+        }
+
+        .btn-start:hover {
+            background: #1e6f8f;
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 600px) {
+            .app-header h1 { font-size: 1.1rem; }
+            .header-content { flex-direction: column; text-align: center; }
+            .header-title { text-align: center; }
+            .premio-box { text-align: center; width: 100%; }
+            .premio-valor { font-size: 0.95rem; }
+            .container { padding: 6px 8px; height: calc(100vh - 140px); }
+            .card-body { padding: 8px; }
+            .game-area { flex-direction: column; align-items: center; gap: 10px; }
+            .hangman-container canvas { width: 200px; height: 230px; }
+            .letter-slot { width: 26px; height: 32px; font-size: 1.2rem; line-height: 32px; }
+            .key { width: 30px; height: 34px; font-size: 0.8rem; }
+            .stats { font-size: 0.6rem; }
+            .message { font-size: 0.75rem; min-height: 38px; padding: 6px 10px; }
+            #popupContent { padding: 20px 16px 18px; }
+            #popupContent h2 { font-size: 1.1rem; }
+            .btn-start { padding: 10px 20px; font-size: 0.9rem; }
+        }
+    </style>
+</head>
+<body>
+    <div class="app-header">
+        <div class="header-content">
+            <div class="header-title">
+                <h1>⚽ Forca Copa 2026</h1>
+                <p>Advinhe o jogador com dicas</p>
+            </div>
+            <div class="premio-box">
+                <div class="premio-label">💡 DICAS</div>
+                <div class="premio-valor" id="dicaCounter">0</div>
+                <div class="premio-desc">🎯 <span id="daysCounter">6</span> chances</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="card">
+            <div class="card-header">
+                <div class="card-title">🏆 Adivinhe o Jogador</div>
+                <div style="display:flex; gap:6px; align-items:center;">
+                    <span class="badge badge-warning" id="statusBadge">Jogando</span>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="game-area">
+                    <div class="hangman-container">
+                        <canvas id="hangmanCanvas" width="240" height="280"></canvas>
+                    </div>
+                    <div class="game-panel">
+                        <div class="word-container">
+                            <div class="word-letters" id="wordDisplay"></div>
+                        </div>
+                        <div id="keyboardContainer" class="keyboard"></div>
+                        <div class="controls">
+                            <button class="btn btn-primary" id="newGameBtn">🔄 Novo</button>
+                            <button class="btn btn-hint" id="hintBtn">💡 Dica</button>
+                        </div>
+                        <div id="messageBox" class="message">Clique em "Novo" para começar!</div>
+                        <div class="stats">
+                            <span class="stat-item">❌ <strong id="errorCount">0</strong>/6</span>
+                            <span class="stat-item">💡 <strong id="hintCount">0</strong></span>
+                            <span class="stat-item">🎯 <strong id="dayCount">6</strong></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- POPUP -->
+    <div id="popupOverlay">
+        <div id="popupContent">
+            <button id="popupClose" aria-label="Fechar">✕</button>
+            <h2>⚽ Forca Copa 2026</h2>
+            <div class="subtitle">Adivinhe o nome do jogador antes que o boneco se complete!</div>
+            
+            <div class="rules">
+                <div class="rule-item">
+                    <span class="icon">🔤</span>
+                    <span>Clique nas letras para formar o nome do <strong>jogador</strong></span>
+                </div>
+                <div class="rule-item">
+                    <span class="icon">❌</span>
+                    <span>Cada <strong>erro</strong> adiciona uma parte do boneco (<strong>6 chances</strong>)</span>
+                </div>
+                <div class="rule-item">
+                    <span class="icon">💡</span>
+                    <span>Use <strong>dicas</strong> para revelar pistas sobre o jogador</span>
+                </div>
+                <div class="rule-item">
+                    <span class="icon">🏆</span>
+                    <span>Menos dicas usadas = <strong>melhor classificação!</strong></span>
+                </div>
+            </div>
+
+            <div class="popup-footer">
+                <button class="btn-start" id="popupStartBtn">🎮 Vamos Jogar!</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // ============================================================
+        // 1. BASE DE DADOS - 5 JOGADORES POR SELEÇÃO (Copa 2026)
+        // ============================================================
+        const JOGADORES_POR_SELECAO = {
+            "Brasil": [
+                { nome: "NEYMAR", dicas: ["Atualmente no Santos (2026)", "Ganhou ouro nas Olimpiadas 2016", "Passou por Barcelona e PSG"] },
+                { nome: "VINICIUS JR", dicas: ["Destaque do Real Madrid", "Campeao da Champions 2024", "Revelacao do Flamengo"] },
+                { nome: "ENDRICK", dicas: ["Joia do Palmeiras", "Transferido para o Real Madrid em 2024", "Atacante veloz"] },
+                { nome: "ALISSON", dicas: ["Goleiro do Liverpool", "Campeao da Champions 2019", "Melhor goleiro do mundo 2019"] },
+                { nome: "RAPHINHA", dicas: ["Pontinha do Barcelona", "Destacou-se no Leeds", "Gols e assistencias na selecao"] }
+            ],
+            "Argentina": [
+                { nome: "MESSI", dicas: ["Lenda do Barcelona, hoje no Inter Miami", "8 Bolas de Ouro", "Campeao mundial 2022"] },
+                { nome: "DIBU MARTINEZ", dicas: ["Goleiro do Aston Villa", "Heroi da Copa 2022", "Defesas nos penaltis"] },
+                { nome: "DI MARIA", dicas: ["Ponta do Benfica", "Gol na final da Copa 2022", "Campeao mundial"] },
+                { nome: "LAUTARO MARTINEZ", dicas: ["Atacante da Inter de Milao", "Artilheiro da Serie A", "Campeao da Copa America"] },
+                { nome: "ENZO FERNANDEZ", dicas: ["Meia do Chelsea", "Campeao mundial 2022", "Revelacao do River Plate"] }
+            ],
+            "Inglaterra": [
+                { nome: "KANE", dicas: ["Atacante do Bayern de Munique", "Artilheiro da selecao inglesa", "Campeao da Champions 2025"] },
+                { nome: "BELLINGHAM", dicas: ["Meia do Real Madrid", "Destaque no Borussia Dortmund", "Jovem talento ingles"] },
+                { nome: "SAKA", dicas: ["Atacante do Arsenal", "Velocidade e drible", "Destaque da Premier League"] },
+                { nome: "FODEN", dicas: ["Meia do Manchester City", "Campeao da Premier League", "Revelacao do City"] },
+                { nome: "RICE", dicas: ["Volante do Arsenal", "Lider da selecao", "Passagem pelo West Ham"] }
+            ],
+            "Franca": [
+                { nome: "MBAPPE", dicas: ["Atacante do Real Madrid", "Campeao mundial 2018", "Velocidade e dribles"] },
+                { nome: "GRIEZMANN", dicas: ["Atacante do Atletico de Madrid", "Campeao mundial 2018", "Vice artilheiro da Copa 2022"] },
+                { nome: "TCHOUAMENI", dicas: ["Volante do Real Madrid", "Destaque da selecao francesa", "Passagem pelo Monaco"] },
+                { nome: "KOLO MUANI", dicas: ["Atacante do PSG", "Destaque na Copa 2022", "Revelacao do Frankfurt"] },
+                { nome: "CAMAVINGA", dicas: ["Volante do Real Madrid", "Jovem talento frances", "Passagem pelo Rennes"] }
+            ],
+            "Alemanha": [
+                { nome: "MUSIALA", dicas: ["Meia do Bayern de Munique", "Jovem talento alemao", "Destaque da selecao"] },
+                { nome: "WIRTZ", dicas: ["Meia do Bayer Leverkusen", "Destaque da Bundesliga", "Jovem promessa"] },
+                { nome: "KIMMICH", dicas: ["Meio-campo do Bayern de Munique", "Versatil (lateral e volante)", "Lider da selecao"] },
+                { nome: "SANE", dicas: ["Atacante do Bayern de Munique", "Velocidade e drible", "Passagem pelo Manchester City"] },
+                { nome: "FULLKRUG", dicas: ["Atacante do Borussia Dortmund", "Artilheiro da selecao", "Destaque na Copa 2022"] }
+            ],
+            "Espanha": [
+                { nome: "PEDRI", dicas: ["Meia do Barcelona", "Joia espanhola", "Campeao da Nations League 2023"] },
+                { nome: "GAVI", dicas: ["Meia do Barcelona", "Revelacao espanhola", "Golden Boy 2022"] },
+                { nome: "MORATA", dicas: ["Atacante do Atletico de Madrid", "Artilheiro da selecao", "Passagem por Juventus e Chelsea"] },
+                { nome: "RODRI", dicas: ["Volante do Manchester City", "Campeao da Champions 2023", "Destaque da selecao"] },
+                { nome: "OLMO", dicas: ["Meia do Barcelona", "Destaque na Euro 2024", "Passagem pelo Leipzig"] }
+            ],
+            "Italia": [
+                { nome: "DONNARUMMA", dicas: ["Goleiro do PSG", "Campeao da Euro 2020", "Revelacao do Milan"] },
+                { nome: "BARELLA", dicas: ["Meia da Inter de Milao", "Campeao da Serie A", "Destaque da selecao"] },
+                { nome: "CHIESA", dicas: ["Atacante da Juventus", "Destaque na Euro 2020", "Velocidade e drible"] },
+                { nome: "TONALI", dicas: ["Volante do Newcastle", "Destaque da selecao", "Passagem pelo Milan"] },
+                { nome: "SCAMACCA", dicas: ["Atacante do Atalanta", "Artilheiro da selecao", "Passagem pelo West Ham"] }
+            ],
+            "Portugal": [
+                { nome: "CRISTIANO RONALDO", dicas: ["Idolo do Al-Nassr", "5 Champions League", "Maior artilheiro da historia"] },
+                { nome: "B SILVA", dicas: ["Meia do Manchester City", "Campeao da Premier League", "Destaque da selecao"] },
+                { nome: "LEAO", dicas: ["Atacante do Milan", "Campeao da Serie A 2022", "Velocidade e drible"] },
+                { nome: "FELIX", dicas: ["Atacante do Barcelona", "Destaque do Atletico de Madrid", "Joia portuguesa"] },
+                { nome: "CANCELO", dicas: ["Lateral do Barcelona", "Destaque do Manchester City", "Versatil"] }
+            ],
+            "Holanda": [
+                { nome: "VAN DIJK", dicas: ["Zagueiro do Liverpool", "Lider da selecao", "Melhor zagueiro do mundo"] },
+                { nome: "DE JONG", dicas: ["Meia do Barcelona", "Destaque da selecao", "Passagem pelo Ajax"] },
+                { nome: "GAKPO", dicas: ["Atacante do Liverpool", "Destaque na Copa 2022", "Revelacao do PSV"] },
+                { nome: "DEPAY", dicas: ["Atacante do Corinthians", "Artilheiro da selecao", "Destaque da Copa 2022"] },
+                { nome: "DUMFRIES", dicas: ["Lateral da Inter de Milao", "Destaque da selecao", "Passagem pelo PSV"] }
+            ],
+            "Belgica": [
+                { nome: "DE BRUYNE", dicas: ["Meia do Manchester City", "Especialista em passes", "Campeao da Premier League"] },
+                { nome: "LUKAKU", dicas: ["Atacante do Napoli", "Artilheiro da selecao", "Passagem por Inter e Chelsea"] },
+                { nome: "COURTOIS", dicas: ["Goleiro do Real Madrid", "Campeao da Champions", "Melhor goleiro do mundo"] },
+                { nome: "TROSSARD", dicas: ["Atacante do Arsenal", "Destaque da selecao", "Passagem pelo Brighton"] },
+                { nome: "DOKU", dicas: ["Atacante do Manchester City", "Velocidade e drible", "Revelacao do Rennes"] }
+            ],
+            "Uruguai": [
+                { nome: "NUNEZ", dicas: ["Atacante do Liverpool", "Destaque da selecao", "Revelacao do Benfica"] },
+                { nome: "VALVERDE", dicas: ["Meia do Real Madrid", "Campeao da Champions", "Destaque da selecao"] },
+                { nome: "ARAUJO", dicas: ["Zagueiro do Barcelona", "Lider da defesa", "Destaque da selecao"] },
+                { nome: "SUAREZ", dicas: ["Atacante do Inter Miami", "Artilheiro da selecao", "Destaque da Copa 2010"] },
+                { nome: "UGARTE", dicas: ["Volante do PSG", "Destaque da selecao", "Passagem pelo Sporting"] }
+            ]
+        };
+
+        // ============================================================
+        // 2. ESTADO DO JOGO
+        // ============================================================
+        let listaJogadores = [];
+        let palavraSecreta = '';
+        let letrasAdivinhadas = [];
+        let erros = 0;
+        const maxErros = 6; // 6 erros = perdeu (todas as partes do corpo)
+        let jogoTerminado = false;
+        let letrasUsadas = new Set();
+        let dicasUsadas = 0;
+        let dicasDisponiveis = [];
+        let indiceDicaAtual = 0;
+        let jogoIniciado = false;
+
+        // DOM
+        const canvas = document.getElementById('hangmanCanvas');
+        const ctx = canvas.getContext('2d');
+        const wordDisplay = document.getElementById('wordDisplay');
+        const keyboardContainer = document.getElementById('keyboardContainer');
+        const messageBox = document.getElementById('messageBox');
+        const errorCount = document.getElementById('errorCount');
+        const hintCount = document.getElementById('hintCount');
+        const dayCount = document.getElementById('dayCount');
+        const dicaCounter = document.getElementById('dicaCounter');
+        const daysCounter = document.getElementById('daysCounter');
+        const statusBadge = document.getElementById('statusBadge');
+
+        // ============================================================
+        // 3. SPRITES - ORDEM CORRETA DA FORCA
+        // ============================================================
+        const sprites = {
+            forca: 'forca/forca.png',
+            cabeca: 'forca/cabeca.png',
+            tronco: 'forca/tronco.png',
+            bracodir: 'forca/bracodir.png',
+            bracoesq: 'forca/bracoesq.png',
+            pernaesq: 'forca/pernaesq.png',
+            pernadir: 'forca/pernadir.png'
+        };
+
+        // Ordem de exibição conforme os erros
+        // erro 0: só forca
+        // erro 1: cabeca
+        // erro 2: tronco
+        // erro 3: bracodir
+        // erro 4: bracoesq
+        // erro 5: pernaesq
+        // erro 6: pernadir (FIM DE JOGO)
+        const ordemPartes = ['cabeca', 'tronco', 'bracodir', 'bracoesq', 'pernaesq', 'pernadir'];
+
+        let imagensCarregadas = {};
+        let imagensProntas = false;
+
+        function carregarSprites() {
+            const nomes = ['forca', 'cabeca', 'tronco', 'bracodir', 'bracoesq', 'pernaesq', 'pernadir'];
+            let carregadas = 0;
+            for (const nome of nomes) {
+                const img = new Image();
+                img.onload = function() {
+                    imagensCarregadas[nome] = img;
+                    carregadas++;
+                    if (carregadas === nomes.length) {
+                        imagensProntas = true;
+                        desenharForca(erros);
+                    }
+                };
+                img.onerror = function() {
+                    console.warn('Sprite nao encontrado:', sprites[nome]);
+                    imagensCarregadas[nome] = null;
+                    carregadas++;
+                    if (carregadas === nomes.length) {
+                        imagensProntas = true;
+                        desenharForca(erros);
+                    }
+                };
+                img.src = sprites[nome];
+            }
+        }
+
+        function desenharForca(erros) {
+            ctx.clearRect(0, 0, 240, 280);
+            
+            // 1. Desenha o fundo da forca (sempre presente - erro 0)
+            const imgForca = imagensCarregadas['forca'];
+            if (imgForca) {
+                ctx.drawImage(imgForca, 0, 0, 240, 280);
+            }
+
+            if (!imagensProntas) return;
+
+            // 2. Desenha as partes do corpo conforme o número de erros
+            // erros = 0: só a forca
+            // erros = 1: cabeca
+            // erros = 2: cabeca + tronco
+            // erros = 3: cabeca + tronco + bracodir
+            // erros = 4: cabeca + tronco + bracodir + bracoesq
+            // erros = 5: cabeca + tronco + bracodir + bracoesq + pernaesq
+            // erros = 6: cabeca + tronco + bracodir + bracoesq + pernaesq + pernadir (completo)
+            
+            for (let i = 0; i < erros && i < ordemPartes.length; i++) {
+                const nome = ordemPartes[i];
+                const img = imagensCarregadas[nome];
+                if (img) {
+                    ctx.drawImage(img, 0, 0, 240, 280);
+                }
+            }
+        }
+
+        // ============================================================
+        // 4. FUNÇÕES DO JOGO
+        // ============================================================
+        function carregarJogadores() {
+            listaJogadores = [];
+            for (const [selecao, jogadores] of Object.entries(JOGADORES_POR_SELECAO)) {
+                for (const jogador of jogadores) {
+                    listaJogadores.push({
+                        ...jogador,
+                        selecao: selecao
+                    });
+                }
+            }
+        }
+
+        function atualizarPalavra() {
+            let html = '';
+            for (let letra of palavraSecreta) {
+                if (letra === ' ') {
+                    html += `<span class="letter-slot space"> </span>`;
+                } else if (letrasAdivinhadas.includes(letra)) {
+                    html += `<span class="letter-slot filled">${letra}</span>`;
+                } else {
+                    html += `<span class="letter-slot"> </span>`;
+                }
+            }
+            wordDisplay.innerHTML = html;
+        }
+
+        function atualizarTeclado() {
+            const letras = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+            let html = '';
+            for (let l of letras) {
+                const disabled = jogoTerminado || letrasUsadas.has(l) || !jogoIniciado ? 'disabled' : '';
+                const classe = letrasUsadas.has(l) ? 'key used' : 'key';
+                html += `<button class="${classe}" data-letter="${l}" ${disabled}>${l}</button>`;
+            }
+            keyboardContainer.innerHTML = html;
+            document.querySelectorAll('.key:not([disabled])').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const letra = this.dataset.letter;
+                    jogar(letra);
+                });
+            });
+        }
+
+        function mensagem(texto, cor = '#1e293b', borda = '#1a5f7a') {
+            messageBox.textContent = texto;
+            messageBox.style.color = cor;
+            messageBox.style.borderLeftColor = borda;
+        }
+
+        function atualizarContadores() {
+            errorCount.textContent = erros;
+            hintCount.textContent = dicasUsadas;
+            dayCount.textContent = maxErros;
+            dicaCounter.textContent = dicasUsadas;
+            daysCounter.textContent = maxErros;
+            if (jogoTerminado) {
+                statusBadge.textContent = erros >= maxErros ? 'Derrota' : 'Vitoria';
+                statusBadge.className = 'badge ' + (erros >= maxErros ? 'badge-danger' : 'badge-success');
+            } else {
+                statusBadge.textContent = 'Jogando';
+                statusBadge.className = 'badge badge-warning';
+            }
+        }
+
+        // ============================================================
+        // 5. DICA
+        // ============================================================
+        function darDica() {
+            if (!jogoIniciado || jogoTerminado) {
+                mensagem('Inicie um jogo primeiro!', '#64748b');
+                return;
+            }
+            if (indiceDicaAtual >= dicasDisponiveis.length) {
+                mensagem('Nao ha mais dicas para este jogador!', '#64748b');
+                return;
+            }
+
+            dicasUsadas++;
+            const dica = dicasDisponiveis[indiceDicaAtual];
+            indiceDicaAtual++;
+            mensagem(`💡 DICA ${dicasUsadas}: ${dica}`, '#0d3b4f', '#f5c542');
+            atualizarContadores();
+        }
+
+        // ============================================================
+        // 6. JOGADA PRINCIPAL - CORRIGIDO (SEM SISTEMA DE DIAS)
+        // ============================================================
+        function jogar(letra) {
+            if (!jogoIniciado || jogoTerminado) return;
+            if (letrasUsadas.has(letra)) return;
+
+            letrasUsadas.add(letra);
+
+            if (palavraSecreta.includes(letra)) {
+                letrasAdivinhadas.push(letra);
+            } else {
+                erros++;
+                desenharForca(erros);
+                // DIAS REMOVIDO - agora só perde com 6 erros
+            }
+
+            atualizarPalavra();
+            atualizarTeclado();
+            atualizarContadores();
+
+            // Verifica vitória
+            const palavraArray = palavraSecreta.split('');
+            const todasAdivinhadas = palavraArray.every(l => l === ' ' || letrasAdivinhadas.includes(l));
+            
+            if (todasAdivinhadas) {
+                jogoTerminado = true;
+                let msg = '';
+                if (dicasUsadas === 0) msg = `🏆 CAMPEAO DA COPA! Acertou sem dicas!`;
+                else if (dicasUsadas === 1) msg = `🌟 Quase padrao Copa! Acertou com 1 dica.`;
+                else if (dicasUsadas === 2) msg = `👏 Muito bem! Acertou com 2 dicas.`;
+                else msg = `😅 Acertou com ${dicasUsadas} dicas. Estude mais!`;
+                mensagem(msg, '#2e7d32', '#2e7d32');
+                atualizarTeclado();
+                atualizarContadores();
+                return;
+            }
+
+            // PERDEU: 6 erros (boneco completo)
+            if (erros >= maxErros) {
+                jogoTerminado = true;
+                mensagem(`💀 Vou puxar teu pé safado! O jogador era: ${palavraSecreta}`, '#d32f2f', '#d32f2f');
+                letrasAdivinhadas = palavraSecreta.split('');
+                atualizarPalavra();
+                atualizarTeclado();
+                atualizarContadores();
+                desenharForca(erros);
+                return;
+            }
+        }
+
+        // ============================================================
+        // 7. INICIAR NOVO JOGO
+        // ============================================================
+        function iniciarNovoJogo() {
+            if (listaJogadores.length === 0) {
+                carregarJogadores();
+            }
+            const idx = Math.floor(Math.random() * listaJogadores.length);
+            const jogador = listaJogadores[idx];
+            
+            palavraSecreta = jogador.nome;
+            letrasAdivinhadas = [];
+            erros = 0;
+            jogoTerminado = false;
+            letrasUsadas = new Set();
+            dicasUsadas = 0;
+            indiceDicaAtual = 0;
+            dicasDisponiveis = [...jogador.dicas];
+            jogoIniciado = true;
+
+            desenharForca(0);
+            atualizarPalavra();
+            atualizarTeclado();
+            atualizarContadores();
+            mensagem(`🎯 Adivinhe o jogador! (${palavraSecreta.replace(/ /g,'').length} letras)`, '#1e293b');
+        }
+
+        // ============================================================
+        // 8. POPUP
+        // ============================================================
+        function fecharPopup() {
+            const popup = document.getElementById('popupOverlay');
+            popup.style.opacity = '0';
+            popup.style.transition = 'opacity 0.3s';
+            setTimeout(() => {
+                popup.style.display = 'none';
+                iniciarNovoJogo();
+            }, 300);
+        }
+
+        // ============================================================
+        // 9. EVENTOS E INICIALIZAÇÃO
+        // ============================================================
+        document.addEventListener('DOMContentLoaded', function() {
+            carregarJogadores();
+            carregarSprites();
+
+            document.getElementById('newGameBtn').addEventListener('click', function() {
+                iniciarNovoJogo();
+            });
+            
+            document.getElementById('hintBtn').addEventListener('click', darDica);
+
+            document.getElementById('popupClose').addEventListener('click', fecharPopup);
+            document.getElementById('popupStartBtn').addEventListener('click', fecharPopup);
+
+            document.getElementById('popupOverlay').addEventListener('click', function(e) {
+                if (e.target === this) fecharPopup();
+            });
+
+            setTimeout(() => {
+                desenharForca(0);
+            }, 100);
+        });
+    </script>
+</body>
+</html>

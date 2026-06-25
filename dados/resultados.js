@@ -74,18 +74,18 @@ const RESULTADOS = {
     
     // 23/06/2026 - Fase de Grupos
     44: { casa: 2, fora: 1 }, // Argélia x Jordânia
-    // 45: { casa: 0, fora: 0 }, // Inglaterra x Gana
-    // 46: { casa: 0, fora: 0 }, // Croácia x Panamá
-    // 47: { casa: 0, fora: 0 }, // Portugal x Uzbequistão
-    // 48: { casa: 0, fora: 0 }, // República Democrática do Congo x Colômbia
+    45: { casa: 0, fora: 0 }, // Inglaterra x Gana
+    46: { casa: 1, fora: 0 }, // Croácia x Panamá
+    47: { casa: 5, fora: 0 }, // Portugal x Uzbequistão
+    48: { casa: 0, fora: 1 }, // República Democrática do Congo x Colômbia
     
     // 24/06/2026 - Fase de Grupos
-    // 49: { casa: 0, fora: 0 }, // Canadá x Suíça
-    // 50: { casa: 0, fora: 0 }, // Bósnia e Herzegovina x Catar
-    // 51: { casa: 0, fora: 0 }, // Brasil x Escócia
-    // 52: { casa: 0, fora: 0 }, // Marrocos x Haiti
-    // 53: { casa: 0, fora: 0 }, // México x República Tcheca
-    // 54: { casa: 0, fora: 0 }, // África do Sul x Coreia do Sul
+    49: { casa: 1, fora: 2 }, // Canadá x Suíça
+    50: { casa: 3, fora: 1 }, // Bósnia e Herzegovina x Catar
+    51: { casa: 3, fora: 0 }, // Brasil x Escócia
+    52: { casa: 4, fora: 2 }, // Marrocos x Haiti
+    53: { casa: 3, fora: 0 }, // México x República Tcheca
+    54: { casa: 1, fora: 0 }, // África do Sul x Coreia do Sul
     
     // 25/06/2026 - Fase de Grupos
     // 55: { casa: 0, fora: 0 }, // Alemanha x Equador

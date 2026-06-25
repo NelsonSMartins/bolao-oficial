@@ -128,6 +128,22 @@
             background: #f8fafc;
         }
 
+        .nav-tab .new-badge {
+            background: #e74c3c;
+            color: white;
+            font-size: 0.5rem;
+            font-weight: 700;
+            padding: 2px 6px;
+            border-radius: 10px;
+            margin-left: 4px;
+            animation: pulse 1.5s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+
         .container {
             max-width: 800px;
             margin: 0 auto;
@@ -146,6 +162,11 @@
             padding: 18px 20px;
             border-bottom: 1px solid #e2e8f0;
             background: white;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
         }
 
         .card-title {
@@ -413,6 +434,192 @@
         }
 
         /* ============================================
+           BOTÃO VISUALIZAR CARD
+        ============================================ */
+        .btn-card {
+            background: #f5c542;
+            border: none;
+            border-bottom: 4px solid #b38f2a;
+            padding: 8px 16px;
+            border-radius: 25px;
+            font-weight: 700;
+            font-size: 0.75rem;
+            color: #0b1a2e;
+            cursor: pointer;
+            transition: 0.1s ease;
+            display: none;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .btn-card.show {
+            display: inline-flex;
+        }
+
+        .btn-card:active {
+            transform: translateY(3px);
+            border-bottom-width: 2px;
+        }
+
+        .btn-card:hover {
+            background: #f5c542;
+            opacity: 0.9;
+        }
+
+        /* ============================================
+           MODAL CARD
+        ============================================ */
+        #modalCard {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.85);
+            z-index: 10000;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            animation: modalFade 0.3s ease-out;
+        }
+
+        @keyframes modalFade {
+            0% { opacity: 0; transform: scale(0.95); }
+            100% { opacity: 1; transform: scale(1); }
+        }
+
+        #modalCard .modal-content {
+            background: white;
+            border-radius: 20px;
+            max-width: 600px;
+            width: 100%;
+            max-height: 90vh;
+            overflow: hidden;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+            display: flex;
+            flex-direction: column;
+        }
+
+        #modalCard .modal-header {
+            padding: 16px 20px;
+            border-bottom: 1px solid #e2e8f0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-shrink: 0;
+        }
+
+        #modalCard .modal-header h2 {
+            font-size: 1rem;
+            color: #1e293b;
+        }
+
+        #modalCard .modal-close {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #94a3b8;
+            transition: 0.2s;
+            padding: 4px 8px;
+            border-radius: 8px;
+        }
+
+        #modalCard .modal-close:hover {
+            background: #f1f5f9;
+            color: #1e293b;
+        }
+
+        #modalCard .modal-body {
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 16px;
+            overflow-y: auto;
+            flex: 1;
+        }
+
+        #modalCard .modal-body img {
+            max-width: 100%;
+            max-height: 60vh;
+            border-radius: 12px;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+        }
+
+        #modalCard .modal-footer {
+            padding: 12px 20px;
+            border-top: 1px solid #e2e8f0;
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            flex-shrink: 0;
+            flex-wrap: wrap;
+        }
+
+        .btn-modal-download {
+            background: #1a5f7a;
+            border: none;
+            border-bottom: 4px solid #0d3b4f;
+            padding: 10px 24px;
+            border-radius: 30px;
+            font-weight: 700;
+            font-size: 0.85rem;
+            color: white;
+            cursor: pointer;
+            transition: 0.1s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-modal-download:active {
+            transform: translateY(3px);
+            border-bottom-width: 2px;
+        }
+
+        .btn-modal-download:hover {
+            background: #1a5f7a;
+            opacity: 0.9;
+        }
+
+        .btn-modal-close {
+            background: #e2e8f0;
+            border: none;
+            border-bottom: 4px solid #94a3b8;
+            padding: 10px 24px;
+            border-radius: 30px;
+            font-weight: 700;
+            font-size: 0.85rem;
+            color: #1e293b;
+            cursor: pointer;
+            transition: 0.1s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-modal-close:active {
+            transform: translateY(3px);
+            border-bottom-width: 2px;
+        }
+
+        .btn-modal-close:hover {
+            background: #e2e8f0;
+            opacity: 0.8;
+        }
+
+        @media (max-width: 600px) {
+            #modalCard .modal-content {
+                max-width: 95%;
+            }
+            #modalCard .modal-body img {
+                max-height: 50vh;
+            }
+        }
+
+        /* ============================================
            ALCY POPUP - APENAS IMAGEM
         ============================================ */
         #alcyPopup {
@@ -450,7 +657,330 @@
             }
         }
 
+        /* ============================================
+           FORCA - ESTILOS (APENAS NA ABA FORCA - COMPACTO)
+        ============================================ */
+        #secao-forca .card-body {
+            padding: 12px 16px;
+        }
+
+        .forca-container {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .forca-game-area {
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 12px;
+            align-items: flex-start;
+        }
+
+        .forca-hangman {
+            flex: 0 0 auto;
+            background: transparent;
+            border-radius: 14px;
+            position: relative;
+            margin-right: 90px;
+        }
+
+        .forca-hangman canvas {
+            display: block;
+            width: 280px;
+            height: 340px;
+            background: transparent;
+            border-radius: 10px;
+        }
+
+        /* CAMPEÃO - mesma posição do boneco da forca */
+        #campeaoCanvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 280px;
+            height: 340px;
+            display: none;
+            z-index: 3;
+            pointer-events: none;
+            border-radius: 10px;
+        }
+
+        /* Balões sobrepostos - TODOS NA MESMA POSIÇÃO, MAIS PRÓXIMOS */
+        .forca-balao {
+            position: absolute;
+            top: 30px;
+            right: -75px;
+            width: 130px;
+            height: auto;
+            display: none;
+            z-index: 5;
+            filter: drop-shadow(0 2px 8px rgba(0,0,0,0.2));
+            animation: balaoAnim 0.5s ease-out;
+        }
+
+        /* Balão 7 - um pouco maior */
+        #balao7 {
+            top: 20px;
+            right: -85px;
+            width: 155px;
+            z-index: 10;
+        }
+
+        @keyframes balaoAnim {
+            0% { transform: scale(0) rotate(-15deg); opacity: 0; }
+            100% { transform: scale(1) rotate(0deg); opacity: 1; }
+        }
+
+        @keyframes campeaoAnim {
+            0% { transform: scale(0) rotate(-20deg); opacity: 0; }
+            100% { transform: scale(1) rotate(0deg); opacity: 1; }
+        }
+
+        .forca-panel {
+            flex: 1;
+            min-width: 200px;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .forca-word-container {
+            background: #f1f5f9;
+            padding: 8px 12px;
+            border-radius: 10px;
+            border: 1px solid #e2e8f0;
+            text-align: center;
+        }
+
+        .forca-word-letters {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 3px 5px;
+        }
+
+        .forca-letter-slot {
+            display: inline-block;
+            width: 30px;
+            height: 36px;
+            background: #e2e8f0;
+            border-radius: 6px;
+            border-bottom: 3px solid #1a5f7a;
+            color: #1e293b;
+            font-size: 1.3rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            line-height: 36px;
+            text-align: center;
+            transition: 0.1s;
+        }
+
+        .forca-letter-slot.filled {
+            background: #dbeafe;
+            border-bottom-color: #1a5f7a;
+            color: #0d3b4f;
+        }
+
+        .forca-letter-slot.space {
+            background: transparent;
+            border-bottom: none;
+            width: 12px;
+        }
+
+        .forca-keyboard {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 3px;
+        }
+
+        .forca-key {
+            background: #e2e8f0;
+            border: none;
+            border-bottom: 3px solid #94a3b8;
+            color: #1e293b;
+            font-weight: 700;
+            font-size: 0.85rem;
+            width: 32px;
+            height: 34px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.07s;
+            text-transform: uppercase;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .forca-key:active {
+            transform: translateY(3px);
+            border-bottom-width: 1px;
+        }
+        .forca-key:disabled {
+            opacity: 0.3;
+            transform: translateY(3px);
+            border-bottom-width: 1px;
+            cursor: not-allowed;
+            background: #cbd5e1;
+        }
+        .forca-key.used {
+            opacity: 0.25;
+            transform: translateY(3px);
+            border-bottom-width: 1px;
+            background: #cbd5e1;
+        }
+
+        /* Teclas numéricas */
+        .forca-key-number {
+            background: #1a5f7a;
+            border-bottom: 3px solid #0d3b4f;
+            color: white;
+            font-weight: 700;
+            font-size: 0.85rem;
+            width: 32px;
+            height: 34px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.07s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .forca-key-number:active {
+            transform: translateY(3px);
+            border-bottom-width: 1px;
+        }
+        .forca-key-number:disabled {
+            opacity: 0.3;
+            transform: translateY(3px);
+            border-bottom-width: 1px;
+            cursor: not-allowed;
+            background: #4a7a95;
+        }
+        .forca-key-number.used {
+            opacity: 0.25;
+            transform: translateY(3px);
+            border-bottom-width: 1px;
+            background: #4a7a95;
+        }
+
+        .forca-controls {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .forca-btn {
+            background: #e2e8f0;
+            border: none;
+            border-bottom: 3px solid #94a3b8;
+            padding: 5px 14px;
+            border-radius: 25px;
+            font-weight: 600;
+            font-size: 0.7rem;
+            color: #1e293b;
+            cursor: pointer;
+            transition: 0.1s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .forca-btn:active {
+            transform: translateY(3px);
+            border-bottom-width: 2px;
+        }
+
+        .forca-btn-primary {
+            background: #1a5f7a;
+            border-bottom-color: #0d3b4f;
+            color: white;
+        }
+
+        .forca-btn-hint {
+            background: #f5c542;
+            border-bottom-color: #b38f2a;
+            color: #0b1a2e;
+        }
+
+        .forca-message {
+            background: #f1f5f9;
+            padding: 6px 12px;
+            border-radius: 10px;
+            text-align: center;
+            font-size: 0.75rem;
+            font-weight: 500;
+            color: #1e293b;
+            border-left: 3px solid #1a5f7a;
+            min-height: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            line-height: 1.3;
+        }
+
+        .forca-stats {
+            display: flex;
+            justify-content: space-between;
+            gap: 4px;
+            flex-wrap: wrap;
+            background: #f8fafc;
+            padding: 4px 10px;
+            border-radius: 8px;
+            border: 1px solid #e2e8f0;
+            flex-shrink: 0;
+        }
+
+        .forca-stat-item {
+            font-size: 0.65rem;
+            color: #64748b;
+            display: flex;
+            align-items: center;
+            gap: 3px;
+        }
+
+        .forca-stat-item strong {
+            color: #1e293b;
+            font-size: 0.8rem;
+        }
+
+        .forca-badge {
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: 14px;
+            font-size: 0.55rem;
+            font-weight: 600;
+            margin-left: 3px;
+        }
+        .forca-badge-success { background: #2e7d32; color: white; }
+        .forca-badge-danger { background: #d32f2f; color: white; }
+        .forca-badge-warning { background: #f5c542; color: #0b1a2e; }
+
+        /* Botão visualizar card na forca */
+        #btnVisualizarCard {
+            display: none;
+        }
+        #btnVisualizarCard.show {
+            display: inline-flex;
+        }
+
         @media (max-width: 600px) {
+            .forca-game-area { flex-direction: column; align-items: center; gap: 10px; }
+            .forca-hangman { margin-right: 0; }
+            .forca-hangman canvas { width: 220px; height: 270px; }
+            #campeaoCanvas { width: 220px; height: 270px; }
+            .forca-balao { width: 100px !important; top: 20px; right: -55px; }
+            #balao7 { width: 120px !important; top: 12px; right: -65px; }
+            .forca-letter-slot { width: 24px; height: 30px; font-size: 1.1rem; line-height: 30px; }
+            .forca-key { width: 28px; height: 30px; font-size: 0.75rem; }
+            .forca-key-number { width: 28px; height: 30px; font-size: 0.75rem; }
+            .forca-panel { min-width: 160px; }
+            .forca-message { font-size: 0.65rem; min-height: 30px; padding: 4px 8px; }
             .app-header h1 { font-size: 1.4rem; }
             .header-content { flex-direction: column; text-align: center; }
             .header-title { text-align: center; }
@@ -468,6 +998,19 @@
             .nav-tab { padding: 12px 10px; font-size: 0.65rem; gap: 4px; }
             .ranking-table th, .ranking-table td { padding: 8px 6px; font-size: 0.75rem; }
             .medalha { font-size: 1.1rem; min-width: 35px; }
+            .btn-card { font-size: 0.65rem; padding: 5px 12px; }
+        }
+
+        @media (max-height: 700px) {
+            .forca-hangman canvas { width: 240px; height: 290px; }
+            #campeaoCanvas { width: 240px; height: 290px; }
+            .forca-balao { width: 110px; top: 25px; right: -65px; }
+            #balao7 { width: 130px; top: 15px; right: -75px; }
+            .forca-letter-slot { width: 26px; height: 32px; font-size: 1.2rem; line-height: 32px; }
+            .forca-key { width: 30px; height: 32px; font-size: 0.8rem; }
+            .forca-key-number { width: 30px; height: 32px; font-size: 0.8rem; }
+            .forca-message { font-size: 0.7rem; min-height: 32px; padding: 4px 8px; }
+            #secao-forca .card-body { padding: 8px 12px; }
         }
     </style>
 </head>
@@ -492,6 +1035,7 @@
         <button class="nav-tab" data-tab="apostas">👤 Apostas</button>
         <button class="nav-tab" data-tab="tendencias">📊 Tendências</button>
         <button class="nav-tab" data-tab="regras">📖 Regras</button>
+        <button class="nav-tab" data-tab="forca">⚽ Forca <span class="new-badge">NEW!</span></button>
     </div>
 
     <div class="container">
@@ -697,6 +1241,71 @@
                 </div>
             </div>
         </div>
+
+        <!-- FORCA -->
+        <div id="secao-forca" style="display: none;">
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title">⚽ Forca Copa 2026</div>
+                    <div style="display:flex; gap:6px; align-items:center;">
+                        <span class="forca-badge forca-badge-warning" id="forcaStatusBadge">Jogando</span>
+                        <button class="btn-card" id="btnVisualizarCard" onclick="abrirModalCard()">🖼️ Visualizar Card</button>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="forca-container">
+                        <div class="forca-game-area">
+                            <div class="forca-hangman">
+                                <canvas id="hangmanCanvas" width="280" height="340"></canvas>
+                                <!-- CAMPEÃO - mesma posição do boneco -->
+                                <canvas id="campeaoCanvas" width="280" height="340"></canvas>
+                                <!-- Balões sobrepostos - TODOS NA MESMA POSIÇÃO -->
+                                <img id="balao1" class="forca-balao" src="forca/balao1.png" alt="Balao 1">
+                                <img id="balao2" class="forca-balao" src="forca/balao2.png" alt="Balao 2">
+                                <img id="balao3" class="forca-balao" src="forca/balao3.png" alt="Balao 3">
+                                <img id="balao4" class="forca-balao" src="forca/balao4.png" alt="Balao 4">
+                                <img id="balao5" class="forca-balao" src="forca/balao5.png" alt="Balao 5">
+                                <img id="balao6" class="forca-balao" src="forca/balao6.png" alt="Balao 6">
+                                <img id="balao7" class="forca-balao" src="forca/balao7.png" alt="Balao 7">
+                            </div>
+                            <div class="forca-panel">
+                                <div class="forca-word-container">
+                                    <div class="forca-word-letters" id="forcaWordDisplay"></div>
+                                </div>
+                                <div id="forcaKeyboard" class="forca-keyboard"></div>
+                                <div class="forca-controls">
+                                    <button class="forca-btn forca-btn-primary" id="forcaNewGameBtn">🔄 Novo</button>
+                                    <button class="forca-btn forca-btn-hint" id="forcaHintBtn">💡 Dica</button>
+                                </div>
+                                <div id="forcaMessage" class="forca-message">Clique em "Novo" para começar!</div>
+                                <div class="forca-stats">
+                                    <span class="forca-stat-item">❌ <strong id="forcaErrorCount">0</strong>/6</span>
+                                    <span class="forca-stat-item">💡 <strong id="forcaHintCount">0</strong></span>
+                                    <span class="forca-stat-item">🎯 <strong id="forcaDayCount">6</strong></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL CARD -->
+    <div id="modalCard">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>🖼️ Seu Card Premiado!</h2>
+                <button class="modal-close" onclick="fecharModalCard()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <img id="modalCardImage" src="" alt="Card">
+            </div>
+            <div class="modal-footer">
+                <button class="btn-modal-close" onclick="fecharModalCard()">Fechar</button>
+                <button class="btn-modal-download" onclick="baixarCardModal()">⬇️ Baixar Card</button>
+            </div>
+        </div>
     </div>
 
     <script src="dados/jogos.js"></script>
@@ -704,6 +1313,126 @@
     <script src="dados/resultados.js"></script>
     
     <script>
+        // ============================================
+        // VARIÁVEIS GLOBAIS DO CARD
+        // ============================================
+        let cardAtual = '';
+        let cardsDisponiveis = [];
+
+        // ============================================
+        // CARREGAR CARDS DISPONÍVEIS
+        // ============================================
+        function carregarCardsDisponiveis() {
+            // Cards na pasta "card/"
+            for (let i = 1; i <= 10; i++) {
+                cardsDisponiveis.push(`card/card${i}.png`);
+            }
+            // Fallback
+            cardsDisponiveis.push('card/card.png');
+            cardsDisponiveis.push('card/card.jpg');
+        }
+
+        // ============================================
+        // ABRIR MODAL CARD (ESCOLHE ALEATORIAMENTE)
+        // ============================================
+        function abrirModalCard() {
+            console.log('🔍 abrirModalCard() chamado!');
+            
+            if (cardsDisponiveis.length === 0) {
+                carregarCardsDisponiveis();
+            }
+            
+            // Embaralha a lista
+            const shuffled = [...cardsDisponiveis].sort(() => 0.5 - Math.random());
+            let index = 0;
+            
+            // Mostra o modal imediatamente com loading
+            const img = document.getElementById('modalCardImage');
+            img.alt = '🔄 Carregando...';
+            img.src = '';
+            document.getElementById('modalCard').style.display = 'flex';
+            
+            function tentarProximoCard() {
+                if (index >= shuffled.length) {
+                    console.error('❌ Nenhum card encontrado!');
+                    img.alt = '❌ Nenhum card disponível';
+                    img.src = '';
+                    return;
+                }
+                
+                const url = shuffled[index];
+                console.log(`🔄 Tentando (${index + 1}/${shuffled.length}):`, url);
+                
+                const testImg = new Image();
+                testImg.onload = function() {
+                    console.log('✅ Card encontrado:', url);
+                    cardAtual = url;
+                    img.src = url;
+                    img.alt = 'Card';
+                };
+                testImg.onerror = function() {
+                    console.warn('❌ Card NÃO encontrado:', url);
+                    index++;
+                    tentarProximoCard();
+                };
+                testImg.src = url;
+            }
+            
+            tentarProximoCard();
+        }
+
+        // ============================================
+        // FECHAR MODAL CARD
+        // ============================================
+        function fecharModalCard() {
+            document.getElementById('modalCard').style.display = 'none';
+        }
+
+        // ============================================
+        // BAIXAR CARD DO MODAL
+        // ============================================
+        function baixarCardModal() {
+            if (!cardAtual) {
+                console.warn('⚠️ Nenhum card selecionado para baixar');
+                return;
+            }
+            
+            console.log('⬇️ Baixando:', cardAtual);
+            
+            // Extrai o nome do arquivo da URL
+            const partes = cardAtual.split('/');
+            const nomeArquivo = partes[partes.length - 1];
+            
+            const link = document.createElement('a');
+            link.href = cardAtual;
+            link.download = nomeArquivo;
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+
+        // ============================================
+        // FECHAR MODAL CLICANDO FORA
+        // ============================================
+        document.addEventListener('click', function(e) {
+            const modal = document.getElementById('modalCard');
+            if (e.target === modal) {
+                fecharModalCard();
+            }
+        });
+
+        // ============================================
+        // FECHAR MODAL COM ESC
+        // ============================================
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                fecharModalCard();
+            }
+        });
+
+        // Inicializa os cards
+        carregarCardsDisponiveis();
+
         // ============================================
         // BOTÃO WHATSAPP DINÂMICO
         // ============================================
@@ -768,6 +1497,7 @@
             document.getElementById('secao-apostas').style.display = 'none';
             document.getElementById('secao-tendencias').style.display = 'none';
             document.getElementById('secao-regras').style.display = 'none';
+            document.getElementById('secao-forca').style.display = 'none';
             
             document.querySelectorAll('.nav-tab').forEach(tab => {
                 tab.classList.remove('active');
@@ -794,6 +1524,10 @@
                 document.getElementById('secao-regras').style.display = 'block';
                 document.querySelector('.nav-tab[data-tab="regras"]').classList.add('active');
                 carregarWhatsAppButton();
+            } else if (aba === 'forca') {
+                document.getElementById('secao-forca').style.display = 'block';
+                document.querySelector('.nav-tab[data-tab="forca"]').classList.add('active');
+                iniciarForca();
             }
         }
 
@@ -920,13 +1654,51 @@
                 return;
             }
             
+            // SALVAR RANKING ATUAL PARA COMPARAÇÃO FUTURA
+            const rankingAtual = {};
+            ranking.forEach((item, index) => {
+                rankingAtual[item.nome] = index + 1;
+            });
+            
+            let rankingAnterior = {};
+            try {
+                const saved = localStorage.getItem('rankingAnterior');
+                if (saved) {
+                    rankingAnterior = JSON.parse(saved);
+                }
+            } catch (e) {
+                rankingAnterior = {};
+            }
+            
+            localStorage.setItem('rankingAnterior', JSON.stringify(rankingAtual));
+            
+            // RENDERIZAR TABELA COM SETAS
             let html = `<table class="ranking-table">
                             <thead>
-                                <tr><th>#</th><th>Jogador</th><th style="text-align:center">Pts</th><th style="text-align:center">Placar</th><th style="text-align:center">Resultado</th></tr>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Jogador</th>
+                                    <th style="text-align:center">Pts</th>
+                                    <th style="text-align:center">Placar</th>
+                                    <th style="text-align:center">Resultado</th>
+                                    <th style="text-align:center">Trend</th>
+                                </tr>
                             </thead>
                             <tbody>`;
             
             ranking.forEach((item) => {
+                const posicaoAtual = item.posicao;
+                const posicaoAnterior = rankingAnterior[item.nome] || posicaoAtual;
+                
+                let trendHtml = '';
+                if (posicaoAtual < posicaoAnterior) {
+                    trendHtml = `<span style="color: #2e7d32; font-size: 1.2rem;">▲</span>`;
+                } else if (posicaoAtual > posicaoAnterior) {
+                    trendHtml = `<span style="color: #d32f2f; font-size: 1.2rem;">▼</span>`;
+                } else {
+                    trendHtml = `<span style="color: #888; font-size: 1.2rem;">—</span>`;
+                }
+                
                 let medalhaHtml = '';
                 if (item.posicao === 1) medalhaHtml = '<span class="medalha">🥇</span>';
                 else if (item.posicao === 2) medalhaHtml = '<span class="medalha">🥈</span>';
@@ -940,8 +1712,10 @@
                             <td style="text-align:center"><span class="pontos-value">${item.pontos}</span></td>
                             <td style="text-align:center">${item.placaresExatos}</td>
                             <td style="text-align:center">${item.resultadosCorretos}</td>
+                            <td style="text-align:center">${trendHtml}</td>
                         </tr>`;
             });
+            
             html += '</tbody></table>';
             container.innerHTML = html;
         }
@@ -1338,31 +2112,9 @@
         }
 
         // ============================================
-        // INICIALIZAÇÃO
-        // ============================================
-        function init() {
-            atualizarPremio();
-            carregarFiltroRankingJogadores();
-            carregarFiltrosJogos();
-            carregarFiltrosTendencias();
-            carregarSelectJogador();
-            carregarFiltrosApostas();
-            renderizarRanking();
-            renderizarJogos();
-            renderizarTendencias();
-            initEventListeners();
-            carregarWhatsAppButton();
-            mostrarAba('ranking');
-            
-            // Iniciar o popup do Alcy
-            iniciarAlcyPopup();
-        }
-        
-        // ============================================
         // ALCY POPUP - IMAGENS ALEATÓRIAS DA PASTA extra
         // ============================================
         function iniciarAlcyPopup() {
-            // Criar o elemento se não existir
             if (!document.getElementById('alcyPopup')) {
                 const popup = document.createElement('div');
                 popup.id = 'alcyPopup';
@@ -1373,23 +2125,25 @@
             const popup = document.getElementById('alcyPopup');
             const imgElement = document.getElementById('alcyImagem');
             
-            // ============================================
-            // LISTA DE TODAS AS IMAGENS DA PASTA extra
-            // ADICIONE AQUI TODAS AS IMAGENS QUE VOCÊ TEM
-            // ============================================
             const imagens = [
-                'extra/alcy.png',
+                'extra/alcy1.png',
+                'extra/alcy2.png',
+                'extra/alcy3.png',
                 'extra/eliseu.png',
                 'extra/marcio.png',
                 'extra/caio.png',
                 'extra/ronaldo.png',
-                // Adicione todas as imagens que você tem na pasta extra
-                // Se tiver imagens com outros nomes, adicione aqui também
-                // 'extra/outra_imagem.png',
-                // 'extra/figurinha.jpg',
+                'extra/julio1.png',
+                'extra/julio2.png',
+                'extra/xandao1.png',
+                'extra/xandao2.png',
+                'extra/xandao3.png',
+                'extra/xandao4.png',
+                'extra/xandao5.png',
+                'extra/memecopa.png',
+                'extra/receba.png',
             ];
             
-            // Filtrar apenas imagens que realmente existem
             let imagensExistentes = [];
             let imagensCarregadas = 0;
             
@@ -1430,7 +2184,6 @@
                 let timeoutId = null;
                 let indexAtual = 0;
                 
-                // Embaralhar as imagens
                 function shuffleArray(array) {
                     for (let i = array.length - 1; i > 0; i--) {
                         const j = Math.floor(Math.random() * (i + 1));
@@ -1442,13 +2195,11 @@
                 let imagensEmbaralhadas = shuffleArray([...imagensExistentes]);
                 
                 function mostrarProximaImagem() {
-                    // Limpar timeout anterior se existir
                     if (timeoutId) {
                         clearTimeout(timeoutId);
                         timeoutId = null;
                     }
                     
-                    // Se já passou por todas as imagens, reembaralhar
                     if (indexAtual >= imagensEmbaralhadas.length) {
                         imagensEmbaralhadas = shuffleArray([...imagensExistentes]);
                         indexAtual = 0;
@@ -1465,24 +2216,518 @@
                     popup.classList.remove('hide');
                     popup.classList.add('show');
                     
-                    // Após 5 segundos, esconder
                     timeoutId = setTimeout(function() {
                         popup.classList.remove('show');
                         popup.classList.add('hide');
                         
-                        // Após a animação de saída, programar a próxima aparição (20 segundos)
                         timeoutId = setTimeout(function() {
                             mostrarProximaImagem();
                         }, 20000);
                     }, 5000);
                 }
                 
-                // Primeira aparição após 20 segundos
-                setTimeout(mostrarProximaImagem, 20000);
+                setTimeout(mostrarProximaImagem, 15000);
             }
             
-            // Iniciar verificação das imagens
             verificarImagens();
+        }
+
+        // ============================================
+        // FORCA - JOGO DA FORCA (90 PERGUNTAS)
+        // ============================================
+        const TODAS_PERGUNTAS = [
+            // CAMPEÕES MUNDIAIS (22)
+            { palavra: "FRANCA", dicas: ["Quem foi campeão mundial em 1998?", "Quem foi campeão mundial em 2018?", "Seleção que venceu a Copa de 2018"] },
+            { palavra: "BRASIL", dicas: ["Quem foi campeão mundial em 2002?", "Quem foi campeão mundial em 1994?", "Seleção com mais títulos mundiais (5 títulos)"] },
+            { palavra: "ITALIA", dicas: ["Quem foi campeão mundial em 2006?", "Quem foi campeão mundial em 1982?", "Seleção com 4 títulos mundiais"] },
+            { palavra: "ESPANHA", dicas: ["Quem foi campeão mundial em 2010?", "Primeiro título mundial da seleção", "Campeã na África do Sul"] },
+            { palavra: "ALEMANHA", dicas: ["Quem foi campeão mundial em 2014?", "Quem foi campeão mundial em 1990?", "Seleção com 4 títulos mundiais (alemã)"] },
+            { palavra: "ARGENTINA", dicas: ["Quem foi campeão mundial em 2022?", "Quem foi campeão mundial em 1986?", "Seleção que tem 3 títulos mundiais"] },
+            { palavra: "INGLATERRA", dicas: ["Quem foi campeão mundial em 1966?", "Único título da seleção inglesa", "Gol na final contra a Alemanha"] },
+            { palavra: "URUGUAI", dicas: ["Quem foi campeão mundial em 1950?", "Quem foi campeão mundial em 1930?", "Seleção que tem 2 títulos mundiais"] },
+            { palavra: "CROACIA", dicas: ["Quem foi vice-campeão mundial em 2018?", "Finalista em 2018", "Modric e Rakitic"] },
+            { palavra: "HOLANDA", dicas: ["Quem foi vice-campeão mundial em 2010?", "Finalista em 2014 (terceiro lugar)", "Laranja mecânica"] },
+            
+            // BRASIL - ANOS E JOGADORES (10)
+            { palavra: "2002", dicas: ["Ano da seleção brasileira com Ronaldo e Rivaldo brilhando", "Ano em que o Brasil foi campeão com Ronaldinho Gaúcho", "Pentacampeão mundial"] },
+            { palavra: "1994", dicas: ["Ano em que Romário foi artilheiro e campeão mundial pelo Brasil", "Tetracampeão mundial", "Bebeto e Romário"] },
+            { palavra: "1962", dicas: ["Ano em que a seleção brasileira foi campeã com Pelé e Garrincha", "Bicampeão mundial", "Garrincha foi o destaque"] },
+            { palavra: "1970", dicas: ["Ano em que o Brasil foi campeão mundial com Pelé, Tostão e Rivellino", "Ano em que o Brasil foi campeão com Zagallo como técnico", "Tricampeão mundial"] },
+            { palavra: "1998", dicas: ["Ano em que o Brasil foi vice-campeão para a França", "Zidane brilhou na final", "Ronaldo teve mal-estar antes da final"] },
+            { palavra: "1950", dicas: ["Ano em que o Brasil foi vice-campeão para o Uruguai", "Maracanazo", "Final no Maracanã"] },
+            { palavra: "2014", dicas: ["Ano em que o Brasil foi eliminado pela Alemanha por 7 a 1", "Mineiraço", "Semi-final em Belo Horizonte"] },
+            { palavra: "NEYMAR", dicas: ["Jogador brasileiro que atualmente joga no Santos e ganhou ouro em 2016", "Revelação do Santos", "Maior artilheiro da história da seleção"] },
+            { palavra: "VINICIUS JR", dicas: ["Destaque do Real Madrid e campeão da Champions 2024", "Revelação do Flamengo", "Jovem talento brasileiro"] },
+            { palavra: "RONALDO", dicas: ["Atacante brasileiro conhecido como Fenômeno em 2002", "Artilheiro da Copa 2002", "Passou por Barcelona, Inter e Real Madrid"] },
+            
+            // ARGENTINA (5)
+            { palavra: "MESSI", dicas: ["Lenda do Barcelona com 8 Bolas de Ouro e campeão em 2022", "Campeão mundial 2022", "Maior jogador argentino da história"] },
+            { palavra: "DIBU MARTINEZ", dicas: ["Goleiro do Aston Villa e herói da Copa 2022", "Defendeu pênaltis na final de 2022", "Goleiro argentino"] },
+            { palavra: "DI MARIA", dicas: ["Ponta do Benfica que fez gol na final da Copa 2022", "Gol do título argentino em 2022", "Jogou no Real Madrid"] },
+            { palavra: "LAUTARO MARTINEZ", dicas: ["Atacante da Inter de Milão e artilheiro da Serie A", "Atacante argentino campeão da Copa América", "Revelação do Racing"] },
+            { palavra: "ENZO FERNANDEZ", dicas: ["Meia do Chelsea campeão mundial em 2022", "Revelação do River Plate em 2022", "Jovem talento argentino"] },
+            
+            // INGLATERRA (5)
+            { palavra: "KANE", dicas: ["Atacante do Bayern de Munique e artilheiro da seleção inglesa", "Campeão da Champions 2025", "Revelação do Tottenham"] },
+            { palavra: "BELLINGHAM", dicas: ["Meia do Real Madrid e jovem talento inglês", "Destaque no Borussia Dortmund", "Jovem da seleção inglesa"] },
+            { palavra: "SAKA", dicas: ["Atacante do Arsenal com velocidade e drible", "Destaque da Premier League", "Revelação do Arsenal"] },
+            { palavra: "FODEN", dicas: ["Meia do Manchester City campeão da Premier League", "Revelação do City", "Jovem talento inglês"] },
+            { palavra: "RICE", dicas: ["Volante do Arsenal e líder da seleção inglesa", "Passagem pelo West Ham", "Meio-campista inglês"] },
+            
+            // FRANÇA (5)
+            { palavra: "MBAPPE", dicas: ["Atacante do Real Madrid campeão mundial em 2018", "Velocidade e dribles", "Revelação do Monaco"] },
+            { palavra: "GRIEZMANN", dicas: ["Atacante do Atlético de Madrid campeão mundial em 2018", "Vice artilheiro da Copa 2022", "Jogador francês"] },
+            { palavra: "TCHOUAMENI", dicas: ["Volante do Real Madrid destaque da seleção francesa", "Passagem pelo Monaco", "Jovem talento francês"] },
+            { palavra: "KOLO MUANI", dicas: ["Atacante do PSG destaque na Copa 2022", "Revelação do Frankfurt", "Atacante francês"] },
+            { palavra: "CAMAVINGA", dicas: ["Volante do Real Madrid jovem talento francês", "Passagem pelo Rennes", "Revelação francesa"] },
+            
+            // OUTROS (10)
+            { palavra: "CRISTIANO RONALDO", dicas: ["Lenda portuguesa com 5 Champions e maior artilheiro da história", "Maior artilheiro da seleção portuguesa", "Ídolo do Real Madrid"] },
+            { palavra: "B SILVA", dicas: ["Meia português do Manchester City", "Campeão da Premier League", "Jogador do City"] },
+            { palavra: "LEAO", dicas: ["Atacante do Milan campeão da Serie A 2022", "Atacante português", "Velocidade e drible"] },
+            { palavra: "DONNARUMMA", dicas: ["Goleiro do PSG campeão da Euro 2020", "Revelação do Milan", "Melhor goleiro jovem"] },
+            { palavra: "BARELLA", dicas: ["Meia italiano da Inter de Milão", "Campeão da Serie A", "Meio-campista italiano"] },
+            { palavra: "VAN DIJK", dicas: ["Zagueiro do Liverpool líder da seleção holandesa", "Melhor zagueiro do mundo", "Líder da defesa"] },
+            { palavra: "DE JONG", dicas: ["Meia holandês do Barcelona", "Passagem pelo Ajax", "Meio-campista holandês"] },
+            { palavra: "GAKPO", dicas: ["Atacante do Liverpool destaque da Copa 2022", "Revelação do PSV", "Atacante holandês"] },
+            { palavra: "DE BRUYNE", dicas: ["Meia belga do Manchester City especialista em passes", "Melhor meia do mundo", "Campeão da Premier League"] },
+            { palavra: "LUKAKU", dicas: ["Atacante belga do Napoli e artilheiro da seleção", "Passagem por Inter e Chelsea", "Atacante belga"] }
+        ];
+
+        let listaJogadoresForca = [];
+        let palavraSecreta = '';
+        let letrasAdivinhadas = [];
+        let errosForca = 0;
+        const maxErrosForca = 6;
+        let jogoTerminadoForca = false;
+        let letrasUsadasForca = new Set();
+        let dicasUsadasForca = 0;
+        let dicasDisponiveisForca = [];
+        let indiceDicaAtualForca = 0;
+        let jogoIniciadoForca = false;
+
+        const canvasForca = document.getElementById('hangmanCanvas');
+        const ctxForca = canvasForca.getContext('2d');
+        const campeaoCanvas = document.getElementById('campeaoCanvas');
+        const ctxCampeao = campeaoCanvas.getContext('2d');
+        const forcaWordDisplay = document.getElementById('forcaWordDisplay');
+        const forcaKeyboard = document.getElementById('forcaKeyboard');
+        const forcaMessage = document.getElementById('forcaMessage');
+        const forcaErrorCount = document.getElementById('forcaErrorCount');
+        const forcaHintCount = document.getElementById('forcaHintCount');
+        const forcaDayCount = document.getElementById('forcaDayCount');
+        const forcaStatusBadge = document.getElementById('forcaStatusBadge');
+        const btnVisualizarCard = document.getElementById('btnVisualizarCard');
+
+        const baloes = [
+            document.getElementById('balao1'),
+            document.getElementById('balao2'),
+            document.getElementById('balao3'),
+            document.getElementById('balao4'),
+            document.getElementById('balao5'),
+            document.getElementById('balao6'),
+            document.getElementById('balao7')
+        ];
+
+        const spritesForca = {
+            forca: 'forca/forca.png',
+            cabeca: 'forca/cabeca.png',
+            tronco: 'forca/tronco.png',
+            bracodir: 'forca/bracodir.png',
+            bracoesq: 'forca/bracoesq.png',
+            pernaesq: 'forca/pernaesq.png',
+            pernadir: 'forca/pernadir.png',
+            campeao: 'forca/campeao.png'
+        };
+        const ordemPartesForca = ['cabeca', 'tronco', 'bracodir', 'bracoesq', 'pernaesq', 'pernadir'];
+        let imagensCarregadasForca = {};
+        let imagensProntasForca = false;
+
+        function carregarSpritesForca() {
+            const nomes = ['forca', 'cabeca', 'tronco', 'bracodir', 'bracoesq', 'pernaesq', 'pernadir', 'campeao'];
+            let carregadas = 0;
+            for (const nome of nomes) {
+                const img = new Image();
+                img.onload = function() {
+                    imagensCarregadasForca[nome] = img;
+                    carregadas++;
+                    if (carregadas === nomes.length) {
+                        imagensProntasForca = true;
+                        desenharForca(errosForca);
+                    }
+                };
+                img.onerror = function() {
+                    console.warn('Sprite nao encontrado:', spritesForca[nome]);
+                    imagensCarregadasForca[nome] = null;
+                    carregadas++;
+                    if (carregadas === nomes.length) {
+                        imagensProntasForca = true;
+                        desenharForca(errosForca);
+                    }
+                };
+                img.src = spritesForca[nome];
+            }
+        }
+
+        function desenharForca(erros) {
+            if (!ctxForca) return;
+            
+            // Limpa os canvases
+            ctxForca.clearRect(0, 0, 280, 340);
+            ctxCampeao.clearRect(0, 0, 280, 340);
+            campeaoCanvas.style.display = 'none';
+            
+            // Desenha a forca base SEMPRE
+            const imgForca = imagensCarregadasForca['forca'];
+            if (imgForca) {
+                ctxForca.drawImage(imgForca, 0, 0, 280, 340);
+            }
+
+            if (!imagensProntasForca) return;
+
+            // Esconde todos os balões
+            baloes.forEach(b => { if (b) b.style.display = 'none'; });
+
+            // Se não houver erros, não desenha nada além da forca
+            if (erros === 0) return;
+
+            // Desenha as partes do corpo no canvas principal
+            for (let i = 0; i < erros && i < ordemPartesForca.length; i++) {
+                const nome = ordemPartesForca[i];
+                const img = imagensCarregadasForca[nome];
+                if (img) {
+                    ctxForca.drawImage(img, 0, 0, 280, 340);
+                }
+            }
+            
+            // Mostra o balão correspondente ao erro atual
+            if (erros > 0 && erros <= 6) {
+                const balaoIndex = erros - 1;
+                if (baloes[balaoIndex]) {
+                    baloes[balaoIndex].style.display = 'block';
+                    baloes[balaoIndex].style.animation = 'none';
+                    setTimeout(() => {
+                        if (baloes[balaoIndex]) baloes[balaoIndex].style.animation = 'balaoAnim 0.5s ease-out';
+                    }, 10);
+                }
+            }
+        }
+
+        function mostrarCampeao() {
+            // ============================================
+            // 1. LIMPA O CANVAS PRINCIPAL E DESENHA SÓ A FORCA
+            // ============================================
+            ctxForca.clearRect(0, 0, 280, 340);
+            const imgForca = imagensCarregadasForca['forca'];
+            if (imgForca) {
+                ctxForca.drawImage(imgForca, 0, 0, 280, 340);
+            }
+
+            // ============================================
+            // 2. ESCONDE TODOS OS BALÕES COMUNS (1 AO 6)
+            // ============================================
+            for (let i = 0; i < 6; i++) {
+                if (baloes[i]) {
+                    baloes[i].style.display = 'none';
+                }
+            }
+
+            // ============================================
+            // 3. MOSTRA O BALÃO 7 (VITÓRIA)
+            // ============================================
+            const balao7 = document.getElementById('balao7');
+            if (balao7) {
+                balao7.style.display = 'block';
+                balao7.style.animation = 'none';
+                setTimeout(() => {
+                    balao7.style.animation = 'balaoAnim 0.6s ease-out';
+                }, 10);
+            }
+
+            // ============================================
+            // 4. DESENHA O CAMPEÃO NO CANVAS SOBREPOSTO
+            // ============================================
+            const imgCampeao = imagensCarregadasForca['campeao'];
+            if (imgCampeao) {
+                ctxCampeao.clearRect(0, 0, 280, 340);
+                ctxCampeao.drawImage(imgCampeao, 0, 0, 280, 340);
+                campeaoCanvas.style.display = 'block';
+                campeaoCanvas.style.animation = 'none';
+                setTimeout(() => {
+                    campeaoCanvas.style.animation = 'campeaoAnim 0.6s ease-out';
+                }, 10);
+            } else {
+                // Fallback: tenta carregar a imagem novamente
+                const img = new Image();
+                img.onload = function() {
+                    ctxCampeao.clearRect(0, 0, 280, 340);
+                    ctxCampeao.drawImage(img, 0, 0, 280, 340);
+                    campeaoCanvas.style.display = 'block';
+                    campeaoCanvas.style.animation = 'none';
+                    setTimeout(() => {
+                        campeaoCanvas.style.animation = 'campeaoAnim 0.6s ease-out';
+                    }, 10);
+                };
+                img.src = 'forca/campeao.png';
+            }
+
+            // ============================================
+            // 5. MOSTRA O BOTÃO "VISUALIZAR CARD"
+            // ============================================
+            if (btnVisualizarCard) {
+                btnVisualizarCard.classList.add('show');
+            }
+
+            // ============================================
+            // 6. ATUALIZA O STATUS PARA VITÓRIA
+            // ============================================
+            forcaStatusBadge.textContent = '🏆 CAMPEÃO!';
+            forcaStatusBadge.className = 'forca-badge forca-badge-success';
+        }
+
+        function carregarJogadoresForca() {
+            listaJogadoresForca = [];
+            
+            for (const item of TODAS_PERGUNTAS) {
+                listaJogadoresForca.push({
+                    nome: item.palavra,
+                    dicas: item.dicas,
+                    selecao: 'Copa'
+                });
+            }
+        }
+
+        function atualizarPalavraForca() {
+            if (!forcaWordDisplay) return;
+            let html = '';
+            for (let letra of palavraSecreta) {
+                if (letra === ' ') {
+                    html += `<span class="forca-letter-slot space"> </span>`;
+                } else if (letrasAdivinhadas.includes(letra)) {
+                    html += `<span class="forca-letter-slot filled">${letra}</span>`;
+                } else {
+                    html += `<span class="forca-letter-slot"> </span>`;
+                }
+            }
+            forcaWordDisplay.innerHTML = html;
+        }
+
+        function atualizarTecladoForca() {
+            if (!forcaKeyboard) return;
+            
+            // Letras A-Z
+            const letras = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+            let html = '';
+            for (let l of letras) {
+                const disabled = jogoTerminadoForca || letrasUsadasForca.has(l) || !jogoIniciadoForca ? 'disabled' : '';
+                const classe = letrasUsadasForca.has(l) ? 'forca-key used' : 'forca-key';
+                html += `<button class="${classe}" data-letter="${l}" ${disabled}>${l}</button>`;
+            }
+            
+            // Números 0-9
+            const numeros = '0123456789';
+            for (let n of numeros) {
+                const disabled = jogoTerminadoForca || letrasUsadasForca.has(n) || !jogoIniciadoForca ? 'disabled' : '';
+                const classe = letrasUsadasForca.has(n) ? 'forca-key-number used' : 'forca-key-number';
+                html += `<button class="${classe}" data-letter="${n}" ${disabled}>${n}</button>`;
+            }
+            
+            forcaKeyboard.innerHTML = html;
+            
+            document.querySelectorAll('#forcaKeyboard .forca-key:not([disabled]), #forcaKeyboard .forca-key-number:not([disabled])').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const letra = this.dataset.letter;
+                    jogarForca(letra);
+                });
+            });
+        }
+
+        function mensagemForca(texto, cor = '#1e293b', borda = '#1a5f7a') {
+            if (!forcaMessage) return;
+            forcaMessage.textContent = texto;
+            forcaMessage.style.color = cor;
+            forcaMessage.style.borderLeftColor = borda;
+        }
+
+        function atualizarContadoresForca() {
+            if (forcaErrorCount) forcaErrorCount.textContent = errosForca;
+            if (forcaHintCount) forcaHintCount.textContent = dicasUsadasForca;
+            if (forcaDayCount) forcaDayCount.textContent = maxErrosForca;
+            if (jogoTerminadoForca) {
+                forcaStatusBadge.textContent = errosForca >= maxErrosForca ? 'Derrota' : 'Vitoria';
+                forcaStatusBadge.className = 'forca-badge ' + (errosForca >= maxErrosForca ? 'forca-badge-danger' : 'forca-badge-success');
+            } else {
+                forcaStatusBadge.textContent = 'Jogando';
+                forcaStatusBadge.className = 'forca-badge forca-badge-warning';
+            }
+        }
+
+        function darDicaForca() {
+            if (!jogoIniciadoForca || jogoTerminadoForca) {
+                mensagemForca('Inicie um jogo primeiro!', '#64748b');
+                return;
+            }
+            if (indiceDicaAtualForca >= dicasDisponiveisForca.length) {
+                mensagemForca('Nao ha mais dicas para este jogador!', '#64748b');
+                return;
+            }
+
+            dicasUsadasForca++;
+            const dica = dicasDisponiveisForca[indiceDicaAtualForca];
+            indiceDicaAtualForca++;
+            mensagemForca(`💡 DICA ${dicasUsadasForca}: ${dica}`, '#0d3b4f', '#f5c542');
+            atualizarContadoresForca();
+        }
+
+        function jogarForca(letra) {
+            if (!jogoIniciadoForca || jogoTerminadoForca) return;
+            if (letrasUsadasForca.has(letra)) return;
+
+            letrasUsadasForca.add(letra);
+
+            // Verifica se a letra/número está na palavra
+            if (palavraSecreta.includes(letra)) {
+                letrasAdivinhadas.push(letra);
+            } else {
+                errosForca++;
+                desenharForca(errosForca);
+            }
+
+            atualizarPalavraForca();
+            atualizarTecladoForca();
+            atualizarContadoresForca();
+
+            const palavraArray = palavraSecreta.split('');
+            const todasAdivinhadas = palavraArray.every(l => l === ' ' || letrasAdivinhadas.includes(l));
+            
+            if (todasAdivinhadas) {
+                jogoTerminadoForca = true;
+                
+                // MOSTRA O CAMPEÃO (substituindo o boneco)
+                mostrarCampeao();
+                
+                if (errosForca === 0) {
+                    mensagemForca(`🏆 PERFEITO! Você é o CAMPEÃO!`, '#2e7d32', '#2e7d32');
+                } else {
+                    let msg = '';
+                    if (dicasUsadasForca === 0) msg = `🏆 CAMPEAO DA COPA! Acertou sem dicas!`;
+                    else if (dicasUsadasForca === 1) msg = `🌟 Quase padrao Copa! Acertou com 1 dica.`;
+                    else if (dicasUsadasForca === 2) msg = `👏 Muito bem! Acertou com 2 dicas.`;
+                    else msg = `😅 Acertou com ${dicasUsadasForca} dicas. Estude mais!`;
+                    mensagemForca(msg, '#2e7d32', '#2e7d32');
+                }
+                
+                atualizarTecladoForca();
+                atualizarContadoresForca();
+                return;
+            }
+
+            if (errosForca >= maxErrosForca) {
+                jogoTerminadoForca = true;
+                mensagemForca(`Fim de jogo! A resposta era: ${palavraSecreta}`, '#d32f2f', '#d32f2f');
+                letrasAdivinhadas = palavraSecreta.split('');
+                atualizarPalavraForca();
+                atualizarTecladoForca();
+                atualizarContadoresForca();
+                desenharForca(errosForca);
+                return;
+            }
+        }
+
+        function iniciarNovoJogoForca() {
+            if (listaJogadoresForca.length === 0) {
+                carregarJogadoresForca();
+            }
+            
+            let jogadoresValidos = listaJogadoresForca.filter(j => {
+                const nome = j.nome;
+                return /^[A-ZÀ-Ú0-9\s]+$/.test(nome) && nome.length > 1;
+            });
+            
+            if (jogadoresValidos.length === 0) {
+                jogadoresValidos = listaJogadoresForca;
+            }
+            
+            const idx = Math.floor(Math.random() * jogadoresValidos.length);
+            const jogador = jogadoresValidos[idx];
+            
+            palavraSecreta = jogador.nome;
+            letrasAdivinhadas = [];
+            errosForca = 0;
+            jogoTerminadoForca = false;
+            letrasUsadasForca = new Set();
+            dicasUsadasForca = 0;
+            indiceDicaAtualForca = 0;
+            dicasDisponiveisForca = [...jogador.dicas];
+            jogoIniciadoForca = true;
+
+            // Esconde tudo
+            baloes.forEach(b => { if (b) b.style.display = 'none'; });
+            campeaoCanvas.style.display = 'none';
+            ctxCampeao.clearRect(0, 0, 280, 340);
+            
+            // Esconde o botão de visualizar card
+            if (btnVisualizarCard) {
+                btnVisualizarCard.classList.remove('show');
+            }
+
+            desenharForca(0);
+            atualizarPalavraForca();
+            atualizarTecladoForca();
+            atualizarContadoresForca();
+            
+            const letrasCount = palavraSecreta.replace(/ /g,'').length;
+            mensagemForca(`🎯 Adivinhe a resposta! (${letrasCount} caracteres)`, '#1e293b');
+        }
+
+        function iniciarForca() {
+            if (typeof listaJogadoresForca !== 'undefined' && listaJogadoresForca.length === 0) {
+                carregarJogadoresForca();
+            }
+            if (typeof imagensCarregadasForca !== 'undefined' && Object.keys(imagensCarregadasForca).length === 0) {
+                carregarSpritesForca();
+            }
+            
+            const newGameBtn = document.getElementById('forcaNewGameBtn');
+            const hintBtn = document.getElementById('forcaHintBtn');
+
+            if (newGameBtn) {
+                newGameBtn.onclick = function() {
+                    iniciarNovoJogoForca();
+                };
+            }
+            
+            if (hintBtn) {
+                hintBtn.onclick = function() {
+                    darDicaForca();
+                };
+            }
+
+            if (!jogoIniciadoForca) {
+                iniciarNovoJogoForca();
+            }
+        }
+
+        // ============================================
+        // INICIALIZAÇÃO
+        // ============================================
+        function init() {
+            atualizarPremio();
+            carregarFiltroRankingJogadores();
+            carregarFiltrosJogos();
+            carregarFiltrosTendencias();
+            carregarSelectJogador();
+            carregarFiltrosApostas();
+            renderizarRanking();
+            renderizarJogos();
+            renderizarTendencias();
+            initEventListeners();
+            carregarWhatsAppButton();
+            mostrarAba('ranking');
+            
+            iniciarAlcyPopup();
+            
+            setTimeout(iniciarForca, 500);
         }
         
         init();
@@ -1663,7 +2908,6 @@
                 document.body.style.overflow = 'hidden';
             }
 
-            // Carregamento rápido - testa todas as imagens em paralelo
             for (let i = 0; i < listaImagens.length; i++) {
                 testarImagem(listaImagens[i].src, listaImagens[i].index);
             }
@@ -1688,7 +2932,6 @@
             const modal = document.getElementById('modalJogos');
             const img = document.getElementById('imagemJogos');
             
-            // Clique na imagem avança para a próxima
             img.addEventListener('click', function(e) {
                 e.stopPropagation();
                 if (imagensDoDia.length > 1) {
@@ -1696,14 +2939,12 @@
                 }
             });
             
-            // Clique fora da imagem ou no X fecha
             modal.addEventListener('click', function(e) {
                 if (e.target === modal) {
                     fecharModalJogos();
                 }
             });
             
-            // Teclado
             document.addEventListener('keydown', function(e) {
                 if (document.getElementById('modalJogos').style.display === 'flex') {
                     if (e.key === 'Escape') fecharModalJogos();
