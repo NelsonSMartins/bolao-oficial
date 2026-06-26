@@ -1,3062 +1,779 @@
-<!DOCTYPE html>
-<html lang="pt-br">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes, viewport-fit=cover">
-    <title>Bolão Copa 2026</title>
-
-    <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-39ET6TEKQZ"></script>
-    <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-    gtag('config', 'G-39ET6TEKQZ');
-    </script>
-
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            -webkit-tap-highlight-color: transparent;
-        }
-
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-            background: #f0f4f8;
-            color: #1e293b;
-        }
-
-        .app-header {
-            background: linear-gradient(135deg, #1a5f7a, #0d3b4f);
-            padding: 24px 20px 16px;
-            color: white;
-            position: relative;
-        }
-
-        .header-content {
-            max-width: 800px;
-            margin: 0 auto;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 15px;
-        }
-
-        .header-title {
-            flex: 1;
-            text-align: center;
-        }
-
-        .app-header h1 {
-            font-size: 1.8rem;
-            font-weight: 700;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-        }
-
-        .app-header p {
-            font-size: 0.8rem;
-            opacity: 0.85;
-            margin-top: 6px;
-        }
-
-        .premio-box {
-            text-align: right;
-            background: rgba(255,255,255,0.15);
-            padding: 12px 20px;
-            border-radius: 20px;
-            backdrop-filter: blur(10px);
-            min-width: 140px;
-        }
-
-        .premio-label {
-            font-size: 0.7rem;
-            opacity: 0.8;
-            letter-spacing: 0.5px;
-        }
-
-        .premio-valor {
-            font-size: 1.5rem;
-            font-weight: 700;
-            line-height: 1.2;
-        }
-
-        .premio-desc {
-            font-size: 0.65rem;
-            opacity: 0.7;
-            margin-top: 4px;
-        }
-
-        .nav-tabs {
-            display: flex;
-            background: white;
-            border-bottom: 1px solid #e2e8f0;
-            position: sticky;
-            top: 0;
-            z-index: 100;
-            justify-content: center;
-            gap: 4px;
-            flex-wrap: wrap;
-            padding: 0 16px;
-        }
-
-        .nav-tab {
-            padding: 14px 20px;
-            background: none;
-            border: none;
-            font-size: 0.85rem;
-            font-weight: 600;
-            color: #64748b;
-            cursor: pointer;
-            transition: all 0.2s;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 6px;
-            white-space: nowrap;
-            border-radius: 12px 12px 0 0;
-        }
-
-        .nav-tab.active {
-            color: #1a5f7a;
-            border-bottom: 3px solid #1a5f7a;
-            background: #f8fafc;
-        }
-
-        .nav-tab .new-badge {
-            background: #e74c3c;
-            color: white;
-            font-size: 0.5rem;
-            font-weight: 700;
-            padding: 2px 6px;
-            border-radius: 10px;
-            margin-left: 4px;
-            animation: pulse 1.5s ease-in-out infinite;
-        }
-
-        @keyframes pulse {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.1); }
-        }
-
-        .container {
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 20px;
-        }
-
-        .card {
-            background: white;
-            border-radius: 20px;
-            margin-bottom: 20px;
-            box-shadow: 0 2px 12px rgba(0,0,0,0.06);
-            overflow: hidden;
-        }
-
-        .card-header {
-            padding: 18px 20px;
-            border-bottom: 1px solid #e2e8f0;
-            background: white;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 10px;
-        }
-
-        .card-title {
-            font-size: 1rem;
-            font-weight: 600;
-            color: #1e293b;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .card-body {
-            padding: 20px;
-        }
-
-        .filters-grid {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 12px;
-            margin-bottom: 20px;
-        }
-
-        .filter-group {
-            flex: 1;
-            min-width: 160px;
-        }
-
-        .filter-label {
-            display: block;
-            font-size: 0.7rem;
-            font-weight: 600;
-            color: #64748b;
-            margin-bottom: 5px;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-
-        .filter-select {
-            width: 100%;
-            padding: 10px 12px;
-            border: 1px solid #e2e8f0;
-            border-radius: 12px;
-            font-size: 0.85rem;
-            background: white;
-            cursor: pointer;
-        }
-
-        .filter-date {
-            width: 100%;
-            padding: 10px 12px;
-            border: 1px solid #e2e8f0;
-            border-radius: 12px;
-            font-size: 0.85rem;
-            background: white;
-            cursor: pointer;
-            font-family: inherit;
-        }
-
-        .btn-reset {
-            background: #f1f5f9;
-            border: none;
-            padding: 0 20px;
-            border-radius: 12px;
-            font-size: 0.8rem;
-            font-weight: 500;
-            color: #64748b;
-            cursor: pointer;
-            transition: all 0.2s;
-            height: 44px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .btn-reset:hover {
-            background: #e2e8f0;
-        }
-
-        .ranking-wrapper {
-            overflow-x: auto;
-            -webkit-overflow-scrolling: touch;
-        }
-
-        .ranking-table {
-            width: 100%;
-            border-collapse: collapse;
-            min-width: 320px;
-        }
-
-        .ranking-table th {
-            text-align: left;
-            padding: 12px 10px;
-            background: #f8fafc;
-            font-size: 0.7rem;
-            font-weight: 600;
-            color: #64748b;
-            border-bottom: 1px solid #e2e8f0;
-        }
-
-        .ranking-table td {
-            padding: 14px 10px;
-            border-bottom: 1px solid #e2e8f0;
-            font-size: 0.85rem;
-        }
-
-        .rank-1 { background: linear-gradient(135deg, #ffd70008, #fff8e0); }
-        .rank-2 { background: linear-gradient(135deg, #c0c0c008, #f0f0f0); }
-        .rank-3 { background: linear-gradient(135deg, #cd7f3208, #fff0e0); }
-
-        .pontos-value {
-            font-weight: 700;
-            color: #1a5f7a;
-            font-size: 1rem;
-        }
-
-        .medalha {
-            font-size: 1.4rem;
-            display: inline-block;
-            min-width: 45px;
-        }
-
-        .games-list, .tendencias-list {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-        }
-
-        .game-card, .tendencia-card {
-            background: #f8fafc;
-            border-radius: 16px;
-            padding: 14px 16px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 10px;
-        }
-
-        .game-info, .tendencia-info {
-            flex: 2;
-        }
-
-        .game-teams, .tendencia-teams {
-            font-weight: 600;
-            font-size: 0.9rem;
-        }
-
-        .game-date, .tendencia-date {
-            font-size: 0.65rem;
-            color: #64748b;
-            margin-top: 4px;
-        }
-
-        .game-score, .tendencia-score {
-            font-weight: 700;
-            font-size: 1rem;
-            background: white;
-            padding: 6px 14px;
-            border-radius: 30px;
-            min-width: 80px;
-            text-align: center;
-        }
-
-        .game-score {
-            color: #1a5f7a;
-        }
-
-        .tendencia-score-mais {
-            color: #2e7d32;
-        }
-
-        .tendencia-score-menos {
-            color: #d32f2f;
-        }
-
-        .tendencia-percentual {
-            font-size: 0.7rem;
-            color: #2e7d32;
-            background: #e8f5e9;
-            padding: 4px 10px;
-            border-radius: 20px;
-            font-weight: 600;
-            display: inline-block;
-        }
-
-        .tendencia-percentual-menos {
-            background: #ffebee;
-            color: #d32f2f;
-        }
-
-        .bets-list {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-        }
-
-        .bet-card {
-            background: #f8fafc;
-            border-radius: 16px;
-            padding: 14px 16px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 10px;
-        }
-
-        .bet-info {
-            flex: 2;
-        }
-
-        .bet-game {
-            font-weight: 600;
-            font-size: 0.85rem;
-        }
-
-        .bet-detail {
-            font-size: 0.65rem;
-            color: #64748b;
-            margin-top: 4px;
-        }
-
-        .bet-value {
-            font-weight: 700;
-            font-size: 0.95rem;
-            color: #1a5f7a;
-            text-align: right;
-        }
-
-        .badge {
-            display: inline-block;
-            padding: 3px 10px;
-            border-radius: 20px;
-            font-size: 0.65rem;
-            font-weight: 600;
-            margin-left: 8px;
-        }
-        .badge-exact { background: #2e7d32; color: white; }
-        .badge-result { background: #ed6c02; color: white; }
-        .badge-wrong { background: #d32f2f; color: white; }
-        .badge-waiting { background: #64748b; color: white; }
-
-        .player-select {
-            width: 100%;
-            padding: 14px;
-            border: 2px solid #e2e8f0;
-            border-radius: 16px;
-            font-size: 0.9rem;
-            font-weight: 500;
-            margin-bottom: 20px;
-            background: white;
-            cursor: pointer;
-        }
-
-        .empty-state {
-            text-align: center;
-            padding: 40px 20px;
-            color: #64748b;
-        }
-
-        .loading {
-            text-align: center;
-            padding: 40px;
-            color: #64748b;
-        }
-
-        /* ============================================
-           BOTÃO VISUALIZAR CARD
-        ============================================ */
-        .btn-card {
-            background: #f5c542;
-            border: none;
-            border-bottom: 4px solid #b38f2a;
-            padding: 8px 16px;
-            border-radius: 25px;
-            font-weight: 700;
-            font-size: 0.75rem;
-            color: #0b1a2e;
-            cursor: pointer;
-            transition: 0.1s ease;
-            display: none;
-            align-items: center;
-            gap: 6px;
-        }
-
-        .btn-card.show {
-            display: inline-flex;
-        }
-
-        .btn-card:active {
-            transform: translateY(3px);
-            border-bottom-width: 2px;
-        }
-
-        .btn-card:hover {
-            background: #f5c542;
-            opacity: 0.9;
-        }
-
-        /* ============================================
-           MODAL CARD
-        ============================================ */
-        #modalCard {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.85);
-            z-index: 10000;
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
-            animation: modalFade 0.3s ease-out;
-        }
-
-        @keyframes modalFade {
-            0% { opacity: 0; transform: scale(0.95); }
-            100% { opacity: 1; transform: scale(1); }
-        }
-
-        #modalCard .modal-content {
-            background: white;
-            border-radius: 20px;
-            max-width: 600px;
-            width: 100%;
-            max-height: 90vh;
-            overflow: hidden;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
-            display: flex;
-            flex-direction: column;
-        }
-
-        #modalCard .modal-header {
-            padding: 16px 20px;
-            border-bottom: 1px solid #e2e8f0;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-shrink: 0;
-        }
-
-        #modalCard .modal-header h2 {
-            font-size: 1rem;
-            color: #1e293b;
-        }
-
-        #modalCard .modal-close {
-            background: none;
-            border: none;
-            font-size: 1.5rem;
-            cursor: pointer;
-            color: #94a3b8;
-            transition: 0.2s;
-            padding: 4px 8px;
-            border-radius: 8px;
-        }
-
-        #modalCard .modal-close:hover {
-            background: #f1f5f9;
-            color: #1e293b;
-        }
-
-        #modalCard .modal-body {
-            padding: 20px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 16px;
-            overflow-y: auto;
-            flex: 1;
-        }
-
-        #modalCard .modal-body img {
-            max-width: 100%;
-            max-height: 60vh;
-            border-radius: 12px;
-            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
-        }
-
-        #modalCard .modal-footer {
-            padding: 12px 20px;
-            border-top: 1px solid #e2e8f0;
-            display: flex;
-            justify-content: center;
-            gap: 12px;
-            flex-shrink: 0;
-            flex-wrap: wrap;
-        }
-
-        .btn-modal-download {
-            background: #1a5f7a;
-            border: none;
-            border-bottom: 4px solid #0d3b4f;
-            padding: 10px 24px;
-            border-radius: 30px;
-            font-weight: 700;
-            font-size: 0.85rem;
-            color: white;
-            cursor: pointer;
-            transition: 0.1s ease;
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .btn-modal-download:active {
-            transform: translateY(3px);
-            border-bottom-width: 2px;
-        }
-
-        .btn-modal-download:hover {
-            background: #1a5f7a;
-            opacity: 0.9;
-        }
-
-        .btn-modal-close {
-            background: #e2e8f0;
-            border: none;
-            border-bottom: 4px solid #94a3b8;
-            padding: 10px 24px;
-            border-radius: 30px;
-            font-weight: 700;
-            font-size: 0.85rem;
-            color: #1e293b;
-            cursor: pointer;
-            transition: 0.1s ease;
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .btn-modal-close:active {
-            transform: translateY(3px);
-            border-bottom-width: 2px;
-        }
-
-        .btn-modal-close:hover {
-            background: #e2e8f0;
-            opacity: 0.8;
-        }
-
-        @media (max-width: 600px) {
-            #modalCard .modal-content {
-                max-width: 95%;
-            }
-            #modalCard .modal-body img {
-                max-height: 50vh;
-            }
-        }
-
-        /* ============================================
-           ALCY POPUP - APENAS IMAGEM
-        ============================================ */
-        #alcyPopup {
-            position: fixed;
-            bottom: 30px;
-            right: 30px;
-            z-index: 9998;
-            transform: translateX(120%);
-            transition: transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
-            pointer-events: none;
-        }
-
-        #alcyPopup.show {
-            transform: translateX(0);
-        }
-
-        #alcyPopup.hide {
-            transform: translateX(120%);
-        }
-
-        .alcy-imagem {
-            width: 180px;
-            height: auto;
-            display: block;
-            filter: drop-shadow(0 4px 12px rgba(0,0,0,0.15));
-        }
-
-        @media (max-width: 600px) {
-            #alcyPopup {
-                bottom: 15px;
-                right: 15px;
-            }
-            .alcy-imagem {
-                width: 120px;
-            }
-        }
-
-        /* ============================================
-           FORCA - ESTILOS (APENAS NA ABA FORCA - COMPACTO)
-        ============================================ */
-        #secao-forca .card-body {
-            padding: 12px 16px;
-        }
-
-        .forca-container {
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-        }
-
-        .forca-game-area {
-            display: flex;
-            flex-direction: row;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 12px;
-            align-items: flex-start;
-        }
-
-        .forca-hangman {
-            flex: 0 0 auto;
-            background: transparent;
-            border-radius: 14px;
-            position: relative;
-            margin-right: 90px;
-        }
-
-        .forca-hangman canvas {
-            display: block;
-            width: 280px;
-            height: 340px;
-            background: transparent;
-            border-radius: 10px;
-        }
-
-        /* CAMPEÃO - mesma posição do boneco da forca */
-        #campeaoCanvas {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 280px;
-            height: 340px;
-            display: none;
-            z-index: 3;
-            pointer-events: none;
-            border-radius: 10px;
-        }
-
-        /* Balões sobrepostos - TODOS NA MESMA POSIÇÃO, MAIS PRÓXIMOS */
-        .forca-balao {
-            position: absolute;
-            top: 30px;
-            right: -75px;
-            width: 130px;
-            height: auto;
-            display: none;
-            z-index: 5;
-            filter: drop-shadow(0 2px 8px rgba(0,0,0,0.2));
-            animation: balaoAnim 0.5s ease-out;
-        }
-
-        /* Balão 7 - um pouco maior */
-        #balao7 {
-            top: 20px;
-            right: -85px;
-            width: 155px;
-            z-index: 10;
-        }
-
-        @keyframes balaoAnim {
-            0% { transform: scale(0) rotate(-15deg); opacity: 0; }
-            100% { transform: scale(1) rotate(0deg); opacity: 1; }
-        }
-
-        @keyframes campeaoAnim {
-            0% { transform: scale(0) rotate(-20deg); opacity: 0; }
-            100% { transform: scale(1) rotate(0deg); opacity: 1; }
-        }
-
-        .forca-panel {
-            flex: 1;
-            min-width: 200px;
-            display: flex;
-            flex-direction: column;
-            gap: 6px;
-        }
-
-        .forca-word-container {
-            background: #f1f5f9;
-            padding: 8px 12px;
-            border-radius: 10px;
-            border: 1px solid #e2e8f0;
-            text-align: center;
-        }
-
-        .forca-word-letters {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 3px 5px;
-        }
-
-        .forca-letter-slot {
-            display: inline-block;
-            width: 30px;
-            height: 36px;
-            background: #e2e8f0;
-            border-radius: 6px;
-            border-bottom: 3px solid #1a5f7a;
-            color: #1e293b;
-            font-size: 1.3rem;
-            font-weight: 700;
-            text-transform: uppercase;
-            line-height: 36px;
-            text-align: center;
-            transition: 0.1s;
-        }
-
-        .forca-letter-slot.filled {
-            background: #dbeafe;
-            border-bottom-color: #1a5f7a;
-            color: #0d3b4f;
-        }
-
-        .forca-letter-slot.space {
-            background: transparent;
-            border-bottom: none;
-            width: 12px;
-        }
-
-        .forca-keyboard {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 3px;
-        }
-
-        .forca-key {
-            background: #e2e8f0;
-            border: none;
-            border-bottom: 3px solid #94a3b8;
-            color: #1e293b;
-            font-weight: 700;
-            font-size: 0.85rem;
-            width: 32px;
-            height: 34px;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: all 0.07s;
-            text-transform: uppercase;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .forca-key:active {
-            transform: translateY(3px);
-            border-bottom-width: 1px;
-        }
-        .forca-key:disabled {
-            opacity: 0.3;
-            transform: translateY(3px);
-            border-bottom-width: 1px;
-            cursor: not-allowed;
-            background: #cbd5e1;
-        }
-        .forca-key.used {
-            opacity: 0.25;
-            transform: translateY(3px);
-            border-bottom-width: 1px;
-            background: #cbd5e1;
-        }
-
-        /* Teclas numéricas */
-        .forca-key-number {
-            background: #1a5f7a;
-            border-bottom: 3px solid #0d3b4f;
-            color: white;
-            font-weight: 700;
-            font-size: 0.85rem;
-            width: 32px;
-            height: 34px;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: all 0.07s;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .forca-key-number:active {
-            transform: translateY(3px);
-            border-bottom-width: 1px;
-        }
-        .forca-key-number:disabled {
-            opacity: 0.3;
-            transform: translateY(3px);
-            border-bottom-width: 1px;
-            cursor: not-allowed;
-            background: #4a7a95;
-        }
-        .forca-key-number.used {
-            opacity: 0.25;
-            transform: translateY(3px);
-            border-bottom-width: 1px;
-            background: #4a7a95;
-        }
-
-        .forca-controls {
-            display: flex;
-            justify-content: center;
-            gap: 8px;
-            flex-wrap: wrap;
-        }
-
-        .forca-btn {
-            background: #e2e8f0;
-            border: none;
-            border-bottom: 3px solid #94a3b8;
-            padding: 5px 14px;
-            border-radius: 25px;
-            font-weight: 600;
-            font-size: 0.7rem;
-            color: #1e293b;
-            cursor: pointer;
-            transition: 0.1s ease;
-            display: inline-flex;
-            align-items: center;
-            gap: 4px;
-        }
-
-        .forca-btn:active {
-            transform: translateY(3px);
-            border-bottom-width: 2px;
-        }
-
-        .forca-btn-primary {
-            background: #1a5f7a;
-            border-bottom-color: #0d3b4f;
-            color: white;
-        }
-
-        .forca-btn-hint {
-            background: #f5c542;
-            border-bottom-color: #b38f2a;
-            color: #0b1a2e;
-        }
-
-        .forca-message {
-            background: #f1f5f9;
-            padding: 6px 12px;
-            border-radius: 10px;
-            text-align: center;
-            font-size: 0.75rem;
-            font-weight: 500;
-            color: #1e293b;
-            border-left: 3px solid #1a5f7a;
-            min-height: 36px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            line-height: 1.3;
-        }
-
-        .forca-stats {
-            display: flex;
-            justify-content: space-between;
-            gap: 4px;
-            flex-wrap: wrap;
-            background: #f8fafc;
-            padding: 4px 10px;
-            border-radius: 8px;
-            border: 1px solid #e2e8f0;
-            flex-shrink: 0;
-        }
-
-        .forca-stat-item {
-            font-size: 0.65rem;
-            color: #64748b;
-            display: flex;
-            align-items: center;
-            gap: 3px;
-        }
-
-        .forca-stat-item strong {
-            color: #1e293b;
-            font-size: 0.8rem;
-        }
-
-        .forca-badge {
-            display: inline-block;
-            padding: 2px 8px;
-            border-radius: 14px;
-            font-size: 0.55rem;
-            font-weight: 600;
-            margin-left: 3px;
-        }
-        .forca-badge-success { background: #2e7d32; color: white; }
-        .forca-badge-danger { background: #d32f2f; color: white; }
-        .forca-badge-warning { background: #f5c542; color: #0b1a2e; }
-
-        /* Botão visualizar card na forca */
-        #btnVisualizarCard {
-            display: none;
-        }
-        #btnVisualizarCard.show {
-            display: inline-flex;
-        }
-
-        /* ===== PROGRESSO FORCA ===== */
-        .forca-progresso {
-            background: #f8fafc;
-            border-radius: 8px;
-            padding: 6px 12px;
-            border: 1px solid #e2e8f0;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            font-size: 0.7rem;
-            color: #64748b;
-        }
-
-        .forca-progresso strong {
-            color: #1a5f7a;
-            font-size: 0.85rem;
-        }
-
-        .forca-progresso .nivel-atual {
-            background: #1a5f7a;
-            color: white;
-            padding: 2px 10px;
-            border-radius: 12px;
-            font-weight: 700;
-            font-size: 0.7rem;
-        }
-
-        /* Contador de erros globais */
-        .forca-erros-globais {
-            font-size: 0.7rem;
-            color: #d32f2f;
-            font-weight: 600;
-            margin-left: 8px;
-        }
-
-        @media (max-width: 600px) {
-            .forca-game-area { flex-direction: column; align-items: center; gap: 10px; }
-            .forca-hangman { margin-right: 0; }
-            .forca-hangman canvas { width: 220px; height: 270px; }
-            #campeaoCanvas { width: 220px; height: 270px; }
-            .forca-balao { width: 100px !important; top: 20px; right: -55px; }
-            #balao7 { width: 120px !important; top: 12px; right: -65px; }
-            .forca-letter-slot { width: 24px; height: 30px; font-size: 1.1rem; line-height: 30px; }
-            .forca-key { width: 28px; height: 30px; font-size: 0.75rem; }
-            .forca-key-number { width: 28px; height: 30px; font-size: 0.75rem; }
-            .forca-panel { min-width: 160px; }
-            .forca-message { font-size: 0.65rem; min-height: 30px; padding: 4px 8px; }
-            .app-header h1 { font-size: 1.4rem; }
-            .header-content { flex-direction: column; text-align: center; }
-            .header-title { text-align: center; }
-            .premio-box { text-align: center; width: 100%; }
-            .premio-valor { font-size: 1.2rem; }
-            .container { padding: 12px; }
-            .card-body { padding: 16px; }
-            .filters-grid { flex-direction: column; }
-            .btn-reset { margin-top: 0; padding: 10px; height: 44px; }
-            .game-card, .tendencia-card { flex-direction: column; align-items: stretch; }
-            .game-score, .tendencia-score { text-align: center; }
-            .bet-card { flex-direction: column; align-items: stretch; }
-            .bet-value { text-align: left; margin-top: 6px; }
-            .nav-tabs { padding: 0 8px; gap: 2px; }
-            .nav-tab { padding: 12px 10px; font-size: 0.65rem; gap: 4px; }
-            .ranking-table th, .ranking-table td { padding: 8px 6px; font-size: 0.75rem; }
-            .medalha { font-size: 1.1rem; min-width: 35px; }
-            .btn-card { font-size: 0.65rem; padding: 5px 12px; }
-        }
-
-        @media (max-height: 700px) {
-            .forca-hangman canvas { width: 240px; height: 290px; }
-            #campeaoCanvas { width: 240px; height: 290px; }
-            .forca-balao { width: 110px; top: 25px; right: -65px; }
-            #balao7 { width: 130px; top: 15px; right: -75px; }
-            .forca-letter-slot { width: 26px; height: 32px; font-size: 1.2rem; line-height: 32px; }
-            .forca-key { width: 30px; height: 32px; font-size: 0.8rem; }
-            .forca-key-number { width: 30px; height: 32px; font-size: 0.8rem; }
-            .forca-message { font-size: 0.7rem; min-height: 32px; padding: 4px 8px; }
-            #secao-forca .card-body { padding: 8px 12px; }
-        }
-    </style>
-</head>
-<body>
-    <div class="app-header">
-        <div class="header-content">
-            <div class="header-title">
-                <h1>🏆 Bolão Copa 2026</h1>
-                <p>Ranking em tempo real • Palpites atualizados</p>
-            </div>
-            <div class="premio-box" id="premioBox">
-                <div class="premio-label">🏅 PRÊMIO TOTAL</div>
-                <div class="premio-valor" id="premioValor">R$ --,--</div>
-                <div class="premio-desc">(R$ 10,00 por jogador)</div>
-            </div>
-        </div>
-    </div>
-
-    <div class="nav-tabs">
-        <button class="nav-tab active" data-tab="ranking">📊 Ranking</button>
-        <button class="nav-tab" data-tab="jogos">🏁 Jogos</button>
-        <button class="nav-tab" data-tab="apostas">👤 Apostas</button>
-        <button class="nav-tab" data-tab="tendencias">📊 Tendências</button>
-        <button class="nav-tab" data-tab="regras">📖 Regras</button>
-        <button class="nav-tab" data-tab="forca">⚽ Forca <span class="new-badge">NEW!</span></button>
-    </div>
-
-    <div class="container">
-        <!-- RANKING -->
-        <div id="secao-ranking" style="display: block;">
-            <div class="card">
-                <div class="card-header">
-                    <div class="card-title">🏆 Classificação Geral</div>
-                </div>
-                <div class="card-body">
-                    <div class="filters-grid">
-                        <div class="filter-group">
-                            <div class="filter-label">👤 Filtrar por jogador</div>
-                            <select id="filtroRankingJogador" class="filter-select">
-                                <option value="">Todos os jogadores</option>
-                            </select>
-                        </div>
-                        <button class="btn-reset" onclick="resetFiltroRanking()">Limpar</button>
-                    </div>
-                    <div class="ranking-wrapper" id="rankingContainer">
-                        <div class="loading">⏳ Carregando...</div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- JOGOS -->
-        <div id="secao-jogos" style="display: none;">
-            <div class="card">
-                <div class="card-header">
-                    <div class="card-title">🏁 Jogos e Resultados</div>
-                </div>
-                <div class="card-body">
-                    <div class="filters-grid">
-                        <div class="filter-group">
-                            <div class="filter-label">⚽ Filtrar por time</div>
-                            <select id="filtroTimeJogo" class="filter-select">
-                                <option value="">Todos os times</option>
-                            </select>
-                        </div>
-                        <div class="filter-group">
-                            <div class="filter-label">📅 Filtrar por data</div>
-                            <input type="date" id="filtroDataJogo" class="filter-date">
-                        </div>
-                        <button class="btn-reset" onclick="resetFiltrosJogos()">Limpar</button>
-                    </div>
-                    <div id="jogosContainer" class="games-list">
-                        <div class="loading">⏳ Carregando...</div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- APOSTAS -->
-        <div id="secao-apostas" style="display: none;">
-            <div class="card">
-                <div class="card-header">
-                    <div class="card-title">👤 Palpites por Jogador</div>
-                </div>
-                <div class="card-body">
-                    <div class="filters-grid">
-                        <div class="filter-group">
-                            <div class="filter-label">👤 Filtrar por jogador</div>
-                            <select id="selectJogador" class="filter-select" onchange="renderizarApostasJogador(this.value)">
-                                <option value="">Selecione um jogador...</option>
-                            </select>
-                        </div>
-                        <div class="filter-group">
-                            <div class="filter-label">⚽ Filtrar por time</div>
-                            <select id="filtroTimeApostas" class="filter-select" onchange="renderizarApostasJogador(document.getElementById('selectJogador').value)">
-                                <option value="">Todos os times</option>
-                            </select>
-                        </div>
-                        <div class="filter-group">
-                            <div class="filter-label">📅 Filtrar por data</div>
-                            <input type="date" id="filtroDataApostas" class="filter-date" onchange="renderizarApostasJogador(document.getElementById('selectJogador').value)">
-                        </div>
-                        <div class="filter-group" style="flex: 0.5; min-width: 100px; display: flex; align-items: flex-end;">
-                            <button class="btn-reset" onclick="resetFiltrosApostas()" style="margin-top: 0; width: 100%;">Limpar</button>
-                        </div>
-                    </div>
-                    <div id="apostasContainer" class="bets-list">
-                        <div class="empty-state">👈 Selecione um jogador para ver os palpites</div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- TENDÊNCIAS -->
-        <div id="secao-tendencias" style="display: none;">
-            <div class="card">
-                <div class="card-header">
-                    <div class="card-title">📊 Tendências - Palpite Mais e Menos Votado por Jogo</div>
-                </div>
-                <div class="card-body">
-                    <div class="filters-grid">
-                        <div class="filter-group">
-                            <div class="filter-label">⚽ Filtrar por time</div>
-                            <select id="filtroTimeTendencia" class="filter-select">
-                                <option value="">Todos os times</option>
-                            </select>
-                        </div>
-                        <div class="filter-group">
-                            <div class="filter-label">📅 Filtrar por data</div>
-                            <input type="date" id="filtroDataTendencia" class="filter-date">
-                        </div>
-                        <button class="btn-reset" onclick="resetFiltrosTendencias()">Limpar</button>
-                    </div>
-                    <div id="tendenciasContainer" class="tendencias-list">
-                        <div class="loading">⏳ Calculando tendências...</div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- REGRAS -->
-        <div id="secao-regras" style="display: none;">
-            <div class="card">
-                <div class="card-header">
-                    <div class="card-title">📖 Regras do Bolão</div>
-                </div>
-                <div class="card-body">
-                    <div style="background: #f8fafc; border-radius: 16px; padding: 20px;">
-                        <h3 style="color: #1a5f7a; margin-bottom: 16px;">🏆 Pontuação</h3>
-                        <div style="display: flex; flex-direction: column; gap: 12px; margin-bottom: 24px;">
-                            <div style="display: flex; align-items: center; gap: 12px; flex-wrap: wrap;">
-                                <span class="badge badge-exact" style="font-size: 0.8rem; padding: 4px 12px;">🎯 3 pontos</span>
-                                <span>Acertar o <strong>placar exato</strong> do jogo</span>
-                            </div>
-                            <div style="display: flex; align-items: center; gap: 12px; flex-wrap: wrap;">
-                                <span class="badge badge-result" style="font-size: 0.8rem; padding: 4px 12px;">✅ 1 ponto</span>
-                                <span>Acertar apenas o <strong>resultado</strong> (vitória/empate/derrota)</span>
-                            </div>
-                            <div style="display: flex; align-items: center; gap: 12px; flex-wrap: wrap;">
-                                <span class="badge badge-wrong" style="font-size: 0.8rem; padding: 4px 12px;">❌ 0 pontos</span>
-                                <span>Errar o resultado do jogo</span>
-                            </div>
-                        </div>
-
-                        <h3 style="color: #1a5f7a; margin-bottom: 16px;">⚖️ Critérios de Desempate</h3>
-                        <div style="display: flex; flex-direction: column; gap: 12px; margin-bottom: 24px;">
-                            <div style="display: flex; align-items: baseline; gap: 8px; flex-wrap: wrap;">
-                                <span style="font-weight: 700; min-width: 40px;">1º</span>
-                                <span>Maior número de <strong>acertos de placar exato</strong> (3 pontos)</span>
-                            </div>
-                            <div style="display: flex; align-items: baseline; gap: 8px; flex-wrap: wrap;">
-                                <span style="font-weight: 700; min-width: 40px;">2º</span>
-                                <span>Maior número de <strong>acertos de resultado</strong> (1 ponto)</span>
-                            </div>
-                            <div style="display: flex; align-items: baseline; gap: 8px; flex-wrap: wrap;">
-                                <span style="font-weight: 700; min-width: 40px;">3º</span>
-                                <span>Menor <strong>diferença de gols acumulada</strong> (soma das diferenças entre palpite e resultado)</span>
-                            </div>
-                        </div>
-
-                        <h3 style="color: #1a5f7a; margin-bottom: 16px;">💰 Distribuição do Prêmio</h3>
-                        <div style="background: #e8f5e9; border-radius: 12px; padding: 16px; margin-bottom: 16px;">
-                            <div style="display: flex; flex-direction: column; gap: 12px;">
-                                <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap;">
-                                    <span><strong>🥇 1º Lugar:</strong></span>
-                                    <span id="premioPrimeiro" class="premio-valor" style="font-size: 1.2rem;">R$ --,--</span>
-                                    <span style="color: #2e7d32;">(53.33% do total)</span>
-                                </div>
-                                <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap;">
-                                    <span><strong>🥈 2º Lugar:</strong></span>
-                                    <span id="premioSegundo" class="premio-valor" style="font-size: 1.2rem;">R$ --,--</span>
-                                    <span style="color: #2e7d32;">(33.33% do total)</span>
-                                </div>
-                                <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap;">
-                                    <span><strong>🥉 3º Lugar:</strong></span>
-                                    <span id="premioTerceiro" class="premio-valor" style="font-size: 1.2rem;">R$ --,--</span>
-                                    <span style="color: #2e7d32;">(13.34% do total)</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div style="background: #fff3e0; border-radius: 12px; padding: 12px; margin-bottom: 16px;">
-                            <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
-                                <span>⚠️</span>
-                                <span style="font-size: 0.8rem;"><strong>Em caso de empate:</strong> O valor da posição será dividido igualmente entre os jogadores empatados.</span>
-                            </div>
-                        </div>
-
-                        <div style="background: #e3f2fd; border-radius: 12px; padding: 16px; margin-bottom: 16px;">
-                            <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 8px;">
-                                <span>💡</span>
-                                <span style="font-weight: 600;">Exemplo prático:</span>
-                            </div>
-                            <p style="font-size: 0.85rem; line-height: 1.5; color: #1e293b;">
-                                Resultado real: <strong>Brasil 2 x 0 Marrocos</strong><br><br>
-                                • Palpite <strong>2 x 0</strong> → <span class="badge badge-exact">3 pontos</span> (placar exato)<br>
-                                • Palpite <strong>3 x 1</strong> → <span class="badge badge-result">1 ponto</span> (acertou vitória do Brasil, mas errou o placar)<br>
-                                • Palpite <strong>1 x 1</strong> → <span class="badge badge-wrong">0 pontos</span> (errou o resultado)
-                            </p>
-                        </div>
-
-                        <!-- BOTÃO WHATSAPP DINÂMICO -->
-                        <div id="whatsappButton"></div>
-
-                        <div style="margin-top: 16px; text-align: center; font-size: 0.7rem; color: #64748b;">
-                            Em caso de empate em todos os critérios, os jogadores dividem a mesma posição.
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- FORCA -->
-        <div id="secao-forca" style="display: none;">
-            <div class="card">
-                <div class="card-header">
-                    <div class="card-title">⚽ Forca Copa 2026</div>
-                    <div style="display:flex; gap:6px; align-items:center; flex-wrap:wrap;">
-                        <span class="forca-progresso" id="forcaProgresso">
-                            📊 Progresso: <strong id="forcaNivelAtual">0</strong>/<span id="forcaTotalPerguntas">0</span>
-                        </span>
-                        <span class="forca-badge forca-badge-warning" id="forcaStatusBadge">Jogando</span>
-                        <span class="forca-erros-globais" id="forcaErrosGlobais">❌ 0/5</span>
-                        <button class="btn-card" id="btnVisualizarCard" onclick="abrirModalCard()">🖼️ Visualizar Card</button>
-                    </div>
-                </div>
-                <div class="card-body">
-                    <div class="forca-container">
-                        <div class="forca-game-area">
-                            <div class="forca-hangman">
-                                <canvas id="hangmanCanvas" width="280" height="340"></canvas>
-                                <!-- CAMPEÃO - mesma posição do boneco -->
-                                <canvas id="campeaoCanvas" width="280" height="340"></canvas>
-                                <!-- Balões sobrepostos - TODOS NA MESMA POSIÇÃO -->
-                                <img id="balao1" class="forca-balao" src="forca/balao1.png" alt="Balao 1">
-                                <img id="balao2" class="forca-balao" src="forca/balao2.png" alt="Balao 2">
-                                <img id="balao3" class="forca-balao" src="forca/balao3.png" alt="Balao 3">
-                                <img id="balao4" class="forca-balao" src="forca/balao4.png" alt="Balao 4">
-                                <img id="balao5" class="forca-balao" src="forca/balao5.png" alt="Balao 5">
-                                <img id="balao6" class="forca-balao" src="forca/balao6.png" alt="Balao 6">
-                                <img id="balao7" class="forca-balao" src="forca/balao7.png" alt="Balao 7">
-                            </div>
-                            <div class="forca-panel">
-                                <div class="forca-word-container">
-                                    <div class="forca-word-letters" id="forcaWordDisplay"></div>
-                                </div>
-                                <div id="forcaKeyboard" class="forca-keyboard"></div>
-                                <div class="forca-controls">
-                                    <button class="forca-btn forca-btn-primary" id="forcaNewGameBtn">🔄 Novo</button>
-                                    <button class="forca-btn forca-btn-hint" id="forcaHintBtn">💡 Dica</button>
-                                </div>
-                                <div id="forcaMessage" class="forca-message">Clique em "Novo" para começar!</div>
-                                <div class="forca-stats">
-                                    <span class="forca-stat-item">❌ <strong id="forcaErrorCount">0</strong>/6</span>
-                                    <span class="forca-stat-item">💡 <strong id="forcaHintCount">0</strong></span>
-                                    <span class="forca-stat-item">🎯 <strong id="forcaDayCount">6</strong></span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- MODAL CARD -->
-    <div id="modalCard">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h2>🖼️ Seu Card Premiado!</h2>
-                <button class="modal-close" onclick="fecharModalCard()">&times;</button>
-            </div>
-            <div class="modal-body">
-                <img id="modalCardImage" src="" alt="Card">
-            </div>
-            <div class="modal-footer">
-                <button class="btn-modal-close" onclick="fecharModalCard()">Fechar</button>
-                <button class="btn-modal-download" onclick="baixarCardModal()">⬇️ Baixar Card</button>
-            </div>
-        </div>
-    </div>
-
-    <script src="dados/jogos.js"></script>
-    <script src="dados/apostas.js"></script>
-    <script src="dados/resultados.js"></script>
-    <script src="perguntas-forca.js"></script>
-
-    <script>
-        // ============================================
-        // VARIÁVEIS GLOBAIS DO CARD
-        // ============================================
-        let cardAtual = '';
-        let cardsDisponiveis = [];
-
-        // ============================================
-        // CARREGAR CARDS DISPONÍVEIS
-        // ============================================
-        function carregarCardsDisponiveis() {
-            // Cards na pasta "card/"
-            for (let i = 1; i <= 10; i++) {
-                cardsDisponiveis.push(`card/card${i}.png`);
-            }
-            // Fallback
-            cardsDisponiveis.push('card/card.png');
-            cardsDisponiveis.push('card/card.jpg');
-        }
-
-        // ============================================
-        // ABRIR MODAL CARD (ESCOLHE ALEATORIAMENTE)
-        // ============================================
-        function abrirModalCard() {
-            console.log('🔍 abrirModalCard() chamado!');
-
-            if (cardsDisponiveis.length === 0) {
-                carregarCardsDisponiveis();
-            }
-
-            // Embaralha a lista
-            const shuffled = [...cardsDisponiveis].sort(() => 0.5 - Math.random());
-            let index = 0;
-
-            // Mostra o modal imediatamente com loading
-            const img = document.getElementById('modalCardImage');
-            img.alt = '🔄 Carregando...';
-            img.src = '';
-            document.getElementById('modalCard').style.display = 'flex';
-
-            function tentarProximoCard() {
-                if (index >= shuffled.length) {
-                    console.error('❌ Nenhum card encontrado!');
-                    img.alt = '❌ Nenhum card disponível';
-                    img.src = '';
-                    return;
-                }
-
-                const url = shuffled[index];
-                console.log(`🔄 Tentando (${index + 1}/${shuffled.length}):`, url);
-
-                const testImg = new Image();
-                testImg.onload = function() {
-                    console.log('✅ Card encontrado:', url);
-                    cardAtual = url;
-                    img.src = url;
-                    img.alt = 'Card';
-                };
-                testImg.onerror = function() {
-                    console.warn('❌ Card NÃO encontrado:', url);
-                    index++;
-                    tentarProximoCard();
-                };
-                testImg.src = url;
-            }
-
-            tentarProximoCard();
-        }
-
-        // ============================================
-        // FECHAR MODAL CARD
-        // ============================================
-        function fecharModalCard() {
-            document.getElementById('modalCard').style.display = 'none';
-        }
-
-        // ============================================
-        // BAIXAR CARD DO MODAL
-        // ============================================
-        function baixarCardModal() {
-            if (!cardAtual) {
-                console.warn('⚠️ Nenhum card selecionado para baixar');
-                return;
-            }
-
-            console.log('⬇️ Baixando:', cardAtual);
-
-            // Extrai o nome do arquivo da URL
-            const partes = cardAtual.split('/');
-            const nomeArquivo = partes[partes.length - 1];
-
-            const link = document.createElement('a');
-            link.href = cardAtual;
-            link.download = nomeArquivo;
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
-        }
-
-        // ============================================
-        // FECHAR MODAL CLICANDO FORA
-        // ============================================
-        document.addEventListener('click', function(e) {
-            const modal = document.getElementById('modalCard');
-            if (e.target === modal) {
-                fecharModalCard();
-            }
-        });
-
-        // ============================================
-        // FECHAR MODAL COM ESC
-        // ============================================
-        document.addEventListener('keydown', function(e) {
-            if (e.key === 'Escape') {
-                fecharModalCard();
-            }
-        });
-
-        // Inicializa os cards
-        carregarCardsDisponiveis();
-
-        // ============================================
-        // BOTÃO WHATSAPP DINÂMICO
-        // ============================================
-        function carregarWhatsAppButton() {
-            const container = document.getElementById('whatsappButton');
-            if (!container) return;
-
-            const hoje = new Date();
-            const dataStr = `${hoje.getFullYear()}${String(hoje.getMonth()+1).padStart(2,'0')}${String(hoje.getDate()).padStart(2,'0')}`;
-
-            let numero, mensagem, textoBotao;
-
-            if (parseInt(dataStr) >= 20260628) {
-                numero = '552198237951';
-                mensagem = 'E ai, vai me pagar ou não? Como você raspa a bananada?';
-                textoBotao = '📱 E ai, vai me pagar ou não?';
-            } else {
-                numero = '5521981073349';
-                mensagem = 'Gostaria de mais informações sobre o bolão da copa.';
-                textoBotao = '📱 Dúvidas? Fale comigo no WhatsApp';
-            }
-
-            const url = `https://wa.me/${numero}?text=${encodeURIComponent(mensagem)}`;
-
-            container.innerHTML = `
-                <a href="${url}"
-                   target="_blank"
-                   style="text-decoration: none; display: block;">
-                    <div style="background: #25D366; border-radius: 50px; padding: 14px 24px; display: flex; align-items: center; justify-content: center; gap: 12px; transition: all 0.3s; cursor: pointer; margin-top: 20px;">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="white">
-                            <path d="M12.032 2.016c-5.52 0-10 4.48-10 10 0 1.776.48 3.456 1.296 4.944L2 22.016l5.088-1.296c1.44.768 3.072 1.248 4.944 1.248 5.52 0 10-4.48 10-10s-4.48-10-10-10zm0 18.016c-1.632 0-3.168-.432-4.512-1.248l-.336-.192-3.024.768.768-3-.192-.336c-.864-1.344-1.344-2.88-1.344-4.512 0-4.416 3.6-8 8-8s8 3.584 8 8-3.6 8-8 8zm4.272-6.048c-.24-.12-1.392-.672-1.632-.768-.24-.096-.432-.144-.624.144-.192.288-.72.768-.864.96-.144.192-.288.216-.528.096-.816-.384-1.68-.864-2.352-1.44-.288-.24-.624-.624-.96-1.056-.192-.24-.144-.384.096-.624.216-.192.336-.384.48-.576.144-.192.192-.336.288-.576.096-.24.048-.432-.048-.624-.096-.192-.624-1.488-.864-2.064-.24-.576-.48-.48-.624-.48-.144 0-.336-.048-.528-.048-.192 0-.48.096-.72.48-.24.384-.912.912-.912 2.208 0 1.296.96 2.544 1.104 2.736.144.192 1.92 2.88 4.608 3.936.672.24 1.2.384 1.632.48.672.144 1.296.096 1.776-.048.528-.144 1.392-.576 1.584-1.152.192-.576.192-1.056.144-1.152-.048-.096-.192-.144-.432-.264z"/>
-                        </svg>
-                        <span style="color: white; font-weight: 600; font-size: 0.9rem;">${textoBotao}</span>
-                    </div>
-                </a>
-            `;
-        }
-
-        // ============================================
-        // ATUALIZAR VALOR DO PRÊMIO
-        // ============================================
-        function atualizarPremio() {
-            const numeroJogadores = Object.keys(USUARIOS).length;
-            const totalPremio = numeroJogadores * 10;
-            document.getElementById('premioValor').innerHTML = `R$ ${totalPremio.toFixed(2).replace('.', ',')}`;
-
-            const premioPrimeiro = totalPremio * 0.5333;
-            const premioSegundo = totalPremio * 0.3333;
-            const premioTerceiro = totalPremio * 0.1334;
-
-            document.getElementById('premioPrimeiro').innerHTML = `R$ ${premioPrimeiro.toFixed(2).replace('.', ',')}`;
-            document.getElementById('premioSegundo').innerHTML = `R$ ${premioSegundo.toFixed(2).replace('.', ',')}`;
-            document.getElementById('premioTerceiro').innerHTML = `R$ ${premioTerceiro.toFixed(2).replace('.', ',')}`;
-        }
-
-        // ============================================
-        // SISTEMA DE ABAS
-        // ============================================
-        function mostrarAba(aba) {
-            document.getElementById('secao-ranking').style.display = 'none';
-            document.getElementById('secao-jogos').style.display = 'none';
-            document.getElementById('secao-apostas').style.display = 'none';
-            document.getElementById('secao-tendencias').style.display = 'none';
-            document.getElementById('secao-regras').style.display = 'none';
-            document.getElementById('secao-forca').style.display = 'none';
-
-            document.querySelectorAll('.nav-tab').forEach(tab => {
-                tab.classList.remove('active');
-            });
-
-            if (aba === 'ranking') {
-                document.getElementById('secao-ranking').style.display = 'block';
-                document.querySelector('.nav-tab[data-tab="ranking"]').classList.add('active');
-                renderizarRanking();
-            } else if (aba === 'jogos') {
-                document.getElementById('secao-jogos').style.display = 'block';
-                document.querySelector('.nav-tab[data-tab="jogos"]').classList.add('active');
-                renderizarJogos();
-            } else if (aba === 'apostas') {
-                document.getElementById('secao-apostas').style.display = 'block';
-                document.querySelector('.nav-tab[data-tab="apostas"]').classList.add('active');
-                carregarSelectJogador();
-                carregarFiltrosApostas();
-            } else if (aba === 'tendencias') {
-                document.getElementById('secao-tendencias').style.display = 'block';
-                document.querySelector('.nav-tab[data-tab="tendencias"]').classList.add('active');
-                renderizarTendencias();
-            } else if (aba === 'regras') {
-                document.getElementById('secao-regras').style.display = 'block';
-                document.querySelector('.nav-tab[data-tab="regras"]').classList.add('active');
-                carregarWhatsAppButton();
-            } else if (aba === 'forca') {
-                document.getElementById('secao-forca').style.display = 'block';
-                document.querySelector('.nav-tab[data-tab="forca"]').classList.add('active');
-                iniciarForca();
-            }
-        }
-
-        // ============================================
-        // FUNÇÕES AUXILIARES
-        // ============================================
-        function calcularDiferencaGols(palpite, resultado) {
-            if (!palpite || !resultado) return 0;
-            const diferencaPalpite = Math.abs(palpite.casa - palpite.fora);
-            const diferencaResultado = Math.abs(resultado.casa - resultado.fora);
-            return Math.abs(diferencaPalpite - diferencaResultado);
-        }
-
-        function calcularPontosComDesempate(palpite, resultado) {
-            if (!palpite || !resultado) return { pontos: 0, diferencaGols: 999 };
-
-            if (palpite.casa === resultado.casa && palpite.fora === resultado.fora) {
-                return { pontos: 3, diferencaGols: 0 };
-            }
-
-            const palpiteVencedor = palpite.casa > palpite.fora ? 'casa' : (palpite.casa < palpite.fora ? 'fora' : 'empate');
-            const resultadoVencedor = resultado.casa > resultado.fora ? 'casa' : (resultado.casa < resultado.fora ? 'fora' : 'empate');
-
-            if (palpiteVencedor === resultadoVencedor) {
-                const diferenca = calcularDiferencaGols(palpite, resultado);
-                return { pontos: 1, diferencaGols: diferenca };
-            }
-
-            return { pontos: 0, diferencaGols: 999 };
-        }
-
-        function formatarData(dataStr) {
-            if (!dataStr) return 'Data não definida';
-            const partes = dataStr.split('-');
-            if (partes.length === 3) {
-                const meses = ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'];
-                return `${parseInt(partes[2])} ${meses[parseInt(partes[1])-1]}`;
-            }
-            return dataStr;
-        }
-
-        // ============================================
-        // RANKING
-        // ============================================
-        function calcularRankingCompleto() {
-            const ranking = [];
-
-            for (const [nome, usuario] of Object.entries(USUARIOS)) {
-                let pontosTotais = 0;
-                let placaresExatos = 0;
-                let resultadosCorretos = 0;
-                let somaDiferencaGols = 0;
-
-                for (const jogo of JOGOS) {
-                    const apostaKey = `${jogo.id}_${nome}`;
-                    const palpite = APOSTAS[apostaKey];
-                    const resultado = RESULTADOS[jogo.id];
-
-                    if (palpite && resultado) {
-                        const { pontos, diferencaGols } = calcularPontosComDesempate(palpite, resultado);
-                        pontosTotais += pontos;
-                        if (pontos === 3) placaresExatos++;
-                        if (pontos === 1) resultadosCorretos++;
-                        somaDiferencaGols += diferencaGols;
-                    }
-                }
-
-                ranking.push({
-                    nome: nome,
-                    pontos: pontosTotais,
-                    placaresExatos: placaresExatos,
-                    resultadosCorretos: resultadosCorretos,
-                    diferencaGols: somaDiferencaGols
-                });
-            }
-
-            ranking.sort((a, b) => {
-                if (a.pontos !== b.pontos) return b.pontos - a.pontos;
-                if (a.placaresExatos !== b.placaresExatos) return b.placaresExatos - a.placaresExatos;
-                if (a.resultadosCorretos !== b.resultadosCorretos) return b.resultadosCorretos - a.resultadosCorretos;
-                if (a.diferencaGols !== b.diferencaGols) return a.diferencaGols - b.diferencaGols;
-                return a.nome.localeCompare(b.nome);
-            });
-
-            let posicao = 1;
-            for (let i = 0; i < ranking.length; i++) {
-                if (i > 0 && 
-                    ranking[i].pontos === ranking[i-1].pontos && 
-                    ranking[i].placaresExatos === ranking[i-1].placaresExatos &&
-                    ranking[i].resultadosCorretos === ranking[i-1].resultadosCorretos &&
-                    ranking[i].diferencaGols === ranking[i-1].diferencaGols) {
-                    ranking[i].posicao = ranking[i-1].posicao;
-                } else {
-                    ranking[i].posicao = i + 1;
-                }
-            }
-
-            return ranking;
-        }
-
-        function carregarFiltroRankingJogadores() {
-            const select = document.getElementById('filtroRankingJogador');
-            if (!select) return;
-            select.innerHTML = '<option value="">Todos os jogadores</option>';
-            const nomes = Object.keys(USUARIOS).sort();
-            nomes.forEach(nome => {
-                select.innerHTML += `<option value="${nome}">${nome}</option>`;
-            });
-        }
-
-        function renderizarRanking() {
-            const jogadorFiltro = document.getElementById('filtroRankingJogador')?.value || '';
-            let ranking = calcularRankingCompleto();
-
-            if (jogadorFiltro) {
-                ranking = ranking.filter(item => item.nome === jogadorFiltro);
-            }
-
-            const container = document.getElementById('rankingContainer');
-            if (!container) return;
-
-            if (ranking.length === 0) {
-                container.innerHTML = '<div class="empty-state">Nenhum jogador encontrado</div>';
-                return;
-            }
-
-            // SALVAR RANKING ATUAL PARA COMPARAÇÃO FUTURA
-            const rankingAtual = {};
-            ranking.forEach((item, index) => {
-                rankingAtual[item.nome] = index + 1;
-            });
-
-            let rankingAnterior = {};
-            try {
-                const saved = localStorage.getItem('rankingAnterior');
-                if (saved) {
-                    rankingAnterior = JSON.parse(saved);
-                }
-            } catch (e) {
-                rankingAnterior = {};
-            }
-
-            localStorage.setItem('rankingAnterior', JSON.stringify(rankingAtual));
-
-            // RENDERIZAR TABELA COM SETAS
-            let html = `<table class="ranking-table">
-                            <thead>
-                                <tr>
-                                    <th>#</th>
-                                    <th>Jogador</th>
-                                    <th style="text-align:center">Pts</th>
-                                    <th style="text-align:center">Placar</th>
-                                    <th style="text-align:center">Resultado</th>
-                                    <th style="text-align:center">Trend</th>
-                                </tr>
-                            </thead>
-                            <tbody>`;
-
-            ranking.forEach((item) => {
-                const posicaoAtual = item.posicao;
-                const posicaoAnterior = rankingAnterior[item.nome] || posicaoAtual;
-
-                let trendHtml = '';
-                if (posicaoAtual < posicaoAnterior) {
-                    trendHtml = `<span style="color: #2e7d32; font-size: 1.2rem;">▲</span>`;
-                } else if (posicaoAtual > posicaoAnterior) {
-                    trendHtml = `<span style="color: #d32f2f; font-size: 1.2rem;">▼</span>`;
-                } else {
-                    trendHtml = `<span style="color: #888; font-size: 1.2rem;">—</span>`;
-                }
-
-                let medalhaHtml = '';
-                if (item.posicao === 1) medalhaHtml = '<span class="medalha">🥇</span>';
-                else if (item.posicao === 2) medalhaHtml = '<span class="medalha">🥈</span>';
-                else if (item.posicao === 3) medalhaHtml = '<span class="medalha">🥉</span>';
-                else medalhaHtml = `<span class="medalha">${item.posicao}º</span>`;
-
-                const classe = item.posicao === 1 ? 'rank-1' : (item.posicao === 2 ? 'rank-2' : (item.posicao === 3 ? 'rank-3' : ''));
-                html += `<tr class="${classe}">
-                            <td>${medalhaHtml}</td>
-                            <td><strong>${item.nome}</strong></td>
-                            <td style="text-align:center"><span class="pontos-value">${item.pontos}</span></td>
-                            <td style="text-align:center">${item.placaresExatos}</td>
-                            <td style="text-align:center">${item.resultadosCorretos}</td>
-                            <td style="text-align:center">${trendHtml}</td>
-                        </tr>`;
-            });
-
-            html += '</tbody></table>';
-            container.innerHTML = html;
-        }
-
-        function resetFiltroRanking() {
-            const select = document.getElementById('filtroRankingJogador');
-            if (select) select.value = '';
-            renderizarRanking();
-        }
-
-        // ============================================
-        // JOGOS
-        // ============================================
-        function carregarFiltrosJogos() {
-            const times = new Set();
-            JOGOS.forEach(jogo => {
-                times.add(jogo.timeCasa);
-                times.add(jogo.timeFora);
-            });
-            const timesOrdenados = Array.from(times).sort();
-            const selectTime = document.getElementById('filtroTimeJogo');
-            if (selectTime) {
-                selectTime.innerHTML = '<option value="">Todos os times</option>';
-                timesOrdenados.forEach(time => {
-                    selectTime.innerHTML += `<option value="${time}">${time}</option>`;
-                });
-            }
-        }
-
-        function renderizarJogos() {
-            const timeFiltro = document.getElementById('filtroTimeJogo')?.value || '';
-            const dataFiltro = document.getElementById('filtroDataJogo')?.value || '';
-
-            let jogosFiltrados = [...JOGOS];
-
-            if (timeFiltro) {
-                jogosFiltrados = jogosFiltrados.filter(jogo => 
-                    jogo.timeCasa === timeFiltro || jogo.timeFora === timeFiltro
-                );
-            }
-            if (dataFiltro) {
-                jogosFiltrados = jogosFiltrados.filter(jogo => jogo.data === dataFiltro);
-            }
-
-            jogosFiltrados.sort((a, b) => a.id - b.id);
-
-            const container = document.getElementById('jogosContainer');
-            if (!container) return;
-
-            if (jogosFiltrados.length === 0) {
-                container.innerHTML = '<div class="empty-state">Nenhum jogo encontrado</div>';
-                return;
-            }
-
-            container.innerHTML = '';
-            jogosFiltrados.forEach(jogo => {
-                const resultado = RESULTADOS[jogo.id];
-                const div = document.createElement('div');
-                div.className = 'game-card';
-                div.innerHTML = `
-                    <div class="game-info">
-                        <div class="game-teams">${jogo.timeCasa} 🆚 ${jogo.timeFora}</div>
-                        <div class="game-date">📅 ${formatarData(jogo.data)}</div>
-                    </div>
-                    <div class="game-score">
-                        ${resultado ? `${resultado.casa} x ${resultado.fora}` : '-- x --'}
-                    </div>
-                `;
-                container.appendChild(div);
-            });
-        }
-
-        function resetFiltrosJogos() {
-            const selectTime = document.getElementById('filtroTimeJogo');
-            const inputData = document.getElementById('filtroDataJogo');
-            if (selectTime) selectTime.value = '';
-            if (inputData) inputData.value = '';
-            renderizarJogos();
-        }
-
-        // ============================================
-        // APOSTAS
-        // ============================================
-        function carregarSelectJogador() {
-            const select = document.getElementById('selectJogador');
-            if (!select) return;
-            select.innerHTML = '<option value="">Selecione um jogador...</option>';
-            const nomes = Object.keys(USUARIOS).sort();
-            nomes.forEach(nome => {
-                select.innerHTML += `<option value="${nome}">${nome}</option>`;
-            });
-        }
-
-        function carregarFiltrosApostas() {
-            const times = new Set();
-            JOGOS.forEach(jogo => {
-                times.add(jogo.timeCasa);
-                times.add(jogo.timeFora);
-            });
-            const timesOrdenados = Array.from(times).sort();
-            const selectTime = document.getElementById('filtroTimeApostas');
-            if (selectTime) {
-                selectTime.innerHTML = '<option value="">Todos os times</option>';
-                timesOrdenados.forEach(time => {
-                    selectTime.innerHTML += `<option value="${time}">${time}</option>`;
-                });
-            }
-        }
-
-        function resetFiltrosApostas() {
-            const selectJogador = document.getElementById('selectJogador');
-            const selectTime = document.getElementById('filtroTimeApostas');
-            const inputData = document.getElementById('filtroDataApostas');
-            if (selectJogador) selectJogador.value = '';
-            if (selectTime) selectTime.value = '';
-            if (inputData) inputData.value = '';
-            renderizarApostasJogador('');
-        }
-
-        function renderizarApostasJogador(jogador) {
-            const container = document.getElementById('apostasContainer');
-            if (!container) return;
-
-            if (!jogador) {
-                container.innerHTML = '<div class="empty-state">👈 Selecione um jogador para ver os palpites</div>';
-                return;
-            }
-
-            const timeFiltro = document.getElementById('filtroTimeApostas')?.value || '';
-            const dataFiltro = document.getElementById('filtroDataApostas')?.value || '';
-
-            const apostasDoJogador = [];
-            for (const [key, aposta] of Object.entries(APOSTAS)) {
-                if (key.endsWith(`_${jogador}`)) {
-                    const jogoId = parseInt(key.split('_')[0]);
-                    const jogo = JOGOS.find(j => j.id === jogoId);
-                    if (jogo) {
-                        apostasDoJogador.push({
-                            jogo: jogo,
-                            palpite: aposta
-                        });
-                    }
-                }
-            }
-
-            let apostasFiltradas = apostasDoJogador;
-
-            if (timeFiltro) {
-                apostasFiltradas = apostasFiltradas.filter(item => 
-                    item.jogo.timeCasa === timeFiltro || item.jogo.timeFora === timeFiltro
-                );
-            }
-            if (dataFiltro) {
-                apostasFiltradas = apostasFiltradas.filter(item => item.jogo.data === dataFiltro);
-            }
-
-            apostasFiltradas.sort((a, b) => a.jogo.id - b.jogo.id);
-
-            if (apostasFiltradas.length === 0) {
-                container.innerHTML = `<div class="empty-state">📝 Nenhum palpite encontrado para ${jogador} com os filtros selecionados</div>`;
-                return;
-            }
-
-            container.innerHTML = '';
-            for (const item of apostasFiltradas) {
-                const jogo = item.jogo;
-                const palpite = item.palpite;
-                const resultado = RESULTADOS[jogo.id];
-
-                let statusHtml = '';
-                if (resultado) {
-                    const { pontos } = calcularPontosComDesempate(palpite, resultado);
-                    if (pontos === 3) statusHtml = '<span class="badge badge-exact">🎯 +3</span>';
-                    else if (pontos === 1) statusHtml = '<span class="badge badge-result">✅ +1</span>';
-                    else statusHtml = '<span class="badge badge-wrong">❌ 0</span>';
-                } else {
-                    statusHtml = '<span class="badge badge-waiting">⏳ Aguardando</span>';
-                }
-
-                const div = document.createElement('div');
-                div.className = 'bet-card';
-                div.innerHTML = `
-                    <div class="bet-info">
-                        <div class="bet-game">${jogo.timeCasa} 🆚 ${jogo.timeFora}</div>
-                        <div class="bet-detail">
-                            📅 ${formatarData(jogo.data)}
-                            ${resultado ? ` • 🏁 ${resultado.casa} x ${resultado.fora}` : ''}
-                        </div>
-                    </div>
-                    <div class="bet-value">
-                        ${palpite.casa} x ${palpite.fora}
-                        ${statusHtml}
-                    </div>
-                `;
-                container.appendChild(div);
-            }
-        }
-
-        // ============================================
-        // TENDÊNCIAS
-        // ============================================
-        function carregarFiltrosTendencias() {
-            const times = new Set();
-            JOGOS.forEach(jogo => {
-                times.add(jogo.timeCasa);
-                times.add(jogo.timeFora);
-            });
-            const timesOrdenados = Array.from(times).sort();
-            const selectTime = document.getElementById('filtroTimeTendencia');
-            if (selectTime) {
-                selectTime.innerHTML = '<option value="">Todos os times</option>';
-                timesOrdenados.forEach(time => {
-                    selectTime.innerHTML += `<option value="${time}">${time}</option>`;
-                });
-            }
-        }
-
-        function calcularPlacarMaisMenosVotado() {
-            const resultados = [];
-
-            for (const jogo of JOGOS) {
-                const votos = {};
-                let totalApostas = 0;
-
-                for (const [key, aposta] of Object.entries(APOSTAS)) {
-                    if (key.startsWith(`${jogo.id}_`)) {
-                        totalApostas++;
-                        const placarKey = `${aposta.casa}_${aposta.fora}`;
-                        if (!votos[placarKey]) {
-                            votos[placarKey] = { casa: aposta.casa, fora: aposta.fora, count: 0 };
-                        }
-                        votos[placarKey].count++;
-                    }
-                }
-
-                if (totalApostas === 0) {
-                    resultados.push({
-                        jogo: jogo,
-                        temApostas: false,
-                        totalApostas: 0
-                    });
-                    continue;
-                }
-
-                let maisVotado = null;
-                let menosVotado = null;
-                let maiorVoto = 0;
-                let menorVoto = totalApostas + 1;
-
-                for (const [key, voto] of Object.entries(votos)) {
-                    if (voto.count > maiorVoto) {
-                        maiorVoto = voto.count;
-                        maisVotado = voto;
-                    }
-                    if (voto.count < menorVoto) {
-                        menorVoto = voto.count;
-                        menosVotado = voto;
-                    }
-                }
-
-                const percentualMais = (maiorVoto / totalApostas * 100).toFixed(1);
-                const percentualMenos = (menorVoto / totalApostas * 100).toFixed(1);
-
-                resultados.push({
-                    jogo: jogo,
-                    temApostas: true,
-                    totalApostas: totalApostas,
-                    maisVotado: { placar: maisVotado, votos: maiorVoto, percentual: percentualMais },
-                    menosVotado: { placar: menosVotado, votos: menorVoto, percentual: percentualMenos }
-                });
-            }
-
-            return resultados;
-        }
-
-        function renderizarTendencias() {
-            const timeFiltro = document.getElementById('filtroTimeTendencia')?.value || '';
-            const dataFiltro = document.getElementById('filtroDataTendencia')?.value || '';
-
-            let tendencias = calcularPlacarMaisMenosVotado();
-
-            if (timeFiltro) {
-                tendencias = tendencias.filter(t => 
-                    t.jogo.timeCasa === timeFiltro || t.jogo.timeFora === timeFiltro
-                );
-            }
-            if (dataFiltro) {
-                tendencias = tendencias.filter(t => t.jogo.data === dataFiltro);
-            }
-
-            tendencias.sort((a, b) => a.jogo.id - b.jogo.id);
-
-            const container = document.getElementById('tendenciasContainer');
-            if (!container) return;
-
-            if (tendencias.length === 0) {
-                container.innerHTML = '<div class="empty-state">Nenhum jogo encontrado</div>';
-                return;
-            }
-
-            container.innerHTML = '';
-            for (const item of tendencias) {
-                const div = document.createElement('div');
-                div.className = 'tendencia-card';
-
-                if (!item.temApostas) {
-                    div.innerHTML = `
-                        <div class="tendencia-info">
-                            <div class="tendencia-teams">${item.jogo.timeCasa} 🆚 ${item.jogo.timeFora}</div>
-                            <div class="tendencia-date">📅 ${formatarData(item.jogo.data)}</div>
-                        </div>
-                        <div class="tendencia-score">
-                            ⏳ Sem apostas
-                        </div>
-                    `;
-                } else {
-                    div.innerHTML = `
-                        <div class="tendencia-info">
-                            <div class="tendencia-teams">${item.jogo.timeCasa} 🆚 ${item.jogo.timeFora}</div>
-                            <div class="tendencia-date">📅 ${formatarData(item.jogo.data)}</div>
-                            <div style="margin-top: 8px;">
-                                <div style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap;">
-                                    <span style="font-size: 0.7rem; color: #2e7d32;">🏆 MAIS VOTADO:</span>
-                                    <span class="tendencia-score-mais" style="font-weight: 700;">${item.maisVotado.placar.casa} x ${item.maisVotado.placar.fora}</span>
-                                    <span class="tendencia-percentual">📊 ${item.maisVotado.percentual}% (${item.maisVotado.votos} de ${item.totalApostas})</span>
-                                </div>
-                                <div style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin-top: 6px;">
-                                    <span style="font-size: 0.7rem; color: #d32f2f;">📉 MENOS VOTADO:</span>
-                                    <span class="tendencia-score-menos" style="font-weight: 700;">${item.menosVotado.placar.casa} x ${item.menosVotado.placar.fora}</span>
-                                    <span class="tendencia-percentual tendencia-percentual-menos">📊 ${item.menosVotado.percentual}% (${item.menosVotado.votos} de ${item.totalApostas})</span>
-                                </div>
-                            </div>
-                        </div>
-                    `;
-                }
-                container.appendChild(div);
-            }
-        }
-
-        function resetFiltrosTendencias() {
-            const selectTime = document.getElementById('filtroTimeTendencia');
-            const inputData = document.getElementById('filtroDataTendencia');
-            if (selectTime) selectTime.value = '';
-            if (inputData) inputData.value = '';
-            renderizarTendencias();
-        }
-
-        // ============================================
-        // EVENT LISTENERS
-        // ============================================
-        function initEventListeners() {
-            const filtroRanking = document.getElementById('filtroRankingJogador');
-            if (filtroRanking) filtroRanking.addEventListener('change', renderizarRanking);
-
-            const filtroTime = document.getElementById('filtroTimeJogo');
-            if (filtroTime) filtroTime.addEventListener('change', renderizarJogos);
-
-            const filtroData = document.getElementById('filtroDataJogo');
-            if (filtroData) filtroData.addEventListener('change', renderizarJogos);
-
-            const filtroTimeTendencia = document.getElementById('filtroTimeTendencia');
-            if (filtroTimeTendencia) filtroTimeTendencia.addEventListener('change', renderizarTendencias);
-
-            const filtroDataTendencia = document.getElementById('filtroDataTendencia');
-            if (filtroDataTendencia) filtroDataTendencia.addEventListener('change', renderizarTendencias);
-
-            const selectJogador = document.getElementById('selectJogador');
-            if (selectJogador) {
-                selectJogador.addEventListener('change', (e) => {
-                    renderizarApostasJogador(e.target.value);
-                });
-            }
-
-            const filtroTimeApostas = document.getElementById('filtroTimeApostas');
-            if (filtroTimeApostas) {
-                filtroTimeApostas.addEventListener('change', () => {
-                    renderizarApostasJogador(document.getElementById('selectJogador')?.value || '');
-                });
-            }
-
-            const filtroDataApostas = document.getElementById('filtroDataApostas');
-            if (filtroDataApostas) {
-                filtroDataApostas.addEventListener('change', () => {
-                    renderizarApostasJogador(document.getElementById('selectJogador')?.value || '');
-                });
-            }
-
-            document.querySelectorAll('.nav-tab').forEach(tab => {
-                tab.addEventListener('click', function() {
-                    const aba = this.getAttribute('data-tab');
-                    mostrarAba(aba);
-                });
-            });
-        }
-
-        // ============================================
-        // ALCY POPUP - IMAGENS ALEATÓRIAS DA PASTA extra
-        // ============================================
-        function iniciarAlcyPopup() {
-            if (!document.getElementById('alcyPopup')) {
-                const popup = document.createElement('div');
-                popup.id = 'alcyPopup';
-                popup.innerHTML = `<img src="" alt="Alcy" class="alcy-imagem" id="alcyImagem">`;
-                document.body.appendChild(popup);
-            }
-
-            const popup = document.getElementById('alcyPopup');
-            const imgElement = document.getElementById('alcyImagem');
-
-            const imagens = [
-                'extra/alcy1.png',
-                'extra/alcy2.png',
-                'extra/alcy3.png',
-                'extra/eliseu.png',
-                'extra/marcio.png',
-                'extra/caio.png',
-                'extra/ronaldo.png',
-                'extra/julio1.png',
-                'extra/julio2.png',
-                'extra/xandao1.png',
-                'extra/xandao2.png',
-                'extra/xandao3.png',
-                'extra/xandao4.png',
-                'extra/xandao5.png',
-                'extra/memecopa.png',
-                'extra/receba.png',
-            ];
-
-            let imagensExistentes = [];
-            let imagensCarregadas = 0;
-
-            function verificarImagens() {
-                if (imagens.length === 0) {
-                    console.log('Nenhuma imagem listada na pasta extra');
-                    return;
-                }
-
-                for (let i = 0; i < imagens.length; i++) {
-                    const testImg = new Image();
-                    testImg.onload = function() {
-                        imagensExistentes.push(imagens[i]);
-                        imagensCarregadas++;
-                        if (imagensCarregadas === imagens.length) {
-                            iniciarCarrossel();
-                        }
-                    };
-                    testImg.onerror = function() {
-                        console.log('Imagem não encontrada:', imagens[i]);
-                        imagensCarregadas++;
-                        if (imagensCarregadas === imagens.length) {
-                            iniciarCarrossel();
-                        }
-                    };
-                    testImg.src = imagens[i];
-                }
-            }
-
-            function iniciarCarrossel() {
-                if (imagensExistentes.length === 0) {
-                    console.log('Nenhuma imagem encontrada na pasta extra');
-                    return;
-                }
-
-                console.log('Imagens encontradas:', imagensExistentes.length);
-
-                let timeoutId = null;
-                let indexAtual = 0;
-
-                function shuffleArray(array) {
-                    for (let i = array.length - 1; i > 0; i--) {
-                        const j = Math.floor(Math.random() * (i + 1));
-                        [array[i], array[j]] = [array[j], array[i]];
-                    }
-                    return array;
-                }
-
-                let imagensEmbaralhadas = shuffleArray([...imagensExistentes]);
-
-                function mostrarProximaImagem() {
-                    if (timeoutId) {
-                        clearTimeout(timeoutId);
-                        timeoutId = null;
-                    }
-
-                    if (indexAtual >= imagensEmbaralhadas.length) {
-                        imagensEmbaralhadas = shuffleArray([...imagensExistentes]);
-                        indexAtual = 0;
-                    }
-
-                    const imgSrc = imagensEmbaralhadas[indexAtual];
-                    console.log('Mostrando imagem:', imgSrc);
-                    mostrarImagem(imgSrc);
-                    indexAtual++;
-                }
-
-                function mostrarImagem(imgSrc) {
-                    imgElement.src = imgSrc;
-                    popup.classList.remove('hide');
-                    popup.classList.add('show');
-
-                    timeoutId = setTimeout(function() {
-                        popup.classList.remove('show');
-                        popup.classList.add('hide');
-
-                        timeoutId = setTimeout(function() {
-                            mostrarProximaImagem();
-                        }, 20000);
-                    }, 5000);
-                }
-
-                setTimeout(mostrarProximaImagem, 15000);
-            }
-
-            verificarImagens();
-        }
-
-        // ============================================
-        // FORCA - JOGO DA FORCA (COM ERROS GLOBAIS POR PALAVRA PERDIDA)
-        // ============================================
-        // AS PERGUNTAS ESTÃO NO ARQUIVO EXTERNO perguntas-forca.js
-        // A variável TODAS_PERGUNTAS é carregada de lá
-
-        let listaJogadoresForca = [];
-        let palavraSecreta = '';
-        let letrasAdivinhadas = [];
-        let errosForca = 0;
-        const maxErrosForca = 6;
-        let jogoTerminadoForca = false;
-        let letrasUsadasForca = new Set();
-        let dicasUsadasForca = 0;
-        let dicasDisponiveisForca = [];
-        let indiceDicaAtualForca = 0;
-        let jogoIniciadoForca = false;
-        let perguntasUsadas = [];
-        let nivelAtual = 0;
-        let totalPerguntas = 0;
-
-        // Contador de erros globais (palavras perdidas)
-        let errosGlobais = 0;
-        const MAX_ERROS_GLOBAIS = 5;
-
-        const canvasForca = document.getElementById('hangmanCanvas');
-        const ctxForca = canvasForca.getContext('2d');
-        const campeaoCanvas = document.getElementById('campeaoCanvas');
-        const ctxCampeao = campeaoCanvas.getContext('2d');
-        const forcaWordDisplay = document.getElementById('forcaWordDisplay');
-        const forcaKeyboard = document.getElementById('forcaKeyboard');
-        const forcaMessage = document.getElementById('forcaMessage');
-        const forcaErrorCount = document.getElementById('forcaErrorCount');
-        const forcaHintCount = document.getElementById('forcaHintCount');
-        const forcaDayCount = document.getElementById('forcaDayCount');
-        const forcaStatusBadge = document.getElementById('forcaStatusBadge');
-        const btnVisualizarCard = document.getElementById('btnVisualizarCard');
-        const forcaNivelAtual = document.getElementById('forcaNivelAtual');
-        const forcaTotalPerguntas = document.getElementById('forcaTotalPerguntas');
-        const forcaErrosGlobais = document.getElementById('forcaErrosGlobais');
-
-        const baloes = [
-            document.getElementById('balao1'),
-            document.getElementById('balao2'),
-            document.getElementById('balao3'),
-            document.getElementById('balao4'),
-            document.getElementById('balao5'),
-            document.getElementById('balao6'),
-            document.getElementById('balao7')
-        ];
-
-        const spritesForca = {
-            forca: 'forca/forca.png',
-            cabeca: 'forca/cabeca.png',
-            tronco: 'forca/tronco.png',
-            bracodir: 'forca/bracodir.png',
-            bracoesq: 'forca/bracoesq.png',
-            pernaesq: 'forca/pernaesq.png',
-            pernadir: 'forca/pernadir.png',
-            campeao: 'forca/campeao.png'
-        };
-        const ordemPartesForca = ['cabeca', 'tronco', 'bracodir', 'bracoesq', 'pernaesq', 'pernadir'];
-        let imagensCarregadasForca = {};
-        let imagensProntasForca = false;
-
-        // ============================================
-        // GERENCIADOR DE PROGRESSO
-        // ============================================
-        function carregarProgresso() {
-            try {
-                const saved = localStorage.getItem('forcaProgresso');
-                if (saved) {
-                    const data = JSON.parse(saved);
-                    nivelAtual = data.nivel || 0;
-                    perguntasUsadas = data.usadas || [];
-                    errosGlobais = data.errosGlobais || 0;
-                }
-            } catch (e) {
-                nivelAtual = 0;
-                perguntasUsadas = [];
-                errosGlobais = 0;
-            }
-            atualizarDisplayProgresso();
-            atualizarDisplayErrosGlobais();
-        }
-
-        function salvarProgresso() {
-            try {
-                localStorage.setItem('forcaProgresso', JSON.stringify({
-                    nivel: nivelAtual,
-                    usadas: perguntasUsadas,
-                    errosGlobais: errosGlobais
-                }));
-            } catch (e) {}
-            atualizarDisplayProgresso();
-        }
-
-        function atualizarDisplayProgresso() {
-            if (forcaNivelAtual) {
-                forcaNivelAtual.textContent = nivelAtual;
-            }
-            if (forcaTotalPerguntas) {
-                forcaTotalPerguntas.textContent = totalPerguntas;
-            }
-        }
-
-        function atualizarDisplayErrosGlobais() {
-            if (forcaErrosGlobais) {
-                forcaErrosGlobais.textContent = `❌ ${errosGlobais}/${MAX_ERROS_GLOBAIS}`;
-                if (errosGlobais >= MAX_ERROS_GLOBAIS) {
-                    forcaErrosGlobais.style.color = '#d32f2f';
-                    forcaErrosGlobais.style.fontWeight = 'bold';
-                } else {
-                    forcaErrosGlobais.style.color = '#d32f2f';
-                    forcaErrosGlobais.style.fontWeight = '600';
-                }
-            }
-        }
-
-        function resetarProgresso() {
-            nivelAtual = 0;
-            perguntasUsadas = [];
-            errosGlobais = 0;
-            salvarProgresso();
-            atualizarDisplayErrosGlobais();
-        }
-
-        // ============================================
-        // CARREGAR SPRITES
-        // ============================================
-        function carregarSpritesForca() {
-            const nomes = ['forca', 'cabeca', 'tronco', 'bracodir', 'bracoesq', 'pernaesq', 'pernadir', 'campeao'];
-            let carregadas = 0;
-            for (const nome of nomes) {
-                const img = new Image();
-                img.onload = function() {
-                    imagensCarregadasForca[nome] = img;
-                    carregadas++;
-                    if (carregadas === nomes.length) {
-                        imagensProntasForca = true;
-                        desenharForca(errosForca);
-                    }
-                };
-                img.onerror = function() {
-                    console.warn('Sprite nao encontrado:', spritesForca[nome]);
-                    imagensCarregadasForca[nome] = null;
-                    carregadas++;
-                    if (carregadas === nomes.length) {
-                        imagensProntasForca = true;
-                        desenharForca(errosForca);
-                    }
-                };
-                img.src = spritesForca[nome];
-            }
-        }
-
-        // ============================================
-        // DESENHAR FORCA
-        // ============================================
-        function desenharForca(erros) {
-            if (!ctxForca) return;
-
-            ctxForca.clearRect(0, 0, 280, 340);
-            ctxCampeao.clearRect(0, 0, 280, 340);
-            campeaoCanvas.style.display = 'none';
-
-            const imgForca = imagensCarregadasForca['forca'];
-            if (imgForca) {
-                ctxForca.drawImage(imgForca, 0, 0, 280, 340);
-            }
-
-            if (!imagensProntasForca) return;
-
-            baloes.forEach(b => { if (b) b.style.display = 'none'; });
-
-            if (erros === 0) return;
-
-            for (let i = 0; i < erros && i < ordemPartesForca.length; i++) {
-                const nome = ordemPartesForca[i];
-                const img = imagensCarregadasForca[nome];
-                if (img) {
-                    ctxForca.drawImage(img, 0, 0, 280, 340);
-                }
-            }
-
-            if (erros > 0 && erros <= 6) {
-                const balaoIndex = erros - 1;
-                if (baloes[balaoIndex]) {
-                    baloes[balaoIndex].style.display = 'block';
-                    baloes[balaoIndex].style.animation = 'none';
-                    setTimeout(() => {
-                        if (baloes[balaoIndex]) baloes[balaoIndex].style.animation = 'balaoAnim 0.5s ease-out';
-                    }, 10);
-                }
-            }
-        }
-
-        // ============================================
-        // MOSTRAR CAMPEÃO
-        // ============================================
-        function mostrarCampeao() {
-            ctxForca.clearRect(0, 0, 280, 340);
-            const imgForca = imagensCarregadasForca['forca'];
-            if (imgForca) {
-                ctxForca.drawImage(imgForca, 0, 0, 280, 340);
-            }
-
-            for (let i = 0; i < 6; i++) {
-                if (baloes[i]) {
-                    baloes[i].style.display = 'none';
-                }
-            }
-
-            const balao7 = document.getElementById('balao7');
-            if (balao7) {
-                balao7.style.display = 'block';
-                balao7.style.animation = 'none';
-                setTimeout(() => {
-                    balao7.style.animation = 'balaoAnim 0.6s ease-out';
-                }, 10);
-            }
-
-            const imgCampeao = imagensCarregadasForca['campeao'];
-            if (imgCampeao) {
-                ctxCampeao.clearRect(0, 0, 280, 340);
-                ctxCampeao.drawImage(imgCampeao, 0, 0, 280, 340);
-                campeaoCanvas.style.display = 'block';
-                campeaoCanvas.style.animation = 'none';
-                setTimeout(() => {
-                    campeaoCanvas.style.animation = 'campeaoAnim 0.6s ease-out';
-                }, 10);
-            } else {
-                const img = new Image();
-                img.onload = function() {
-                    ctxCampeao.clearRect(0, 0, 280, 340);
-                    ctxCampeao.drawImage(img, 0, 0, 280, 340);
-                    campeaoCanvas.style.display = 'block';
-                    campeaoCanvas.style.animation = 'none';
-                    setTimeout(() => {
-                        campeaoCanvas.style.animation = 'campeaoAnim 0.6s ease-out';
-                    }, 10);
-                };
-                img.src = 'forca/campeao.png';
-            }
-
-            if (btnVisualizarCard) {
-                btnVisualizarCard.classList.add('show');
-            }
-
-            forcaStatusBadge.textContent = '🏆 CAMPEÃO!';
-            forcaStatusBadge.className = 'forca-badge forca-badge-success';
-        }
-
-        // ============================================
-        // CARREGAR JOGADORES DA FORCA
-        // ============================================
-        function carregarJogadoresForca() {
-            listaJogadoresForca = [];
-
-            for (const item of TODAS_PERGUNTAS) {
-                const palavraLimpa = item.palavra.replace(/[^A-ZÀ-Ú0-9\s]/g, '').toUpperCase();
-                if (palavraLimpa.length > 0) {
-                    listaJogadoresForca.push({
-                        nome: palavraLimpa,
-                        dicas: item.dicas,
-                        selecao: 'Copa'
-                    });
-                }
-            }
-            totalPerguntas = listaJogadoresForca.length;
-            atualizarDisplayProgresso();
-        }
-
-        // ============================================
-        // FUNÇÕES DO JOGO
-        // ============================================
-        function atualizarPalavraForca() {
-            if (!forcaWordDisplay) return;
-            let html = '';
-            for (let letra of palavraSecreta) {
-                if (letra === ' ') {
-                    html += `<span class="forca-letter-slot space"> </span>`;
-                } else if (letrasAdivinhadas.includes(letra)) {
-                    html += `<span class="forca-letter-slot filled">${letra}</span>`;
-                } else {
-                    html += `<span class="forca-letter-slot"> </span>`;
-                }
-            }
-            forcaWordDisplay.innerHTML = html;
-        }
-
-        function atualizarTecladoForca() {
-            if (!forcaKeyboard) return;
-
-            const letras = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-            let html = '';
-            for (let l of letras) {
-                const disabled = jogoTerminadoForca || letrasUsadasForca.has(l) || !jogoIniciadoForca ? 'disabled' : '';
-                const classe = letrasUsadasForca.has(l) ? 'forca-key used' : 'forca-key';
-                html += `<button class="${classe}" data-letter="${l}" ${disabled}>${l}</button>`;
-            }
-
-            const numeros = '0123456789';
-            for (let n of numeros) {
-                const disabled = jogoTerminadoForca || letrasUsadasForca.has(n) || !jogoIniciadoForca ? 'disabled' : '';
-                const classe = letrasUsadasForca.has(n) ? 'forca-key-number used' : 'forca-key-number';
-                html += `<button class="${classe}" data-letter="${n}" ${disabled}>${n}</button>`;
-            }
-
-            forcaKeyboard.innerHTML = html;
-
-            document.querySelectorAll('#forcaKeyboard .forca-key:not([disabled]), #forcaKeyboard .forca-key-number:not([disabled])').forEach(btn => {
-                btn.addEventListener('click', function() {
-                    const letra = this.dataset.letter;
-                    jogarForca(letra);
-                });
-            });
-        }
-
-        function mensagemForca(texto, cor = '#1e293b', borda = '#1a5f7a') {
-            if (!forcaMessage) return;
-            forcaMessage.textContent = texto;
-            forcaMessage.style.color = cor;
-            forcaMessage.style.borderLeftColor = borda;
-        }
-
-        function atualizarContadoresForca() {
-            if (forcaErrorCount) forcaErrorCount.textContent = errosForca;
-            if (forcaHintCount) forcaHintCount.textContent = dicasUsadasForca;
-            if (forcaDayCount) forcaDayCount.textContent = maxErrosForca;
-            if (jogoTerminadoForca) {
-                forcaStatusBadge.textContent = errosForca >= maxErrosForca ? 'Derrota' : 'Vitoria';
-                forcaStatusBadge.className = 'forca-badge ' + (errosForca >= maxErrosForca ? 'forca-badge-danger' : 'forca-badge-success');
-            } else {
-                forcaStatusBadge.textContent = 'Jogando';
-                forcaStatusBadge.className = 'forca-badge forca-badge-warning';
-            }
-        }
-
-        function darDicaForca() {
-            if (!jogoIniciadoForca || jogoTerminadoForca) {
-                mensagemForca('Inicie um jogo primeiro!', '#64748b');
-                return;
-            }
-            if (indiceDicaAtualForca >= dicasDisponiveisForca.length) {
-                mensagemForca('Nao ha mais dicas para este jogador!', '#64748b');
-                return;
-            }
-
-            dicasUsadasForca++;
-            const dica = dicasDisponiveisForca[indiceDicaAtualForca];
-            indiceDicaAtualForca++;
-            mensagemForca(`💡 DICA ${dicasUsadasForca}: ${dica}`, '#0d3b4f', '#f5c542');
-            atualizarContadoresForca();
-        }
-
-        // ============================================
-        // JOGAR FORCA - COM ERROS GLOBAIS POR PALAVRA PERDIDA
-        // ============================================
-        function jogarForca(letra) {
-            if (!jogoIniciadoForca || jogoTerminadoForca) return;
-            if (letrasUsadasForca.has(letra)) return;
-
-            letrasUsadasForca.add(letra);
-
-            if (palavraSecreta.includes(letra)) {
-                letrasAdivinhadas.push(letra);
-            } else {
-                errosForca++;
-                desenharForca(errosForca);
-            }
-
-            atualizarPalavraForca();
-            atualizarTecladoForca();
-            atualizarContadoresForca();
-
-            const palavraArray = palavraSecreta.split('');
-            const todasAdivinhadas = palavraArray.every(l => l === ' ' || letrasAdivinhadas.includes(l));
-
-            if (todasAdivinhadas) {
-                jogoTerminadoForca = true;
-                // ACERTOU: zera erros globais
-                errosGlobais = 0;
-                nivelAtual++;
-                salvarProgresso();
-                atualizarDisplayErrosGlobais();
-
-                mostrarCampeao();
-
-                let msg = '';
-                if (errosForca === 0) msg = `🏆 PERFEITO! Nível ${nivelAtual}!`;
-                else if (dicasUsadasForca === 0) msg = `🏆 CAMPEAO! Nível ${nivelAtual}! Acertou sem dicas!`;
-                else if (dicasUsadasForca === 1) msg = `🌟 Nível ${nivelAtual}! Acertou com 1 dica.`;
-                else if (dicasUsadasForca === 2) msg = `👏 Nível ${nivelAtual}! Acertou com 2 dicas.`;
-                else msg = `😅 Nível ${nivelAtual}! Acertou com ${dicasUsadasForca} dicas.`;
-                mensagemForca(msg, '#2e7d32', '#2e7d32');
-
-                atualizarTecladoForca();
-                atualizarContadoresForca();
-                atualizarDisplayProgresso();
-
-                if (nivelAtual >= totalPerguntas) {
-                    mensagemForca(`🎉 PARABÉNS! Você completou os ${totalPerguntas} níveis!`, '#1a5f7a', '#f5c542');
-                }
-                return;
-            }
-
-            // Verifica se perdeu a palavra (6 erros)
-            if (errosForca >= maxErrosForca) {
-                jogoTerminadoForca = true;
-
-                // PERDEU A PALAVRA: incrementa erro global
-                errosGlobais++;
-                atualizarDisplayErrosGlobais();
-                salvarProgresso();
-
-                // Mostra a resposta correta
-                mensagemForca(`😞 Fim de jogo! A resposta era: ${palavraSecreta} (${errosGlobais}/${MAX_ERROS_GLOBAIS} palavras perdidas)`, '#d32f2f', '#d32f2f');
-                letrasAdivinhadas = palavraSecreta.split('');
-                atualizarPalavraForca();
-                atualizarTecladoForca();
-                atualizarContadoresForca();
-                desenharForca(errosForca);
-
-                if (errosGlobais >= MAX_ERROS_GLOBAIS) {
-                    resetarProgresso();
-                    mensagemForca(`💀 Você perdeu ${MAX_ERROS_GLOBAIS} palavras! Progresso resetado.`, '#d32f2f', '#d32f2f');
-                    setTimeout(() => {
-                        iniciarNovoJogoForca();
-                    }, 1500);
-                }
-                return;
-            }
-        }
-
-        // ============================================
-        // INICIAR NOVO JOGO
-        // ============================================
-        function iniciarNovoJogoForca() {
-            if (listaJogadoresForca.length === 0) {
-                carregarJogadoresForca();
-            }
-
-            if (nivelAtual >= totalPerguntas) {
-                mensagemForca(`🎉 Você já é CAMPEÃO! Complete os ${totalPerguntas} níveis!`, '#1a5f7a', '#f5c542');
-                if (confirm('Parabéns! Você completou todos os níveis! Deseja recomeçar do zero?')) {
-                    resetarProgresso();
-                }
-                return;
-            }
-
-            let perguntasDisponiveis = listaJogadoresForca.filter((_, index) => !perguntasUsadas.includes(index));
-
-            if (perguntasDisponiveis.length === 0) {
-                perguntasUsadas = [];
-                salvarProgresso();
-                perguntasDisponiveis = [...listaJogadoresForca];
-                mensagemForca('🔄 Todas as perguntas foram usadas! Reiniciando...', '#64748b');
-            }
-
-            const idx = Math.floor(Math.random() * perguntasDisponiveis.length);
-            const jogador = perguntasDisponiveis[idx];
-            const indexOriginal = listaJogadoresForca.indexOf(jogador);
-
-            palavraSecreta = jogador.nome;
-            letrasAdivinhadas = [];
-            errosForca = 0;
-            jogoTerminadoForca = false;
-            letrasUsadasForca = new Set();
-            dicasUsadasForca = 0;
-            indiceDicaAtualForca = 0;
-            dicasDisponiveisForca = [...jogador.dicas];
-            jogoIniciadoForca = true;
-
-            perguntasUsadas.push(indexOriginal);
-            salvarProgresso();
-
-            baloes.forEach(b => { if (b) b.style.display = 'none'; });
-            campeaoCanvas.style.display = 'none';
-            ctxCampeao.clearRect(0, 0, 280, 340);
-            if (btnVisualizarCard) {
-                btnVisualizarCard.classList.remove('show');
-            }
-
-            desenharForca(0);
-            atualizarPalavraForca();
-            atualizarTecladoForca();
-            atualizarContadoresForca();
-            atualizarDisplayProgresso();
-
-            setTimeout(() => {
-                darDicaForca();
-            }, 300);
-
-            const letrasCount = palavraSecreta.replace(/ /g,'').length;
-            mensagemForca(`🎯 Nível ${nivelAtual + 1}/${totalPerguntas} - ${letrasCount} caracteres (Erros: ${errosGlobais}/${MAX_ERROS_GLOBAIS})`, '#1e293b');
-        }
-
-        // ============================================
-        // INICIAR FORCA
-        // ============================================
-        function iniciarForca() {
-            if (typeof TODAS_PERGUNTAS === 'undefined') {
-                console.error('❌ Arquivo perguntas-forca.js não carregado!');
-                return;
-            }
-
-            carregarProgresso();
-
-            if (typeof listaJogadoresForca !== 'undefined' && listaJogadoresForca.length === 0) {
-                carregarJogadoresForca();
-            }
-            if (typeof imagensCarregadasForca !== 'undefined' && Object.keys(imagensCarregadasForca).length === 0) {
-                carregarSpritesForca();
-            }
-
-            const newGameBtn = document.getElementById('forcaNewGameBtn');
-            const hintBtn = document.getElementById('forcaHintBtn');
-
-            if (newGameBtn) {
-                newGameBtn.onclick = function() {
-                    iniciarNovoJogoForca();
-                };
-            }
-
-            if (hintBtn) {
-                hintBtn.onclick = function() {
-                    darDicaForca();
-                };
-            }
-
-            if (!jogoIniciadoForca) {
-                iniciarNovoJogoForca();
-            }
-        }
-
-        // ============================================
-        // INICIALIZAÇÃO
-        // ============================================
-        function init() {
-            atualizarPremio();
-            carregarFiltroRankingJogadores();
-            carregarFiltrosJogos();
-            carregarFiltrosTendencias();
-            carregarSelectJogador();
-            carregarFiltrosApostas();
-            renderizarRanking();
-            renderizarJogos();
-            renderizarTendencias();
-            initEventListeners();
-            carregarWhatsAppButton();
-            mostrarAba('ranking');
-
-            iniciarAlcyPopup();
-
-            setTimeout(iniciarForca, 500);
-        }
-
-        init();
-    </script>
-
-    <!-- MODAL DE IMAGEM DOS JOGOS DO DIA - CARROSSEL -->
-    <div id="modalJogos" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.92); z-index: 9999; display: none; align-items: center; justify-content: center; padding: 20px;">
-        <div style="position: relative; max-width: 95%; max-height: 95%; width: 100%;">
-            <button onclick="fecharModalJogos()" style="position: absolute; top: -15px; right: -15px; background: #e74c3c; color: white; border: none; border-radius: 50%; width: 44px; height: 44px; font-size: 1.3rem; cursor: pointer; z-index: 20; box-shadow: 0 4px 12px rgba(0,0,0,0.3); display: flex; align-items: center; justify-content: center;">✕</button>
-
-            <button id="btnPrev" onclick="carrosselAnterior()" style="position: absolute; left: 10px; top: 50%; transform: translateY(-50%); background: rgba(255,255,255,0.2); backdrop-filter: blur(5px); color: white; border: none; border-radius: 50%; width: 50px; height: 50px; font-size: 1.8rem; cursor: pointer; z-index: 15; display: none; align-items: center; justify-content: center; transition: all 0.3s;">‹</button>
-
-            <button id="btnNext" onclick="carrosselProximo()" style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); background: rgba(255,255,255,0.2); backdrop-filter: blur(5px); color: white; border: none; border-radius: 50%; width: 50px; height: 50px; font-size: 1.8rem; cursor: pointer; z-index: 15; display: none; align-items: center; justify-content: center; transition: all 0.3s;">›</button>
-
-            <div id="indicadores" style="position: absolute; bottom: -40px; left: 0; right: 0; text-align: center; z-index: 15; display: none; gap: 8px; flex-wrap: wrap; justify-content: center;"></div>
-
-            <div style="position: relative; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center;">
-                <img id="imagemJogos" src="" alt="Jogos do Dia" style="width: 100%; height: auto; max-height: 80vh; object-fit: contain; border-radius: 12px; box-shadow: 0 20px 60px rgba(0,0,0,0.5); cursor: pointer;">
-            </div>
-
-            <div id="legendaImagem" style="position: absolute; bottom: -70px; left: 0; right: 0; text-align: center; color: rgba(255,255,255,0.7); font-size: 0.8rem; z-index: 10; display: none; padding: 8px;">
-                <span id="textoLegenda"></span>
-            </div>
-        </div>
-    </div>
-
-    <script>
-        // ============================================
-        // CARROSSEL DE IMAGENS DO DIA
-        // ============================================
-        let imagensDoDia = [];
-        let indiceAtual = 0;
-
-        function obterImagensDoDia() {
-            const hoje = new Date();
-            const ano = hoje.getFullYear();
-            const mes = String(hoje.getMonth() + 1).padStart(2, '0');
-            const dia = String(hoje.getDate()).padStart(2, '0');
-            const dataStr = `${ano}${mes}${dia}`;
-
-            const extensoes = ['png', 'jpg', 'jpeg'];
-            const imagens = [];
-
-            for (const ext of extensoes) {
-                imagens.push({ src: `img/${dataStr}.${ext}`, index: 0 });
-            }
-
-            for (let i = 1; i <= 20; i++) {
-                for (const ext of extensoes) {
-                    imagens.push({ src: `img/${dataStr}_${i}.${ext}`, index: i });
-                }
-            }
-
-            return imagens;
-        }
-
-        function carregarImagemCarrossel(index) {
-            const img = document.getElementById('imagemJogos');
-            const prevBtn = document.getElementById('btnPrev');
-            const nextBtn = document.getElementById('btnNext');
-            const indicadores = document.getElementById('indicadores');
-            const legenda = document.getElementById('legendaImagem');
-            const textoLegenda = document.getElementById('textoLegenda');
-
-            if (index < 0 || index >= imagensDoDia.length) return;
-
-            const item = imagensDoDia[index];
-            img.src = item.src;
-            indiceAtual = index;
-
-            const temMultiplas = imagensDoDia.length > 1;
-
-            prevBtn.style.display = (temMultiplas && index > 0) ? 'flex' : 'none';
-            nextBtn.style.display = (temMultiplas && index < imagensDoDia.length - 1) ? 'flex' : 'none';
-
-            if (temMultiplas) {
-                indicadores.style.display = 'flex';
-                indicadores.innerHTML = '';
-                for (let i = 0; i < imagensDoDia.length; i++) {
-                    const dot = document.createElement('span');
-                    dot.style.cssText = `
-                        display: inline-block;
-                        width: 10px;
-                        height: 10px;
-                        border-radius: 50%;
-                        background: ${i === index ? 'white' : 'rgba(255,255,255,0.3)'};
-                        margin: 0 4px;
-                        cursor: pointer;
-                        transition: all 0.3s;
-                    `;
-                    dot.onclick = () => carregarImagemCarrossel(i);
-                    indicadores.appendChild(dot);
-                }
-                legenda.style.display = 'block';
-                textoLegenda.textContent = `Imagem ${index + 1} de ${imagensDoDia.length}`;
-            } else {
-                indicadores.style.display = 'none';
-                legenda.style.display = 'none';
-            }
-        }
-
-        function carrosselAnterior() {
-            if (indiceAtual > 0 && imagensDoDia.length > 1) {
-                carregarImagemCarrossel(indiceAtual - 1);
-            }
-        }
-
-        function carrosselProximo() {
-            if (indiceAtual < imagensDoDia.length - 1 && imagensDoDia.length > 1) {
-                carregarImagemCarrossel(indiceAtual + 1);
-            }
-        }
-
-        function abrirModalJogos() {
-            const modal = document.getElementById('modalJogos');
-
-            const listaImagens = obterImagensDoDia();
-            imagensDoDia = [];
-
-            let carregadas = 0;
-            let totalTestadas = listaImagens.length;
-
-            function testarImagem(url, index) {
-                const testImg = new Image();
-                testImg.onload = function() {
-                    imagensDoDia.push({ src: url, index: index });
-                    carregadas++;
-                    if (carregadas >= totalTestadas || carregadas >= 20) {
-                        finalizarCarregamento();
-                    }
-                };
-                testImg.onerror = function() {
-                    carregadas++;
-                    if (carregadas >= totalTestadas || carregadas >= 20) {
-                        finalizarCarregamento();
-                    }
-                };
-                testImg.src = url;
-            }
-
-            function finalizarCarregamento() {
-                if (imagensDoDia.length === 0) {
-                    const img = document.getElementById('imagemJogos');
-                    img.style.display = 'none';
-                    const container = img.parentElement;
-                    const msg = document.createElement('div');
-                    msg.style.cssText = 'color: white; text-align: center; font-size: 1.5rem; padding: 40px;';
-                    const hoje = new Date();
-                    const dataStr = `${hoje.getFullYear()}${String(hoje.getMonth()+1).padStart(2,'0')}${String(hoje.getDate()).padStart(2,'0')}`;
-                    msg.innerHTML = `📅 Nenhuma imagem encontrada para hoje (${dataStr})<br><small style="font-size: 0.8rem;">Coloque o arquivo img/${dataStr}.png ou img/${dataStr}_1.png</small>`;
-                    msg.className = 'msg-erro';
-                    if (!container.querySelector('.msg-erro')) {
-                        container.appendChild(msg);
-                    }
-                    document.getElementById('btnPrev').style.display = 'none';
-                    document.getElementById('btnNext').style.display = 'none';
-                    document.getElementById('indicadores').style.display = 'none';
-                    document.getElementById('legendaImagem').style.display = 'none';
-                } else {
-                    imagensDoDia.sort((a, b) => a.index - b.index);
-                    document.getElementById('imagemJogos').style.display = 'block';
-
-                    if (imagensDoDia.length === 1) {
-                        document.getElementById('imagemJogos').src = imagensDoDia[0].src;
-                        document.getElementById('btnPrev').style.display = 'none';
-                        document.getElementById('btnNext').style.display = 'none';
-                        document.getElementById('indicadores').style.display = 'none';
-                        document.getElementById('legendaImagem').style.display = 'none';
-                    } else {
-                        carregarImagemCarrossel(0);
-                    }
-
-                    const msgErro = document.querySelector('.msg-erro');
-                    if (msgErro) msgErro.remove();
-                }
-
-                modal.style.display = 'flex';
-                document.body.style.overflow = 'hidden';
-            }
-
-            for (let i = 0; i < listaImagens.length; i++) {
-                testarImagem(listaImagens[i].src, listaImagens[i].index);
-            }
-        }
-
-        function fecharModalJogos() {
-            const modal = document.getElementById('modalJogos');
-            modal.style.display = 'none';
-            document.body.style.overflow = 'auto';
-
-            const msgErro = document.querySelector('.msg-erro');
-            if (msgErro) msgErro.remove();
-
-            const img = document.getElementById('imagemJogos');
-            img.style.display = 'block';
-            img.onerror = null;
-            imagensDoDia = [];
-            indiceAtual = 0;
-        }
-
-        document.addEventListener('DOMContentLoaded', function() {
-            const modal = document.getElementById('modalJogos');
-            const img = document.getElementById('imagemJogos');
-
-            img.addEventListener('click', function(e) {
-                e.stopPropagation();
-                if (imagensDoDia.length > 1) {
-                    carrosselProximo();
-                }
-            });
-
-            modal.addEventListener('click', function(e) {
-                if (e.target === modal) {
-                    fecharModalJogos();
-                }
-            });
-
-            document.addEventListener('keydown', function(e) {
-                if (document.getElementById('modalJogos').style.display === 'flex') {
-                    if (e.key === 'Escape') fecharModalJogos();
-                    if (e.key === 'ArrowLeft') carrosselAnterior();
-                    if (e.key === 'ArrowRight') carrosselProximo();
-                }
-            });
-        });
-
-        window.addEventListener('load', function() {
-            setTimeout(abrirModalJogos, 500);
-        });
-    </script>
-</body>
-</html>
+// ============================================
+// PERGUNTAS DA FORCA - COPA 2026
+// 100 perguntas sobre futebol, copas e jogadores
+// ============================================
+
+const TODAS_PERGUNTAS = [
+    // ===== CAMPEÕES MUNDIAIS (10) =====
+    { 
+        palavra: "BRASIL", 
+        dicas: ["País com 5 títulos mundiais", "Pentacampeão em 2002", "País do futebol arte"] 
+    },
+    { 
+        palavra: "ALEMANHA", 
+        dicas: ["4 títulos mundiais", "Campeã em 2014", "País da seleção alemã"] 
+    },
+    { 
+        palavra: "ITALIA", 
+        dicas: ["4 títulos mundiais", "Campeã em 2006", "País da Squadra Azzurra"] 
+    },
+    { 
+        palavra: "ARGENTINA", 
+        dicas: ["3 títulos mundiais", "Campeã em 2022", "País de Messi"] 
+    },
+    { 
+        palavra: "FRANCA", 
+        dicas: ["2 títulos mundiais", "Campeã em 2018", "País de Mbappé"] 
+    },
+    { 
+        palavra: "URUGUAI", 
+        dicas: ["2 títulos mundiais", "Campeão em 1950", "País do Maracanazo"] 
+    },
+    { 
+        palavra: "INGLATERRA", 
+        dicas: ["1 título mundial", "Campeã em 1966", "País da Premier League"] 
+    },
+    { 
+        palavra: "ESPANHA", 
+        dicas: ["1 título mundial", "Campeã em 2010", "País do tiki-taka"] 
+    },
+    { 
+        palavra: "CROACIA", 
+        dicas: ["Vice-campeã em 2018", "Terceiro lugar em 2022", "País de Modric"] 
+    },
+    { 
+        palavra: "HOLANDA", 
+        dicas: ["Vice-campeã em 2010", "Terceiro lugar em 2014", "País da Laranja Mecânica"] 
+    },
+
+    // ===== JOGADORES BRASILEIROS (10) =====
+    { 
+        palavra: "PELE", 
+        dicas: ["Rei do futebol", "3 títulos mundiais", "Maior jogador da história"] 
+    },
+    { 
+        palavra: "RONALDO", 
+        dicas: ["Fenômeno", "Campeão em 2002", "Artilheiro da Copa de 2002"] 
+    },
+    { 
+        palavra: "NEYMAR", 
+        dicas: ["Camisa 10 do Brasil", "Maior artilheiro da seleção", "Joga no Santos"] 
+    },
+    { 
+        palavra: "RONALDINHO", 
+        dicas: ["Campeão em 2002", "Bruxo", "Melhor do mundo em 2005"] 
+    },
+    { 
+        palavra: "ROMARIO", 
+        dicas: ["Campeão em 1994", "Base do Vasco", "Baixinho"] 
+    },
+    { 
+        palavra: "RIVALDO", 
+        dicas: ["Campeão em 2002", "Pernambucano", "Melhor do mundo em 1999"] 
+    },
+    { 
+        palavra: "GARRINCHA", 
+        dicas: ["Campeão em 1962", "Anjo das pernas tortas", "Jogou no Botafogo"] 
+    },
+    { 
+        palavra: "ZICO", 
+        dicas: ["Galinho", "Maior ídolo do Flamengo", "Gênio do futebol"] 
+    },
+    { 
+        palavra: "ROBERTO CARLOS", 
+        dicas: ["Lateral esquerdo", "Campeão em 2002", "Famoso pela falta"] 
+    },
+    { 
+        palavra: "CAFU", 
+        dicas: ["Lateral direito", "Campeão em 1994 e 2002", "Capitão do penta"] 
+    },
+
+// ===== JOGADORES ARGENTINOS (5) =====
+    { 
+        palavra: "MESSI", 
+        dicas: ["8 Bolas de Ouro", "Campeão em 2022", "Ídolo do Barcelona"] 
+    },
+    { 
+        palavra: "MARADONA", 
+        dicas: ["Campeão em 1986", "Mão de Deus", "Ídolo do Napoli"] 
+    },
+    { 
+        palavra: "DI MARIA", 
+        dicas: ["Gol na final de 2022", "Joga no Benfica", "Ponta esquerda"] 
+    },
+    { 
+        palavra: "AGUERO", 
+        dicas: ["Artilheiro do Manchester City", "Ex-genro de Maradona", "Se aposentou por problemas no coração"] 
+    },
+    { 
+        palavra: "BATISTUTA", 
+        dicas: ["Segundo maior artilheiro da seleção", "Ídolo e gol de placa na Fiorentina", "Apelidado de 'Batigol'"] 
+    },
+
+    // ===== JOGADORES EUROPEUS (10) =====
+    { 
+        palavra: "CRISTIANO RONALDO", 
+        dicas: ["5 Champions", "Maior artilheiro da história", "Ídolo do Real Madrid"] 
+    },
+    { 
+        palavra: "MBAPPE", 
+        dicas: ["Campeão em 2018", "Velocidade", "Joga no Real Madrid"] 
+    },
+    { 
+        palavra: "DE BRUYNE", 
+        dicas: ["Meia do Manchester City", "Melhor passador do mundo", "Belga"] 
+    },
+    { 
+        palavra: "HAALAND", 
+        dicas: ["Atacante do Manchester City", "Artilheiro na Premier League", "Norueguês"] 
+    },
+    { 
+        palavra: "BENZEMA", 
+        dicas: ["Bola de Ouro 2022", "Jogou no Real Madrid", "Francês"] 
+    },
+    { 
+        palavra: "MODRIC", 
+        dicas: ["Bola de Ouro 2018", "Meia do Real Madrid", "Croata"] 
+    },
+    { 
+        palavra: "LEWANDOWSKI", 
+        dicas: ["Artilheiro do Bayern", "Joga no Barcelona", "Polonês"] 
+    },
+    { 
+        palavra: "INIESTA", // Substituto europeu para o Salah
+        dicas: ["Autor do gol do título da Copa de 2010", "Ídolo do Barcelona", "Meia genial espanhol"] 
+    },
+    { 
+        palavra: "KANE", 
+        dicas: ["Atacante do Bayern", "Artilheiro da seleção inglesa", "Camisa 9"] 
+    },
+    { 
+        palavra: "NEUER", 
+        dicas: ["Goleiro da Alemanha", "Campeão em 2014", "Goleiro líbero"] 
+    },
+// ===== ANOS DAS COPAS (5) =====
+    { 
+        palavra: "1930", 
+        dicas: ["Primeira Copa do Mundo", "Uruguai campeão", "Sede no Uruguai"] 
+    },
+    { 
+        palavra: "1958", 
+        dicas: ["Brasil campeão", "Pelé estreou com 17 anos", "Sede na Suécia"] 
+    },
+    { 
+        palavra: "1970", 
+        dicas: ["Brasil tricampeão", "Esquadrão com Pelé e Jairzinho", "Sede no México"] 
+    },
+    { 
+        palavra: "1994", 
+        dicas: ["Brasil tetracampeão", "Romário eleito o craque do torneio", "Sede nos EUA"] 
+    },
+    { 
+        palavra: "2002", 
+        dicas: ["Brasil pentacampeão", "Ronaldo artilheiro", "Sede na Coreia/Japão"] 
+    },
+
+    // ===== SELEÇÕES E APELIDOS (10) =====
+    { 
+        palavra: "CANARINHO", 
+        dicas: ["Apelido da seleção brasileira", "Cores amarelo e azul", "5 títulos mundiais"] 
+    },
+    { 
+        palavra: "ALBICELESTE", 
+        dicas: ["Apelido da Argentina", "Cores branco e azul", "Messi e Maradona"] 
+    },
+    { 
+        palavra: "TIKI TAKA", 
+        dicas: ["Estilo de jogo espanhol", "Muitos passes", "Campeã em 2010"] 
+    },
+    { 
+        palavra: "LES BLEUS", // Substituiu a repetição da Amarelinha
+        dicas: ["Apelido da seleção da França", "Camisa azul", "Bicampeã mundial (1998 e 2018)"] 
+    },
+    { 
+        palavra: "AZURRA", 
+        dicas: ["Apelido da Itália", "Camisa azul", "4 títulos mundiais"] 
+    },
+    { 
+        palavra: "MANNSCHAFT", 
+        dicas: ["Apelido da Alemanha", "Camisa branca", "4 títulos mundiais"] 
+    },
+    { 
+        palavra: "VELHO LOBO", // Corrigido o apelido do Zagallo
+        dicas: ["Apelido de Zagallo", "Técnico campeão", "Brasil 1970"] 
+    },
+    { 
+        palavra: "FENÔMENO", 
+        dicas: ["Apelido de Ronaldo", "Pentacampeão", "Atacante"] 
+    },
+    { 
+        palavra: "BRUXO", 
+        dicas: ["Apelido de Ronaldinho", "Campeão em 2002", "Sorriso"] 
+    },
+    { 
+        palavra: "REI", 
+        dicas: ["Apelido de Pelé", "Maior da história", "3 títulos"] 
+    },
+
+// ===== ESTÁDIOS E CIDADES (10) =====
+    { 
+        palavra: "MARACANA", 
+        dicas: ["Estádio do Rio de Janeiro", "Final de 1950", "Estádio do Brasil"] 
+    },
+    { 
+        palavra: "WEMBLEY", 
+        dicas: ["Estádio de Londres", "Final de 1966", "Inglaterra"] 
+    },
+    { 
+        palavra: "CENTENARIO", // Substituído para manter a lógica de nome próprio de estádio de Copa
+        dicas: ["Estádio de Montevidéu", "Primeira final de Copa em 1930", "Uruguai"] 
+    },
+    { 
+        palavra: "BERNABEU", 
+        dicas: ["Estádio do Real Madrid", "Espanha", "Estádio famoso"] 
+    },
+    { 
+        palavra: "CAMP NOU", 
+        dicas: ["Estádio do Barcelona", "Espanha", "Maior da Europa"] 
+    },
+    { 
+        palavra: "AZTECA", 
+        dicas: ["Estádio do México", "Final de 1970", "Final de 1986"] 
+    },
+    { 
+        palavra: "MINEIRÃO", 
+        dicas: ["Estádio de Belo Horizonte", "7 a 1 da Alemanha", "Brasil"] 
+    },
+    { 
+        palavra: "FONTENOVA", 
+        dicas: ["Estádio de Salvador", "Copa de 2014", "Brasil"] 
+    },
+    { 
+        palavra: "BEIRA RIO", 
+        dicas: ["Estádio do Internacional", "Porto Alegre", "Brasil"] 
+    },
+    { 
+        palavra: "MORUMBI", 
+        dicas: ["Estádio do São Paulo", "São Paulo", "Brasil"] 
+    },
+
+    // ===== TÉCNICOS FAMOSOS (10) =====
+    { 
+        palavra: "ZAGALLO", // Corrigido de penta para tri
+        dicas: ["Técnico do tri", "Campeão em 1970", "Único com 4 copas no currículo"] 
+    },
+    { 
+        palavra: "PARREIRA", // Corrigido a nacionalidade
+        dicas: ["Técnico do tetra", "Campeão em 1994", "Treinou a África do Sul em 2010"] 
+    },
+    { 
+        palavra: "SCALONI", 
+        dicas: ["Técnico da Argentina", "Campeão em 2022", "Revelação"] 
+    },
+    { 
+        palavra: "DESCHAMPS", 
+        dicas: ["Técnico da França", "Campeão em 2018", "Volante"] 
+    },
+    { 
+        palavra: "LOW", 
+        dicas: ["Técnico da Alemanha", "Campeão em 2014", "Substituto de Klinsmann"] 
+    },
+    { 
+        palavra: "GUARDIOLA", 
+        dicas: ["Técnico do Manchester City", "Espanhol", "Tiki-taka"] 
+    },
+    { 
+        palavra: "KLOPP", 
+        dicas: ["Técnico do Liverpool", "Alemão", "Heavy metal"] 
+    },
+    { 
+        palavra: "MOURINHO", 
+        dicas: ["Técnico português", "Special One", "Treinou Chelsea e Real"] 
+    },
+    { 
+        palavra: "SCOLARI", 
+        dicas: ["Técnico do penta", "Felipão", "Campeão em 2002"] 
+    },
+    { 
+        palavra: "TITE", // Atualizado para evitar erro temporal
+        dicas: ["Comandou o Brasil nas Copas de 2018 e 2022", "Multi-campeão pelo Corinthians", "Gaúcho"] 
+    },
+
+// ===== RECORDES E CURIOSIDADES (10) =====
+    { 
+        palavra: "PENTA", 
+        dicas: ["5 títulos do Brasil", "Conquistado em 2002", "Ronaldo foi o artilheiro do torneio"] 
+    },
+    { 
+        palavra: "TETRA", 
+        dicas: ["4 títulos do Brasil", "Conquistado em 1994", "Romário foi o craque do torneio"] 
+    },
+    { 
+        palavra: "MARACANAZO", 
+        dicas: ["Brasil x Uruguai 1950", "Trágica derrota do Brasil em casa", "Jogo histórico"] 
+    },
+    { 
+        palavra: "MINEIRAZO", 
+        dicas: ["Brasil 1 x 7 Alemanha", "Ocorrido em 2014", "Belo Horizonte"] 
+    },
+    { 
+        palavra: "MAO DE DEUS", 
+        dicas: ["Gol de mão de Maradona", "Copa de 1986", "Contra a Inglaterra"] 
+    },
+    { 
+        palavra: "NAZISMO", 
+        dicas: ["Regime político que impactou o esporte", "Copa de 1938", "Alemanha de Adolf Hitler"] 
+    },
+    { 
+        palavra: "HAT TRICK", // Substituído o erro do "Quádruplo" pelo termo correto de 3 gols
+        dicas: ["Termo para quando um jogador faz 3 gols", "Leônidas fez um em 1938", "Expressão de origem inglesa"] 
+    },
+    { 
+        palavra: "KLOSE", // Corrigido para o verdadeiro maior artilheiro das Copas
+        dicas: ["Maior artilheiro da história das Copas", "Alemão", "Marcou 16 gols no total"] 
+    },
+    { 
+        palavra: "PENALTI", 
+        dicas: ["Tiro livre da marca de 11 metros", "Decisão na final de 1994", "Baggio isolou a bola"] 
+    },
+    { 
+        palavra: "TRI", 
+        dicas: ["3 títulos do Brasil", "Conquistado em 1970", "Esquadrão liderado por Pelé"] 
+    },
+
+    // ===== COPA 2026 (10) =====
+    { 
+        palavra: "2026", 
+        dicas: ["Ano da Copa atual", "Sede dividida na América do Norte", "Primeira com 48 seleções"] 
+    },
+    { 
+        palavra: "MEXICO", 
+        dicas: ["Sede da Copa 2026", "Primeiro país a sediar três Copas", "Estádio Azteca"] 
+    },
+    { 
+        palavra: "CANADA", 
+        dicas: ["Sede da Copa 2026", "Primeira Copa masculina no país", "Cidades como Toronto e Vancouver"] 
+    },
+    { 
+        palavra: "EUA", 
+        dicas: ["Sede da Copa 2026", "Teve a Copa de 1994", "Onde será a grande final"] 
+    },
+    { 
+        palavra: "VINI JR", 
+        dicas: ["Destaque brasileiro do Real Madrid", "Campeão e gol na final da Champions", "Protagonista da seleção"] 
+    },
+    { 
+        palavra: "RODRYGO", 
+        dicas: ["Atacante brasileiro do Real Madrid", "Conhecido como 'Raio'", "Menino da Vila"] 
+    },
+    { 
+        palavra: "ENDRICK", // Nome corrigido
+        dicas: ["Jovem promessa que foi para o Real Madrid", "Canhoto", "Revelação da base do Palmeiras"] 
+    },
+    { 
+        palavra: "BROBBEY", 
+        dicas: ["Atacante holandês de muita força física", "Cria da base do Ajax", "Nova geração da Holanda"] 
+    },
+    { 
+        palavra: "MUSIALA", 
+        dicas: ["Camisa 10 e joia da Alemanha", "Meia-atacante do Bayern de Munique", "Dribles curtos"] 
+    },
+    { 
+        palavra: "BALON DOR", 
+        dicas: ["Prêmio da revista France Football", "Sonho dos craques da Copa", "Melhor jogador do mundo"] 
+    },
+
+    // ===== JOGOS DE FUTEBOL (10) =====
+    { 
+        palavra: "FIFA", 
+        dicas: ["Antigo nome da famosa franquia de videogame da EA Sports", "Entidade máxima do futebol", "Simulador virtual"] 
+    },
+    { 
+        palavra: "PES", 
+        dicas: ["Franquia Pro Evolution Soccer", "Antigo rival do FIFA", "Criado pela Konami"] 
+    },
+    { 
+        palavra: "GOL", 
+        dicas: ["Momento supremo do futebol", "Balançar a rede", "Ponto máximo da partida"] 
+    },
+    { 
+        palavra: "BOLA", 
+        dicas: ["O objeto principal do esporte", "Formato esférico", "A Al Rihla e a Jabulani foram exemplos"] 
+    },
+    { 
+        palavra: "BICICLETA", 
+        dicas: ["Chute acrobático no ar de costas para o gol", "Leônidas da Silva popularizou", "Plástica perfeita"] 
+    },
+    { 
+        palavra: "FALTA", 
+        dicas: ["Infração cometida sobre o adversário", "Pode ser cobrada direto para o gol", "Barreira tenta bloquear"] 
+    },
+    { 
+        palavra: "CARTÃO", 
+        dicas: ["Item de advertência do árbitro", "Pode ser amarelo ou vermelho", "Exclui o jogador se for repetido"] 
+    },
+    { 
+        palavra: "VAR", 
+        dicas: ["Árbitro de vídeo", "Tecnologia para revisar lances capitais", "Checa gols, cartões e impedimentos"] 
+    },
+    { 
+        palavra: "CHUTEIRA", 
+        dicas: ["Calçado específico para o gramado", "Possui travas na sola", "Modelos famosos da Nike, Adidas e Puma"] 
+    },
+    { 
+        palavra: "UNIFORME", 
+        dicas: ["Conjunto de camisa, calção e meiões", "Identidade visual do time em campo", "Manto sagrado"] 
+    },
+
+    // ----- FLAMENGO (15) -----
+    { palavra: "FLAMENGO", dicas: ["Clube carioca fundado em 1895", "Rubro-Negro", "Maior torcida do Brasil"] },
+    { palavra: "ZICO", dicas: ["Maior ídolo da história do Flamengo", "Galinho de Quintino", "Maior artilheiro da história do clube"] },
+    { palavra: "JUNIOR", dicas: ["Lateral-esquerdo campeão mundial em 1981", "Capitão do time histórico", "Também atuou como meio-campista"] },
+    { palavra: "ADILIO", dicas: ["Meia campeão mundial em 1981", "Cria da Gávea", "Camisa 8 do time histórico"] },
+    { palavra: "NUNES", dicas: ["Centroavante campeão mundial em 1981", "Conhecido como João Danado", "Fez 2 gols na final contra o Liverpool"] },
+    { palavra: "GABIGOL", dicas: ["Autor dos 2 gols da virada na final da Libertadores de 2019", "Um dos maiores artilheiros do Flamengo no século XXI", "Ídolo da torcida rubro-negra"] },
+    { palavra: "ARRASCAETA", dicas: ["Meia uruguaio", "Campeão da Libertadores pelo Flamengo", "Revelado pelo Defensor Sporting"] },
+    { palavra: "BRUNO HENRIQUE", dicas: ["Atacante conhecido pela velocidade", "Campeão da Libertadores pelo Flamengo", "Revelado pelo Goiás"] },
+    { palavra: "EVERTON RIBEIRO", dicas: ["Meia campeão da Libertadores pelo Flamengo", "Vestiu a camisa 7", "Revelado pelo Coritiba"] },
+    { palavra: "GERSON", dicas: ["Volante revelado pelo Fluminense", "Conhecido como Coringa", "Campeão da Libertadores pelo Flamengo"] },
+    { palavra: "DAVID LUIZ", dicas: ["Zagueiro campeão da Libertadores pelo Flamengo", "Revelado pelo Vitória", "Também defendeu Chelsea, PSG e Arsenal"] },
+    { palavra: "PETKOVIC", dicas: ["Meia sérvio", "Autor do histórico gol de falta de 2001", "Ídolo do título brasileiro de 2009"] },
+    { palavra: "ADRIANO", dicas: ["Conhecido como Imperador", "Artilheiro do Campeonato Brasileiro de 2009", "Revelado pelo Flamengo"] },
+    { palavra: "1981", dicas: ["Ano do Mundial do Flamengo", "Vitória por 3 a 0 sobre o Liverpool no Japão", "Nunes marcou 2 gols na decisão"] },
+    { palavra: "2019", dicas: ["Ano da Libertadores do Flamengo", "Virada por 2 a 1 sobre o River Plate", "Final disputada em Lima, no Peru"] },
+
+    // ----- CORINTHIANS (15) -----
+    { palavra: "CORINTHIANS", dicas: ["Clube paulista fundado em 1910", "Conhecido como Timão", "Maior campeão paulista"] },
+    { palavra: "CASSIO", dicas: ["Goleiro histórico do Corinthians", "Herói do Mundial de 2012", "Defendeu o pênalti de Diego Souza na Libertadores"] },
+    { palavra: "RONALDO", dicas: ["Conhecido como Fenômeno", "Conquistou a Copa do Brasil de 2009", "Encerrou a carreira no Corinthians"] },
+    { palavra: "MARCELINHO", dicas: ["Maior cobrador de faltas da história do Corinthians", "Conhecido como Pé de Anjo", "Ídolo dos títulos dos anos 90"] },
+    { palavra: "SOCRATES", dicas: ["Líder da Democracia Corinthiana", "Médico formado", "Um dos maiores ídolos da história do clube"] },
+    { palavra: "RIVELINO", dicas: ["Revelado pelo Corinthians", "Conhecido como Reizinho do Parque", "Craque da Copa de 1970"] },
+    { palavra: "VAMPETA", dicas: ["Volante campeão mundial em 2000", "Campeão brasileiro pelo Corinthians", "Fez parte de uma das gerações mais vitoriosas do clube"] },
+    { palavra: "YURI ALBERTO", dicas: ["Centroavante", "Revelado pelo Santos", "Artilheiro do Corinthians na década de 2020"] },
+    { palavra: "GARRO", dicas: ["Meia argentino", "Especialista em assistências", "Vestiu a camisa 8 no Corinthians"] },
+    { palavra: "ROGER GUEDES", dicas: ["Atacante que se destacou pelo Corinthians", "Revelado pelo Criciúma", "Foi um dos artilheiros da equipe na década de 2020"] },
+    { palavra: "PAULINHO", dicas: ["Volante campeão da Libertadores e do Mundial de 2012", "Revelado pelo Pão de Açúcar", "Ídolo da torcida corintiana"] },
+    { palavra: "EDILSON", dicas: ["Atacante conhecido como Capetinha", "Campeão mundial em 2000", "Ídolo do Corinthians no fim dos anos 90"] },
+    { palavra: "2000", dicas: ["Ano do primeiro Mundial do Corinthians", "Título conquistado sobre o Vasco nos pênaltis", "Disputado no Brasil"] },
+    { palavra: "2012", dicas: ["Ano do segundo Mundial do Corinthians", "Vitória por 1 a 0 sobre o Chelsea", "Guerrero marcou o gol do título"] },
+    { palavra: "1998", dicas: ["Ano do segundo Campeonato Brasileiro do Corinthians", "Marcelinho Carioca foi um dos destaques", "Vampeta e Rincón eram titulares"] },
+    
+    // ----- PALMEIRAS (15) -----
+    { palavra: "PALMEIRAS", dicas: ["Clube paulista fundado em 1914", "Conhecido como Verdão", "Maior campeão brasileiro"] },
+    { palavra: "ADEMIR DA GUIA", dicas: ["Maior ídolo da história do Palmeiras", "Conhecido como Divino", "Um dos maiores meias do futebol brasileiro"] },
+    { palavra: "DUDU", dicas: ["Um dos maiores ídolos recentes do Palmeiras", "Atacante campeão da Libertadores", "Vestiu a camisa 7 por muitos anos"] },
+    { palavra: "GUSTAVO SCARPA", dicas: ["Meia campeão da Libertadores pelo Palmeiras", "Eleito o melhor jogador do Brasileirão de 2022", "Revelado pelo Fluminense"] },
+    { palavra: "RAPHAEL VEIGA", dicas: ["Meia do Palmeiras", "Especialista em cobranças de pênalti", "Destaque nas Libertadores de 2020 e 2021"] },
+    { palavra: "RONY", dicas: ["Atacante do Palmeiras", "Destaque nas campanhas da Libertadores", "Conhecido pelas bicicletas"] },
+    { palavra: "MARCOS", dicas: ["Goleiro campeão da Libertadores de 1999", "Conhecido como São Marcos", "Ídolo da torcida palmeirense"] },
+    { palavra: "ZE ROBERTO", dicas: ["Volante e lateral-esquerdo", "Jogou no Palmeiras já veterano", "Destacou-se pela excelente condição física"] },
+    { palavra: "EDMUNDO", dicas: ["Conhecido como Animal", "Ídolo do Palmeiras nos anos 90", "Campeão brasileiro de 1993 e 1994"] },
+    { palavra: "EVAIR", dicas: ["Centroavante histórico do Palmeiras", "Artilheiro da Libertadores de 1999", "Ídolo da década de 90"] },
+    { palavra: "1999", dicas: ["Ano da primeira Libertadores do Palmeiras", "Título conquistado sobre o Deportivo Cali", "Marcos defendeu pênalti decisivo"] },
+    { palavra: "2020", dicas: ["Ano da segunda Libertadores do Palmeiras", "Vitória sobre o Santos por 1 a 0", "Breno Lopes marcou o gol do título"] },
+    { palavra: "2021", dicas: ["Ano da terceira Libertadores do Palmeiras", "Vitória sobre o Flamengo na prorrogação", "Deyverson marcou o gol do título"] },
+    { palavra: "2022", dicas: ["Ano do 11º Campeonato Brasileiro do Palmeiras", "Time comandado por Abel Ferreira", "Gustavo Scarpa foi um dos destaques"] },
+    { palavra: "2018", dicas: ["Ano do Campeonato Brasileiro do Palmeiras", "Time comandado por Felipão", "Dudu foi um dos principais destaques"] },
+
+    // ----- SANTOS (15) -----
+    { palavra: "SANTOS", dicas: ["Clube paulista fundado em 1912", "Conhecido como Peixe", "Clube onde Pelé fez história"] },
+    { palavra: "PELE", dicas: ["Maior jogador da história do Santos", "Rei do Futebol", "Bicampeão mundial pelo clube"] },
+    { palavra: "GILMAR", dicas: ["Goleiro histórico do Santos", "Campeão mundial pelo clube", "Também foi campeão do mundo pela Seleção"] },
+    { palavra: "PEPE", dicas: ["Maior artilheiro do Santos depois de Pelé", "Conhecido como Canhão da Vila", "Bicampeão mundial pelo clube"] },
+    { palavra: "MENGALVIO", dicas: ["Meia do histórico ataque santista", "Campeão mundial pelo Santos", "Fez parte do time de Pelé"] },
+    { palavra: "ZITO", dicas: ["Volante histórico do Santos", "Conhecido como Gerente", "Bicampeão mundial pelo clube"] },
+    { palavra: "ORLANDO", dicas: ["Zagueiro histórico do Santos", "Capitão do time de Pelé", "Bicampeão mundial pelo clube"] },
+    { palavra: "CLODOALDO", dicas: ["Volante histórico do Santos", "Campeão do mundo com o Brasil em 1970", "Fez parte do time campeão de 1968"] },
+    { palavra: "NEYMAR", dicas: ["Revelado pelo Santos", "Campeão da Libertadores de 2011", "Maior ídolo recente do clube"] },
+    { palavra: "ROBINHO", dicas: ["Revelado pelo Santos", "Campeão brasileiro de 2002", "Conhecido pelas pedaladas"] },
+    { palavra: "GANSO", dicas: ["Meia revelado na base do Santos", "Campeão da Libertadores de 2011", "Formou dupla com Neymar"] },
+    { palavra: "1962", dicas: ["Ano do primeiro Mundial do Santos", "Título conquistado sobre o Benfica", "Pelé brilhou na decisão"] },
+    { palavra: "1963", dicas: ["Ano do segundo Mundial do Santos", "Título conquistado sobre o Milan", "O Santos venceu a decisão em três partidas"] },
+    { palavra: "2002", dicas: ["Ano do Campeonato Brasileiro do Santos", "Time comandado por Emerson Leão", "Robinho e Diego eram os principais destaques"] },
+    { palavra: "2011", dicas: ["Ano da terceira Libertadores do Santos", "Vitória sobre o Peñarol", "Neymar foi o principal destaque da campanha"] },
+    
+    // ----- SAO PAULO (15) -----
+    { palavra: "SAO PAULO", dicas: ["Clube paulista fundado em 1930", "Conhecido como Tricolor Paulista", "Único brasileiro tricampeão mundial"] },
+    { palavra: "ROGERIO CENI", dicas: ["Maior ídolo da história do São Paulo", "Goleiro-artilheiro", "Maior goleador entre os goleiros"] },
+    { palavra: "RAI", dicas: ["Meia e camisa 10 histórico", "Capitão dos Mundiais de 1992 e 1993", "Ídolo do São Paulo"] },
+    { palavra: "MULLER", dicas: ["Atacante revelado pelo São Paulo", "Campeão mundial em 1992 e 1993", "Fez dupla histórica com Raí"] },
+    { palavra: "CARECA", dicas: ["Centroavante campeão brasileiro de 1986", "Revelado pelo Guarani", "Um dos maiores atacantes da história do São Paulo"] },
+    { palavra: "TELE", dicas: ["Treinador histórico do São Paulo", "Comandou os títulos mundiais de 1992 e 1993", "Conhecido pela disciplina e pelo futebol ofensivo"] },
+    { palavra: "SERGINHO", dicas: ["Lateral-esquerdo revelado pelo São Paulo", "Conhecido como Serginho Chulapa", "Maior artilheiro da história do clube"] },
+    { palavra: "PALHINHA", dicas: ["Atacante campeão brasileiro de 1977", "Ídolo da torcida são-paulina", "Conhecido pelos gols decisivos"] },
+    { palavra: "LUCAS", dicas: ["Revelado pelo São Paulo", "Campeão da Copa Sul-Americana de 2012", "Conhecido pela velocidade"] },
+    { palavra: "OSCAR", dicas: ["Meia revelado na base do São Paulo", "Também atuou na Seleção Brasileira", "Retornou ao clube anos depois"] },
+    { palavra: "CASEMIRO", dicas: ["Volante revelado pelo São Paulo", "Construiu carreira de sucesso na Europa", "Campeão de várias Champions League"] },
+    { palavra: "1992", dicas: ["Ano do primeiro Mundial do São Paulo", "Vitória por 2 a 1 sobre o Barcelona", "Final disputada em Tóquio"] },
+    { palavra: "1993", dicas: ["Ano do bicampeonato mundial do São Paulo", "Vitória por 3 a 2 sobre o Milan", "Final disputada em Tóquio"] },
+    { palavra: "2005", dicas: ["Ano da terceira Libertadores do São Paulo", "Vitória sobre o Athletico Paranaense", "Rogério Ceni era o capitão"] },
+    { palavra: "2006", dicas: ["Ano do Campeonato Brasileiro", "Primeiro de três títulos consecutivos", "Muricy Ramalho era o treinador"] },
+
+    // ----- FLUMINENSE (15) -----
+    { palavra: "FLUMINENSE", dicas: ["Clube carioca fundado em 1902", "Conhecido como Tricolor das Laranjeiras", "Campeão da Libertadores de 2023"] },
+    { palavra: "FRED", dicas: ["Maior ídolo da história recente do Fluminense", "Maior artilheiro do clube no século XXI", "Centroavante"] },
+    { palavra: "CONCA", dicas: ["Meia argentino", "Craque do Brasileirão de 2010", "Ídolo da torcida tricolor"] },
+    { palavra: "THIAGO NEVES", dicas: ["Meia habilidoso", "Campeão brasileiro de 2010", "Também atuou pelo Cruzeiro"] },
+    { palavra: "GUM", dicas: ["Zagueiro capitão", "Campeão brasileiro de 2010 e 2012", "Ídolo da torcida"] },
+    { palavra: "DIGUINHO", dicas: ["Volante marcador", "Campeão brasileiro de 2010 e 2012", "Formou dupla com Edinho"] },
+    { palavra: "WASHINGTON", dicas: ["Conhecido como Coração Valente", "Artilheiro do Fluminense", "Vice-campeão da Libertadores de 2008"] },
+    { palavra: "CANO", dicas: ["Centroavante argentino", "Artilheiro da Libertadores de 2023", "Ídolo da conquista continental"] },
+    { palavra: "ARIAS", dicas: ["Atacante colombiano", "Destaque da Libertadores de 2023", "Conhecido pelos dribles"] },
+    { palavra: "NINO", dicas: ["Zagueiro capitão do título da Libertadores", "Revelado pelo Criciúma", "Também atuou na Seleção Brasileira"] },
+    { palavra: "FABIO", dicas: ["Goleiro campeão da Libertadores de 2023", "Ídolo também do Cruzeiro", "Um dos jogadores com mais partidas na história do futebol brasileiro"] },
+    { palavra: "GANSO", dicas: ["Meia revelado pelo Santos", "Campeão da Libertadores de 2023", "Conhecido pela visão de jogo"] },
+    { palavra: "2010", dicas: ["Ano do terceiro Campeonato Brasileiro do Fluminense", "Conca foi eleito o craque da competição", "Fred foi o principal artilheiro da equipe"] },
+    { palavra: "2012", dicas: ["Ano do tetracampeonato brasileiro", "Fred foi o artilheiro da equipe", "Abel Braga era o treinador"] },
+    { palavra: "2023", dicas: ["Ano da primeira Libertadores do Fluminense", "Vitória sobre o Boca Juniors", "John Kennedy marcou o gol decisivo da prorrogação"] },
+
+    // ----- BOTAFOGO (15) -----
+    { palavra: "BOTAFOGO", dicas: ["Clube carioca fundado em 1904", "Conhecido como Fogão", "Clube de Garrincha e Nilton Santos"] },
+    { palavra: "GARRINCHA", dicas: ["Maior ídolo da história do Botafogo", "Anjo das Pernas Tortas", "Bicampeão mundial pela Seleção"] },
+    { palavra: "NILTON SANTOS", dicas: ["Conhecido como Enciclopédia do Futebol", "Lateral-esquerdo histórico", "Bicampeão mundial pela Seleção"] },
+    { palavra: "DIDI", dicas: ["Inventou a folha seca", "Craque da Copa de 1958", "Ídolo do Botafogo"] },
+    { palavra: "ZAGALLO", dicas: ["Ponta-esquerda do Botafogo", "Único tetracampeão mundial", "Bicampeão como jogador"] },
+    { palavra: "AMARILDO", dicas: ["Substituiu Pelé na Copa de 1962", "Atacante histórico do Botafogo", "Campeão do mundo"] },
+    { palavra: "TIQUINHO", dicas: ["Centroavante", "Destaque do Botafogo na década de 2020", "Conhecido pelo faro de gol"] },
+    { palavra: "1995", dicas: ["Ano do Campeonato Brasileiro do Botafogo", "Túlio Maravilha foi o artilheiro", "Vitória sobre o Santos na final"] },
+    { palavra: "2024", dicas: ["Ano da primeira Libertadores do Botafogo", "Também conquistou o Campeonato Brasileiro", "Venceu o Atlético-MG na final continental"] },
+    { palavra: "TULIO", dicas: ["Conhecido como Túlio Maravilha", "Artilheiro do título brasileiro de 1995", "Um dos maiores goleadores da história do Botafogo"] },
+    { palavra: "1993", dicas: ["Ano da conquista da Copa Conmebol", "Primeiro título internacional do Botafogo", "Vitória sobre o Peñarol"] },
+    { palavra: "1968", dicas: ["Ano da conquista da Taça Brasil", "Botafogo tinha Gérson, Jairzinho e Paulo César", "Um dos grandes times da história do clube"] },
+    { palavra: "JAIRZINHO", dicas: ["Conhecido como Furacão da Copa", "Ídolo do Botafogo", "Marcou gols em todos os jogos da Copa de 1970"] },
+    { palavra: "NILTON", dicas: ["Apelido de um dos maiores laterais da história", "Conhecido como Enciclopédia do Futebol", "Ídolo eterno do Botafogo"] },
+    { palavra: "2025", dicas: ["Ano da conquista da Recopa Sul-Americana", "Título internacional do Botafogo", "Disputada contra o Racing"] },
+    
+    // ----- VASCO (15) -----
+    { palavra: "VASCO", dicas: ["Clube carioca fundado em 1898", "Gigante da Colina", "Resposta histórica contra o racismo e o elitismo"] },
+    { palavra: "DINAMITE", dicas: ["Maior ídolo da história do Vasco", "Atacante", "Maior artilheiro da história do Brasileirão"] },
+    { palavra: "ROMARIO", dicas: ["Atacante ídolo do Vasco", "Camisa 11", "Revelado na base do Vasco"] },
+    { palavra: "EDMUNDO", dicas: ["Atacante ídolo dos anos 90", "Animal", "Campeão brasileiro de 1997 com grande destaque"] },
+    { palavra: "PEDRINHO", dicas: ["Meia ídolo dos anos 90", "Camisa 10", "Campeão brasileiro de 1997"] },
+    { palavra: "FELIPE", dicas: ["Meia ídolo dos anos 90", "Camisa 5", "Campeão brasileiro de 1997"] },
+    { palavra: "DONIZETE", dicas: ["Atacante do Vasco nos anos 90", "Camisa 9", "Destaque no título brasileiro de 1997"] },
+    { palavra: "MAURO GALVAO", dicas: ["Zagueiro ídolo dos anos 90", "Capitão", "Campeão brasileiro de 1997"] },
+    { palavra: "VALDIR", dicas: ["Atacante conhecido como Valdir Bigode", "Goleador", "Destaque no Vasco nos anos 90"] },
+    { palavra: "VEGETTI", dicas: ["Atacante atual do Vasco", "Camisa 9", "Artilheiro do clube"] },
+    { palavra: "1974", dicas: ["Ano do Brasileiro do Vasco", "Destaque com Roberto Dinamite", "Campeão brasileiro"] },
+    { palavra: "1989", dicas: ["Ano do Brasileiro do Vasco", "Time campeão com Romário", "Título nacional"] },
+    { palavra: "1997", dicas: ["Ano do Brasileiro do Vasco", "Grande campanha com Edmundo", "Campeão brasileiro"] },
+    { palavra: "2000", dicas: ["Ano do Brasileiro do Vasco", "Romário em grande fase", "Campeão da Copa João Havelange"] },
+    { palavra: "1998", dicas: ["Ano da Libertadores do Vasco", "Venceu o Barcelona SC na final", "Título continental"] },
+
+
+    // ==========================================
+    // JOGADORES LENDÁRIOS BRASILEIROS (50)
+    // ==========================================
+    { palavra: "PELE", dicas: ["Maior jogador da história", "Rei do futebol", "3 títulos mundiais (1958, 1962, 1970)"] },
+    { palavra: "MARADONA", dicas: ["Maior ídolo argentino", "Mão de Deus", "Campeão do mundo 1986"] },
+    { palavra: "RONALDO", dicas: ["Fenômeno", "Campeão do mundo 1994 e 2002", "Artilheiro da Copa 2002"] },
+    { palavra: "RONALDINHO", dicas: ["Bruxo", "Campeão do mundo 2002", "Melhor do mundo 2004 e 2005"] },
+    { palavra: "ROMARIO", dicas: ["Baixinho", "Campeão do mundo 1994", "Artilheiro da Copa 1994"] },
+    { palavra: "RIVALDO", dicas: ["Pernambucano", "Campeão do mundo 2002", "Melhor do mundo 1999"] },
+    { palavra: "GARRINCHA", dicas: ["Anjo das pernas tortas", "Campeão do mundo 1958 e 1962", "Ídolo do Botafogo"] },
+    { palavra: "ZICO", dicas: ["Galinho", "Maior ídolo do Flamengo", "Grande artilheiro do clube"] },
+    { palavra: "ROBERTO DINAMITE", dicas: ["Maior ídolo do Vasco", "Artilheiro histórico do clube", "Campeão brasileiro de 1974"] },
+    { palavra: "CAFU", dicas: ["Lateral direito", "Campeão do mundo 1994 e 2002", "Capitão do penta"] },
+    { palavra: "ROBERTO CARLOS", dicas: ["Lateral esquerdo", "Campeão do mundo 2002", "Famoso pelas cobranças de falta"] },
+    { palavra: "TOSTAO", dicas: ["Campeão do mundo 1970", "Meia do Cruzeiro", "Grande jogador da seleção"] },
+    { palavra: "GERSON", dicas: ["Canhotinha de ouro", "Campeão do mundo 1970", "Meia do Flamengo"] },
+    { palavra: "FALCAO", dicas: ["Rei de Roma", "Jogou no Internacional", "Grande meio-campista"] },
+    { palavra: "SOCRATES", dicas: ["Médico e jogador", "Capitão da seleção de 1982", "Ídolo do Corinthians"] },
+    { palavra: "DIDI", dicas: ["Folha seca", "Campeão do mundo 1958 e 1962", "Meia do Botafogo"] },
+    { palavra: "NILTON SANTOS", dicas: ["Lateral esquerdo", "Campeão do mundo 1958 e 1962", "Ídolo do Botafogo"] },
+    { palavra: "ZAGALLO", dicas: ["Ponta-esquerda", "Campeão do mundo 1958 e 1962", "Único com 4 Copas no currículo"] },
+    { palavra: "LEAO", dicas: ["Goleiro", "Campeão do mundo 1970", "Ídolo do Palmeiras e Flamengo"] },
+    { palavra: "JARZINHO", dicas: ["Ponta-direita", "Campeão do mundo 1970", "Fez gols em todos os jogos da Copa"] },
+    { palavra: "RIVELINO", dicas: ["Meia", "Campeão do mundo 1970", "Destaque da seleção brasileira"] },
+    { palavra: "BEBETO", dicas: ["Atacante", "Campeão do mundo 1994", "Famoso pela comemoração do bebê"] },
+    { palavra: "BRANCO", dicas: ["Lateral esquerdo", "Campeão do mundo 1994", "Famoso pelas faltas decisivas"] },
+    { palavra: "DUNGA", dicas: ["Volante", "Campeão do mundo 1994", "Capitão do tetra"] },
+    { palavra: "TAFFAREL", dicas: ["Goleiro", "Campeão do mundo 1994", "Ídolo do Internacional"] },
+    { palavra: "CLODOALDO", dicas: ["Volante", "Campeão do mundo 1970", "Ídolo do Santos"] },
+    { palavra: "PEPE", dicas: ["Atacante", "Campeão do mundo 1962", "Ídolo do Santos"] },
+    { palavra: "GILMAR", dicas: ["Goleiro", "Campeão do mundo 1958 e 1962", "Ídolo do Santos"] },
+    { palavra: "MENGALVIO", dicas: ["Meia", "Campeão do mundo 1962", "Ídolo do Santos"] },
+    { palavra: "ZITO", dicas: ["Volante", "Campeão do mundo 1962", "Ídolo do Santos"] },
+    { palavra: "ORLANDO", dicas: ["Zagueiro", "Campeão do mundo 1962", "Ídolo do Santos"] },
+    { palavra: "AMARILDO", dicas: ["Atacante", "Campeão do mundo 1962", "Ídolo do Botafogo"] },
+    { palavra: "JUNIOR", dicas: ["Lateral esquerdo", "Campeão do mundo 1982", "Ídolo do Flamengo"] },
+    { palavra: "LEANDRO", dicas: ["Lateral direito", "Campeão do mundo 1982", "Ídolo do Flamengo"] },
+    { palavra: "ADILIO", dicas: ["Meia", "Campeão do mundo 1982", "Ídolo do Flamengo"] },
+    { palavra: "NEYMAR", dicas: ["Camisa 10 do Brasil", "Um dos maiores artilheiros da seleção", "Jogou no Santos"] },
+    { palavra: "VINI JR", dicas: ["Atacante do Real Madrid", "Campeão da Champions League", "Brasileiro"] },
+    { palavra: "MESSI", dicas: ["Maior jogador argentino", "8 Bolas de Ouro", "Campeão do mundo 2022"] },
+    { palavra: "CRISTIANO RONALDO", dicas: ["Maior jogador português", "5 Champions League", "Maior artilheiro da história"] },
+    { palavra: "ENDRICK", dicas: ["Jovem promessa brasileira", "Joga no Real Madrid", "Revelação do Palmeiras"] },
+    { palavra: "ESTEVAO", dicas: ["Jovem promessa brasileira", "Joga no Palmeiras", "Grande destaque"] },
+    { palavra: "LUIS SUAREZ", dicas: ["Atacante uruguaio", "Jogou no Barcelona", "Artilheiro"] },
+    { palavra: "CAVANI", dicas: ["Atacante uruguaio", "Jogou no PSG", "Artilheiro"] },
+    { palavra: "GIROUD", dicas: ["Atacante francês", "Campeão do mundo 2018", "Artilheiro da França"] },
+    { palavra: "VARDY", dicas: ["Atacante inglês", "Jogou no Leicester", "Campeão da Premier League 2016"] },
+    { palavra: "STERLING", dicas: ["Atacante inglês", "Jogou no Manchester City", "Velocidade"] },
+    { palavra: "MADDISON", dicas: ["Meia inglês", "Jogou no Leicester", "Criativo"] },
+    { palavra: "RASHFORD", dicas: ["Atacante inglês", "Jogou no Manchester United", "Velocidade"] },
+    { palavra: "SALAH", dicas: ["Atacante do Liverpool", "Egípcio", "Campeão da Champions League 2019"] },
+    { palavra: "KANE", dicas: ["Atacante do Bayern", "Inglês", "Artilheiro da seleção inglesa"] },
+
+    // ==========================================
+    // ANOS DAS COPAS (8)
+    // ==========================================
+    { palavra: "1930", dicas: ["Primeira Copa do Mundo", "Uruguai campeao", "Sede no Uruguai"] },
+    { palavra: "1958", dicas: ["Brasil campeao", "Pele estreou com 17 anos", "Sede na Suecia"] },
+    { palavra: "1970", dicas: ["Brasil tricampeao", "Pele e Garrincha", "Sede no Mexico"] },
+    { palavra: "1994", dicas: ["Brasil tetracampeao", "Romario artilheiro", "Sede nos EUA"] },
+    { palavra: "2002", dicas: ["Brasil pentacampeao", "Ronaldo artilheiro", "Sede na Coreia/Japao"] },
+    { palavra: "2010", dicas: ["Espanha campea", "Iniesta heroi", "Sede na Africa do Sul"] },
+    { palavra: "2018", dicas: ["Franca campea", "Mbappe revelacao", "Sede na Russia"] },
+    { palavra: "2022", dicas: ["Argentina campea", "Messi campeao", "Sede no Catar"] },
+
+    // ==========================================
+    // JOGADORES INTERNACIONAIS (50)
+    // ==========================================
+    { palavra: "MBAPPE", dicas: ["Atacante do Real Madrid", "Campeao do mundo 2018", "Velocidade"] },
+    { palavra: "DE BRUYNE", dicas: ["Meia do Manchester City", "Belga", "Melhor passes do mundo"] },
+    { palavra: "HAALAND", dicas: ["Atacante do Manchester City", "Noruegues", "Artilheiro da Premier 2023"] },
+    { palavra: "BENZEMA", dicas: ["Atacante", "Bola de Ouro 2022", "Frances"] },
+    { palavra: "MODRIC", dicas: ["Meia do Real Madrid", "Bola de Ouro 2018", "Croata"] },
+    { palavra: "LEWANDOWSKI", dicas: ["Atacante do Barcelona", "Polones", "Artilheiro do Bayern"] },
+    { palavra: "NEUER", dicas: ["Goleiro da Alemanha", "Campeao do mundo 2014", "Goleiro libero"] },
+    { palavra: "VAN DIJK", dicas: ["Zagueiro do Liverpool", "Holandes", "Melhor zagueiro do mundo"] },
+    { palavra: "DE JONG", dicas: ["Meia do Barcelona", "Holandes", "Passagem pelo Ajax"] },
+    { palavra: "GRIEZMANN", dicas: ["Atacante do Atletico", "Campeao do mundo 2018", "Frances"] },
+    { palavra: "POGBA", dicas: ["Meia da Franca", "Campeao do mundo 2018", "Jogou no Manchester United"] },
+    { palavra: "KANTE", dicas: ["Volante da Franca", "Campeao do mundo 2018", "Jogou no Leicester"] },
+    { palavra: "RUDIGER", dicas: ["Zagueiro da Alemanha", "Joga no Real Madrid", "Defensor"] },
+    { palavra: "MULLER", dicas: ["Atacante da Alemanha", "Campeao do mundo 2014", "Joga no Bayern"] },
+    { palavra: "KROOS", dicas: ["Meia da Alemanha", "Campeao do mundo 2014", "Jogou no Real Madrid"] },
+    { palavra: "GNABRY", dicas: ["Atacante da Alemanha", "Joga no Bayern", "Campeao"] },
+    { palavra: "SANCHO", dicas: ["Atacante ingles", "Joga no Manchester United", "Velocidade"] },
+    { palavra: "MOUNT", dicas: ["Meia ingles", "Jogou no Chelsea", "Cria"] },
+    { palavra: "FODEN", dicas: ["Meia do Manchester City", "Ingles", "Campeao da Premier"] },
+    { palavra: "SAKA", dicas: ["Atacante do Arsenal", "Ingles", "Revelacao"] },
+    { palavra: "BELLINGHAM", dicas: ["Meia do Real Madrid", "Ingles", "Jovem talento"] },
+    { palavra: "RICE", dicas: ["Volante do Arsenal", "Ingles", "Capitao"] },
+    { palavra: "WALKER", dicas: ["Lateral ingles", "Joga no Manchester City", "Velocidade"] },
+    { palavra: "STONES", dicas: ["Zagueiro ingles", "Joga no Manchester City", "Capitao"] },
+    { palavra: "PHILLIPS", dicas: ["Volante ingles", "Jogou no Leeds", "Revelacao"] },
+    { palavra: "GREALISH", dicas: ["Meia ingles", "Joga no Manchester City", "Drible"] },
+    { palavra: "JAMES", dicas: ["Lateral ingles", "Joga no Chelsea", "Revelacao"] },
+    { palavra: "CHILWELL", dicas: ["Lateral ingles", "Joga no Chelsea", "Revelacao"] },
+    { palavra: "HENDERSON", dicas: ["Volante ingles", "Jogou no Liverpool", "Capitao"] },
+    { palavra: "MILNER", dicas: ["Volante ingles", "Jogou no Liverpool", "Experiencia"] },
+    { palavra: "DONNARUMMA", dicas: ["Goleiro do PSG", "Italiano", "Campeao da Euro 2020"] },
+    { palavra: "BARELLA", dicas: ["Meia da Inter", "Italiano", "Campeao da Euro 2020"] },
+    { palavra: "CHIESA", dicas: ["Atacante da Italia", "Joga na Juventus", "Campeao da Euro 2020"] },
+    { palavra: "VERRATTI", dicas: ["Volante do PSG", "Italiano", "Campeao da Euro 2020"] },
+    { palavra: "SPINAZZOLA", dicas: ["Lateral italiano", "Joga no Napoli", "Campeao da Euro 2020"] },
+    { palavra: "BONUCCI", dicas: ["Zagueiro italiano", "Jogou na Juventus", "Campeao da Euro 2020"] },
+    { palavra: "CHIELLINI", dicas: ["Zagueiro italiano", "Jogou na Juventus", "Campeao da Euro 2020"] },
+    { palavra: "IMMOBILE", dicas: ["Atacante italiano", "Joga na Lazio", "Campeao da Euro 2020"] },
+    { palavra: "INSIGNE", dicas: ["Atacante italiano", "Jogou no Napoli", "Campeao da Euro 2020"] },
+    { palavra: "PEDRO", dicas: ["Atacante espanhol", "Jogou no Barcelona", "Campeao do mundo 2010"] },
+    { palavra: "INIESTA", dicas: ["Meia espanhol", "Jogou no Barcelona", "Fez o gol da final de 2010"] },
+    { palavra: "XAVI", dicas: ["Meia espanhol", "Jogou no Barcelona", "Campeao do mundo 2010"] },
+    { palavra: "CASILLAS", dicas: ["Goleiro espanhol", "Jogou no Real Madrid", "Campeao do mundo 2010"] },
+    { palavra: "RAMOS", dicas: ["Zagueiro espanhol", "Jogou no Real Madrid", "Campeao do mundo 2010"] },
+    { palavra: "PIQUE", dicas: ["Zagueiro espanhol", "Jogou no Barcelona", "Campeao do mundo 2010"] },
+    { palavra: "BUSQUETS", dicas: ["Volante espanhol", "Joga no Barcelona", "Campeao do mundo 2010"] },
+    { palavra: "ALBA", dicas: ["Lateral espanhol", "Joga no Barcelona", "Campeao do mundo 2010"] },
+    { palavra: "AZPILICUETA", dicas: ["Lateral espanhol", "Jogou no Chelsea", "Campeao do mundo 2010"] },
+    { palavra: "MATA", dicas: ["Meia espanhol", "Jogou no Chelsea", "Campeao do mundo 2010"] },
+
+    // ==========================================
+    // CLUBES INTERNACIONAIS (20)
+    // ==========================================
+    { palavra: "REAL MADRID", dicas: ["Clube espanhol", "14 Champions", "Time de Cristiano Ronaldo"] },
+    { palavra: "BARCELONA", dicas: ["Clube espanhol", "5 Champions", "Time de Messi"] },
+    { palavra: "MANCHESTER CITY", dicas: ["Clube ingles", "Campeao da Champions 2023", "Time de Haaland"] },
+    { palavra: "BAYERN", dicas: ["Clube alemao", "6 Champions", "Time da Alemanha"] },
+    { palavra: "MILAN", dicas: ["Clube italiano", "7 Champions", "Time da Italia"] },
+    { palavra: "LIVERPOOL", dicas: ["Clube ingles", "6 Champions", "Time de Salah"] },
+    { palavra: "PSG", dicas: ["Clube frances", "Time de Mbappe", "Paris"] },
+    { palavra: "JUVENTUS", dicas: ["Clube italiano", "Time de Cristiano Ronaldo", "Turim"] },
+    { palavra: "INTER", dicas: ["Clube italiano", "Time de Milao", "Inter de Milao"] },
+    { palavra: "CHELSEA", dicas: ["Clube ingles", "2 Champions", "Time de Londres"] },
+    { palavra: "ARSENAL", dicas: ["Clube ingles", "Time de Londres", "Invicto 2004"] },
+    { palavra: "MANCHESTER UNITED", dicas: ["Clube ingles", "3 Champions", "Time de Cristiano Ronaldo"] },
+    { palavra: "ATLETICO MADRID", dicas: ["Clube espanhol", "Time de Griezmann", "Espanha"] },
+    { palavra: "DORTMUND", dicas: ["Clube alemao", "Time de Haaland", "Alemanha"] },
+    { palavra: "AJAX", dicas: ["Clube holandes", "4 Champions", "Time de Cruyff"] },
+    { palavra: "PSV", dicas: ["Clube holandes", "1 Champions", "Time de Van Nistelrooy"] },
+    { palavra: "BENFICA", dicas: ["Clube portugues", "2 Champions", "Time de Eusebio"] },
+    { palavra: "PORTO", dicas: ["Clube portugues", "2 Champions", "Time de Deco"] },
+    { palavra: "NAPOLI", dicas: ["Clube italiano", "Time de Maradona", "Napoli"] },
+    { palavra: "ROMA", dicas: ["Clube italiano", "Time de Totti", "Roma"] },
+
+    // ==========================================
+    // PERGUNTAS EXTRAS (69 PARA COMPLETAR 1000)
+    // ==========================================
+    { palavra: "FIFA", dicas: ["Jogo de futebol", "World Cup", "Simulador"] },
+    { palavra: "BOLA", dicas: ["Usada no jogo", "Redonda", "Dribles"] },
+    { palavra: "GOL", dicas: ["Objetivo do jogo", "Marcar ponto", "Comemorar"] },
+    { palavra: "FALTA", dicas: ["Infracao no jogo", "Tiro direto", "Roberto Carlos"] },
+    { palavra: "CARTAO", dicas: ["Amarelo ou vermelho", "Penalidade", "Juiz"] },
+    { palavra: "VAR", dicas: ["Tecnologia no futebol", "Revisao de lances", "Impedimento"] },
+    { palavra: "CHUTEIRA", dicas: ["Usada pelos jogadores", "Trava", "Craque"] },
+    { palavra: "UNIFORME", dicas: ["Camisa do time", "Jogador", "Time"] },
+    { palavra: "BICICLETA", dicas: ["Chute de costas", "Gol de Pele", "Movimento"] },
+    { palavra: "PENALTI", dicas: ["Tiro de 11 metros", "Decisao em 1994", "Baggio errou"] },
+    { palavra: "ESCANTEIO", dicas: ["Cobranca de canto", "Lateral", "Gol de cabeça"] },
+    { palavra: "IMPEDIMENTO", dicas: ["Regra do futebol", "Atacante adiantado", "Bandeira"] },
+    { palavra: "GOLEIRO", dicas: ["Posicao no futebol", "Defende gols", "Camisa 1"] },
+    { palavra: "ZAGUEIRO", dicas: ["Posicao no futebol", "Defende", "Camisa 3"] },
+    { palavra: "VOLANTE", dicas: ["Posicao no futebol", "Marca", "Camisa 5"] },
+    { palavra: "MEIA", dicas: ["Posicao no futebol", "Cria jogadas", "Camisa 10"] },
+    { palavra: "ATACANTE", dicas: ["Posicao no futebol", "Faz gols", "Camisa 9"] },
+    { palavra: "TECNICO", dicas: ["Treinador do time", "Comanda", "Estrategia"] },
+    { palavra: "JUIZ", dicas: ["Arbitro do jogo", "Apita", "Aplica cartoes"] },
+    { palavra: "BANDEIRA", dicas: ["Auxiliar do juiz", "Levanta", "Indica impedimento"] },
+    { palavra: "ESTADIO", dicas: ["Local do jogo", "Torcida", "Gramado"] },
+    { palavra: "TORCIDA", dicas: ["Fas do time", "Apoio", "Canta"] },
+    { palavra: "FUTEBOL", dicas: ["Esporte mais popular", "11 jogadores", "Bola"] },
+    { palavra: "COPA", dicas: ["Torneio mundial", "A cada 4 anos", "Melhor selecao"] },
+    { palavra: "MUNDIAL", dicas: ["Torneio de clubes", "Melhor do mundo", "Fifa"] },
+    { palavra: "LIBERTADORES", dicas: ["Maior torneio da America", "Clubes", "Conmebol"] },
+    { palavra: "CHAMPIONS", dicas: ["Maior torneio da Europa", "Clubes", "Uefa"] },
+    { palavra: "PREMIER", dicas: ["Campeonato ingles", "20 times", "Manchester City"] },
+    { palavra: "BRASILEIRAO", dicas: ["Campeonato brasileiro", "20 times", "Palmeiras"] },
+    { palavra: "SELEÇAO", dicas: ["Time nacional", "Pais", "Copa"] },
+    { palavra: "AMARELINHA", dicas: ["Camisa do Brasil", "Pentacampeao", "Selecao"] },
+    { palavra: "CANARINHO", dicas: ["Apelido do Brasil", "Selecao", "5 titulos"] },
+    { palavra: "ALBICELESTE", dicas: ["Apelido da Argentina", "Messi", "Campea 2022"] },
+    { palavra: "TIKI TAKA", dicas: ["Estilo espanhol", "Muitos passes", "Campea 2010"] },
+    { palavra: "FENOMENO", dicas: ["Apelido de Ronaldo", "Campeao 2002", "Atacante"] },
+    { palavra: "BRUXO", dicas: ["Apelido de Ronaldinho", "Campeao 2002", "Sorriso"] },
+    { palavra: "REI", dicas: ["Apelido de Pele", "Maior da historia", "3 titulos"] },
+    { palavra: "GALINHO", dicas: ["Apelido de Zico", "Idolo do Flamengo", "Artilheiro"] },
+    { palavra: "ANIMAL", dicas: ["Apelido de Edmundo", "Atacante", "Vasco"] },
+    { palavra: "DIVINO", dicas: ["Apelido de Ademir da Guia", "Palmeiras", "Meia"] },
+    { palavra: "MARACANA", dicas: ["Estadio do Rio", "Final de 1950", "Brasil"] },
+    { palavra: "WEMBLEY", dicas: ["Estadio de Londres", "Final de 1966", "Inglaterra"] },
+    { palavra: "BERNABEU", dicas: ["Estadio do Real Madrid", "Espanha", "Famoso"] },
+    { palavra: "CAMP NOU", dicas: ["Estadio do Barcelona", "Espanha", "Maior da Europa"] },
+    { palavra: "AZTECA", dicas: ["Estadio do Mexico", "Final de 1970", "Final de 1986"] },
+    { palavra: "MINEIRAO", dicas: ["Estadio de BH", "7 a 1 da Alemanha", "Brasil"] },
+    { palavra: "MORUMBI", dicas: ["Estadio do Sao Paulo", "Sao Paulo", "Brasil"] },
+    { palavra: "ALLIANZ", dicas: ["Estadio do Bayern", "Alemanha", "Moderno"] },
+    { palavra: "SAN SIRO", dicas: ["Estadio de Milao", "Italia", "Inter e Milan"] },
+    { palavra: "LUZ", dicas: ["Estadio do Benfica", "Portugal", "Historico"] },
+    { palavra: "DRAGAO", dicas: ["Estadio do Porto", "Portugal", "Moderno"] },
+    { palavra: "FONTENOVA", dicas: ["Estadio de Salvador", "Copa 2014", "Brasil"] },
+    { palavra: "BEIRA RIO", dicas: ["Estadio do Inter", "Porto Alegre", "Brasil"] },
+    { palavra: "OLIMPICO", dicas: ["Estadio de Berlim", "Alemanha", "Historico"] },
+    { palavra: "JUVENTUS", dicas: ["Clube italiano", "Allianz Stadium", "Turim"] },
+    { palavra: "NAPOLI", dicas: ["Clube italiano", "Estadio San Paolo", "Maradona"] },
+    { palavra: "ROMA", dicas: ["Clube italiano", "Estadio Olimpico", "Totti"] },
+    { palavra: "LAZIO", dicas: ["Clube italiano", "Estadio Olimpico", "Roma"] },
+    { palavra: "FIORENTINA", dicas: ["Clube italiano", "Estadio Artemio Franchi", "Batistuta"] },
+    { palavra: "SAMPDORIA", dicas: ["Clube italiano", "Estadio Luigi Ferraris", "Génova"] },
+    { palavra: "TORINO", dicas: ["Clube italiano", "Estadio Olimpico", "Turim"] },
+    { palavra: "ATALANTA", dicas: ["Clube italiano", "Estadio Gewiss", "Bergamo"] },
+    { palavra: "BOLOGNA", dicas: ["Clube italiano", "Estadio Renato Dall'Ara", "Bologna"] },
+    { palavra: "VERONA", dicas: ["Clube italiano", "Estadio Marcantonio Bentegodi", "Verona"] },
+    { palavra: "PALERMO", dicas: ["Clube italiano", "Estadio Renzo Barbera", "Palermo"] },
+    { palavra: "CAGLIARI", dicas: ["Clube italiano", "Estadio Sardegna", "Cagliari"] },
+    { palavra: "UDINESE", dicas: ["Clube italiano", "Estadio Friuli", "Udine"] }
+
+];
