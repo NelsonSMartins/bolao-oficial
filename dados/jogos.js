@@ -92,6 +92,13 @@ const JOGOS = [
     { id: 70, timeCasa: 'República Democrática do Congo', timeFora: 'Uzbequistão', data: '2026-06-27' },
     { id: 71, timeCasa: 'Argentina', timeFora: 'Jordânia', data: '2026-06-27' },
     { id: 72, timeCasa: 'Argélia', timeFora: 'Áustria', data: '2026-06-27' }
+    // { id: 1, timeCasa: 'África do Sul', timeFora: 'Canadá', data: '2026-06-28'},
+    // { id: 2, timeCasa: 'Brasil', timeFora: 'Japão', data: '2026-06-29'},
+    // { id: 3, timeCasa: 'Alemanha', timeFora: 'XXXX', data: '2026-06-29'},
+    // { id: 4, timeCasa: 'Holanda', timeFora: 'Marrocos', data: '2026-06-29'},
+    // { id: 5, timeCasa: 'Costa do Marfim', timeFora: 'XXXX', data: '2026-06-30'},
+    // { id: 6, timeCasa: 'XXXX', timeFora: 'XXXX', data: '2026-06-30'},
+    // { id: 7, timeCasa: 'México', timeFora: 'XXXX', data: '2026-06-30'},
 ];
 
 const USUARIOS = {
