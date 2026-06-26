@@ -88,7 +88,7 @@ const RESULTADOS = {
     54: { casa: 1, fora: 0 }, // África do Sul x Coreia do Sul
     
     // 25/06/2026 - Fase de Grupos
-    55: { casa: 2, fora: 1 }, // Alemanha x Equador
+    55: { casa: 1, fora: 2 }, // Alemanha x Equador
     56: { casa: 0, fora: 2 }, // Curaçao x Costa do Marfim
     57: { casa: 1, fora: 1 }, // Japão x Suécia
     58: { casa: 3, fora: 1 }, // Holanda x Tunísia
