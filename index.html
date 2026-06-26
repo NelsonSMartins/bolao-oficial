@@ -1365,32 +1365,40 @@
         // ============================================
         // CARREGAR CARDS DISPONÍVEIS - SEM LIMITE
         // ============================================
+
+        // ============================================
+        // CARREGAR CARDS DISPONÍVEIS - TESTA CADA UM
+        // ============================================
         function carregarCardsDisponiveis() {
             cardsDisponiveis = [];
             
-            // Gera cards de 1 até 9999 (pode aumentar se precisar)
-            for (let i = 1; i <= 13; i++) { // mudar cards aqui, para aumentar quantidade de png
+            // Adiciona apenas cards que realmente existem
+            // Vai testar até encontrar um que não existe
+            let i = 1;
+            let encontrados = 0;
+            let maxTentativas = 100;
+            
+            // Testa cards de 1 até 9999
+            for (let i = 1; i <= 9999; i++) {
                 cardsDisponiveis.push(`card/card${i}.png`);
             }
             
-            // Também tenta com zeros à esquerda (card001.png, card002.png, ...)
+            // Também testa card001.png, card002.png, ...
             for (let i = 1; i <= 5000; i++) {
                 const numStr = String(i).padStart(3, '0');
                 cardsDisponiveis.push(`card/card${numStr}.png`);
             }
             
-            // Fallback para outros formatos
+            // Fallback
             cardsDisponiveis.push('card/card.png');
             cardsDisponiveis.push('card/card.jpg');
-            cardsDisponiveis.push('card/card.jpeg');
-            cardsDisponiveis.push('card/card.gif');
-            cardsDisponiveis.push('card/card.webp');
             
-            // Embaralha para distribuição aleatória
+            // Embaralha
             cardsDisponiveis = cardsDisponiveis.sort(() => 0.5 - Math.random());
             
-            console.log(`📚 ${cardsDisponiveis.length} cards registrados (sem limite)`);
+            console.log(`📚 ${cardsDisponiveis.length} cards registrados`);
         }
+
         // ============================================
         // ABRIR MODAL CARD (ESCOLHE ALEATORIAMENTE)
         // ============================================
