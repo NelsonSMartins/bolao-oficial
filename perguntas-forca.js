@@ -584,7 +584,7 @@ const TODAS_PERGUNTAS = [
     { palavra: "NILTON SANTOS", dicas: ["Lateral esquerdo", "Campeão do mundo 1958 e 1962", "Ídolo do Botafogo"] },
     { palavra: "ZAGALLO", dicas: ["Ponta-esquerda", "Campeão do mundo 1958 e 1962", "Único com 4 Copas no currículo"] },
     { palavra: "LEAO", dicas: ["Goleiro", "Campeão do mundo 1970", "Ídolo do Palmeiras e Flamengo"] },
-    { palavra: "JARZINHO", dicas: ["Ponta-direita", "Campeão do mundo 1970", "Fez gols em todos os jogos da Copa"] },
+    { palavra: "JAIRZINHO", dicas: ["Ponta-direita", "Campeão do mundo 1970", "Fez gols em todos os jogos da Copa"] },
     { palavra: "RIVELINO", dicas: ["Meia", "Campeão do mundo 1970", "Destaque da seleção brasileira"] },
     { palavra: "BEBETO", dicas: ["Atacante", "Campeão do mundo 1994", "Famoso pela comemoração do bebê"] },
     { palavra: "BRANCO", dicas: ["Lateral esquerdo", "Campeão do mundo 1994", "Famoso pelas faltas decisivas"] },
