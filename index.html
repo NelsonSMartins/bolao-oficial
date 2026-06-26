@@ -1425,28 +1425,40 @@
         // ============================================
         // CARREGAR CARDS DISPONÍVEIS - SEM LIMITE
         // ============================================
+        // ============================================
+        // CARREGAR CARDS DISPONÍVEIS - BUSCA TODOS DA PASTA card/
+        // ============================================
         function carregarCardsDisponiveis() {
             cardsDisponiveis = [];
             
-            // Gera cards de 1 até 10000 (pode aumentar se precisar)
-            // O sistema vai testar cada um e só vai manter os que existem
-            for (let i = 1; i <= 10000; i++) {
+            // Gera uma lista enorme de possíveis cards na pasta card/
+            // O sistema vai testar cada um e só manter os que realmente existem
+            const maxCards = 9999; // Número máximo para buscar
+            
+            // Formato principal: card1.png, card2.png, ...
+            for (let i = 1; i <= maxCards; i++) {
                 cardsDisponiveis.push(`card/card${i}.png`);
             }
             
-            // Também tenta com zero à esquerda (card001.png, card002.png, ...)
+            // Também tenta com zeros à esquerda: card001.png, card002.png, ...
             for (let i = 1; i <= 5000; i++) {
                 const numStr = String(i).padStart(3, '0');
                 cardsDisponiveis.push(`card/card${numStr}.png`);
             }
             
-            // Fallback para outros formatos
+            // Também tenta: card_1.png, card_2.png, ...
+            for (let i = 1; i <= 5000; i++) {
+                cardsDisponiveis.push(`card/card_${i}.png`);
+            }
+            
+            // Fallback para outros formatos comuns
             cardsDisponiveis.push('card/card.png');
             cardsDisponiveis.push('card/card.jpg');
+            cardsDisponiveis.push('card/card.jpeg');
             cardsDisponiveis.push('card/card.gif');
             cardsDisponiveis.push('card/card.webp');
             
-            // Também tenta com letras (cardA.png, cardB.png, ...)
+            // Também tenta com letras: cardA.png, cardB.png, ...
             for (let code = 65; code <= 90; code++) {
                 const letra = String.fromCharCode(code);
                 cardsDisponiveis.push(`card/card${letra}.png`);
@@ -1456,9 +1468,8 @@
             // Embaralha para distribuição aleatória
             cardsDisponiveis = cardsDisponiveis.sort(() => 0.5 - Math.random());
             
-            console.log(`📚 ${cardsDisponiveis.length} cards registrados para busca (sem limite)`);
+            console.log(`📚 ${cardsDisponiveis.length} possíveis cards registrados (pasta card/)`);
         }
-        
         // ============================================
         // ABRIR MODAL CARD - CORRIGIDO
         // ============================================
