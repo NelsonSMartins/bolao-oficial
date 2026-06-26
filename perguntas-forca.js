@@ -88,7 +88,7 @@ const TODAS_PERGUNTAS = [
         dicas: ["Lateral direito", "Campeão em 1994 e 2002", "Capitão do penta"] 
     },
 
-    // ===== JOGADORES ARGENTINOS (5) =====
+// ===== JOGADORES ARGENTINOS (5) =====
     { 
         palavra: "MESSI", 
         dicas: ["8 Bolas de Ouro", "Campeão em 2022", "Ídolo do Barcelona"] 
@@ -103,11 +103,11 @@ const TODAS_PERGUNTAS = [
     },
     { 
         palavra: "AGUERO", 
-        dicas: ["Artilheiro do Manchester City", "Sogro de Messi", "Atacante argentino"] 
+        dicas: ["Artilheiro do Manchester City", "Ex-genro de Maradona", "Se aposentou por problemas no coração"] 
     },
     { 
         palavra: "BATISTUTA", 
-        dicas: ["Artilheiro da seleção argentina", "Jogou na Fiorentina", "Atacante de força"] 
+        dicas: ["Segundo maior artilheiro da seleção", "Ídolo e gol de placa na Fiorentina", "Apelidado de 'Batigol'"] 
     },
 
     // ===== JOGADORES EUROPEUS (10) =====
@@ -121,7 +121,7 @@ const TODAS_PERGUNTAS = [
     },
     { 
         palavra: "DE BRUYNE", 
-        dicas: ["Meia do Manchester City", "Melhor passes do mundo", "Belga"] 
+        dicas: ["Meia do Manchester City", "Melhor passador do mundo", "Belga"] 
     },
     { 
         palavra: "HAALAND", 
@@ -140,8 +140,8 @@ const TODAS_PERGUNTAS = [
         dicas: ["Artilheiro do Bayern", "Joga no Barcelona", "Polonês"] 
     },
     { 
-        palavra: "SALAH", 
-        dicas: ["Atacante do Liverpool", "Rei do Egito", "Campeão da Champions"] 
+        palavra: "INIESTA", // Substituto europeu para o Salah
+        dicas: ["Autor do gol do título da Copa de 2010", "Ídolo do Barcelona", "Meia genial espanhol"] 
     },
     { 
         palavra: "KANE", 
@@ -151,8 +151,7 @@ const TODAS_PERGUNTAS = [
         palavra: "NEUER", 
         dicas: ["Goleiro da Alemanha", "Campeão em 2014", "Goleiro líbero"] 
     },
-
-    // ===== ANOS DAS COPAS (5) =====
+// ===== ANOS DAS COPAS (5) =====
     { 
         palavra: "1930", 
         dicas: ["Primeira Copa do Mundo", "Uruguai campeão", "Sede no Uruguai"] 
@@ -163,11 +162,11 @@ const TODAS_PERGUNTAS = [
     },
     { 
         palavra: "1970", 
-        dicas: ["Brasil tricampeão", "Pelé e Garrincha", "Sede no México"] 
+        dicas: ["Brasil tricampeão", "Esquadrão com Pelé e Jairzinho", "Sede no México"] 
     },
     { 
         palavra: "1994", 
-        dicas: ["Brasil tetracampeão", "Romário artilheiro", "Sede nos EUA"] 
+        dicas: ["Brasil tetracampeão", "Romário eleito o craque do torneio", "Sede nos EUA"] 
     },
     { 
         palavra: "2002", 
@@ -188,8 +187,8 @@ const TODAS_PERGUNTAS = [
         dicas: ["Estilo de jogo espanhol", "Muitos passes", "Campeã em 2010"] 
     },
     { 
-        palavra: "AMARELINHA", 
-        dicas: ["Apelido do Brasil", "Camisa amarela", "Pentacampeão"] 
+        palavra: "LES BLEUS", // Substituiu a repetição da Amarelinha
+        dicas: ["Apelido da seleção da França", "Camisa azul", "Bicampeã mundial (1998 e 2018)"] 
     },
     { 
         palavra: "AZURRA", 
@@ -200,7 +199,7 @@ const TODAS_PERGUNTAS = [
         dicas: ["Apelido da Alemanha", "Camisa branca", "4 títulos mundiais"] 
     },
     { 
-        palavra: "GENERAL", 
+        palavra: "VELHO LOBO", // Corrigido o apelido do Zagallo
         dicas: ["Apelido de Zagallo", "Técnico campeão", "Brasil 1970"] 
     },
     { 
@@ -216,7 +215,7 @@ const TODAS_PERGUNTAS = [
         dicas: ["Apelido de Pelé", "Maior da história", "3 títulos"] 
     },
 
-    // ===== ESTÁDIOS E CIDADES (10) =====
+// ===== ESTÁDIOS E CIDADES (10) =====
     { 
         palavra: "MARACANA", 
         dicas: ["Estádio do Rio de Janeiro", "Final de 1950", "Estádio do Brasil"] 
@@ -226,8 +225,8 @@ const TODAS_PERGUNTAS = [
         dicas: ["Estádio de Londres", "Final de 1966", "Inglaterra"] 
     },
     { 
-        palavra: "SANTIAGO", 
-        dicas: ["Estádio do Chile", "Copa de 1962", "Sede no Chile"] 
+        palavra: "CENTENARIO", // Substituído para manter a lógica de nome próprio de estádio de Copa
+        dicas: ["Estádio de Montevidéu", "Primeira final de Copa em 1930", "Uruguai"] 
     },
     { 
         palavra: "BERNABEU", 
@@ -260,12 +259,12 @@ const TODAS_PERGUNTAS = [
 
     // ===== TÉCNICOS FAMOSOS (10) =====
     { 
-        palavra: "ZAGALLO", 
-        dicas: ["Técnico do penta", "Campeão em 1970", "Único com 4 copas"] 
+        palavra: "ZAGALLO", // Corrigido de penta para tri
+        dicas: ["Técnico do tri", "Campeão em 1970", "Único com 4 copas no currículo"] 
     },
     { 
-        palavra: "PARREIRA", 
-        dicas: ["Técnico do tetra", "Campeão em 1994", "Uruguaio"] 
+        palavra: "PARREIRA", // Corrigido a nacionalidade
+        dicas: ["Técnico do tetra", "Campeão em 1994", "Treinou a África do Sul em 2010"] 
     },
     { 
         palavra: "SCALONI", 
@@ -296,325 +295,326 @@ const TODAS_PERGUNTAS = [
         dicas: ["Técnico do penta", "Felipão", "Campeão em 2002"] 
     },
     { 
-        palavra: "TITE", 
-        dicas: ["Técnico do Brasil", "Corinthiano", "Último técnico do Brasil"] 
+        palavra: "TITE", // Atualizado para evitar erro temporal
+        dicas: ["Comandou o Brasil nas Copas de 2018 e 2022", "Multi-campeão pelo Corinthians", "Gaúcho"] 
     },
 
-    // ===== RECORDES E CURIOSIDADES (10) =====
+// ===== RECORDES E CURIOSIDADES (10) =====
     { 
         palavra: "PENTA", 
-        dicas: ["5 títulos do Brasil", "2002", "Ronaldo artilheiro"] 
+        dicas: ["5 títulos do Brasil", "Conquistado em 2002", "Ronaldo foi o artilheiro do torneio"] 
     },
     { 
         palavra: "TETRA", 
-        dicas: ["4 títulos do Brasil", "1994", "Romário artilheiro"] 
+        dicas: ["4 títulos do Brasil", "Conquistado em 1994", "Romário foi o craque do torneio"] 
     },
     { 
         palavra: "MARACANAZO", 
-        dicas: ["Brasil x Uruguai 1950", "Derrota do Brasil", "Jogo histórico"] 
+        dicas: ["Brasil x Uruguai 1950", "Trágica derrota do Brasil em casa", "Jogo histórico"] 
     },
     { 
         palavra: "MINEIRAZO", 
-        dicas: ["Brasil 1 x 7 Alemanha", "2014", "Belo Horizonte"] 
+        dicas: ["Brasil 1 x 7 Alemanha", "Ocorrido em 2014", "Belo Horizonte"] 
     },
     { 
         palavra: "MAO DE DEUS", 
-        dicas: ["Gol de Maradona", "1986", "Contra a Inglaterra"] 
+        dicas: ["Gol de mão de Maradona", "Copa de 1986", "Contra a Inglaterra"] 
     },
     { 
         palavra: "NAZISMO", 
-        dicas: ["Ditadura na Alemanha", "Copa de 1938", "Adolf Hitler"] 
+        dicas: ["Regime político que impactou o esporte", "Copa de 1938", "Alemanha de Adolf Hitler"] 
     },
     { 
-        palavra: "QUADRUPLO", 
-        dicas: ["4 gols de Leônidas", "1938", "Brasil"] 
+        palavra: "HAT TRICK", // Substituído o erro do "Quádruplo" pelo termo correto de 3 gols
+        dicas: ["Termo para quando um jogador faz 3 gols", "Leônidas fez um em 1938", "Expressão de origem inglesa"] 
     },
     { 
-        palavra: "ARTILHEIRO", 
-        dicas: ["Maior goleador da copa", "Ronaldo", "15 gols"] 
+        palavra: "KLOSE", // Corrigido para o verdadeiro maior artilheiro das Copas
+        dicas: ["Maior artilheiro da história das Copas", "Alemão", "Marcou 16 gols no total"] 
     },
     { 
         palavra: "PENALTI", 
-        dicas: ["Tiro de 11 metros", "Decisão em 1994", "Baggio errou"] 
+        dicas: ["Tiro livre da marca de 11 metros", "Decisão na final de 1994", "Baggio isolou a bola"] 
     },
     { 
         palavra: "TRI", 
-        dicas: ["3 títulos do Brasil", "1970", "Pelé"] 
+        dicas: ["3 títulos do Brasil", "Conquistado em 1970", "Esquadrão liderado por Pelé"] 
     },
 
     // ===== COPA 2026 (10) =====
     { 
         palavra: "2026", 
-        dicas: ["Próxima Copa", "Sede no México e EUA", "48 seleções"] 
+        dicas: ["Ano da Copa atual", "Sede dividida na América do Norte", "Primeira com 48 seleções"] 
     },
     { 
         palavra: "MEXICO", 
-        dicas: ["Sede da Copa 2026", "Terceira copa no país", "América do Norte"] 
+        dicas: ["Sede da Copa 2026", "Primeiro país a sediar três Copas", "Estádio Azteca"] 
     },
     { 
         palavra: "CANADA", 
-        dicas: ["Sede da Copa 2026", "Primeira copa no país", "América do Norte"] 
+        dicas: ["Sede da Copa 2026", "Primeira Copa masculina no país", "Cidades como Toronto e Vancouver"] 
     },
     { 
         palavra: "EUA", 
-        dicas: ["Sede da Copa 2026", "América do Norte", "País do futebol"] 
+        dicas: ["Sede da Copa 2026", "Teve a Copa de 1994", "Onde será a grande final"] 
     },
     { 
         palavra: "VINI JR", 
-        dicas: ["Brasileiro do Real Madrid", "Campeão da Champions", "Jovem talento"] 
+        dicas: ["Destaque brasileiro do Real Madrid", "Campeão e gol na final da Champions", "Protagonista da seleção"] 
     },
     { 
         palavra: "RODRYGO", 
-        dicas: ["Brasileiro do Real Madrid", "Jovem talento", "Revelação"] 
+        dicas: ["Atacante brasileiro do Real Madrid", "Conhecido como 'Raio'", "Menino da Vila"] 
     },
     { 
-        palavra: "ENDRIK", 
-        dicas: ["Jovem promessa brasileira", "Joga no Real Madrid", "Revelação do Palmeiras"] 
+        palavra: "ENDRICK", // Nome corrigido
+        dicas: ["Jovem promessa que foi para o Real Madrid", "Canhoto", "Revelação da base do Palmeiras"] 
     },
     { 
         palavra: "BROBBEY", 
-        dicas: ["Atacante holandês", "Joga no Ajax", "Jovem"] 
+        dicas: ["Atacante holandês de muita força física", "Cria da base do Ajax", "Nova geração da Holanda"] 
     },
     { 
         palavra: "MUSIALA", 
-        dicas: ["Jogador da Alemanha", "Joga no Bayern", "Meia"] 
+        dicas: ["Camisa 10 e joia da Alemanha", "Meia-atacante do Bayern de Munique", "Dribles curtos"] 
     },
     { 
         palavra: "BALON DOR", 
-        dicas: ["Prêmio de melhor jogador", "Messi e Ronaldo", "Copa 2026"] 
+        dicas: ["Prêmio da revista France Football", "Sonho dos craques da Copa", "Melhor jogador do mundo"] 
     },
 
     // ===== JOGOS DE FUTEBOL (10) =====
     { 
         palavra: "FIFA", 
-        dicas: ["Jogo de futebol", "World Cup", "Simulador"] 
+        dicas: ["Antigo nome da famosa franquia de videogame da EA Sports", "Entidade máxima do futebol", "Simulador virtual"] 
     },
     { 
         palavra: "PES", 
-        dicas: ["Jogo de futebol", "Pro Evolution", "Konami"] 
+        dicas: ["Franquia Pro Evolution Soccer", "Antigo rival do FIFA", "Criado pela Konami"] 
     },
     { 
         palavra: "GOL", 
-        dicas: ["Objetivo do jogo", "Marcar ponto", "Comemorar"] 
+        dicas: ["Momento supremo do futebol", "Balançar a rede", "Ponto máximo da partida"] 
     },
     { 
         palavra: "BOLA", 
-        dicas: ["Usada no jogo", "Redonda", "Dribles"] 
+        dicas: ["O objeto principal do esporte", "Formato esférico", "A Al Rihla e a Jabulani foram exemplos"] 
     },
     { 
         palavra: "BICICLETA", 
-        dicas: ["Chute de costas", "Gol de Pele", "Movimento"] 
+        dicas: ["Chute acrobático no ar de costas para o gol", "Leônidas da Silva popularizou", "Plástica perfeita"] 
     },
     { 
         palavra: "FALTA", 
-        dicas: ["Infração no jogo", "Tiro direto", "Roberto Carlos"] 
+        dicas: ["Infração cometida sobre o adversário", "Pode ser cobrada direto para o gol", "Barreira tenta bloquear"] 
     },
     { 
         palavra: "CARTÃO", 
-        dicas: ["Amarelo ou vermelho", "Penalidade", "Juiz"] 
+        dicas: ["Item de advertência do árbitro", "Pode ser amarelo ou vermelho", "Exclui o jogador se for repetido"] 
     },
     { 
         palavra: "VAR", 
-        dicas: ["Tecnologia no futebol", "Revisão de lances", "Impedimento"] 
+        dicas: ["Árbitro de vídeo", "Tecnologia para revisar lances capitais", "Checa gols, cartões e impedimentos"] 
     },
     { 
         palavra: "CHUTEIRA", 
-        dicas: ["Usada pelos jogadores", "Trava", "Craque"] 
+        dicas: ["Calçado específico para o gramado", "Possui travas na sola", "Modelos famosos da Nike, Adidas e Puma"] 
     },
     { 
         palavra: "UNIFORME", 
-        dicas: ["Camisa do time", "Jogador", "Time"] 
+        dicas: ["Conjunto de camisa, calção e meiões", "Identidade visual do time em campo", "Manto sagrado"] 
     },
 
     // ----- FLAMENGO (15) -----
-    { palavra: "FLAMENGO", dicas: ["Clube carioca fundado em 1895", "Rubro-negro", "Maior torcida do Brasil"] },
-    { palavra: "ZICO", dicas: ["Maior idolo da historia do Flamengo", "Galinho", "508 gols pelo clube"] },
-    { palavra: "JUNIOR", dicas: ["Lateral esquerdo campeao de 1981", "Capitao", "Camisa 11"] },
-    { palavra: "ADILIO", dicas: ["Meia campeao de 1981", "Maestro", "Camisa 8"] },
-    { palavra: "NUNES", dicas: ["Atacante campeao do Mundial 1981", "Camisa 9", "Fez 2 gols na final contra o Liverpool"] },
-    { palavra: "GABIGOL", dicas: ["Atacante artilheiro da Libertadores 2019", "Camisa 9", "Fez 2 gols na final contra o River Plate"] },
-    { palavra: "ARRASCAETA", dicas: ["Meia uruguaio campeao da Libertadores 2019", "Camisa 14", "Revelacao do Penarol"] },
-    { palavra: "BRUNO HENRIQUE", dicas: ["Atacante campeao da Libertadores 2019", "Camisa 27", "Revelacao do Goias"] },
-    { palavra: "EVERTON RIBEIRO", dicas: ["Meia campeao da Libertadores 2019", "Camisa 7", "Revelacao do Coritiba"] },
-    { palavra: "GERSON", dicas: ["Volante campeao da Libertadores 2019", "Camisa 8", "Revelacao do Fluminense"] },
-    { palavra: "DAVID LUIZ", dicas: ["Zagueiro campeao da Libertadores 2019", "Camisa 23", "Revelacao do Benfica"] },
-    { palavra: "PETKOVIC", dicas: ["Meia campeao da Libertadores 2019", "Sergio", "Camisa 43"] },
-    { palavra: "ADRIANO", dicas: ["Atacante campeao da Libertadores 2019", "Imperador", "Camisa 10"] },
-    { palavra: "1981", dicas: ["Ano do Mundial do Flamengo", "Venceu o Liverpool por 3 a 0 no Japao", "Nunes fez 2 gols"] },
-    { palavra: "2019", dicas: ["Ano da Libertadores do Flamengo", "Venceu o River Plate por 2 a 1 no Peru", "Gabigol fez 2 gols"] },
+    { palavra: "FLAMENGO", dicas: ["Clube carioca fundado em 1895", "Rubro-Negro", "Maior torcida do Brasil"] },
+    { palavra: "ZICO", dicas: ["Maior ídolo da história do Flamengo", "Galinho de Quintino", "Maior artilheiro da história do clube"] },
+    { palavra: "JUNIOR", dicas: ["Lateral-esquerdo campeão mundial em 1981", "Capitão do time histórico", "Também atuou como meio-campista"] },
+    { palavra: "ADILIO", dicas: ["Meia campeão mundial em 1981", "Cria da Gávea", "Camisa 8 do time histórico"] },
+    { palavra: "NUNES", dicas: ["Centroavante campeão mundial em 1981", "Conhecido como João Danado", "Fez 2 gols na final contra o Liverpool"] },
+    { palavra: "GABIGOL", dicas: ["Autor dos 2 gols da virada na final da Libertadores de 2019", "Um dos maiores artilheiros do Flamengo no século XXI", "Ídolo da torcida rubro-negra"] },
+    { palavra: "ARRASCAETA", dicas: ["Meia uruguaio", "Campeão da Libertadores pelo Flamengo", "Revelado pelo Defensor Sporting"] },
+    { palavra: "BRUNO HENRIQUE", dicas: ["Atacante conhecido pela velocidade", "Campeão da Libertadores pelo Flamengo", "Revelado pelo Goiás"] },
+    { palavra: "EVERTON RIBEIRO", dicas: ["Meia campeão da Libertadores pelo Flamengo", "Vestiu a camisa 7", "Revelado pelo Coritiba"] },
+    { palavra: "GERSON", dicas: ["Volante revelado pelo Fluminense", "Conhecido como Coringa", "Campeão da Libertadores pelo Flamengo"] },
+    { palavra: "DAVID LUIZ", dicas: ["Zagueiro campeão da Libertadores pelo Flamengo", "Revelado pelo Vitória", "Também defendeu Chelsea, PSG e Arsenal"] },
+    { palavra: "PETKOVIC", dicas: ["Meia sérvio", "Autor do histórico gol de falta de 2001", "Ídolo do título brasileiro de 2009"] },
+    { palavra: "ADRIANO", dicas: ["Conhecido como Imperador", "Artilheiro do Campeonato Brasileiro de 2009", "Revelado pelo Flamengo"] },
+    { palavra: "1981", dicas: ["Ano do Mundial do Flamengo", "Vitória por 3 a 0 sobre o Liverpool no Japão", "Nunes marcou 2 gols na decisão"] },
+    { palavra: "2019", dicas: ["Ano da Libertadores do Flamengo", "Virada por 2 a 1 sobre o River Plate", "Final disputada em Lima, no Peru"] },
 
     // ----- CORINTHIANS (15) -----
-    { palavra: "CORINTHIANS", dicas: ["Clube paulista fundado em 1910", "Timao", "Maior campeao do Brasil"] },
-    { palavra: "CASSIO", dicas: ["Goleiro idolo e capitao", "Camisa 12", "Campeao do mundo 2012"] },
-    { palavra: "RONALDO", dicas: ["Atacante fenomeno no Corinthians", "Fenomeno", "Campeao da Copa do Brasil 2009"] },
-    { palavra: "MARCELINHO", dicas: ["Meia idolo dos anos 90", "Camisa 10", "Campeao brasileiro de 1990 e 1998"] },
-    { palavra: "SOCRATES", dicas: ["Meia idolo dos anos 80", "Medico formado", "Camisa 8"] },
-    { palavra: "RIVELINO", dicas: ["Meia idolo dos anos 70", "Camisa 10", "Revelado no Corinthians"] },
-    { palavra: "VAMPETA", dicas: ["Volante idolo dos anos 90", "Camisa 8", "Campeao brasileiro de 1990 e 1998"] },
-    { palavra: "YURI ALBERTO", dicas: ["Atacante atual do Corinthians", "Camisa 9", "Revelacao do Santos"] },
-    { palavra: "GARRO", dicas: ["Meia argentino atual", "Camisa 10", "Revelacao"] },
-    { palavra: "ROGER GUEDES", dicas: ["Atacante atual do Corinthians", "Camisa 19", "Revelacao do Criciuma"] },
-    { palavra: "PAULINHO", dicas: ["Volante idolo do Corinthians", "Camisa 8", "Campeao do mundo 2012"] },
-    { palavra: "EDILSON", dicas: ["Atacante idolo do Corinthians", "Camisa 11", "Campeao do mundo 2000"] },
-    { palavra: "2000", dicas: ["Ano do primeiro Mundial do Corinthians", "Venceu o Vasco nos penaltis (4x3) no Japao", "Dida pegou 2 penaltis"] },
-    { palavra: "2012", dicas: ["Ano do segundo Mundial do Corinthians", "Venceu o Chelsea por 1 a 0 no Japao", "Guerrero fez o gol"] },
-    { palavra: "1998", dicas: ["Ano do Brasileiro do Corinthians", "Artilheiro do time foi Marcelinho com 15 gols", "Vampeta e Rincon"] },
-
+    { palavra: "CORINTHIANS", dicas: ["Clube paulista fundado em 1910", "Conhecido como Timão", "Maior campeão paulista"] },
+    { palavra: "CASSIO", dicas: ["Goleiro histórico do Corinthians", "Herói do Mundial de 2012", "Defendeu o pênalti de Diego Souza na Libertadores"] },
+    { palavra: "RONALDO", dicas: ["Conhecido como Fenômeno", "Conquistou a Copa do Brasil de 2009", "Encerrou a carreira no Corinthians"] },
+    { palavra: "MARCELINHO", dicas: ["Maior cobrador de faltas da história do Corinthians", "Conhecido como Pé de Anjo", "Ídolo dos títulos dos anos 90"] },
+    { palavra: "SOCRATES", dicas: ["Líder da Democracia Corinthiana", "Médico formado", "Um dos maiores ídolos da história do clube"] },
+    { palavra: "RIVELINO", dicas: ["Revelado pelo Corinthians", "Conhecido como Reizinho do Parque", "Craque da Copa de 1970"] },
+    { palavra: "VAMPETA", dicas: ["Volante campeão mundial em 2000", "Campeão brasileiro pelo Corinthians", "Fez parte de uma das gerações mais vitoriosas do clube"] },
+    { palavra: "YURI ALBERTO", dicas: ["Centroavante", "Revelado pelo Santos", "Artilheiro do Corinthians na década de 2020"] },
+    { palavra: "GARRO", dicas: ["Meia argentino", "Especialista em assistências", "Vestiu a camisa 8 no Corinthians"] },
+    { palavra: "ROGER GUEDES", dicas: ["Atacante que se destacou pelo Corinthians", "Revelado pelo Criciúma", "Foi um dos artilheiros da equipe na década de 2020"] },
+    { palavra: "PAULINHO", dicas: ["Volante campeão da Libertadores e do Mundial de 2012", "Revelado pelo Pão de Açúcar", "Ídolo da torcida corintiana"] },
+    { palavra: "EDILSON", dicas: ["Atacante conhecido como Capetinha", "Campeão mundial em 2000", "Ídolo do Corinthians no fim dos anos 90"] },
+    { palavra: "2000", dicas: ["Ano do primeiro Mundial do Corinthians", "Título conquistado sobre o Vasco nos pênaltis", "Disputado no Brasil"] },
+    { palavra: "2012", dicas: ["Ano do segundo Mundial do Corinthians", "Vitória por 1 a 0 sobre o Chelsea", "Guerrero marcou o gol do título"] },
+    { palavra: "1998", dicas: ["Ano do segundo Campeonato Brasileiro do Corinthians", "Marcelinho Carioca foi um dos destaques", "Vampeta e Rincón eram titulares"] },
+    
     // ----- PALMEIRAS (15) -----
-    { palavra: "PALMEIRAS", dicas: ["Clube paulista fundado em 1914", "Verdão", "Maior campeao do Brasil"] },
-    { palavra: "ADEMIR DA GUIA", dicas: ["Maior idolo da historia do Palmeiras", "Divino", "Meia classudo"] },
-    { palavra: "DUDU", dicas: ["Atacante idolo atual", "Camisa 7", "Campeao da Libertadores 2020, 2021 e 2022"] },
-    { palavra: "GUSTAVO SCARPA", dicas: ["Meia idolo atual", "Camisa 14", "Campeao da Libertadores 2020, 2021 e 2022"] },
-    { palavra: "RAPHAEL VEIGA", dicas: ["Meia atual do Palmeiras", "Camisa 23", "Campeao da Libertadores 2020, 2021 e 2022"] },
-    { palavra: "RONY", dicas: ["Atacante atual do Palmeiras", "Camisa 10", "Campeao da Libertadores 2020, 2021 e 2022"] },
-    { palavra: "MARCOS", dicas: ["Goleiro idolo dos anos 90 e 2000", "Camisa 1", "Campeao da Libertadores 1999"] },
-    { palavra: "ZE ROBERTO", dicas: ["Lateral idolo do Palmeiras", "Camisa 6", "Campeao brasileiro de 1993 e 1994"] },
-    { palavra: "EDMUNDO", dicas: ["Atacante idolo do Palmeiras", "Animal", "Campeao brasileiro de 1993 e 1994"] },
-    { palavra: "RIVELINO", dicas: ["Meia idolo do Palmeiras", "Camisa 10", "Campeao brasileiro de 1967"] },
-    { palavra: "1999", dicas: ["Ano da Libertadores do Palmeiras", "Venceu o Deportivo Cali por 2 a 1 no Uruguai", "Marcos defendeu penalti na final"] },
-    { palavra: "2020", dicas: ["Ano da Libertadores do Palmeiras", "Venceu o Santos por 1 a 0 no Uruguai", "Breno Lopes fez o gol"] },
-    { palavra: "2021", dicas: ["Ano da Libertadores do Palmeiras", "Venceu o Flamengo por 2 a 1 no Uruguai", "Dudu e Veiga marcaram"] },
-    { palavra: "2022", dicas: ["Ano da Libertadores do Palmeiras", "Venceu o Athletico-PR por 1 a 0 no Equador", "Raphael Veiga fez o gol"] },
-    { palavra: "2018", dicas: ["Ano do Brasileiro do Palmeiras", "Artilheiro do time foi Dudu com 15 gols", "Time comandado por Felipao"] },
+    { palavra: "PALMEIRAS", dicas: ["Clube paulista fundado em 1914", "Conhecido como Verdão", "Maior campeão brasileiro"] },
+    { palavra: "ADEMIR DA GUIA", dicas: ["Maior ídolo da história do Palmeiras", "Conhecido como Divino", "Um dos maiores meias do futebol brasileiro"] },
+    { palavra: "DUDU", dicas: ["Um dos maiores ídolos recentes do Palmeiras", "Atacante campeão da Libertadores", "Vestiu a camisa 7 por muitos anos"] },
+    { palavra: "GUSTAVO SCARPA", dicas: ["Meia campeão da Libertadores pelo Palmeiras", "Eleito o melhor jogador do Brasileirão de 2022", "Revelado pelo Fluminense"] },
+    { palavra: "RAPHAEL VEIGA", dicas: ["Meia do Palmeiras", "Especialista em cobranças de pênalti", "Destaque nas Libertadores de 2020 e 2021"] },
+    { palavra: "RONY", dicas: ["Atacante do Palmeiras", "Destaque nas campanhas da Libertadores", "Conhecido pelas bicicletas"] },
+    { palavra: "MARCOS", dicas: ["Goleiro campeão da Libertadores de 1999", "Conhecido como São Marcos", "Ídolo da torcida palmeirense"] },
+    { palavra: "ZE ROBERTO", dicas: ["Volante e lateral-esquerdo", "Jogou no Palmeiras já veterano", "Destacou-se pela excelente condição física"] },
+    { palavra: "EDMUNDO", dicas: ["Conhecido como Animal", "Ídolo do Palmeiras nos anos 90", "Campeão brasileiro de 1993 e 1994"] },
+    { palavra: "EVAIR", dicas: ["Centroavante histórico do Palmeiras", "Artilheiro da Libertadores de 1999", "Ídolo da década de 90"] },
+    { palavra: "1999", dicas: ["Ano da primeira Libertadores do Palmeiras", "Título conquistado sobre o Deportivo Cali", "Marcos defendeu pênalti decisivo"] },
+    { palavra: "2020", dicas: ["Ano da segunda Libertadores do Palmeiras", "Vitória sobre o Santos por 1 a 0", "Breno Lopes marcou o gol do título"] },
+    { palavra: "2021", dicas: ["Ano da terceira Libertadores do Palmeiras", "Vitória sobre o Flamengo na prorrogação", "Deyverson marcou o gol do título"] },
+    { palavra: "2022", dicas: ["Ano do 11º Campeonato Brasileiro do Palmeiras", "Time comandado por Abel Ferreira", "Gustavo Scarpa foi um dos destaques"] },
+    { palavra: "2018", dicas: ["Ano do Campeonato Brasileiro do Palmeiras", "Time comandado por Felipão", "Dudu foi um dos principais destaques"] },
 
     // ----- SANTOS (15) -----
-    { palavra: "SANTOS", dicas: ["Clube paulista fundado em 1912", "Peixe", "Time de Pele"] },
-    { palavra: "PELE", dicas: ["Maior jogador da historia do Santos", "Rei do futebol", "3 titulos mundiais"] },
-    { palavra: "COUTO", dicas: ["Goleiro idolo dos anos 60", "Camisa 1", "Campeao do mundo 1962"] },
-    { palavra: "PEPE", dicas: ["Atacante idolo dos anos 60", "Camisa 10", "Campeao do mundo 1962"] },
-    { palavra: "MENGALVIO", dicas: ["Meia idolo dos anos 60", "Camisa 8", "Campeao do mundo 1962"] },
-    { palavra: "ZITO", dicas: ["Volante idolo dos anos 60", "Camisa 5", "Campeao do mundo 1962"] },
-    { palavra: "ORLANDO", dicas: ["Atacante idolo dos anos 60", "Camisa 9", "Campeao do mundo 1962"] },
-    { palavra: "CLODOALDO", dicas: ["Zagueiro idolo dos anos 60", "Camisa 3", "Campeao do mundo 1962"] },
-    { palavra: "NEYMAR", dicas: ["Atacante revelacao do Santos", "Camisa 10", "Artilheiro da Libertadores 2011"] },
-    { palavra: "ROBINHO", dicas: ["Atacante revelacao do Santos", "Camisa 7", "Campeao brasileiro de 2002 e 2004"] },
-    { palavra: "GANSO", dicas: ["Meia da base do Santos", "Camisa 10", "Campeao da Libertadores 2011"] },
-    { palavra: "1962", dicas: ["Ano do Mundial do Santos", "Venceu o Benfica por 5 a 2 no Brasil", "Pele fez 3 gols"] },
-    { palavra: "1963", dicas: ["Ano do Mundial do Santos", "Venceu o Milan por 4 a 2 no Brasil", "Pele fez 2 gols"] },
-    { palavra: "2002", dicas: ["Ano do Brasileiro do Santos", "Artilheiro do time foi Robinho com 18 gols", "Diego e Elano"] },
-    { palavra: "2011", dicas: ["Ano da Libertadores do Santos", "Venceu o Penarol na Argentina", "Neymar fez 3 gols na final"] },
-
+    { palavra: "SANTOS", dicas: ["Clube paulista fundado em 1912", "Conhecido como Peixe", "Clube onde Pelé fez história"] },
+    { palavra: "PELE", dicas: ["Maior jogador da história do Santos", "Rei do Futebol", "Bicampeão mundial pelo clube"] },
+    { palavra: "GILMAR", dicas: ["Goleiro histórico do Santos", "Campeão mundial pelo clube", "Também foi campeão do mundo pela Seleção"] },
+    { palavra: "PEPE", dicas: ["Maior artilheiro do Santos depois de Pelé", "Conhecido como Canhão da Vila", "Bicampeão mundial pelo clube"] },
+    { palavra: "MENGALVIO", dicas: ["Meia do histórico ataque santista", "Campeão mundial pelo Santos", "Fez parte do time de Pelé"] },
+    { palavra: "ZITO", dicas: ["Volante histórico do Santos", "Conhecido como Gerente", "Bicampeão mundial pelo clube"] },
+    { palavra: "ORLANDO", dicas: ["Zagueiro histórico do Santos", "Capitão do time de Pelé", "Bicampeão mundial pelo clube"] },
+    { palavra: "CLODOALDO", dicas: ["Volante histórico do Santos", "Campeão do mundo com o Brasil em 1970", "Fez parte do time campeão de 1968"] },
+    { palavra: "NEYMAR", dicas: ["Revelado pelo Santos", "Campeão da Libertadores de 2011", "Maior ídolo recente do clube"] },
+    { palavra: "ROBINHO", dicas: ["Revelado pelo Santos", "Campeão brasileiro de 2002", "Conhecido pelas pedaladas"] },
+    { palavra: "GANSO", dicas: ["Meia revelado na base do Santos", "Campeão da Libertadores de 2011", "Formou dupla com Neymar"] },
+    { palavra: "1962", dicas: ["Ano do primeiro Mundial do Santos", "Título conquistado sobre o Benfica", "Pelé brilhou na decisão"] },
+    { palavra: "1963", dicas: ["Ano do segundo Mundial do Santos", "Título conquistado sobre o Milan", "O Santos venceu a decisão em três partidas"] },
+    { palavra: "2002", dicas: ["Ano do Campeonato Brasileiro do Santos", "Time comandado por Emerson Leão", "Robinho e Diego eram os principais destaques"] },
+    { palavra: "2011", dicas: ["Ano da terceira Libertadores do Santos", "Vitória sobre o Peñarol", "Neymar foi o principal destaque da campanha"] },
+    
     // ----- SAO PAULO (15) -----
-    { palavra: "SAO PAULO", dicas: ["Clube paulista fundado em 1930", "Tricolor", "Maior campeao do Brasil"] },
-    { palavra: "ROGERIO CENI", dicas: ["Maior idolo da historia do Sao Paulo", "Goleiro-artilheiro", "131 gols na carreira"] },
-    { palavra: "RAI", dicas: ["Meia idolo dos anos 90", "Camisa 10", "Campeao do mundo 1992 e 1993"] },
-    { palavra: "MULLER", dicas: ["Atacante idolo dos anos 80 e 90", "Camisa 9", "Campeao brasileiro de 1986"] },
-    { palavra: "CAREACA", dicas: ["Atacante idolo dos anos 80", "Camisa 9", "Campeao brasileiro de 1986"] },
-    { palavra: "TELE", dicas: ["Meia idolo dos anos 80", "Camisa 8", "Campeao brasileiro de 1986"] },
-    { palavra: "SERGINHO", dicas: ["Zagueiro idolo dos anos 80", "Camisa 3", "Campeao brasileiro de 1986"] },
-    { palavra: "PALHINHA", dicas: ["Volante idolo dos anos 80", "Camisa 5", "Campeao brasileiro de 1986"] },
-    { palavra: "LUCAS", dicas: ["Atacante atual do Sao Paulo", "Camisa 7", "Revelacao da base"] },
-    { palavra: "OSCAR", dicas: ["Meia atual do Sao Paulo", "Camisa 10", "Revelacao da base"] },
-    { palavra: "CASEMIRO", dicas: ["Volante revelacao do Sao Paulo", "Camisa 5", "Revelacao da base"] },
-    { palavra: "1992", dicas: ["Ano do Mundial do Sao Paulo", "Venceu o Barcelona por 2 a 1 no Brasil", "Rai e Muller marcaram"] },
-    { palavra: "1993", dicas: ["Ano do Mundial do Sao Paulo", "Venceu o Milan por 3 a 2 no Brasil", "Rai e Cerezo marcaram"] },
-    { palavra: "2005", dicas: ["Ano da Libertadores do Sao Paulo", "Venceu o Atletico Paranaense por 3 a 1 no Brasil", "Rogerio Ceni capitao"] },
-    { palavra: "2006", dicas: ["Ano do Brasileiro do Sao Paulo", "Artilheiro do time foi Aloisio com 14 gols", "Rogerio Ceni capitao"] },
+    { palavra: "SAO PAULO", dicas: ["Clube paulista fundado em 1930", "Conhecido como Tricolor Paulista", "Único brasileiro tricampeão mundial"] },
+    { palavra: "ROGERIO CENI", dicas: ["Maior ídolo da história do São Paulo", "Goleiro-artilheiro", "Maior goleador entre os goleiros"] },
+    { palavra: "RAI", dicas: ["Meia e camisa 10 histórico", "Capitão dos Mundiais de 1992 e 1993", "Ídolo do São Paulo"] },
+    { palavra: "MULLER", dicas: ["Atacante revelado pelo São Paulo", "Campeão mundial em 1992 e 1993", "Fez dupla histórica com Raí"] },
+    { palavra: "CARECA", dicas: ["Centroavante campeão brasileiro de 1986", "Revelado pelo Guarani", "Um dos maiores atacantes da história do São Paulo"] },
+    { palavra: "TELE", dicas: ["Treinador histórico do São Paulo", "Comandou os títulos mundiais de 1992 e 1993", "Conhecido pela disciplina e pelo futebol ofensivo"] },
+    { palavra: "SERGINHO", dicas: ["Lateral-esquerdo revelado pelo São Paulo", "Conhecido como Serginho Chulapa", "Maior artilheiro da história do clube"] },
+    { palavra: "PALHINHA", dicas: ["Atacante campeão brasileiro de 1977", "Ídolo da torcida são-paulina", "Conhecido pelos gols decisivos"] },
+    { palavra: "LUCAS", dicas: ["Revelado pelo São Paulo", "Campeão da Copa Sul-Americana de 2012", "Conhecido pela velocidade"] },
+    { palavra: "OSCAR", dicas: ["Meia revelado na base do São Paulo", "Também atuou na Seleção Brasileira", "Retornou ao clube anos depois"] },
+    { palavra: "CASEMIRO", dicas: ["Volante revelado pelo São Paulo", "Construiu carreira de sucesso na Europa", "Campeão de várias Champions League"] },
+    { palavra: "1992", dicas: ["Ano do primeiro Mundial do São Paulo", "Vitória por 2 a 1 sobre o Barcelona", "Final disputada em Tóquio"] },
+    { palavra: "1993", dicas: ["Ano do bicampeonato mundial do São Paulo", "Vitória por 3 a 2 sobre o Milan", "Final disputada em Tóquio"] },
+    { palavra: "2005", dicas: ["Ano da terceira Libertadores do São Paulo", "Vitória sobre o Athletico Paranaense", "Rogério Ceni era o capitão"] },
+    { palavra: "2006", dicas: ["Ano do Campeonato Brasileiro", "Primeiro de três títulos consecutivos", "Muricy Ramalho era o treinador"] },
 
     // ----- FLUMINENSE (15) -----
-    { palavra: "FLUMINENSE", dicas: ["Clube carioca fundado em 1902", "Tricolor", "Time de Fred"] },
-    { palavra: "FRED", dicas: ["Maior idolo da historia do Fluminense", "Atacante", "Artilheiro da historia do clube"] },
-    { palavra: "CONCA", dicas: ["Meia idolo argentino", "Camisa 10", "Campeao brasileiro de 2010 e 2012"] },
-    { palavra: "THIAGO NEVES", dicas: ["Meia idolo dos anos 2010", "Camisa 10", "Campeao brasileiro de 2010"] },
-    { palavra: "GUM", dicas: ["Zagueiro idolo dos anos 2010", "Camisa 3", "Campeao brasileiro de 2010 e 2012"] },
-    { palavra: "DIGUINHO", dicas: ["Volante idolo dos anos 2010", "Camisa 5", "Campeao brasileiro de 2010 e 2012"] },
-    { palavra: "WASHINGTON", dicas: ["Atacante idolo dos anos 2000", "Camisa 9", "Artilheiro do clube"] },
-    { palavra: "CANO", dicas: ["Atacante argentino atual", "Camisa 14", "Artilheiro da Libertadores 2023"] },
-    { palavra: "ARIAS", dicas: ["Meia colombiano atual", "Camisa 21", "Campeao da Libertadores 2023"] },
-    { palavra: "NINO", dicas: ["Zagueiro atual do Fluminense", "Camisa 33", "Campeao da Libertadores 2023"] },
-    { palavra: "JOHN", dicas: ["Goleiro atual do Fluminense", "Camisa 1", "Campeao da Libertadores 2023"] },
-    { palavra: "GANSO", dicas: ["Meia atual do Fluminense", "Camisa 10", "Campeao da Libertadores 2023"] },
-    { palavra: "2010", dicas: ["Ano do Brasileiro do Fluminense", "Artilheiro do time foi Fred com 23 gols", "Conca foi eleito o craque"] },
-    { palavra: "2012", dicas: ["Ano do Brasileiro do Fluminense", "Artilheiro do time foi Fred com 20 gols", "Conca e Thiago Neves"] },
-    { palavra: "2023", dicas: ["Ano da Libertadores do Fluminense", "Venceu o Boca Juniors por 2 a 1 no Brasil", "John Kennedy fez o gol"] },
+    { palavra: "FLUMINENSE", dicas: ["Clube carioca fundado em 1902", "Conhecido como Tricolor das Laranjeiras", "Campeão da Libertadores de 2023"] },
+    { palavra: "FRED", dicas: ["Maior ídolo da história recente do Fluminense", "Maior artilheiro do clube no século XXI", "Centroavante"] },
+    { palavra: "CONCA", dicas: ["Meia argentino", "Craque do Brasileirão de 2010", "Ídolo da torcida tricolor"] },
+    { palavra: "THIAGO NEVES", dicas: ["Meia habilidoso", "Campeão brasileiro de 2010", "Também atuou pelo Cruzeiro"] },
+    { palavra: "GUM", dicas: ["Zagueiro capitão", "Campeão brasileiro de 2010 e 2012", "Ídolo da torcida"] },
+    { palavra: "DIGUINHO", dicas: ["Volante marcador", "Campeão brasileiro de 2010 e 2012", "Formou dupla com Edinho"] },
+    { palavra: "WASHINGTON", dicas: ["Conhecido como Coração Valente", "Artilheiro do Fluminense", "Vice-campeão da Libertadores de 2008"] },
+    { palavra: "CANO", dicas: ["Centroavante argentino", "Artilheiro da Libertadores de 2023", "Ídolo da conquista continental"] },
+    { palavra: "ARIAS", dicas: ["Atacante colombiano", "Destaque da Libertadores de 2023", "Conhecido pelos dribles"] },
+    { palavra: "NINO", dicas: ["Zagueiro capitão do título da Libertadores", "Revelado pelo Criciúma", "Também atuou na Seleção Brasileira"] },
+    { palavra: "FABIO", dicas: ["Goleiro campeão da Libertadores de 2023", "Ídolo também do Cruzeiro", "Um dos jogadores com mais partidas na história do futebol brasileiro"] },
+    { palavra: "GANSO", dicas: ["Meia revelado pelo Santos", "Campeão da Libertadores de 2023", "Conhecido pela visão de jogo"] },
+    { palavra: "2010", dicas: ["Ano do terceiro Campeonato Brasileiro do Fluminense", "Conca foi eleito o craque da competição", "Fred foi o principal artilheiro da equipe"] },
+    { palavra: "2012", dicas: ["Ano do tetracampeonato brasileiro", "Fred foi o artilheiro da equipe", "Abel Braga era o treinador"] },
+    { palavra: "2023", dicas: ["Ano da primeira Libertadores do Fluminense", "Vitória sobre o Boca Juniors", "John Kennedy marcou o gol decisivo da prorrogação"] },
 
     // ----- BOTAFOGO (15) -----
-    { palavra: "BOTAFOGO", dicas: ["Clube carioca fundado em 1904", "Fogao", "Time de Garrincha"] },
-    { palavra: "GARRINCHA", dicas: ["Maior idolo da historia do Botafogo", "Anjo das pernas tortas", "Campeao do mundo 1958 e 1962"] },
-    { palavra: "NILTON SANTOS", dicas: ["Lateral idolo dos anos 60", "Camisa 6", "Campeao do mundo 1958 e 1962"] },
-    { palavra: "DIDI", dicas: ["Meia idolo dos anos 60", "Folha seca", "Campeao do mundo 1958 e 1962"] },
-    { palavra: "ZAGALLO", dicas: ["Atacante idolo dos anos 60", "Camisa 11", "Campeao do mundo 1958 e 1962"] },
-    { palavra: "AMARILDO", dicas: ["Atacante idolo dos anos 60", "Camisa 9", "Campeao do mundo 1962"] },
-    { palavra: "TIQUINHO", dicas: ["Atacante atual do Botafogo", "Camisa 9", "Campeao do Brasileiro 2024"] },
-    { palavra: "1995", dicas: ["Ano do Brasileiro do Botafogo", "Artilheiro do time foi Tulio com 25 gols", "Campeao invicto"] },
-    { palavra: "2024", dicas: ["Ano do Brasileiro do Botafogo", "Artilheiro do time foi Tiquinho com 18 gols", "Campeao"] },
-    { palavra: "2024", dicas: ["Ano da Libertadores do Botafogo", "Venceu o Atletico por 2 a 0 no Uruguai", "Tiquinho fez o gol"] },
-    { palavra: "1993", dicas: ["Ano da Copa Conmebol do Botafogo", "Venceu o Penarol por 2 a 0 na Argentina", "Tulio fez os gols"] },
-    { palavra: "1968", dicas: ["Ano do Brasileiro do Botafogo", "Artilheiro do time foi Garrincha com 15 gols", "Nilton Santos"] },
-    { palavra: "1989", dicas: ["Ano do Brasileiro do Botafogo", "Artilheiro do time foi Tita com 12 gols", "Campeao"] },
-    { palavra: "1997", dicas: ["Ano do Brasileiro do Botafogo", "Artilheiro do time foi Tulio com 20 gols", "Campeao"] },
-    { palavra: "2025", dicas: ["Ano da Recopa do Botafogo", "Venceu o Racing por 1 a 0 no Brasil", "Vitor fez o gol"] },
-
+    { palavra: "BOTAFOGO", dicas: ["Clube carioca fundado em 1904", "Conhecido como Fogão", "Clube de Garrincha e Nilton Santos"] },
+    { palavra: "GARRINCHA", dicas: ["Maior ídolo da história do Botafogo", "Anjo das Pernas Tortas", "Bicampeão mundial pela Seleção"] },
+    { palavra: "NILTON SANTOS", dicas: ["Conhecido como Enciclopédia do Futebol", "Lateral-esquerdo histórico", "Bicampeão mundial pela Seleção"] },
+    { palavra: "DIDI", dicas: ["Inventou a folha seca", "Craque da Copa de 1958", "Ídolo do Botafogo"] },
+    { palavra: "ZAGALLO", dicas: ["Ponta-esquerda do Botafogo", "Único tetracampeão mundial", "Bicampeão como jogador"] },
+    { palavra: "AMARILDO", dicas: ["Substituiu Pelé na Copa de 1962", "Atacante histórico do Botafogo", "Campeão do mundo"] },
+    { palavra: "TIQUINHO", dicas: ["Centroavante", "Destaque do Botafogo na década de 2020", "Conhecido pelo faro de gol"] },
+    { palavra: "1995", dicas: ["Ano do Campeonato Brasileiro do Botafogo", "Túlio Maravilha foi o artilheiro", "Vitória sobre o Santos na final"] },
+    { palavra: "2024", dicas: ["Ano da primeira Libertadores do Botafogo", "Também conquistou o Campeonato Brasileiro", "Venceu o Atlético-MG na final continental"] },
+    { palavra: "TULIO", dicas: ["Conhecido como Túlio Maravilha", "Artilheiro do título brasileiro de 1995", "Um dos maiores goleadores da história do Botafogo"] },
+    { palavra: "1993", dicas: ["Ano da conquista da Copa Conmebol", "Primeiro título internacional do Botafogo", "Vitória sobre o Peñarol"] },
+    { palavra: "1968", dicas: ["Ano da conquista da Taça Brasil", "Botafogo tinha Gérson, Jairzinho e Paulo César", "Um dos grandes times da história do clube"] },
+    { palavra: "JAIRZINHO", dicas: ["Conhecido como Furacão da Copa", "Ídolo do Botafogo", "Marcou gols em todos os jogos da Copa de 1970"] },
+    { palavra: "NILTON", dicas: ["Apelido de um dos maiores laterais da história", "Conhecido como Enciclopédia do Futebol", "Ídolo eterno do Botafogo"] },
+    { palavra: "2025", dicas: ["Ano da conquista da Recopa Sul-Americana", "Título internacional do Botafogo", "Disputada contra o Racing"] },
+    
     // ----- VASCO (15) -----
-    { palavra: "VASCO", dicas: ["Clube carioca fundado em 1898", "Gigante da Colina", "Resposta Histórica contra o racismo e o elitismo"] },
-    { palavra: "DINAMITE", dicas: ["Maior idolo da historia do Vasco", "Atacante", "Maior artilheiro da historia do Brasileirão"] },
-    { palavra: "ROMARIO", dicas: ["Atacante idolo do Vasco", "Camisa 11", "Revelado na base do Vasco"] },
-    { palavra: "EDMUNDO", dicas: ["Atacante idolo dos anos 90", "Animal", "Campeao brasileiro de 1997 com 25 gols"] },
-    { palavra: "PEDRINHO", dicas: ["Meia idolo dos anos 90", "Camisa 10", "Campeao brasileiro de 1997"] },
-    { palavra: "FELIPE", dicas: ["Volante idolo dos anos 90", "Camisa 5", "Campeao brasileiro de 1997"] },
-    { palavra: "DONIZETE", dicas: ["Zagueiro idolo dos anos 90", "Camisa 3", "Campeao brasileiro de 1997"] },
-    { palavra: "MAURO", dicas: ["Goleiro idolo dos anos 90", "Camisa 1", "Campeao brasileiro de 1997"] },
-    { palavra: "VALDIR", dicas: ["Zagueiro idolo dos anos 90", "Camisa 4", "Campeao brasileiro de 1997"] },
+    { palavra: "VASCO", dicas: ["Clube carioca fundado em 1898", "Gigante da Colina", "Resposta histórica contra o racismo e o elitismo"] },
+    { palavra: "DINAMITE", dicas: ["Maior ídolo da história do Vasco", "Atacante", "Maior artilheiro da história do Brasileirão"] },
+    { palavra: "ROMARIO", dicas: ["Atacante ídolo do Vasco", "Camisa 11", "Revelado na base do Vasco"] },
+    { palavra: "EDMUNDO", dicas: ["Atacante ídolo dos anos 90", "Animal", "Campeão brasileiro de 1997 com grande destaque"] },
+    { palavra: "PEDRINHO", dicas: ["Meia ídolo dos anos 90", "Camisa 10", "Campeão brasileiro de 1997"] },
+    { palavra: "FELIPE", dicas: ["Meia ídolo dos anos 90", "Camisa 5", "Campeão brasileiro de 1997"] },
+    { palavra: "DONIZETE", dicas: ["Atacante do Vasco nos anos 90", "Camisa 9", "Destaque no título brasileiro de 1997"] },
+    { palavra: "MAURO GALVAO", dicas: ["Zagueiro ídolo dos anos 90", "Capitão", "Campeão brasileiro de 1997"] },
+    { palavra: "VALDIR", dicas: ["Atacante conhecido como Valdir Bigode", "Goleador", "Destaque no Vasco nos anos 90"] },
     { palavra: "VEGETTI", dicas: ["Atacante atual do Vasco", "Camisa 9", "Artilheiro do clube"] },
-    { palavra: "1974", dicas: ["Ano do Brasileiro do Vasco", "Artilheiro do time foi Dinamite com 15 gols", "Campeao invicto"] },
-    { palavra: "1989", dicas: ["Ano do Brasileiro do Vasco", "Artilheiro do time foi Romario com 18 gols", "Campeao"] },
-    { palavra: "1997", dicas: ["Ano do Brasileiro do Vasco", "Artilheiro do time foi Edmundo com 25 gols", "Campeao"] },
-    { palavra: "2000", dicas: ["Ano do Brasileiro do Vasco", "Artilheiro do time foi Romario com 23 gols", "Campeao"] },
-    { palavra: "1998", dicas: ["Ano da Libertadores do Vasco", "Venceu o Barcelona por 2 a 1 no Equador", "Edmundo e Donizete marcaram"] },
+    { palavra: "1974", dicas: ["Ano do Brasileiro do Vasco", "Destaque com Roberto Dinamite", "Campeão brasileiro"] },
+    { palavra: "1989", dicas: ["Ano do Brasileiro do Vasco", "Time campeão com Romário", "Título nacional"] },
+    { palavra: "1997", dicas: ["Ano do Brasileiro do Vasco", "Grande campanha com Edmundo", "Campeão brasileiro"] },
+    { palavra: "2000", dicas: ["Ano do Brasileiro do Vasco", "Romário em grande fase", "Campeão da Copa João Havelange"] },
+    { palavra: "1998", dicas: ["Ano da Libertadores do Vasco", "Venceu o Barcelona SC na final", "Título continental"] },
+
 
     // ==========================================
-    // JOGADORES LENDARIOS BRASILEIROS (50)
+    // JOGADORES LENDÁRIOS BRASILEIROS (50)
     // ==========================================
-    { palavra: "PELE", dicas: ["Maior jogador da historia", "Rei do futebol", "3 titulos mundiais (1958, 1962, 1970)"] },
-    { palavra: "MARADONA", dicas: ["Maior idolo argentino", "Mao de Deus", "Campeao do mundo 1986"] },
-    { palavra: "RONALDO", dicas: ["Fenomeno", "Campeao do mundo 1994 e 2002", "Artilheiro da Copa 2002 com 8 gols"] },
-    { palavra: "RONALDINHO", dicas: ["Bruxo", "Campeao do mundo 2002", "Melhor do mundo 2004 e 2005"] },
-    { palavra: "ROMARIO", dicas: ["Baixinho", "Campeao do mundo 1994", "Artilheiro da Copa 1994 com 5 gols"] },
-    { palavra: "RIVALDO", dicas: ["Pernambucano", "Campeao do mundo 2002", "Melhor do mundo 1999"] },
-    { palavra: "GARRINCHA", dicas: ["Anjo das pernas tortas", "Campeao do mundo 1958 e 1962", "Idolo do Botafogo"] },
-    { palavra: "ZICO", dicas: ["Galinho", "Maior idolo do Flamengo", "Artilheiro do clube com 508 gols"] },
-    { palavra: "ROBERTO DINAMITE", dicas: ["Maior idolo do Vasco", "Artilheiro da historia do clube", "Campeao brasileiro de 1974"] },
-    { palavra: "CAFU", dicas: ["Lateral direito", "Campeao do mundo 1994 e 2002", "Capitao do penta"] },
-    { palavra: "ROBERTO CARLOS", dicas: ["Lateral esquerdo", "Campeao do mundo 2002", "Famoso pela falta"] },
-    { palavra: "TOSTAO", dicas: ["Campeao do mundo 1970", "Meia do Cruzeiro", "Jogou no Vasco"] },
-    { palavra: "GERSON", dicas: ["Canhotinha de ouro", "Campeao do mundo 1970", "Meia do Flamengo"] },
-    { palavra: "FALCAO", dicas: ["Rei de Roma", "Jogou no Internacional", "Melhor do mundo em 1982"] },
-    { palavra: "SOCRATES", dicas: ["Medico e jogador", "Capitao da selecao de 1982", "Jogou no Corinthians"] },
-    { palavra: "DIDI", dicas: ["Folha seca", "Campeao do mundo 1958 e 1962", "Meia do Botafogo"] },
-    { palavra: "NILTON SANTOS", dicas: ["Lateral esquerdo", "Campeao do mundo 1958 e 1962", "Idolo do Botafogo"] },
-    { palavra: "ZAGALLO", dicas: ["Atacante", "Campeao do mundo 1958 e 1962", "Unico com 4 copas"] },
-    { palavra: "LEAO", dicas: ["Goleiro", "Campeao do mundo 1970", "Idolo do Flamengo"] },
-    { palavra: "JARZINHO", dicas: ["Ponta", "Campeao do mundo 1970", "Jogou no Flamengo"] },
-    { palavra: "DIRCEU", dicas: ["Atacante", "Campeao do mundo 1970", "Jogou no Atletico"] },
-    { palavra: "BEBETO", dicas: ["Atacante", "Campeao do mundo 1994", "Famoso por chutar a musa"] },
-    { palavra: "BRANCO", dicas: ["Lateral esquerdo", "Campeao do mundo 1994", "Famoso por falta"] },
-    { palavra: "DUNGA", dicas: ["Volante", "Campeao do mundo 1994", "Capitao do tetra"] },
-    { palavra: "TAFFAREL", dicas: ["Goleiro", "Campeao do mundo 1994", "Idolo do Internacional"] },
-    { palavra: "CLODOALDO", dicas: ["Zagueiro", "Campeao do mundo 1962", "Idolo do Santos"] },
-    { palavra: "PEPE", dicas: ["Atacante", "Campeao do mundo 1962", "Idolo do Santos"] },
-    { palavra: "COUTO", dicas: ["Goleiro", "Campeao do mundo 1962", "Idolo do Santos"] },
-    { palavra: "MENGALVIO", dicas: ["Meia", "Campeao do mundo 1962", "Idolo do Santos"] },
-    { palavra: "ZITO", dicas: ["Volante", "Campeao do mundo 1962", "Idolo do Santos"] },
-    { palavra: "ORLANDO", dicas: ["Atacante", "Campeao do mundo 1962", "Idolo do Santos"] },
-    { palavra: "AMARILDO", dicas: ["Atacante", "Campeao do mundo 1962", "Idolo do Botafogo"] },
-    { palavra: "JUNIOR", dicas: ["Lateral", "Campeao do mundo 1982", "Idolo do Flamengo"] },
-    { palavra: "LEANDRO", dicas: ["Lateral", "Campeao do mundo 1982", "Idolo do Flamengo"] },
-    { palavra: "ADILIO", dicas: ["Meia", "Campeao do mundo 1982", "Idolo do Flamengo"] },
-    { palavra: "NEYMAR", dicas: ["Camisa 10 do Brasil", "Maior artilheiro da selecao", "Joga no Santos"] },
-    { palavra: "VINI JR", dicas: ["Atacante do Real Madrid", "Campeao da Champions", "Brasileiro"] },
-    { palavra: "MESSI", dicas: ["Maior jogador argentino", "8 Bolas de Ouro", "Campeao do mundo 2022"] },
-    { palavra: "CRISTIANO RONALDO", dicas: ["Maior jogador portugues", "5 Champions", "Maior artilheiro da historia"] },
-    { palavra: "ENDERICK", dicas: ["Jovem promessa brasileira", "Joga no Real Madrid", "Revelacao do Palmeiras"] },
-    { palavra: "ESTEVAO", dicas: ["Jovem promessa brasileira", "Joga no Palmeiras", "Revelacao"] },
+    { palavra: "PELE", dicas: ["Maior jogador da história", "Rei do futebol", "3 títulos mundiais (1958, 1962, 1970)"] },
+    { palavra: "MARADONA", dicas: ["Maior ídolo argentino", "Mão de Deus", "Campeão do mundo 1986"] },
+    { palavra: "RONALDO", dicas: ["Fenômeno", "Campeão do mundo 1994 e 2002", "Artilheiro da Copa 2002"] },
+    { palavra: "RONALDINHO", dicas: ["Bruxo", "Campeão do mundo 2002", "Melhor do mundo 2004 e 2005"] },
+    { palavra: "ROMARIO", dicas: ["Baixinho", "Campeão do mundo 1994", "Artilheiro da Copa 1994"] },
+    { palavra: "RIVALDO", dicas: ["Pernambucano", "Campeão do mundo 2002", "Melhor do mundo 1999"] },
+    { palavra: "GARRINCHA", dicas: ["Anjo das pernas tortas", "Campeão do mundo 1958 e 1962", "Ídolo do Botafogo"] },
+    { palavra: "ZICO", dicas: ["Galinho", "Maior ídolo do Flamengo", "Grande artilheiro do clube"] },
+    { palavra: "ROBERTO DINAMITE", dicas: ["Maior ídolo do Vasco", "Artilheiro histórico do clube", "Campeão brasileiro de 1974"] },
+    { palavra: "CAFU", dicas: ["Lateral direito", "Campeão do mundo 1994 e 2002", "Capitão do penta"] },
+    { palavra: "ROBERTO CARLOS", dicas: ["Lateral esquerdo", "Campeão do mundo 2002", "Famoso pelas cobranças de falta"] },
+    { palavra: "TOSTAO", dicas: ["Campeão do mundo 1970", "Meia do Cruzeiro", "Grande jogador da seleção"] },
+    { palavra: "GERSON", dicas: ["Canhotinha de ouro", "Campeão do mundo 1970", "Meia do Flamengo"] },
+    { palavra: "FALCAO", dicas: ["Rei de Roma", "Jogou no Internacional", "Grande meio-campista"] },
+    { palavra: "SOCRATES", dicas: ["Médico e jogador", "Capitão da seleção de 1982", "Ídolo do Corinthians"] },
+    { palavra: "DIDI", dicas: ["Folha seca", "Campeão do mundo 1958 e 1962", "Meia do Botafogo"] },
+    { palavra: "NILTON SANTOS", dicas: ["Lateral esquerdo", "Campeão do mundo 1958 e 1962", "Ídolo do Botafogo"] },
+    { palavra: "ZAGALLO", dicas: ["Ponta-esquerda", "Campeão do mundo 1958 e 1962", "Único com 4 Copas no currículo"] },
+    { palavra: "LEAO", dicas: ["Goleiro", "Campeão do mundo 1970", "Ídolo do Palmeiras e Flamengo"] },
+    { palavra: "JARZINHO", dicas: ["Ponta-direita", "Campeão do mundo 1970", "Fez gols em todos os jogos da Copa"] },
+    { palavra: "RIVELINO", dicas: ["Meia", "Campeão do mundo 1970", "Destaque da seleção brasileira"] },
+    { palavra: "BEBETO", dicas: ["Atacante", "Campeão do mundo 1994", "Famoso pela comemoração do bebê"] },
+    { palavra: "BRANCO", dicas: ["Lateral esquerdo", "Campeão do mundo 1994", "Famoso pelas faltas decisivas"] },
+    { palavra: "DUNGA", dicas: ["Volante", "Campeão do mundo 1994", "Capitão do tetra"] },
+    { palavra: "TAFFAREL", dicas: ["Goleiro", "Campeão do mundo 1994", "Ídolo do Internacional"] },
+    { palavra: "CLODOALDO", dicas: ["Volante", "Campeão do mundo 1970", "Ídolo do Santos"] },
+    { palavra: "PEPE", dicas: ["Atacante", "Campeão do mundo 1962", "Ídolo do Santos"] },
+    { palavra: "GILMAR", dicas: ["Goleiro", "Campeão do mundo 1958 e 1962", "Ídolo do Santos"] },
+    { palavra: "MENGALVIO", dicas: ["Meia", "Campeão do mundo 1962", "Ídolo do Santos"] },
+    { palavra: "ZITO", dicas: ["Volante", "Campeão do mundo 1962", "Ídolo do Santos"] },
+    { palavra: "ORLANDO", dicas: ["Zagueiro", "Campeão do mundo 1962", "Ídolo do Santos"] },
+    { palavra: "AMARILDO", dicas: ["Atacante", "Campeão do mundo 1962", "Ídolo do Botafogo"] },
+    { palavra: "JUNIOR", dicas: ["Lateral esquerdo", "Campeão do mundo 1982", "Ídolo do Flamengo"] },
+    { palavra: "LEANDRO", dicas: ["Lateral direito", "Campeão do mundo 1982", "Ídolo do Flamengo"] },
+    { palavra: "ADILIO", dicas: ["Meia", "Campeão do mundo 1982", "Ídolo do Flamengo"] },
+    { palavra: "NEYMAR", dicas: ["Camisa 10 do Brasil", "Um dos maiores artilheiros da seleção", "Jogou no Santos"] },
+    { palavra: "VINI JR", dicas: ["Atacante do Real Madrid", "Campeão da Champions League", "Brasileiro"] },
+    { palavra: "MESSI", dicas: ["Maior jogador argentino", "8 Bolas de Ouro", "Campeão do mundo 2022"] },
+    { palavra: "CRISTIANO RONALDO", dicas: ["Maior jogador português", "5 Champions League", "Maior artilheiro da história"] },
+    { palavra: "ENDRICK", dicas: ["Jovem promessa brasileira", "Joga no Real Madrid", "Revelação do Palmeiras"] },
+    { palavra: "ESTEVAO", dicas: ["Jovem promessa brasileira", "Joga no Palmeiras", "Grande destaque"] },
     { palavra: "LUIS SUAREZ", dicas: ["Atacante uruguaio", "Jogou no Barcelona", "Artilheiro"] },
     { palavra: "CAVANI", dicas: ["Atacante uruguaio", "Jogou no PSG", "Artilheiro"] },
-    { palavra: "GIROUD", dicas: ["Atacante frances", "Campeao do mundo 2018", "Artilheiro da Franca"] },
-    { palavra: "VARDY", dicas: ["Atacante ingles", "Jogou no Leicester", "Campeao da Premier 2016"] },
-    { palavra: "STERLING", dicas: ["Atacante ingles", "Jogou no Manchester City", "Velocidade"] },
-    { palavra: "MADDISON", dicas: ["Meia ingles", "Jogou no Leicester", "Cria"] },
-    { palavra: "RASHFORD", dicas: ["Atacante ingles", "Jogou no Manchester United", "Velocidade"] },
-    { palavra: "SALAH", dicas: ["Atacante do Liverpool", "Egipcio", "Campeao da Champions 2019"] },
-    { palavra: "KANE", dicas: ["Atacante do Bayern", "Ingles", "Artilheiro da selecao"] },
+    { palavra: "GIROUD", dicas: ["Atacante francês", "Campeão do mundo 2018", "Artilheiro da França"] },
+    { palavra: "VARDY", dicas: ["Atacante inglês", "Jogou no Leicester", "Campeão da Premier League 2016"] },
+    { palavra: "STERLING", dicas: ["Atacante inglês", "Jogou no Manchester City", "Velocidade"] },
+    { palavra: "MADDISON", dicas: ["Meia inglês", "Jogou no Leicester", "Criativo"] },
+    { palavra: "RASHFORD", dicas: ["Atacante inglês", "Jogou no Manchester United", "Velocidade"] },
+    { palavra: "SALAH", dicas: ["Atacante do Liverpool", "Egípcio", "Campeão da Champions League 2019"] },
+    { palavra: "KANE", dicas: ["Atacante do Bayern", "Inglês", "Artilheiro da seleção inglesa"] },
 
     // ==========================================
     // ANOS DAS COPAS (8)
