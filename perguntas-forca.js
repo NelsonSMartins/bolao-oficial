@@ -409,7 +409,7 @@ const TODAS_PERGUNTAS = [
         dicas: ["Infração cometida sobre o adversário", "Pode ser cobrada direto para o gol", "Barreira tenta bloquear"] 
     },
     { 
-        palavra: "CARTÃO", 
+        palavra: "CARTAO", 
         dicas: ["Item de advertência do árbitro", "Pode ser amarelo ou vermelho", "Exclui o jogador se for repetido"] 
     },
     { 
