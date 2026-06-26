@@ -241,7 +241,7 @@ const TODAS_PERGUNTAS = [
         dicas: ["Estádio do México", "Final de 1970", "Final de 1986"] 
     },
     { 
-        palavra: "MINEIRÃO", 
+        palavra: "MINEIRAO", 
         dicas: ["Estádio de Belo Horizonte", "7 a 1 da Alemanha", "Brasil"] 
     },
     { 
@@ -313,7 +313,7 @@ const TODAS_PERGUNTAS = [
         dicas: ["Brasil x Uruguai 1950", "Trágica derrota do Brasil em casa", "Jogo histórico"] 
     },
     { 
-        palavra: "MINEIRAZO", 
+        palavra: "MINEIRAO", 
         dicas: ["Brasil 1 x 7 Alemanha", "Ocorrido em 2014", "Belo Horizonte"] 
     },
     { 
