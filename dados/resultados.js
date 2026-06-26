@@ -96,8 +96,8 @@ const RESULTADOS = {
     60: { casa: 0, fora: 0 }, // Paraguai x Austrália
     
     // 26/06/2026 - Fase de Grupos
-    // 61: { casa: 0, fora: 0 }, // França x Noruega
-    // 62: { casa: 0, fora: 0 }, // Senegal x Iraque
+    61: { casa: 2, fora: 1 }, // França x Noruega
+    62: { casa: 1, fora: 0 }, // Senegal x Iraque
     // 63: { casa: 0, fora: 0 }, // Espanha x Uruguai
     // 64: { casa: 0, fora: 0 }, // Cabo Verde x Arábia Saudita
     
