@@ -996,6 +996,14 @@
             font-size: 0.7rem;
         }
 
+        /* Novo: contador de erros globais */
+        .forca-erros-globais {
+            font-size: 0.7rem;
+            color: #d32f2f;
+            font-weight: 600;
+            margin-left: 8px;
+        }
+
         @media (max-width: 600px) {
             .forca-game-area { flex-direction: column; align-items: center; gap: 10px; }
             .forca-hangman { margin-right: 0; }
@@ -1276,9 +1284,10 @@
                     <div class="card-title">⚽ Forca Copa 2026</div>
                     <div style="display:flex; gap:6px; align-items:center; flex-wrap:wrap;">
                         <span class="forca-progresso" id="forcaProgresso">
-                            📊 Progresso: <strong id="forcaNivelAtual">0</strong>/100
+                            📊 Progresso: <strong id="forcaNivelAtual">0</strong>/<span id="forcaTotalPerguntas">0</span>
                         </span>
                         <span class="forca-badge forca-badge-warning" id="forcaStatusBadge">Jogando</span>
+                        <span class="forca-erros-globais" id="forcaErrosGlobais">❌ 0/5</span>
                         <button class="btn-card" id="btnVisualizarCard" onclick="abrirModalCard()">🖼️ Visualizar Card</button>
                     </div>
                 </div>
@@ -2264,7 +2273,7 @@
         }
 
         // ============================================
-        // FORCA - JOGO DA FORCA (100 PERGUNTAS)
+        // FORCA - JOGO DA FORCA (COM ERROS GLOBAIS E TOTAL DINÂMICO)
         // ============================================
         // AS PERGUNTAS ESTÃO NO ARQUIVO EXTERNO perguntas-forca.js
         // A variável TODAS_PERGUNTAS é carregada de lá
@@ -2272,7 +2281,7 @@
         let listaJogadoresForca = [];
         let palavraSecreta = '';
         let letrasAdivinhadas = [];
-        let errosForca = 0;
+        let errosForca = 0; // erros na palavra atual (max 6)
         const maxErrosForca = 6;
         let jogoTerminadoForca = false;
         let letrasUsadasForca = new Set();
@@ -2282,7 +2291,11 @@
         let jogoIniciadoForca = false;
         let perguntasUsadas = [];
         let nivelAtual = 0;
-        const NIVEL_MAXIMO = 100;
+        let totalPerguntas = 0; // será preenchido dinamicamente
+
+        // NOVO: contador de erros globais (máx 5)
+        let errosGlobais = 0;
+        const MAX_ERROS_GLOBAIS = 5;
 
         const canvasForca = document.getElementById('hangmanCanvas');
         const ctxForca = canvasForca.getContext('2d');
@@ -2297,6 +2310,8 @@
         const forcaStatusBadge = document.getElementById('forcaStatusBadge');
         const btnVisualizarCard = document.getElementById('btnVisualizarCard');
         const forcaNivelAtual = document.getElementById('forcaNivelAtual');
+        const forcaTotalPerguntas = document.getElementById('forcaTotalPerguntas');
+        const forcaErrosGlobais = document.getElementById('forcaErrosGlobais');
 
         const baloes = [
             document.getElementById('balao1'),
@@ -2337,7 +2352,10 @@
                 nivelAtual = 0;
                 perguntasUsadas = [];
             }
+            // Resetar erros globais ao carregar (começa limpo)
+            errosGlobais = 0;
             atualizarDisplayProgresso();
+            atualizarDisplayErrosGlobais();
         }
 
         function salvarProgresso() {
@@ -2354,12 +2372,31 @@
             if (forcaNivelAtual) {
                 forcaNivelAtual.textContent = nivelAtual;
             }
+            if (forcaTotalPerguntas) {
+                forcaTotalPerguntas.textContent = totalPerguntas;
+            }
+        }
+
+        function atualizarDisplayErrosGlobais() {
+            if (forcaErrosGlobais) {
+                forcaErrosGlobais.textContent = `❌ ${errosGlobais}/${MAX_ERROS_GLOBAIS}`;
+                // Mudar cor quando próximo do limite
+                if (errosGlobais >= MAX_ERROS_GLOBAIS) {
+                    forcaErrosGlobais.style.color = '#d32f2f';
+                    forcaErrosGlobais.style.fontWeight = 'bold';
+                } else {
+                    forcaErrosGlobais.style.color = '#d32f2f';
+                    forcaErrosGlobais.style.fontWeight = '600';
+                }
+            }
         }
 
         function resetarProgresso() {
             nivelAtual = 0;
             perguntasUsadas = [];
+            errosGlobais = 0;
             salvarProgresso();
+            atualizarDisplayErrosGlobais();
         }
 
         // ============================================
@@ -2505,6 +2542,9 @@
                     });
                 }
             }
+            // Atualiza o total de perguntas
+            totalPerguntas = listaJogadoresForca.length;
+            atualizarDisplayProgresso();
         }
 
         // ============================================
@@ -2591,7 +2631,17 @@
         }
 
         // ============================================
-        // JOGAR FORCA - COM AVANÇO DE NÍVEL
+        // RESETAR PROGRESSO POR ERROS GLOBAIS
+        // ============================================
+        function resetarPorErrosGlobais() {
+            resetarProgresso();
+            mensagemForca(`💀 Você errou ${MAX_ERROS_GLOBAIS} vezes! Progresso resetado.`, '#d32f2f', '#d32f2f');
+            // Reinicia o jogo com uma nova palavra
+            iniciarNovoJogoForca();
+        }
+
+        // ============================================
+        // JOGAR FORCA - COM AVANÇO DE NÍVEL E ERROS GLOBAIS
         // ============================================
         function jogarForca(letra) {
             if (!jogoIniciadoForca || jogoTerminadoForca) return;
@@ -2602,6 +2652,17 @@
             if (palavraSecreta.includes(letra)) {
                 letrasAdivinhadas.push(letra);
             } else {
+                // ERRO: incrementa erros globais
+                errosGlobais++;
+                atualizarDisplayErrosGlobais();
+
+                // Verifica se atingiu o limite de erros globais
+                if (errosGlobais >= MAX_ERROS_GLOBAIS) {
+                    // Reseta tudo
+                    resetarPorErrosGlobais();
+                    return;
+                }
+
                 errosForca++;
                 desenharForca(errosForca);
             }
@@ -2618,6 +2679,9 @@
 
                 // AVANÇA DE NÍVEL
                 nivelAtual++;
+                // RESETA ERROS GLOBAIS (porque acertou a palavra)
+                errosGlobais = 0;
+                atualizarDisplayErrosGlobais();
                 salvarProgresso();
 
                 mostrarCampeao();
@@ -2638,8 +2702,8 @@
                 atualizarDisplayProgresso();
 
                 // Verifica se atingiu o nível máximo
-                if (nivelAtual >= NIVEL_MAXIMO) {
-                    mensagemForca(`🎉 PARABÉNS! Você completou os ${NIVEL_MAXIMO} níveis!`, '#1a5f7a', '#f5c542');
+                if (nivelAtual >= totalPerguntas) {
+                    mensagemForca(`🎉 PARABÉNS! Você completou os ${totalPerguntas} níveis!`, '#1a5f7a', '#f5c542');
                 }
                 return;
             }
@@ -2665,8 +2729,8 @@
             }
 
             // Verifica se já completou todos os níveis
-            if (nivelAtual >= NIVEL_MAXIMO) {
-                mensagemForca(`🎉 Você já é CAMPEÃO! Complete os ${NIVEL_MAXIMO} níveis!`, '#1a5f7a', '#f5c542');
+            if (nivelAtual >= totalPerguntas) {
+                mensagemForca(`🎉 Você já é CAMPEÃO! Complete os ${totalPerguntas} níveis!`, '#1a5f7a', '#f5c542');
                 // Reseta o progresso se quiser continuar jogando
                 if (confirm('Parabéns! Você completou todos os níveis! Deseja recomeçar do zero?')) {
                     resetarProgresso();
@@ -2725,7 +2789,7 @@
             }, 300);
 
             const letrasCount = palavraSecreta.replace(/ /g,'').length;
-            mensagemForca(`🎯 Nível ${nivelAtual + 1}/${NIVEL_MAXIMO} - ${letrasCount} caracteres`, '#1e293b');
+            mensagemForca(`🎯 Nível ${nivelAtual + 1}/${totalPerguntas} - ${letrasCount} caracteres`, '#1e293b');
         }
 
         // ============================================
