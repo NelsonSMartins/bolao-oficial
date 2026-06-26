@@ -15,6 +15,7 @@
     </script>
 
     <style>
+        /* ===== TODOS OS ESTILOS EXISTENTES ===== */
         * {
             margin: 0;
             padding: 0;
@@ -922,6 +923,18 @@
             align-items: center;
             justify-content: center;
             line-height: 1.3;
+            flex-direction: column;
+            gap: 2px;
+        }
+
+        .forca-message .dica-item {
+            font-size: 0.7rem;
+            color: #0d3b4f;
+            background: rgba(245, 197, 66, 0.15);
+            padding: 2px 8px;
+            border-radius: 10px;
+            display: inline-block;
+            margin: 1px 0;
         }
 
         .forca-stats {
@@ -1360,43 +1373,40 @@
         let cardsDisponiveis = [];
 
         // ============================================
-        // CARREGAR CARDS DISPONÍVEIS
+        // CARREGAR CARDS DISPONÍVEIS - LIMITADO A 13
         // ============================================
-        // ============================================
-        // CARREGAR CARDS DISPONÍVEIS - SEM LIMITE
-        // ============================================
-
         // ============================================
         // CARREGAR CARDS DISPONÍVEIS - TESTA CADA UM
         // ============================================
         function carregarCardsDisponiveis() {
             cardsDisponiveis = [];
             
-            // Adiciona apenas cards que realmente existem
-            // Vai testar até encontrar um que não existe
-            let i = 1;
-            let encontrados = 0;
-            let maxTentativas = 100;
+            // ============================================
+            // ⚠️ ALTERE AQUI O NÚMERO MÁXIMO DE CARDS ⚠️
+            // Mude o valor 13 para quantos cards você quiser
+            // Exemplo: 13, 20, 50, 100, 1000, etc.
+            // ============================================
+            const MAX_CARDS = 13; // <--- MUDE AQUI O VALOR MÁXIMO DE CARDS
             
-            // Testa cards de 1 até 9999
-            for (let i = 1; i <= 13; i++) { // Mudar aqui o valor maximo de cards
+            // Adiciona cards no formato card/card1.png até cardN.png
+            for (let i = 1; i <= MAX_CARDS; i++) {
                 cardsDisponiveis.push(`card/card${i}.png`);
             }
             
-            // Também testa card001.png, card002.png, ...
-            for (let i = 1; i <= 5000; i++) {
+            // Também tenta com zeros à esquerda (card001.png, card002.png, ...)
+            for (let i = 1; i <= Math.min(MAX_CARDS, 5000); i++) {
                 const numStr = String(i).padStart(3, '0');
                 cardsDisponiveis.push(`card/card${numStr}.png`);
             }
             
-            // Fallback
+            // Fallback para outros formatos
             cardsDisponiveis.push('card/card.png');
             cardsDisponiveis.push('card/card.jpg');
             
-            // Embaralha
+            // Embaralha para distribuição aleatória
             cardsDisponiveis = cardsDisponiveis.sort(() => 0.5 - Math.random());
             
-            console.log(`📚 ${cardsDisponiveis.length} cards registrados`);
+            console.log(`📚 ${cardsDisponiveis.length} cards registrados (limitado a ${MAX_CARDS})`);
         }
 
         // ============================================
@@ -2324,6 +2334,11 @@
         let errosGlobais = 0;
         const MAX_ERROS_GLOBAIS = 5;
 
+        // ============================================
+        // VARIÁVEL PARA ARMAZENAR DICAS EXIBIDAS
+        // ============================================
+        let dicasExibidas = [];
+
         const canvasForca = document.getElementById('hangmanCanvas');
         const ctxForca = canvasForca.getContext('2d');
         const campeaoCanvas = document.getElementById('campeaoCanvas');
@@ -2422,6 +2437,7 @@
             nivelAtual = 0;
             perguntasUsadas = [];
             errosGlobais = 0;
+            dicasExibidas = [];
             salvarProgresso();
             atualizarDisplayErrosGlobais();
         }
@@ -2618,11 +2634,28 @@
             });
         }
 
+        // ============================================
+        // FUNÇÃO PARA EXIBIR MENSAGEM COM DICAS ACUMULADAS
+        // ============================================
         function mensagemForca(texto, cor = '#1e293b', borda = '#1a5f7a') {
-            if (!forcaMessage) return;
-            forcaMessage.textContent = texto;
-            forcaMessage.style.color = cor;
-            forcaMessage.style.borderLeftColor = borda;
+            const msg = document.getElementById('forcaMessage');
+            if (!msg) return;
+            
+            // Monta a mensagem com o texto principal
+            let html = texto;
+            
+            // Adiciona as dicas acumuladas
+            if (dicasExibidas.length > 0) {
+                html += '<br><div style="display:flex;flex-wrap:wrap;gap:4px;justify-content:center;margin-top:4px;">';
+                dicasExibidas.forEach((dica, i) => {
+                    html += `<span class="dica-item">💡 ${i+1}: ${dica}</span>`;
+                });
+                html += '</div>';
+            }
+            
+            msg.innerHTML = html;
+            msg.style.color = cor;
+            msg.style.borderLeftColor = borda;
         }
 
         function atualizarContadoresForca() {
@@ -2638,6 +2671,9 @@
             }
         }
 
+        // ============================================
+        // FUNÇÃO PARA DAR DICA (ACUMULA)
+        // ============================================
         function darDicaForca() {
             if (!jogoIniciadoForca || jogoTerminadoForca) {
                 mensagemForca('Inicie um jogo primeiro!', '#64748b');
@@ -2651,6 +2687,11 @@
             dicasUsadasForca++;
             const dica = dicasDisponiveisForca[indiceDicaAtualForca];
             indiceDicaAtualForca++;
+            
+            // ADICIONA A DICA AO HISTÓRICO
+            dicasExibidas.push(dica);
+            
+            // CHAMA A MENSAGEM COM AS DICAS ACUMULADAS
             mensagemForca(`💡 DICA ${dicasUsadasForca}: ${dica}`, '#0d3b4f', '#f5c542');
             atualizarContadoresForca();
         }
@@ -2772,6 +2813,9 @@
             indiceDicaAtualForca = 0;
             dicasDisponiveisForca = [...jogador.dicas];
             jogoIniciadoForca = true;
+            
+            // LIMPA O HISTÓRICO DE DICAS
+            dicasExibidas = [];
 
             perguntasUsadas.push(indexOriginal);
             salvarProgresso();
