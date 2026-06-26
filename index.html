@@ -1473,51 +1473,47 @@
         // ============================================
         // ABRIR MODAL CARD - CORRIGIDO
         // ============================================
+        // ============================================
+        // ABRIR MODAL CARD - VERSÃO CORRIGIDA
+        // ============================================
         function abrirModalCard() {
             console.log('🔍 abrirModalCard() chamado!');
-            console.log('📌 cardExibido:', cardExibido);
-            console.log('📌 cardAtual:', cardAtual);
-
+            
             if (cardCarregando) {
                 console.log('⏳ Já está carregando um card, aguarde...');
                 return;
             }
 
-            const modal = document.getElementById('modalCard');
-            const body = document.getElementById('modalCardBody');
-
-            // Se já tem um card exibido e ele é válido, mostra ele
-            if (cardExibido && cardAtual && cardAtual !== '') {
-                console.log('✅ Re-exibindo card existente:', cardAtual);
-                body.innerHTML = `<img id="modalCardImage" src="${cardAtual}" alt="Card" style="max-width:100%;max-height:60vh;border-radius:12px;object-fit:contain;">`;
-                modal.style.display = 'flex';
-                return;
-            }
-
-            // Se não tem card, busca um novo
+            // Se cardsDisponiveis estiver vazio, carrega novamente
             if (cardsDisponiveis.length === 0) {
                 carregarCardsDisponiveis();
             }
 
+            const modal = document.getElementById('modalCard');
+            const body = document.getElementById('modalCardBody');
+            
+            // Mostra loading
             body.innerHTML = `<div class="card-loading">🔄 Procurando card...</div>`;
             modal.style.display = 'flex';
             
             cardCarregando = true;
-            let attempts = 0;
-            const maxAttempts = Math.min(cardsDisponiveis.length, 100);
-
-            function tentarProximoCard() {
+            
+            // Tenta encontrar um card válido
+            function tentarProximoCard(attempts) {
+                const maxAttempts = Math.min(cardsDisponiveis.length, 50);
+                
                 if (attempts >= maxAttempts || cardsDisponiveis.length === 0) {
-                    console.log('🔄 Gerando fallback...');
+                    console.log('🔄 Nenhum card encontrado, gerando fallback...');
                     gerarCardFallback();
+                    cardCarregando = false;
                     return;
                 }
 
+                // Pega um card aleatório da lista
                 const randomIndex = Math.floor(Math.random() * cardsDisponiveis.length);
                 const url = cardsDisponiveis[randomIndex];
-                attempts++;
                 
-                console.log(`🔄 Tentativa ${attempts}/${maxAttempts}:`, url);
+                console.log(`🔄 Tentativa ${attempts + 1}/${maxAttempts}: ${url}`);
 
                 const testImg = new Image();
                 testImg.onload = function() {
@@ -1529,15 +1525,17 @@
                 };
                 testImg.onerror = function() {
                     console.warn('❌ Card NÃO encontrado:', url);
+                    // Remove da lista para não tentar de novo
                     cardsDisponiveis.splice(randomIndex, 1);
-                    tentarProximoCard();
+                    tentarProximoCard(attempts + 1);
                 };
                 testImg.src = url;
             }
 
-            tentarProximoCard();
+            // Inicia a busca
+            tentarProximoCard(0);
         }
-
+        
         // ============================================
         // GERAR CARD FALLBACK
         // ============================================
