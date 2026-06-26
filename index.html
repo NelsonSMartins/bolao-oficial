@@ -969,6 +969,33 @@
             display: inline-flex;
         }
 
+        /* ===== PROGRESSO FORCA ===== */
+        .forca-progresso {
+            background: #f8fafc;
+            border-radius: 8px;
+            padding: 6px 12px;
+            border: 1px solid #e2e8f0;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.7rem;
+            color: #64748b;
+        }
+
+        .forca-progresso strong {
+            color: #1a5f7a;
+            font-size: 0.85rem;
+        }
+
+        .forca-progresso .nivel-atual {
+            background: #1a5f7a;
+            color: white;
+            padding: 2px 10px;
+            border-radius: 12px;
+            font-weight: 700;
+            font-size: 0.7rem;
+        }
+
         @media (max-width: 600px) {
             .forca-game-area { flex-direction: column; align-items: center; gap: 10px; }
             .forca-hangman { margin-right: 0; }
@@ -1247,7 +1274,10 @@
             <div class="card">
                 <div class="card-header">
                     <div class="card-title">⚽ Forca Copa 2026</div>
-                    <div style="display:flex; gap:6px; align-items:center;">
+                    <div style="display:flex; gap:6px; align-items:center; flex-wrap:wrap;">
+                        <span class="forca-progresso" id="forcaProgresso">
+                            📊 Progresso: <strong id="forcaNivelAtual">0</strong>/100
+                        </span>
                         <span class="forca-badge forca-badge-warning" id="forcaStatusBadge">Jogando</span>
                         <button class="btn-card" id="btnVisualizarCard" onclick="abrirModalCard()">🖼️ Visualizar Card</button>
                     </div>
@@ -1311,7 +1341,8 @@
     <script src="dados/jogos.js"></script>
     <script src="dados/apostas.js"></script>
     <script src="dados/resultados.js"></script>
-    
+    <script src="perguntas-forca.js"></script>
+
     <script>
         // ============================================
         // VARIÁVEIS GLOBAIS DO CARD
@@ -1337,21 +1368,21 @@
         // ============================================
         function abrirModalCard() {
             console.log('🔍 abrirModalCard() chamado!');
-            
+
             if (cardsDisponiveis.length === 0) {
                 carregarCardsDisponiveis();
             }
-            
+
             // Embaralha a lista
             const shuffled = [...cardsDisponiveis].sort(() => 0.5 - Math.random());
             let index = 0;
-            
+
             // Mostra o modal imediatamente com loading
             const img = document.getElementById('modalCardImage');
             img.alt = '🔄 Carregando...';
             img.src = '';
             document.getElementById('modalCard').style.display = 'flex';
-            
+
             function tentarProximoCard() {
                 if (index >= shuffled.length) {
                     console.error('❌ Nenhum card encontrado!');
@@ -1359,10 +1390,10 @@
                     img.src = '';
                     return;
                 }
-                
+
                 const url = shuffled[index];
                 console.log(`🔄 Tentando (${index + 1}/${shuffled.length}):`, url);
-                
+
                 const testImg = new Image();
                 testImg.onload = function() {
                     console.log('✅ Card encontrado:', url);
@@ -1377,7 +1408,7 @@
                 };
                 testImg.src = url;
             }
-            
+
             tentarProximoCard();
         }
 
@@ -1396,13 +1427,13 @@
                 console.warn('⚠️ Nenhum card selecionado para baixar');
                 return;
             }
-            
+
             console.log('⬇️ Baixando:', cardAtual);
-            
+
             // Extrai o nome do arquivo da URL
             const partes = cardAtual.split('/');
             const nomeArquivo = partes[partes.length - 1];
-            
+
             const link = document.createElement('a');
             link.href = cardAtual;
             link.download = nomeArquivo;
@@ -1439,12 +1470,12 @@
         function carregarWhatsAppButton() {
             const container = document.getElementById('whatsappButton');
             if (!container) return;
-            
+
             const hoje = new Date();
             const dataStr = `${hoje.getFullYear()}${String(hoje.getMonth()+1).padStart(2,'0')}${String(hoje.getDate()).padStart(2,'0')}`;
-            
+
             let numero, mensagem, textoBotao;
-            
+
             if (parseInt(dataStr) >= 20260628) {
                 numero = '552198237951';
                 mensagem = 'E ai, vai me pagar ou não? Como você raspa a bananada?';
@@ -1454,9 +1485,9 @@
                 mensagem = 'Gostaria de mais informações sobre o bolão da copa.';
                 textoBotao = '📱 Dúvidas? Fale comigo no WhatsApp';
             }
-            
+
             const url = `https://wa.me/${numero}?text=${encodeURIComponent(mensagem)}`;
-            
+
             container.innerHTML = `
                 <a href="${url}"
                    target="_blank"
@@ -1478,11 +1509,11 @@
             const numeroJogadores = Object.keys(USUARIOS).length;
             const totalPremio = numeroJogadores * 10;
             document.getElementById('premioValor').innerHTML = `R$ ${totalPremio.toFixed(2).replace('.', ',')}`;
-            
+
             const premioPrimeiro = totalPremio * 0.5333;
             const premioSegundo = totalPremio * 0.3333;
             const premioTerceiro = totalPremio * 0.1334;
-            
+
             document.getElementById('premioPrimeiro').innerHTML = `R$ ${premioPrimeiro.toFixed(2).replace('.', ',')}`;
             document.getElementById('premioSegundo').innerHTML = `R$ ${premioSegundo.toFixed(2).replace('.', ',')}`;
             document.getElementById('premioTerceiro').innerHTML = `R$ ${premioTerceiro.toFixed(2).replace('.', ',')}`;
@@ -1498,11 +1529,11 @@
             document.getElementById('secao-tendencias').style.display = 'none';
             document.getElementById('secao-regras').style.display = 'none';
             document.getElementById('secao-forca').style.display = 'none';
-            
+
             document.querySelectorAll('.nav-tab').forEach(tab => {
                 tab.classList.remove('active');
             });
-            
+
             if (aba === 'ranking') {
                 document.getElementById('secao-ranking').style.display = 'block';
                 document.querySelector('.nav-tab[data-tab="ranking"]').classList.add('active');
@@ -1543,19 +1574,19 @@
 
         function calcularPontosComDesempate(palpite, resultado) {
             if (!palpite || !resultado) return { pontos: 0, diferencaGols: 999 };
-            
+
             if (palpite.casa === resultado.casa && palpite.fora === resultado.fora) {
                 return { pontos: 3, diferencaGols: 0 };
             }
-            
+
             const palpiteVencedor = palpite.casa > palpite.fora ? 'casa' : (palpite.casa < palpite.fora ? 'fora' : 'empate');
             const resultadoVencedor = resultado.casa > resultado.fora ? 'casa' : (resultado.casa < resultado.fora ? 'fora' : 'empate');
-            
+
             if (palpiteVencedor === resultadoVencedor) {
                 const diferenca = calcularDiferencaGols(palpite, resultado);
                 return { pontos: 1, diferencaGols: diferenca };
             }
-            
+
             return { pontos: 0, diferencaGols: 999 };
         }
 
@@ -1574,18 +1605,18 @@
         // ============================================
         function calcularRankingCompleto() {
             const ranking = [];
-            
+
             for (const [nome, usuario] of Object.entries(USUARIOS)) {
                 let pontosTotais = 0;
                 let placaresExatos = 0;
                 let resultadosCorretos = 0;
                 let somaDiferencaGols = 0;
-                
+
                 for (const jogo of JOGOS) {
                     const apostaKey = `${jogo.id}_${nome}`;
                     const palpite = APOSTAS[apostaKey];
                     const resultado = RESULTADOS[jogo.id];
-                    
+
                     if (palpite && resultado) {
                         const { pontos, diferencaGols } = calcularPontosComDesempate(palpite, resultado);
                         pontosTotais += pontos;
@@ -1594,7 +1625,7 @@
                         somaDiferencaGols += diferencaGols;
                     }
                 }
-                
+
                 ranking.push({
                     nome: nome,
                     pontos: pontosTotais,
@@ -1603,7 +1634,7 @@
                     diferencaGols: somaDiferencaGols
                 });
             }
-            
+
             ranking.sort((a, b) => {
                 if (a.pontos !== b.pontos) return b.pontos - a.pontos;
                 if (a.placaresExatos !== b.placaresExatos) return b.placaresExatos - a.placaresExatos;
@@ -1611,7 +1642,7 @@
                 if (a.diferencaGols !== b.diferencaGols) return a.diferencaGols - b.diferencaGols;
                 return a.nome.localeCompare(b.nome);
             });
-            
+
             let posicao = 1;
             for (let i = 0; i < ranking.length; i++) {
                 if (i > 0 && 
@@ -1624,7 +1655,7 @@
                     ranking[i].posicao = i + 1;
                 }
             }
-            
+
             return ranking;
         }
 
@@ -1641,25 +1672,25 @@
         function renderizarRanking() {
             const jogadorFiltro = document.getElementById('filtroRankingJogador')?.value || '';
             let ranking = calcularRankingCompleto();
-            
+
             if (jogadorFiltro) {
                 ranking = ranking.filter(item => item.nome === jogadorFiltro);
             }
-            
+
             const container = document.getElementById('rankingContainer');
             if (!container) return;
-            
+
             if (ranking.length === 0) {
                 container.innerHTML = '<div class="empty-state">Nenhum jogador encontrado</div>';
                 return;
             }
-            
+
             // SALVAR RANKING ATUAL PARA COMPARAÇÃO FUTURA
             const rankingAtual = {};
             ranking.forEach((item, index) => {
                 rankingAtual[item.nome] = index + 1;
             });
-            
+
             let rankingAnterior = {};
             try {
                 const saved = localStorage.getItem('rankingAnterior');
@@ -1669,9 +1700,9 @@
             } catch (e) {
                 rankingAnterior = {};
             }
-            
+
             localStorage.setItem('rankingAnterior', JSON.stringify(rankingAtual));
-            
+
             // RENDERIZAR TABELA COM SETAS
             let html = `<table class="ranking-table">
                             <thead>
@@ -1685,11 +1716,11 @@
                                 </tr>
                             </thead>
                             <tbody>`;
-            
+
             ranking.forEach((item) => {
                 const posicaoAtual = item.posicao;
                 const posicaoAnterior = rankingAnterior[item.nome] || posicaoAtual;
-                
+
                 let trendHtml = '';
                 if (posicaoAtual < posicaoAnterior) {
                     trendHtml = `<span style="color: #2e7d32; font-size: 1.2rem;">▲</span>`;
@@ -1698,13 +1729,13 @@
                 } else {
                     trendHtml = `<span style="color: #888; font-size: 1.2rem;">—</span>`;
                 }
-                
+
                 let medalhaHtml = '';
                 if (item.posicao === 1) medalhaHtml = '<span class="medalha">🥇</span>';
                 else if (item.posicao === 2) medalhaHtml = '<span class="medalha">🥈</span>';
                 else if (item.posicao === 3) medalhaHtml = '<span class="medalha">🥉</span>';
                 else medalhaHtml = `<span class="medalha">${item.posicao}º</span>`;
-                
+
                 const classe = item.posicao === 1 ? 'rank-1' : (item.posicao === 2 ? 'rank-2' : (item.posicao === 3 ? 'rank-3' : ''));
                 html += `<tr class="${classe}">
                             <td>${medalhaHtml}</td>
@@ -1715,7 +1746,7 @@
                             <td style="text-align:center">${trendHtml}</td>
                         </tr>`;
             });
-            
+
             html += '</tbody></table>';
             container.innerHTML = html;
         }
@@ -1748,9 +1779,9 @@
         function renderizarJogos() {
             const timeFiltro = document.getElementById('filtroTimeJogo')?.value || '';
             const dataFiltro = document.getElementById('filtroDataJogo')?.value || '';
-            
+
             let jogosFiltrados = [...JOGOS];
-            
+
             if (timeFiltro) {
                 jogosFiltrados = jogosFiltrados.filter(jogo => 
                     jogo.timeCasa === timeFiltro || jogo.timeFora === timeFiltro
@@ -1759,17 +1790,17 @@
             if (dataFiltro) {
                 jogosFiltrados = jogosFiltrados.filter(jogo => jogo.data === dataFiltro);
             }
-            
+
             jogosFiltrados.sort((a, b) => a.id - b.id);
-            
+
             const container = document.getElementById('jogosContainer');
             if (!container) return;
-            
+
             if (jogosFiltrados.length === 0) {
                 container.innerHTML = '<div class="empty-state">Nenhum jogo encontrado</div>';
                 return;
             }
-            
+
             container.innerHTML = '';
             jogosFiltrados.forEach(jogo => {
                 const resultado = RESULTADOS[jogo.id];
@@ -1838,15 +1869,15 @@
         function renderizarApostasJogador(jogador) {
             const container = document.getElementById('apostasContainer');
             if (!container) return;
-            
+
             if (!jogador) {
                 container.innerHTML = '<div class="empty-state">👈 Selecione um jogador para ver os palpites</div>';
                 return;
             }
-            
+
             const timeFiltro = document.getElementById('filtroTimeApostas')?.value || '';
             const dataFiltro = document.getElementById('filtroDataApostas')?.value || '';
-            
+
             const apostasDoJogador = [];
             for (const [key, aposta] of Object.entries(APOSTAS)) {
                 if (key.endsWith(`_${jogador}`)) {
@@ -1860,9 +1891,9 @@
                     }
                 }
             }
-            
+
             let apostasFiltradas = apostasDoJogador;
-            
+
             if (timeFiltro) {
                 apostasFiltradas = apostasFiltradas.filter(item => 
                     item.jogo.timeCasa === timeFiltro || item.jogo.timeFora === timeFiltro
@@ -1871,20 +1902,20 @@
             if (dataFiltro) {
                 apostasFiltradas = apostasFiltradas.filter(item => item.jogo.data === dataFiltro);
             }
-            
+
             apostasFiltradas.sort((a, b) => a.jogo.id - b.jogo.id);
-            
+
             if (apostasFiltradas.length === 0) {
                 container.innerHTML = `<div class="empty-state">📝 Nenhum palpite encontrado para ${jogador} com os filtros selecionados</div>`;
                 return;
             }
-            
+
             container.innerHTML = '';
             for (const item of apostasFiltradas) {
                 const jogo = item.jogo;
                 const palpite = item.palpite;
                 const resultado = RESULTADOS[jogo.id];
-                
+
                 let statusHtml = '';
                 if (resultado) {
                     const { pontos } = calcularPontosComDesempate(palpite, resultado);
@@ -1894,7 +1925,7 @@
                 } else {
                     statusHtml = '<span class="badge badge-waiting">⏳ Aguardando</span>';
                 }
-                
+
                 const div = document.createElement('div');
                 div.className = 'bet-card';
                 div.innerHTML = `
@@ -1935,11 +1966,11 @@
 
         function calcularPlacarMaisMenosVotado() {
             const resultados = [];
-            
+
             for (const jogo of JOGOS) {
                 const votos = {};
                 let totalApostas = 0;
-                
+
                 for (const [key, aposta] of Object.entries(APOSTAS)) {
                     if (key.startsWith(`${jogo.id}_`)) {
                         totalApostas++;
@@ -1950,7 +1981,7 @@
                         votos[placarKey].count++;
                     }
                 }
-                
+
                 if (totalApostas === 0) {
                     resultados.push({
                         jogo: jogo,
@@ -1959,12 +1990,12 @@
                     });
                     continue;
                 }
-                
+
                 let maisVotado = null;
                 let menosVotado = null;
                 let maiorVoto = 0;
                 let menorVoto = totalApostas + 1;
-                
+
                 for (const [key, voto] of Object.entries(votos)) {
                     if (voto.count > maiorVoto) {
                         maiorVoto = voto.count;
@@ -1975,10 +2006,10 @@
                         menosVotado = voto;
                     }
                 }
-                
+
                 const percentualMais = (maiorVoto / totalApostas * 100).toFixed(1);
                 const percentualMenos = (menorVoto / totalApostas * 100).toFixed(1);
-                
+
                 resultados.push({
                     jogo: jogo,
                     temApostas: true,
@@ -1987,16 +2018,16 @@
                     menosVotado: { placar: menosVotado, votos: menorVoto, percentual: percentualMenos }
                 });
             }
-            
+
             return resultados;
         }
 
         function renderizarTendencias() {
             const timeFiltro = document.getElementById('filtroTimeTendencia')?.value || '';
             const dataFiltro = document.getElementById('filtroDataTendencia')?.value || '';
-            
+
             let tendencias = calcularPlacarMaisMenosVotado();
-            
+
             if (timeFiltro) {
                 tendencias = tendencias.filter(t => 
                     t.jogo.timeCasa === timeFiltro || t.jogo.timeFora === timeFiltro
@@ -2005,22 +2036,22 @@
             if (dataFiltro) {
                 tendencias = tendencias.filter(t => t.jogo.data === dataFiltro);
             }
-            
+
             tendencias.sort((a, b) => a.jogo.id - b.jogo.id);
-            
+
             const container = document.getElementById('tendenciasContainer');
             if (!container) return;
-            
+
             if (tendencias.length === 0) {
                 container.innerHTML = '<div class="empty-state">Nenhum jogo encontrado</div>';
                 return;
             }
-            
+
             container.innerHTML = '';
             for (const item of tendencias) {
                 const div = document.createElement('div');
                 div.className = 'tendencia-card';
-                
+
                 if (!item.temApostas) {
                     div.innerHTML = `
                         <div class="tendencia-info">
@@ -2069,40 +2100,40 @@
         function initEventListeners() {
             const filtroRanking = document.getElementById('filtroRankingJogador');
             if (filtroRanking) filtroRanking.addEventListener('change', renderizarRanking);
-            
+
             const filtroTime = document.getElementById('filtroTimeJogo');
             if (filtroTime) filtroTime.addEventListener('change', renderizarJogos);
-            
+
             const filtroData = document.getElementById('filtroDataJogo');
             if (filtroData) filtroData.addEventListener('change', renderizarJogos);
-            
+
             const filtroTimeTendencia = document.getElementById('filtroTimeTendencia');
             if (filtroTimeTendencia) filtroTimeTendencia.addEventListener('change', renderizarTendencias);
-            
+
             const filtroDataTendencia = document.getElementById('filtroDataTendencia');
             if (filtroDataTendencia) filtroDataTendencia.addEventListener('change', renderizarTendencias);
-            
+
             const selectJogador = document.getElementById('selectJogador');
             if (selectJogador) {
                 selectJogador.addEventListener('change', (e) => {
                     renderizarApostasJogador(e.target.value);
                 });
             }
-            
+
             const filtroTimeApostas = document.getElementById('filtroTimeApostas');
             if (filtroTimeApostas) {
                 filtroTimeApostas.addEventListener('change', () => {
                     renderizarApostasJogador(document.getElementById('selectJogador')?.value || '');
                 });
             }
-            
+
             const filtroDataApostas = document.getElementById('filtroDataApostas');
             if (filtroDataApostas) {
                 filtroDataApostas.addEventListener('change', () => {
                     renderizarApostasJogador(document.getElementById('selectJogador')?.value || '');
                 });
             }
-            
+
             document.querySelectorAll('.nav-tab').forEach(tab => {
                 tab.addEventListener('click', function() {
                     const aba = this.getAttribute('data-tab');
@@ -2121,10 +2152,10 @@
                 popup.innerHTML = `<img src="" alt="Alcy" class="alcy-imagem" id="alcyImagem">`;
                 document.body.appendChild(popup);
             }
-            
+
             const popup = document.getElementById('alcyPopup');
             const imgElement = document.getElementById('alcyImagem');
-            
+
             const imagens = [
                 'extra/alcy1.png',
                 'extra/alcy2.png',
@@ -2143,16 +2174,16 @@
                 'extra/memecopa.png',
                 'extra/receba.png',
             ];
-            
+
             let imagensExistentes = [];
             let imagensCarregadas = 0;
-            
+
             function verificarImagens() {
                 if (imagens.length === 0) {
                     console.log('Nenhuma imagem listada na pasta extra');
                     return;
                 }
-                
+
                 for (let i = 0; i < imagens.length; i++) {
                     const testImg = new Image();
                     testImg.onload = function() {
@@ -2172,18 +2203,18 @@
                     testImg.src = imagens[i];
                 }
             }
-            
+
             function iniciarCarrossel() {
                 if (imagensExistentes.length === 0) {
                     console.log('Nenhuma imagem encontrada na pasta extra');
                     return;
                 }
-                
+
                 console.log('Imagens encontradas:', imagensExistentes.length);
-                
+
                 let timeoutId = null;
                 let indexAtual = 0;
-                
+
                 function shuffleArray(array) {
                     for (let i = array.length - 1; i > 0; i--) {
                         const j = Math.floor(Math.random() * (i + 1));
@@ -2191,108 +2222,52 @@
                     }
                     return array;
                 }
-                
+
                 let imagensEmbaralhadas = shuffleArray([...imagensExistentes]);
-                
+
                 function mostrarProximaImagem() {
                     if (timeoutId) {
                         clearTimeout(timeoutId);
                         timeoutId = null;
                     }
-                    
+
                     if (indexAtual >= imagensEmbaralhadas.length) {
                         imagensEmbaralhadas = shuffleArray([...imagensExistentes]);
                         indexAtual = 0;
                     }
-                    
+
                     const imgSrc = imagensEmbaralhadas[indexAtual];
                     console.log('Mostrando imagem:', imgSrc);
                     mostrarImagem(imgSrc);
                     indexAtual++;
                 }
-                
+
                 function mostrarImagem(imgSrc) {
                     imgElement.src = imgSrc;
                     popup.classList.remove('hide');
                     popup.classList.add('show');
-                    
+
                     timeoutId = setTimeout(function() {
                         popup.classList.remove('show');
                         popup.classList.add('hide');
-                        
+
                         timeoutId = setTimeout(function() {
                             mostrarProximaImagem();
                         }, 20000);
                     }, 5000);
                 }
-                
+
                 setTimeout(mostrarProximaImagem, 15000);
             }
-            
+
             verificarImagens();
         }
 
         // ============================================
-        // FORCA - JOGO DA FORCA (90 PERGUNTAS)
+        // FORCA - JOGO DA FORCA (100 PERGUNTAS)
         // ============================================
-        const TODAS_PERGUNTAS = [
-            // CAMPEÕES MUNDIAIS (22)
-            { palavra: "FRANCA", dicas: ["Quem foi campeão mundial em 1998?", "Quem foi campeão mundial em 2018?", "Seleção que venceu a Copa de 2018"] },
-            { palavra: "BRASIL", dicas: ["Quem foi campeão mundial em 2002?", "Quem foi campeão mundial em 1994?", "Seleção com mais títulos mundiais (5 títulos)"] },
-            { palavra: "ITALIA", dicas: ["Quem foi campeão mundial em 2006?", "Quem foi campeão mundial em 1982?", "Seleção com 4 títulos mundiais"] },
-            { palavra: "ESPANHA", dicas: ["Quem foi campeão mundial em 2010?", "Primeiro título mundial da seleção", "Campeã na África do Sul"] },
-            { palavra: "ALEMANHA", dicas: ["Quem foi campeão mundial em 2014?", "Quem foi campeão mundial em 1990?", "Seleção com 4 títulos mundiais (alemã)"] },
-            { palavra: "ARGENTINA", dicas: ["Quem foi campeão mundial em 2022?", "Quem foi campeão mundial em 1986?", "Seleção que tem 3 títulos mundiais"] },
-            { palavra: "INGLATERRA", dicas: ["Quem foi campeão mundial em 1966?", "Único título da seleção inglesa", "Gol na final contra a Alemanha"] },
-            { palavra: "URUGUAI", dicas: ["Quem foi campeão mundial em 1950?", "Quem foi campeão mundial em 1930?", "Seleção que tem 2 títulos mundiais"] },
-            { palavra: "CROACIA", dicas: ["Quem foi vice-campeão mundial em 2018?", "Finalista em 2018", "Modric e Rakitic"] },
-            { palavra: "HOLANDA", dicas: ["Quem foi vice-campeão mundial em 2010?", "Finalista em 2014 (terceiro lugar)", "Laranja mecânica"] },
-            
-            // BRASIL - ANOS E JOGADORES (10)
-            { palavra: "2002", dicas: ["Ano da seleção brasileira com Ronaldo e Rivaldo brilhando", "Ano em que o Brasil foi campeão com Ronaldinho Gaúcho", "Pentacampeão mundial"] },
-            { palavra: "1994", dicas: ["Ano em que Romário foi artilheiro e campeão mundial pelo Brasil", "Tetracampeão mundial", "Bebeto e Romário"] },
-            { palavra: "1962", dicas: ["Ano em que a seleção brasileira foi campeã com Pelé e Garrincha", "Bicampeão mundial", "Garrincha foi o destaque"] },
-            { palavra: "1970", dicas: ["Ano em que o Brasil foi campeão mundial com Pelé, Tostão e Rivellino", "Ano em que o Brasil foi campeão com Zagallo como técnico", "Tricampeão mundial"] },
-            { palavra: "1998", dicas: ["Ano em que o Brasil foi vice-campeão para a França", "Zidane brilhou na final", "Ronaldo teve mal-estar antes da final"] },
-            { palavra: "1950", dicas: ["Ano em que o Brasil foi vice-campeão para o Uruguai", "Maracanazo", "Final no Maracanã"] },
-            { palavra: "2014", dicas: ["Ano em que o Brasil foi eliminado pela Alemanha por 7 a 1", "Mineiraço", "Semi-final em Belo Horizonte"] },
-            { palavra: "NEYMAR", dicas: ["Jogador brasileiro que atualmente joga no Santos e ganhou ouro em 2016", "Revelação do Santos", "Maior artilheiro da história da seleção"] },
-            { palavra: "VINICIUS JR", dicas: ["Destaque do Real Madrid e campeão da Champions 2024", "Revelação do Flamengo", "Jovem talento brasileiro"] },
-            { palavra: "RONALDO", dicas: ["Atacante brasileiro conhecido como Fenômeno em 2002", "Artilheiro da Copa 2002", "Passou por Barcelona, Inter e Real Madrid"] },
-            
-            // ARGENTINA (5)
-            { palavra: "MESSI", dicas: ["Lenda do Barcelona com 8 Bolas de Ouro e campeão em 2022", "Campeão mundial 2022", "Maior jogador argentino da história"] },
-            { palavra: "DIBU MARTINEZ", dicas: ["Goleiro do Aston Villa e herói da Copa 2022", "Defendeu pênaltis na final de 2022", "Goleiro argentino"] },
-            { palavra: "DI MARIA", dicas: ["Ponta do Benfica que fez gol na final da Copa 2022", "Gol do título argentino em 2022", "Jogou no Real Madrid"] },
-            { palavra: "LAUTARO MARTINEZ", dicas: ["Atacante da Inter de Milão e artilheiro da Serie A", "Atacante argentino campeão da Copa América", "Revelação do Racing"] },
-            { palavra: "ENZO FERNANDEZ", dicas: ["Meia do Chelsea campeão mundial em 2022", "Revelação do River Plate em 2022", "Jovem talento argentino"] },
-            
-            // INGLATERRA (5)
-            { palavra: "KANE", dicas: ["Atacante do Bayern de Munique e artilheiro da seleção inglesa", "Campeão da Champions 2025", "Revelação do Tottenham"] },
-            { palavra: "BELLINGHAM", dicas: ["Meia do Real Madrid e jovem talento inglês", "Destaque no Borussia Dortmund", "Jovem da seleção inglesa"] },
-            { palavra: "SAKA", dicas: ["Atacante do Arsenal com velocidade e drible", "Destaque da Premier League", "Revelação do Arsenal"] },
-            { palavra: "FODEN", dicas: ["Meia do Manchester City campeão da Premier League", "Revelação do City", "Jovem talento inglês"] },
-            { palavra: "RICE", dicas: ["Volante do Arsenal e líder da seleção inglesa", "Passagem pelo West Ham", "Meio-campista inglês"] },
-            
-            // FRANÇA (5)
-            { palavra: "MBAPPE", dicas: ["Atacante do Real Madrid campeão mundial em 2018", "Velocidade e dribles", "Revelação do Monaco"] },
-            { palavra: "GRIEZMANN", dicas: ["Atacante do Atlético de Madrid campeão mundial em 2018", "Vice artilheiro da Copa 2022", "Jogador francês"] },
-            { palavra: "TCHOUAMENI", dicas: ["Volante do Real Madrid destaque da seleção francesa", "Passagem pelo Monaco", "Jovem talento francês"] },
-            { palavra: "KOLO MUANI", dicas: ["Atacante do PSG destaque na Copa 2022", "Revelação do Frankfurt", "Atacante francês"] },
-            { palavra: "CAMAVINGA", dicas: ["Volante do Real Madrid jovem talento francês", "Passagem pelo Rennes", "Revelação francesa"] },
-            
-            // OUTROS (10)
-            { palavra: "CRISTIANO RONALDO", dicas: ["Lenda portuguesa com 5 Champions e maior artilheiro da história", "Maior artilheiro da seleção portuguesa", "Ídolo do Real Madrid"] },
-            { palavra: "B SILVA", dicas: ["Meia português do Manchester City", "Campeão da Premier League", "Jogador do City"] },
-            { palavra: "LEAO", dicas: ["Atacante do Milan campeão da Serie A 2022", "Atacante português", "Velocidade e drible"] },
-            { palavra: "DONNARUMMA", dicas: ["Goleiro do PSG campeão da Euro 2020", "Revelação do Milan", "Melhor goleiro jovem"] },
-            { palavra: "BARELLA", dicas: ["Meia italiano da Inter de Milão", "Campeão da Serie A", "Meio-campista italiano"] },
-            { palavra: "VAN DIJK", dicas: ["Zagueiro do Liverpool líder da seleção holandesa", "Melhor zagueiro do mundo", "Líder da defesa"] },
-            { palavra: "DE JONG", dicas: ["Meia holandês do Barcelona", "Passagem pelo Ajax", "Meio-campista holandês"] },
-            { palavra: "GAKPO", dicas: ["Atacante do Liverpool destaque da Copa 2022", "Revelação do PSV", "Atacante holandês"] },
-            { palavra: "DE BRUYNE", dicas: ["Meia belga do Manchester City especialista em passes", "Melhor meia do mundo", "Campeão da Premier League"] },
-            { palavra: "LUKAKU", dicas: ["Atacante belga do Napoli e artilheiro da seleção", "Passagem por Inter e Chelsea", "Atacante belga"] }
-        ];
+        // AS PERGUNTAS ESTÃO NO ARQUIVO EXTERNO perguntas-forca.js
+        // A variável TODAS_PERGUNTAS é carregada de lá
 
         let listaJogadoresForca = [];
         let palavraSecreta = '';
@@ -2305,6 +2280,9 @@
         let dicasDisponiveisForca = [];
         let indiceDicaAtualForca = 0;
         let jogoIniciadoForca = false;
+        let perguntasUsadas = [];
+        let nivelAtual = 0;
+        const NIVEL_MAXIMO = 100;
 
         const canvasForca = document.getElementById('hangmanCanvas');
         const ctxForca = canvasForca.getContext('2d');
@@ -2318,6 +2296,7 @@
         const forcaDayCount = document.getElementById('forcaDayCount');
         const forcaStatusBadge = document.getElementById('forcaStatusBadge');
         const btnVisualizarCard = document.getElementById('btnVisualizarCard');
+        const forcaNivelAtual = document.getElementById('forcaNivelAtual');
 
         const baloes = [
             document.getElementById('balao1'),
@@ -2343,6 +2322,49 @@
         let imagensCarregadasForca = {};
         let imagensProntasForca = false;
 
+        // ============================================
+        // GERENCIADOR DE PROGRESSO
+        // ============================================
+        function carregarProgresso() {
+            try {
+                const saved = localStorage.getItem('forcaProgresso');
+                if (saved) {
+                    const data = JSON.parse(saved);
+                    nivelAtual = data.nivel || 0;
+                    perguntasUsadas = data.usadas || [];
+                }
+            } catch (e) {
+                nivelAtual = 0;
+                perguntasUsadas = [];
+            }
+            atualizarDisplayProgresso();
+        }
+
+        function salvarProgresso() {
+            try {
+                localStorage.setItem('forcaProgresso', JSON.stringify({
+                    nivel: nivelAtual,
+                    usadas: perguntasUsadas
+                }));
+            } catch (e) {}
+            atualizarDisplayProgresso();
+        }
+
+        function atualizarDisplayProgresso() {
+            if (forcaNivelAtual) {
+                forcaNivelAtual.textContent = nivelAtual;
+            }
+        }
+
+        function resetarProgresso() {
+            nivelAtual = 0;
+            perguntasUsadas = [];
+            salvarProgresso();
+        }
+
+        // ============================================
+        // CARREGAR SPRITES
+        // ============================================
         function carregarSpritesForca() {
             const nomes = ['forca', 'cabeca', 'tronco', 'bracodir', 'bracoesq', 'pernaesq', 'pernadir', 'campeao'];
             let carregadas = 0;
@@ -2369,15 +2391,16 @@
             }
         }
 
+        // ============================================
+        // DESENHAR FORCA
+        // ============================================
         function desenharForca(erros) {
             if (!ctxForca) return;
-            
-            // Limpa os canvases
+
             ctxForca.clearRect(0, 0, 280, 340);
             ctxCampeao.clearRect(0, 0, 280, 340);
             campeaoCanvas.style.display = 'none';
-            
-            // Desenha a forca base SEMPRE
+
             const imgForca = imagensCarregadasForca['forca'];
             if (imgForca) {
                 ctxForca.drawImage(imgForca, 0, 0, 280, 340);
@@ -2385,13 +2408,10 @@
 
             if (!imagensProntasForca) return;
 
-            // Esconde todos os balões
             baloes.forEach(b => { if (b) b.style.display = 'none'; });
 
-            // Se não houver erros, não desenha nada além da forca
             if (erros === 0) return;
 
-            // Desenha as partes do corpo no canvas principal
             for (let i = 0; i < erros && i < ordemPartesForca.length; i++) {
                 const nome = ordemPartesForca[i];
                 const img = imagensCarregadasForca[nome];
@@ -2399,8 +2419,7 @@
                     ctxForca.drawImage(img, 0, 0, 280, 340);
                 }
             }
-            
-            // Mostra o balão correspondente ao erro atual
+
             if (erros > 0 && erros <= 6) {
                 const balaoIndex = erros - 1;
                 if (baloes[balaoIndex]) {
@@ -2413,28 +2432,22 @@
             }
         }
 
+        // ============================================
+        // MOSTRAR CAMPEÃO
+        // ============================================
         function mostrarCampeao() {
-            // ============================================
-            // 1. LIMPA O CANVAS PRINCIPAL E DESENHA SÓ A FORCA
-            // ============================================
             ctxForca.clearRect(0, 0, 280, 340);
             const imgForca = imagensCarregadasForca['forca'];
             if (imgForca) {
                 ctxForca.drawImage(imgForca, 0, 0, 280, 340);
             }
 
-            // ============================================
-            // 2. ESCONDE TODOS OS BALÕES COMUNS (1 AO 6)
-            // ============================================
             for (let i = 0; i < 6; i++) {
                 if (baloes[i]) {
                     baloes[i].style.display = 'none';
                 }
             }
 
-            // ============================================
-            // 3. MOSTRA O BALÃO 7 (VITÓRIA)
-            // ============================================
             const balao7 = document.getElementById('balao7');
             if (balao7) {
                 balao7.style.display = 'block';
@@ -2444,9 +2457,6 @@
                 }, 10);
             }
 
-            // ============================================
-            // 4. DESENHA O CAMPEÃO NO CANVAS SOBREPOSTO
-            // ============================================
             const imgCampeao = imagensCarregadasForca['campeao'];
             if (imgCampeao) {
                 ctxCampeao.clearRect(0, 0, 280, 340);
@@ -2457,7 +2467,6 @@
                     campeaoCanvas.style.animation = 'campeaoAnim 0.6s ease-out';
                 }, 10);
             } else {
-                // Fallback: tenta carregar a imagem novamente
                 const img = new Image();
                 img.onload = function() {
                     ctxCampeao.clearRect(0, 0, 280, 340);
@@ -2471,32 +2480,36 @@
                 img.src = 'forca/campeao.png';
             }
 
-            // ============================================
-            // 5. MOSTRA O BOTÃO "VISUALIZAR CARD"
-            // ============================================
             if (btnVisualizarCard) {
                 btnVisualizarCard.classList.add('show');
             }
 
-            // ============================================
-            // 6. ATUALIZA O STATUS PARA VITÓRIA
-            // ============================================
             forcaStatusBadge.textContent = '🏆 CAMPEÃO!';
             forcaStatusBadge.className = 'forca-badge forca-badge-success';
         }
 
+        // ============================================
+        // CARREGAR JOGADORES DA FORCA
+        // ============================================
         function carregarJogadoresForca() {
             listaJogadoresForca = [];
-            
+
             for (const item of TODAS_PERGUNTAS) {
-                listaJogadoresForca.push({
-                    nome: item.palavra,
-                    dicas: item.dicas,
-                    selecao: 'Copa'
-                });
+                // Remove caracteres especiais da palavra
+                const palavraLimpa = item.palavra.replace(/[^A-ZÀ-Ú0-9\s]/g, '').toUpperCase();
+                if (palavraLimpa.length > 0) {
+                    listaJogadoresForca.push({
+                        nome: palavraLimpa,
+                        dicas: item.dicas,
+                        selecao: 'Copa'
+                    });
+                }
             }
         }
 
+        // ============================================
+        // FUNÇÕES DO JOGO
+        // ============================================
         function atualizarPalavraForca() {
             if (!forcaWordDisplay) return;
             let html = '';
@@ -2514,8 +2527,7 @@
 
         function atualizarTecladoForca() {
             if (!forcaKeyboard) return;
-            
-            // Letras A-Z
+
             const letras = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
             let html = '';
             for (let l of letras) {
@@ -2523,17 +2535,16 @@
                 const classe = letrasUsadasForca.has(l) ? 'forca-key used' : 'forca-key';
                 html += `<button class="${classe}" data-letter="${l}" ${disabled}>${l}</button>`;
             }
-            
-            // Números 0-9
+
             const numeros = '0123456789';
             for (let n of numeros) {
                 const disabled = jogoTerminadoForca || letrasUsadasForca.has(n) || !jogoIniciadoForca ? 'disabled' : '';
                 const classe = letrasUsadasForca.has(n) ? 'forca-key-number used' : 'forca-key-number';
                 html += `<button class="${classe}" data-letter="${n}" ${disabled}>${n}</button>`;
             }
-            
+
             forcaKeyboard.innerHTML = html;
-            
+
             document.querySelectorAll('#forcaKeyboard .forca-key:not([disabled]), #forcaKeyboard .forca-key-number:not([disabled])').forEach(btn => {
                 btn.addEventListener('click', function() {
                     const letra = this.dataset.letter;
@@ -2579,13 +2590,15 @@
             atualizarContadoresForca();
         }
 
+        // ============================================
+        // JOGAR FORCA - COM AVANÇO DE NÍVEL
+        // ============================================
         function jogarForca(letra) {
             if (!jogoIniciadoForca || jogoTerminadoForca) return;
             if (letrasUsadasForca.has(letra)) return;
 
             letrasUsadasForca.add(letra);
 
-            // Verifica se a letra/número está na palavra
             if (palavraSecreta.includes(letra)) {
                 letrasAdivinhadas.push(letra);
             } else {
@@ -2599,26 +2612,35 @@
 
             const palavraArray = palavraSecreta.split('');
             const todasAdivinhadas = palavraArray.every(l => l === ' ' || letrasAdivinhadas.includes(l));
-            
+
             if (todasAdivinhadas) {
                 jogoTerminadoForca = true;
-                
-                // MOSTRA O CAMPEÃO (substituindo o boneco)
+
+                // AVANÇA DE NÍVEL
+                nivelAtual++;
+                salvarProgresso();
+
                 mostrarCampeao();
-                
+
                 if (errosForca === 0) {
-                    mensagemForca(`🏆 PERFEITO! Você é o CAMPEÃO!`, '#2e7d32', '#2e7d32');
+                    mensagemForca(`🏆 PERFEITO! Nível ${nivelAtual}!`, '#2e7d32', '#2e7d32');
                 } else {
                     let msg = '';
-                    if (dicasUsadasForca === 0) msg = `🏆 CAMPEAO DA COPA! Acertou sem dicas!`;
-                    else if (dicasUsadasForca === 1) msg = `🌟 Quase padrao Copa! Acertou com 1 dica.`;
-                    else if (dicasUsadasForca === 2) msg = `👏 Muito bem! Acertou com 2 dicas.`;
-                    else msg = `😅 Acertou com ${dicasUsadasForca} dicas. Estude mais!`;
+                    if (dicasUsadasForca === 0) msg = `🏆 CAMPEAO! Nível ${nivelAtual}! Acertou sem dicas!`;
+                    else if (dicasUsadasForca === 1) msg = `🌟 Nível ${nivelAtual}! Acertou com 1 dica.`;
+                    else if (dicasUsadasForca === 2) msg = `👏 Nível ${nivelAtual}! Acertou com 2 dicas.`;
+                    else msg = `😅 Nível ${nivelAtual}! Acertou com ${dicasUsadasForca} dicas.`;
                     mensagemForca(msg, '#2e7d32', '#2e7d32');
                 }
-                
+
                 atualizarTecladoForca();
                 atualizarContadoresForca();
+                atualizarDisplayProgresso();
+
+                // Verifica se atingiu o nível máximo
+                if (nivelAtual >= NIVEL_MAXIMO) {
+                    mensagemForca(`🎉 PARABÉNS! Você completou os ${NIVEL_MAXIMO} níveis!`, '#1a5f7a', '#f5c542');
+                }
                 return;
             }
 
@@ -2634,23 +2656,40 @@
             }
         }
 
+        // ============================================
+        // INICIAR NOVO JOGO
+        // ============================================
         function iniciarNovoJogoForca() {
             if (listaJogadoresForca.length === 0) {
                 carregarJogadoresForca();
             }
-            
-            let jogadoresValidos = listaJogadoresForca.filter(j => {
-                const nome = j.nome;
-                return /^[A-ZÀ-Ú0-9\s]+$/.test(nome) && nome.length > 1;
-            });
-            
-            if (jogadoresValidos.length === 0) {
-                jogadoresValidos = listaJogadoresForca;
+
+            // Verifica se já completou todos os níveis
+            if (nivelAtual >= NIVEL_MAXIMO) {
+                mensagemForca(`🎉 Você já é CAMPEÃO! Complete os ${NIVEL_MAXIMO} níveis!`, '#1a5f7a', '#f5c542');
+                // Reseta o progresso se quiser continuar jogando
+                if (confirm('Parabéns! Você completou todos os níveis! Deseja recomeçar do zero?')) {
+                    resetarProgresso();
+                }
+                return;
             }
-            
-            const idx = Math.floor(Math.random() * jogadoresValidos.length);
-            const jogador = jogadoresValidos[idx];
-            
+
+            // Encontra perguntas não usadas
+            let perguntasDisponiveis = listaJogadoresForca.filter((_, index) => !perguntasUsadas.includes(index));
+
+            // Se todas foram usadas, reseta
+            if (perguntasDisponiveis.length === 0) {
+                perguntasUsadas = [];
+                salvarProgresso();
+                perguntasDisponiveis = [...listaJogadoresForca];
+                mensagemForca('🔄 Todas as perguntas foram usadas! Reiniciando...', '#64748b');
+            }
+
+            // Escolhe uma pergunta aleatória
+            const idx = Math.floor(Math.random() * perguntasDisponiveis.length);
+            const jogador = perguntasDisponiveis[idx];
+            const indexOriginal = listaJogadoresForca.indexOf(jogador);
+
             palavraSecreta = jogador.nome;
             letrasAdivinhadas = [];
             errosForca = 0;
@@ -2661,12 +2700,15 @@
             dicasDisponiveisForca = [...jogador.dicas];
             jogoIniciadoForca = true;
 
+            // Marca como usada
+            perguntasUsadas.push(indexOriginal);
+            salvarProgresso();
+
             // Esconde tudo
             baloes.forEach(b => { if (b) b.style.display = 'none'; });
             campeaoCanvas.style.display = 'none';
             ctxCampeao.clearRect(0, 0, 280, 340);
-            
-            // Esconde o botão de visualizar card
+
             if (btnVisualizarCard) {
                 btnVisualizarCard.classList.remove('show');
             }
@@ -2675,19 +2717,35 @@
             atualizarPalavraForca();
             atualizarTecladoForca();
             atualizarContadoresForca();
-            
+            atualizarDisplayProgresso();
+
+            // Mostra a primeira dica automaticamente
+            setTimeout(() => {
+                darDicaForca();
+            }, 300);
+
             const letrasCount = palavraSecreta.replace(/ /g,'').length;
-            mensagemForca(`🎯 Adivinhe a resposta! (${letrasCount} caracteres)`, '#1e293b');
+            mensagemForca(`🎯 Nível ${nivelAtual + 1}/${NIVEL_MAXIMO} - ${letrasCount} caracteres`, '#1e293b');
         }
 
+        // ============================================
+        // INICIAR FORCA
+        // ============================================
         function iniciarForca() {
+            if (typeof TODAS_PERGUNTAS === 'undefined') {
+                console.error('❌ Arquivo perguntas-forca.js não carregado!');
+                return;
+            }
+
+            carregarProgresso();
+
             if (typeof listaJogadoresForca !== 'undefined' && listaJogadoresForca.length === 0) {
                 carregarJogadoresForca();
             }
             if (typeof imagensCarregadasForca !== 'undefined' && Object.keys(imagensCarregadasForca).length === 0) {
                 carregarSpritesForca();
             }
-            
+
             const newGameBtn = document.getElementById('forcaNewGameBtn');
             const hintBtn = document.getElementById('forcaHintBtn');
 
@@ -2696,7 +2754,7 @@
                     iniciarNovoJogoForca();
                 };
             }
-            
+
             if (hintBtn) {
                 hintBtn.onclick = function() {
                     darDicaForca();
@@ -2724,12 +2782,12 @@
             initEventListeners();
             carregarWhatsAppButton();
             mostrarAba('ranking');
-            
+
             iniciarAlcyPopup();
-            
+
             setTimeout(iniciarForca, 500);
         }
-        
+
         init();
     </script>
 
@@ -2737,17 +2795,17 @@
     <div id="modalJogos" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.92); z-index: 9999; display: none; align-items: center; justify-content: center; padding: 20px;">
         <div style="position: relative; max-width: 95%; max-height: 95%; width: 100%;">
             <button onclick="fecharModalJogos()" style="position: absolute; top: -15px; right: -15px; background: #e74c3c; color: white; border: none; border-radius: 50%; width: 44px; height: 44px; font-size: 1.3rem; cursor: pointer; z-index: 20; box-shadow: 0 4px 12px rgba(0,0,0,0.3); display: flex; align-items: center; justify-content: center;">✕</button>
-            
+
             <button id="btnPrev" onclick="carrosselAnterior()" style="position: absolute; left: 10px; top: 50%; transform: translateY(-50%); background: rgba(255,255,255,0.2); backdrop-filter: blur(5px); color: white; border: none; border-radius: 50%; width: 50px; height: 50px; font-size: 1.8rem; cursor: pointer; z-index: 15; display: none; align-items: center; justify-content: center; transition: all 0.3s;">‹</button>
-            
+
             <button id="btnNext" onclick="carrosselProximo()" style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); background: rgba(255,255,255,0.2); backdrop-filter: blur(5px); color: white; border: none; border-radius: 50%; width: 50px; height: 50px; font-size: 1.8rem; cursor: pointer; z-index: 15; display: none; align-items: center; justify-content: center; transition: all 0.3s;">›</button>
-            
+
             <div id="indicadores" style="position: absolute; bottom: -40px; left: 0; right: 0; text-align: center; z-index: 15; display: none; gap: 8px; flex-wrap: wrap; justify-content: center;"></div>
-            
+
             <div style="position: relative; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center;">
                 <img id="imagemJogos" src="" alt="Jogos do Dia" style="width: 100%; height: auto; max-height: 80vh; object-fit: contain; border-radius: 12px; box-shadow: 0 20px 60px rgba(0,0,0,0.5); cursor: pointer;">
             </div>
-            
+
             <div id="legendaImagem" style="position: absolute; bottom: -70px; left: 0; right: 0; text-align: center; color: rgba(255,255,255,0.7); font-size: 0.8rem; z-index: 10; display: none; padding: 8px;">
                 <span id="textoLegenda"></span>
             </div>
@@ -2767,20 +2825,20 @@
             const mes = String(hoje.getMonth() + 1).padStart(2, '0');
             const dia = String(hoje.getDate()).padStart(2, '0');
             const dataStr = `${ano}${mes}${dia}`;
-            
+
             const extensoes = ['png', 'jpg', 'jpeg'];
             const imagens = [];
-            
+
             for (const ext of extensoes) {
                 imagens.push({ src: `img/${dataStr}.${ext}`, index: 0 });
             }
-            
+
             for (let i = 1; i <= 20; i++) {
                 for (const ext of extensoes) {
                     imagens.push({ src: `img/${dataStr}_${i}.${ext}`, index: i });
                 }
             }
-            
+
             return imagens;
         }
 
@@ -2791,18 +2849,18 @@
             const indicadores = document.getElementById('indicadores');
             const legenda = document.getElementById('legendaImagem');
             const textoLegenda = document.getElementById('textoLegenda');
-            
+
             if (index < 0 || index >= imagensDoDia.length) return;
-            
+
             const item = imagensDoDia[index];
             img.src = item.src;
             indiceAtual = index;
-            
+
             const temMultiplas = imagensDoDia.length > 1;
-            
+
             prevBtn.style.display = (temMultiplas && index > 0) ? 'flex' : 'none';
             nextBtn.style.display = (temMultiplas && index < imagensDoDia.length - 1) ? 'flex' : 'none';
-            
+
             if (temMultiplas) {
                 indicadores.style.display = 'flex';
                 indicadores.innerHTML = '';
@@ -2843,10 +2901,10 @@
 
         function abrirModalJogos() {
             const modal = document.getElementById('modalJogos');
-            
+
             const listaImagens = obterImagensDoDia();
             imagensDoDia = [];
-            
+
             let carregadas = 0;
             let totalTestadas = listaImagens.length;
 
@@ -2889,7 +2947,7 @@
                 } else {
                     imagensDoDia.sort((a, b) => a.index - b.index);
                     document.getElementById('imagemJogos').style.display = 'block';
-                    
+
                     if (imagensDoDia.length === 1) {
                         document.getElementById('imagemJogos').src = imagensDoDia[0].src;
                         document.getElementById('btnPrev').style.display = 'none';
@@ -2899,11 +2957,11 @@
                     } else {
                         carregarImagemCarrossel(0);
                     }
-                    
+
                     const msgErro = document.querySelector('.msg-erro');
                     if (msgErro) msgErro.remove();
                 }
-                
+
                 modal.style.display = 'flex';
                 document.body.style.overflow = 'hidden';
             }
@@ -2917,10 +2975,10 @@
             const modal = document.getElementById('modalJogos');
             modal.style.display = 'none';
             document.body.style.overflow = 'auto';
-            
+
             const msgErro = document.querySelector('.msg-erro');
             if (msgErro) msgErro.remove();
-            
+
             const img = document.getElementById('imagemJogos');
             img.style.display = 'block';
             img.onerror = null;
@@ -2931,20 +2989,20 @@
         document.addEventListener('DOMContentLoaded', function() {
             const modal = document.getElementById('modalJogos');
             const img = document.getElementById('imagemJogos');
-            
+
             img.addEventListener('click', function(e) {
                 e.stopPropagation();
                 if (imagensDoDia.length > 1) {
                     carrosselProximo();
                 }
             });
-            
+
             modal.addEventListener('click', function(e) {
                 if (e.target === modal) {
                     fecharModalJogos();
                 }
             });
-            
+
             document.addEventListener('keydown', function(e) {
                 if (document.getElementById('modalJogos').style.display === 'flex') {
                     if (e.key === 'Escape') fecharModalJogos();
