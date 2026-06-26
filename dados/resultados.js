@@ -92,7 +92,7 @@ const RESULTADOS = {
     56: { casa: 0, fora: 2 }, // Curaçao x Costa do Marfim
     57: { casa: 1, fora: 1 }, // Japão x Suécia
     58: { casa: 3, fora: 1 }, // Holanda x Tunísia
-    59: { casa: 1, fora: 0 }, // Estados Unidos x Turquia
+    59: { casa: 1, fora: 1 }, // Estados Unidos x Turquia
     60: { casa: 0, fora: 0 }, // Paraguai x Austrália
     
     // 26/06/2026 - Fase de Grupos
