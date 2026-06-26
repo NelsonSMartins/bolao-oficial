@@ -1029,6 +1029,7 @@
             margin-left: 8px;
         }
 
+        /* Mensagem de completou */
         .forca-completou {
             background: linear-gradient(135deg, #f5c542, #f39c12);
             color: #0b1a2e;
@@ -1415,8 +1416,7 @@
         // VARIÁVEIS GLOBAIS DO CARD
         // ============================================
         let cardAtual = '';
-        let cardsDisponiveis = [];
-        let cardCarregando = false;
+        let cardBloqueado = false; // Impede trocar o card
         let cardExibido = false; // Se já exibiu um card nessa rodada
 
         // ============================================
@@ -1433,42 +1433,38 @@
             // Fallback
             cardsDisponiveis.push('card/card.png');
             cardsDisponiveis.push('card/card.jpg');
-            cardsDisponiveis.push('card/card.gif');
-            cardsDisponiveis.push('card/card.webp');
             
             cardsDisponiveis = cardsDisponiveis.sort(() => 0.5 - Math.random());
             console.log(`📚 ${cardsDisponiveis.length} cards registrados`);
         }
 
         // ============================================
-        // ABRIR MODAL CARD - CORRIGIDO
+        // ABRIR MODAL CARD - NÃO TROCA O CARD
         // ============================================
         function abrirModalCard() {
             console.log('🔍 abrirModalCard() chamado!');
-            console.log('📌 cardExibido:', cardExibido);
-            console.log('📌 cardAtual:', cardAtual);
 
             if (cardCarregando) {
                 console.log('⏳ Já está carregando um card, aguarde...');
                 return;
             }
 
-            const modal = document.getElementById('modalCard');
-            const body = document.getElementById('modalCardBody');
-
-            // Se já tem um card exibido e ele é válido, mostra ele
-            if (cardExibido && cardAtual && cardAtual !== '') {
-                console.log('✅ Re-exibindo card existente:', cardAtual);
+            // Se já tem um card exibido, mostra ele
+            if (cardExibido && cardAtual) {
+                const modal = document.getElementById('modalCard');
+                const body = document.getElementById('modalCardBody');
                 body.innerHTML = `<img id="modalCardImage" src="${cardAtual}" alt="Card" style="max-width:100%;max-height:60vh;border-radius:12px;object-fit:contain;">`;
                 modal.style.display = 'flex';
                 return;
             }
 
-            // Se não tem card, busca um novo
             if (cardsDisponiveis.length === 0) {
                 carregarCardsDisponiveis();
             }
 
+            const modal = document.getElementById('modalCard');
+            const body = document.getElementById('modalCardBody');
+            
             body.innerHTML = `<div class="card-loading">🔄 Procurando card...</div>`;
             modal.style.display = 'flex';
             
@@ -1478,7 +1474,7 @@
 
             function tentarProximoCard() {
                 if (attempts >= maxAttempts || cardsDisponiveis.length === 0) {
-                    console.log('🔄 Gerando fallback...');
+                    // Gera fallback
                     gerarCardFallback();
                     return;
                 }
@@ -1512,7 +1508,6 @@
         // GERAR CARD FALLBACK
         // ============================================
         function gerarCardFallback() {
-            console.log('🎨 Gerando card fallback...');
             try {
                 const canvas = document.createElement('canvas');
                 canvas.width = 400;
@@ -1556,7 +1551,6 @@
                 body.innerHTML = `<img id="modalCardImage" src="${dataUrl}" alt="Card" style="max-width:100%;max-height:60vh;border-radius:12px;object-fit:contain;border:2px solid #f5c542;">`;
                 cardCarregando = false;
             } catch (e) {
-                console.error('Erro ao gerar fallback:', e);
                 const body = document.getElementById('modalCardBody');
                 body.innerHTML = `<div style="text-align:center;padding:40px;background:#f8fafc;border-radius:12px;width:100%;">
                     <div style="font-size:4rem;">🏆</div>
@@ -2129,6 +2123,7 @@
             document.getElementById('balao7')
         ];
 
+        // Histórico de dicas exibidas
         let dicasExibidas = [];
 
         function carregarProgresso() {
@@ -2178,8 +2173,7 @@
                 salvarProgresso();
                 atualizarDisplayErrosGlobais();
                 mensagemForca('🔄 Progresso resetado! Clique em "Novo" para recomeçar.', '#1e293b');
-                const btnVisualizar = document.getElementById('btnVisualizarCard');
-                if (btnVisualizar) btnVisualizar.classList.remove('show');
+                if (btnVisualizarCard) btnVisualizarCard.classList.remove('show');
                 if (jogoIniciadoForca) iniciarNovoJogoForca();
             }
         }
@@ -2238,8 +2232,7 @@
                 campeaoCanvas.style.animation = 'none';
                 setTimeout(() => { campeaoCanvas.style.animation = 'campeaoAnim 0.6s ease-out'; }, 10);
             }
-            const btnVisualizar = document.getElementById('btnVisualizarCard');
-            if (btnVisualizar) btnVisualizar.classList.add('show');
+            if (btnVisualizarCard) btnVisualizarCard.classList.add('show');
             const statusBadge = document.getElementById('forcaStatusBadge');
             if (statusBadge) {
                 statusBadge.textContent = '🏆 CAMPEÃO!';
@@ -2302,6 +2295,7 @@
         function mensagemForca(texto, cor = '#1e293b', borda = '#1a5f7a') {
             const msg = document.getElementById('forcaMessage');
             if (!msg) return;
+            // Mantém o texto e adiciona as dicas acumuladas
             let html = texto;
             if (dicasExibidas.length > 0) {
                 html += '<br><div style="display:flex;flex-wrap:wrap;gap:4px;justify-content:center;margin-top:4px;">';
@@ -2346,6 +2340,7 @@
             dicasUsadasForca++;
             const dica = dicasDisponiveisForca[indiceDicaAtualForca];
             indiceDicaAtualForca++;
+            // Adiciona ao histórico de dicas
             dicasExibidas.push(dica);
             mensagemForca(`💡 DICA ${dicasUsadasForca}: ${dica}`, '#0d3b4f', '#f5c542');
             atualizarContadoresForca();
@@ -2377,6 +2372,7 @@
                 cardExibido = false;
                 cardAtual = '';
                 abrirModalCard();
+                cardBloqueado = true;
                 let msg = '';
                 if (errosForca === 0) msg = `🏆 PERFEITO! Nível ${nivelAtual}!`;
                 else if (dicasUsadasForca === 0) msg = `🏆 CAMPEAO! Nível ${nivelAtual}! Acertou sem dicas!`;
@@ -2435,6 +2431,7 @@
             // Reseta o card para nova rodada
             cardExibido = false;
             cardAtual = '';
+            cardBloqueado = false;
             dicasExibidas = [];
             let perguntasDisponiveis = listaJogadoresForca.filter((_, index) => !perguntasUsadas.includes(index));
             if (perguntasDisponiveis.length === 0) {
@@ -2655,5 +2652,16 @@
             </div>
         </div>
     </div>
+
+    <script>
+        // ============================================
+        // CARROSSEL DE IMAGENS DO DIA - CONTINUAÇÃO
+        // ============================================
+        // As funções já foram definidas acima
+        // Garantindo que o modal funcione
+        if (typeof carregarImagemCarrossel === 'undefined') {
+            console.warn('Funções do carrossel já definidas');
+        }
+    </script>
 </body>
 </html>
