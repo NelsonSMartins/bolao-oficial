@@ -102,8 +102,8 @@ const RESULTADOS = {
     64: { casa: 0, fora: 0 }, // Cabo Verde x Arábia Saudita
     
     // 27/06/2026 - Fase de Grupos
-    // 65: { casa: 0, fora: 0 }, // Bélgica x Nova Zelândia
-    // 66: { casa: 0, fora: 0 }, // Egito x Irã
+    65: { casa: 5, fora: 1 }, // Bélgica x Nova Zelândia
+    66: { casa: 1, fora: 1 }, // Egito x Irã
     // 67: { casa: 0, fora: 0 }, // Inglaterra x Panamá
     // 68: { casa: 0, fora: 0 }, // Croácia x Gana
     // 69: { casa: 0, fora: 0 }, // Portugal x Colômbia
