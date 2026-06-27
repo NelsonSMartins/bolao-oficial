@@ -98,8 +98,8 @@ const RESULTADOS = {
     // 26/06/2026 - Fase de Grupos
     61: { casa: 4, fora: 1 }, // França x Noruega
     62: { casa: 5, fora: 0 }, // Senegal x Iraque
-    // 63: { casa: 0, fora: 0 }, // Espanha x Uruguai
-    // 64: { casa: 0, fora: 0 }, // Cabo Verde x Arábia Saudita
+    63: { casa: 1, fora: 0 }, // Espanha x Uruguai
+    64: { casa: 0, fora: 0 }, // Cabo Verde x Arábia Saudita
     
     // 27/06/2026 - Fase de Grupos
     // 65: { casa: 0, fora: 0 }, // Bélgica x Nova Zelândia
