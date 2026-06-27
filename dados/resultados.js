@@ -105,7 +105,7 @@ const RESULTADOS = {
     65: { casa: 5, fora: 1 }, // Bélgica x Nova Zelândia
     66: { casa: 1, fora: 1 }, // Egito x Irã
     67: { casa: 2, fora: 0 }, // Inglaterra x Panamá
-    68: { casa: 1, fora: 0 }, // Croácia x Gana
+    68: { casa: 2, fora: 1 }, // Croácia x Gana
     // 69: { casa: 0, fora: 0 }, // Portugal x Colômbia
     // 70: { casa: 0, fora: 0 }, // República Democrática do Congo x Uzbequistão
     // 71: { casa: 0, fora: 0 }, // Argentina x Jordânia
